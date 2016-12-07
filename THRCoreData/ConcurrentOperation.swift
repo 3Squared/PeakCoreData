@@ -11,6 +11,23 @@ import UIKit
 // Slightly experimental version of our core data operation that uses child context.
 // This means changes are saved up the chain rather than being merged in to the main context.
 
+internal extension Operation {
+    
+    enum KeyPath: String {
+        case cancelled = "isCancelled"
+        case executing = "isExecuting"
+        case finished = "isFinished"
+    }
+    
+    func willChangeValue(forKey key: KeyPath) {
+        willChangeValue(forKey: key.rawValue)
+    }
+    
+    func didChangeValue(forKey key: KeyPath) {
+        didChangeValue(forKey: key.rawValue)
+    }
+}
+
 open class ConcurrentOperation: Operation {
     
     private var _executing = false
@@ -20,15 +37,15 @@ open class ConcurrentOperation: Operation {
     
     public final override func start() {
         guard !isCancelled else {
-            willChangeValue(forKey: #keyPath(Operation.isFinished))
+            willChangeValue(forKey: .finished)
             _finished = true
-            didChangeValue(forKey: #keyPath(Operation.isFinished))
+            didChangeValue(forKey: .finished)
             return
         }
         
-        willChangeValue(forKey: #keyPath(Operation.isExecuting))
+        willChangeValue(forKey: .executing)
         _executing = true
-        didChangeValue(forKey: #keyPath(Operation.isExecuting))
+        didChangeValue(forKey: .executing)
         
         execute()
     }
@@ -51,13 +68,13 @@ open class ConcurrentOperation: Operation {
     }
     
     public func finish() {
-        willChangeValue(forKey: #keyPath(Operation.isFinished))
-        willChangeValue(forKey: #keyPath(Operation.isExecuting))
-        
+        willChangeValue(forKey: .finished)
+        willChangeValue(forKey: .executing)
+
         _executing = false
         _finished = true
         
-        didChangeValue(forKey: #keyPath(Operation.isFinished))
-        didChangeValue(forKey: #keyPath(Operation.isExecuting))
+        didChangeValue(forKey: .finished)
+        didChangeValue(forKey: .executing)
     }
 }
