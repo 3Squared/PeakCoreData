@@ -155,13 +155,13 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      - Parameters:
         - intermediates: An array of intermediate objects (e.g. structs) that conform to UniqueIdentifiable. These will be used to create or update the Managed Objects.
         - context: The context in which to operate
-        - configure: A block called with the intermediate and either:
+        - configureProperties: A block called with the intermediate and either:
             a) an existing managed object for you to update, or;
             b) a newly inserted managed object for you to set the fields.
             Both cases can be treated the same - both will have their ID already set.
      */
     
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], inContext context: NSManagedObjectContext, configure: (IntermediateType, Self) -> ()) {
+    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], inContext context: NSManagedObjectContext, configureProperties: (IntermediateType, Self) -> ()) {
         
         // Nothing to insert, exit immediately.
         
@@ -202,13 +202,13 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
         while intermediate != nil {
             let intermediateID = intermediate!.uniqueIDValue
             if let existingObject = managedObject, existingObject.uniqueIDValue == intermediate!.uniqueIDValue {
-                configure(intermediate!, existingObject)
+                configureProperties(intermediate!, existingObject)
                 managedObject = managedObjectIterator.next()
             } else {
                 let newObject = Self.insert(inContext: context, configurationBlock: { (object) in
                     object.setValue(intermediateID, forKey: uniqueIDKey)
                 })
-                configure(intermediate!, newObject)
+                configureProperties(intermediate!, newObject)
             }
             intermediate = intermediatesIterator.next()
         }
