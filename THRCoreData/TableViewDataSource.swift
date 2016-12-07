@@ -29,34 +29,32 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
     }
     
     public func processUpdates(updates: [DataProviderUpdate<Data.Object>]?) {
-        DispatchQueue.main.async {
-            guard let updates = updates, self.tableView.window != nil else {
-                return self.tableView.reloadData()
-            }
-
-            self.tableView.beginUpdates()
-            for update in updates {
-                switch update {
-                case .insert(let indexPath):
-                    self.tableView.insertRows(at: [indexPath as IndexPath], with: .fade)
-                case .update(let indexPath, let object):
-                    guard let cell = self.tableView.cellForRow(at: indexPath as IndexPath) as? Delegate.Cell else { break }
-                    self.delegate.configure(cell: cell, forObject: object)
-                case .move(let fromIndexPath, let toIndexPath):
-                    self.tableView.deleteRows(at: [fromIndexPath as IndexPath], with: .fade)
-                    self.tableView.insertRows(at: [toIndexPath as IndexPath], with: .fade)
-                case .delete(let indexPath):
-                    self.tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
-                case .insertSection(let section):
-                    let indexSet = IndexSet(integer: section)
-                    self.tableView.insertSections(indexSet, with: .fade)
-                case .deleteSection(let section):
-                    let indexSet = IndexSet(integer: section)
-                    self.tableView.deleteSections(indexSet, with: .fade)
-                }
-            }
-            self.tableView.endUpdates()
+        guard let updates = updates, self.tableView.window != nil else {
+            return self.tableView.reloadData()
         }
+        
+        self.tableView.beginUpdates()
+        for update in updates {
+            switch update {
+            case .insert(let indexPath):
+                self.tableView.insertRows(at: [indexPath as IndexPath], with: .fade)
+            case .update(let indexPath, let object):
+                guard let cell = self.tableView.cellForRow(at: indexPath as IndexPath) as? Delegate.Cell else { break }
+                self.delegate.configure(cell: cell, forObject: object)
+            case .move(let fromIndexPath, let toIndexPath):
+                self.tableView.deleteRows(at: [fromIndexPath as IndexPath], with: .fade)
+                self.tableView.insertRows(at: [toIndexPath as IndexPath], with: .fade)
+            case .delete(let indexPath):
+                self.tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
+            case .insertSection(let section):
+                let indexSet = IndexSet(integer: section)
+                self.tableView.insertSections(indexSet, with: .fade)
+            case .deleteSection(let section):
+                let indexSet = IndexSet(integer: section)
+                self.tableView.deleteSections(indexSet, with: .fade)
+            }
+        }
+        self.tableView.endUpdates()
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {

@@ -29,31 +29,29 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
     }
     
     public func processUpdates(updates: [DataProviderUpdate<Data.Object>]?) {
-        DispatchQueue.main.async {
-            guard let updates = updates, self.collectionView.window != nil else {
-                return self.collectionView.reloadData()
-            }
-            self.collectionView.performBatchUpdates({
-                for update in updates {
-                    switch update {
-                    case .insert(let indexPath):
-                        self.collectionView.insertItems(at: [indexPath])
-                    case .update(let indexPath, let object):
-                        guard let cell = self.collectionView.cellForItem(at: indexPath) as? Delegate.Cell else { break }
-                        self.delegate.configure(cell: cell, forObject: object)
-                    case .move(let fromIndexPath, let toIndexPath):
-                        self.collectionView.deleteItems(at: [fromIndexPath])
-                        self.collectionView.insertItems(at: [toIndexPath])
-                    case .delete(let indexPath):
-                        self.collectionView.deleteItems(at: [indexPath])
-                    case .deleteSection(let section):
-                        self.collectionView.deleteSections(IndexSet(integer: section))
-                    case .insertSection(let section):
-                        self.collectionView.insertSections(IndexSet(integer: section))
-                    }
-                }
-            }, completion: nil)
+        guard let updates = updates, self.collectionView.window != nil else {
+            return self.collectionView.reloadData()
         }
+        self.collectionView.performBatchUpdates({
+            for update in updates {
+                switch update {
+                case .insert(let indexPath):
+                    self.collectionView.insertItems(at: [indexPath])
+                case .update(let indexPath, let object):
+                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Delegate.Cell else { break }
+                    self.delegate.configure(cell: cell, forObject: object)
+                case .move(let fromIndexPath, let toIndexPath):
+                    self.collectionView.deleteItems(at: [fromIndexPath])
+                    self.collectionView.insertItems(at: [toIndexPath])
+                case .delete(let indexPath):
+                    self.collectionView.deleteItems(at: [indexPath])
+                case .deleteSection(let section):
+                    self.collectionView.deleteSections(IndexSet(integer: section))
+                case .insertSection(let section):
+                    self.collectionView.insertSections(IndexSet(integer: section))
+                }
+            }
+        }, completion: nil)
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
