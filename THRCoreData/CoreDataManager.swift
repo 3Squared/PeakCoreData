@@ -23,11 +23,25 @@ public extension CoreDataManagerSettable {
 
 public final class CoreDataManager {
     
+    enum ModelFileExtension: String {
+        case bundle = "momd"
+        case sqlite = "sqlite"
+    }
+    
     private let modelName: String
-    private let storeType: String
+    private let storeType: StoreType
     private let bundle: Bundle
-
-    public init(modelName: String, storeType: String = NSSQLiteStoreType, bundle: Bundle = Bundle.main) {
+    
+    /**
+     Constructs a new `CoreDataManager` instance with the specified model name, store type and bundle.
+     
+     - parameter modelName: The name of the Core Data model.
+     - parameter storeType: The store type for the Core Data model. The default is `.sqlite`, with the user's documents directory.
+     - parameter bundle:    The bundle in which the model is located. The default is the main bundle.
+     
+     - returns: A new `CoreDataManager` instance.
+     */
+    public init(modelName: String, storeType: StoreType = .sqlite(defaultDirectoryURL), bundle: Bundle = .main) {
         self.modelName = modelName
         self.storeType = storeType
         self.bundle = bundle
@@ -43,58 +57,62 @@ public final class CoreDataManager {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
-    private var persistentStoreURL: URL {
-        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsDirectoryURL.appendingPathComponent(modelName + ".sqlite")
+    /// The database file name for the store.
+    private var databaseFilename: String {
+        switch storeType {
+        case .sqlite:
+            return modelName + "." + ModelFileExtension.sqlite.rawValue
+        default:
+            return modelName
+        }
     }
     
-    // MARK: - Core Data Stack
+    /**
+     The URL specifying the full path to the store.
+     
+     - note: If the store is in-memory, then this value will be `nil`.
+     */
+    private var storeURL: URL? {
+        return storeType.storeDirectory?.appendingPathComponent(databaseFilename)
+    }
     
+    /// The URL of the model file in the specified `bundle`.
+    private var modelURL: URL {
+        guard let url = bundle.url(forResource: modelName, withExtension: ModelFileExtension.bundle.rawValue) else {
+            fatalError("Error loading model URL for model named \(modelName) in bundle: \(bundle)")
+        }
+        return url
+    }
+    
+    /// The managed object model for the model specified by `modelName`.
+    private var managedObjectModel: NSManagedObjectModel {
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Error loading managed object model at url: \(modelURL)")
+        }
+        return model
+    }
+    
+    /// The default persistent store options to allow automatic model migrations.
+    private var defaultPersistentStoreOptions: [AnyHashable: Any] {
+        return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
+    }
+
     private(set) public lazy var viewContext: NSManagedObjectContext = {
-        if #available(iOS 10.0, *) { return self.storeContainer.viewContext }
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         return managedObjectContext
     }()
     
-    @available(iOS 10.0, *)
-    private lazy var storeContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: self.modelName, managedObjectModel: self.managedObjectModel!)
-        container.persistentStoreDescriptions = self.persistentStoreDescriptions
-        container.loadPersistentStores { storeDescription, error in
-            guard let error = error else { return }
-            fatalError("Error loading persistent stores: \(error)")
-        }
-        return container
-    }()
-    
-    @available(iOS 10.0, *)
-    private lazy var persistentStoreDescriptions: [NSPersistentStoreDescription] = {
-        let description = NSPersistentStoreDescription(url: self.persistentStoreURL)
-        description.shouldInferMappingModelAutomatically = true
-        description.shouldMigrateStoreAutomatically = true
-        return [description]
-    }()
-    
-    private lazy var managedObjectModel: NSManagedObjectModel? = {
-        guard let modelURL = self.bundle.url(forResource: self.modelName, withExtension: "momd") else { return nil }
-        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
-        return managedObjectModel
-    }()
-    
     private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
-        guard let managedObjectModel = self.managedObjectModel else { return nil }
-        
-        let persistentStoreURL = self.persistentStoreURL
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         do {
-            let options = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
-            try persistentStoreCoordinator.addPersistentStore(ofType: self.storeType, configurationName: nil, at: persistentStoreURL, options: options)
+            try persistentStoreCoordinator.addPersistentStore(ofType: self.storeType.type,
+                                                              configurationName: nil,
+                                                              at: self.storeURL,
+                                                              options: self.defaultPersistentStoreOptions)
         } catch let error as NSError {
             fatalError("Error adding persistent store: \(error.localizedDescription)")
         }
-        
         return persistentStoreCoordinator
     }()
     
@@ -106,13 +124,12 @@ public final class CoreDataManager {
             do {
                 try self.viewContext.save()
             } catch let error as NSError {
-                print("Error Saving Main Context: \(error.localizedDescription)")
+                print("Error saving main context: \(error.localizedDescription)")
             }
         })
     }
     
     public func newBackgroundContext() -> NSManagedObjectContext {
-        if #available(iOS 10.0, *) { return self.storeContainer.newBackgroundContext() }
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         return managedObjectContext

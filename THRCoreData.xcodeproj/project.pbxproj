@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE471DF96DAD000BA848 /* StoreType.swift */; };
+		8D03CE501DF97811000BA848 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE4F1DF97811000BA848 /* Utilities.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EA1DF8138100DAB75A /* THRCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9797E91DF8138100DAB75A /* THRCoreDataTests.swift */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D03CE471DF96DAD000BA848 /* StoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreType.swift; sourceTree = "<group>"; };
+		8D03CE4F1DF97811000BA848 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +80,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D03CE4B1DF973D5000BA848 /* Stack */ = {
+			isa = PBXGroup;
+			children = (
+				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
+				8D03CE471DF96DAD000BA848 /* StoreType.swift */,
+				8D03CE4F1DF97811000BA848 /* Utilities.swift */,
+			);
+			name = Stack;
+			sourceTree = "<group>";
+		};
+		8D03CE4C1DF973DB000BA848 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */,
+				8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		8D9797D11DF8138100DAB75A = {
 			isa = PBXGroup;
 			children = (
@@ -97,9 +120,8 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
-				8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */,
-				8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */,
+				8D03CE4B1DF973D5000BA848 /* Stack */,
+				8D03CE4C1DF973DB000BA848 /* Protocols */,
 				8D97980B1DF8146F00DAB75A /* Core Data Operation */,
 				8D9798091DF8144900DAB75A /* Data Source and Provider */,
 				8D97980A1DF8145600DAB75A /* Supporting Files */,
@@ -273,8 +295,10 @@
 				8D9798071DF8144500DAB75A /* TableViewDataSource.swift in Sources */,
 				8D9798041DF8144500DAB75A /* DataSource.swift in Sources */,
 				8D9797FD1DF8143C00DAB75A /* ConcurrentOperation.swift in Sources */,
+				8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */,
 				8D9798061DF8144500DAB75A /* FetchedResultsDataProvider.swift in Sources */,
 				8D9797F91DF8143300DAB75A /* ManagedObjectType.swift in Sources */,
+				8D03CE501DF97811000BA848 /* Utilities.swift in Sources */,
 				8D9798081DF8144500DAB75A /* CollectionViewDataSource.swift in Sources */,
 				8D9798051DF8144500DAB75A /* DataProvider.swift in Sources */,
 				8D9797FE1DF8143C00DAB75A /* CoreDataOperation.swift in Sources */,
@@ -490,6 +514,7 @@
 				8D9797F11DF8138100DAB75A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8D9797F21DF8138100DAB75A /* Build configuration list for PBXNativeTarget "THRCoreDataTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +523,7 @@
 				8D9797F41DF8138100DAB75A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
