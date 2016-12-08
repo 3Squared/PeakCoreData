@@ -17,7 +17,7 @@ class THRCoreDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: type(of: self))
-        coreDataManager = CoreDataManager(modelName: "TestModel", storeType: NSInMemoryStoreType, bundle: bundle)
+        coreDataManager = CoreDataManager(modelName: "TestModel", storeType: .inMemory, bundle: bundle)
     }
     
     override func tearDown() {
