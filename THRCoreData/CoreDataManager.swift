@@ -17,7 +17,7 @@ public protocol CoreDataManagerSettable: class {
 public extension CoreDataManagerSettable {
     
     var managedObjectContext: NSManagedObjectContext {
-        return coreDataManager.viewContext
+        return coreDataManager.mainContext
     }
 }
 
@@ -97,7 +97,7 @@ public final class CoreDataManager {
         return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
     }
 
-    private(set) public lazy var viewContext: NSManagedObjectContext = {
+    private(set) public lazy var mainContext: NSManagedObjectContext = {
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         return managedObjectContext
@@ -110,7 +110,7 @@ public final class CoreDataManager {
                                                               configurationName: nil,
                                                               at: self.storeURL,
                                                               options: self.defaultPersistentStoreOptions)
-        } catch let error as NSError {
+        } catch {
             fatalError("Error adding persistent store: \(error.localizedDescription)")
         }
         return persistentStoreCoordinator
@@ -118,15 +118,22 @@ public final class CoreDataManager {
     
     // MARK: - Public Methods
     
-    public func saveChanges() {
-        guard viewContext.hasChanges else { return }
-        viewContext.performAndWait({
+    public func saveMainContext() {
+        save(context: mainContext)
+    }
+    
+    public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((SaveResult) -> ())? = nil) {
+        let block = {
+            guard context.hasChanges else { return }
             do {
-                try self.viewContext.save()
+                try context.save()
+                completion?(.success)
             } catch let error as NSError {
-                print("Error saving main context: \(error.localizedDescription)")
+                print("Error saving context: \(error.localizedDescription)")
+                completion?(.failure(error))
             }
-        })
+        }
+        wait ? context.performAndWait(block) : context.perform(block)
     }
     
     public func newBackgroundContext() -> NSManagedObjectContext {
@@ -142,8 +149,8 @@ public final class CoreDataManager {
             managedObjectContext.concurrencyType == .privateQueueConcurrencyType,
             managedObjectContext.parent == nil else { return }
         
-        viewContext.performAndWait {
-            self.viewContext.mergeChanges(fromContextDidSave: notification)
+        mainContext.performAndWait {
+            self.mainContext.mergeChanges(fromContextDidSave: notification)
         }
     }
 }

@@ -27,7 +27,7 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func testViewContext() {
-        let viewContext = coreDataManager.viewContext
+        let viewContext = coreDataManager.mainContext
         XCTAssertNotNil(viewContext, "")
         XCTAssertEqual(viewContext.concurrencyType, .mainQueueConcurrencyType, "")
     }
@@ -39,13 +39,13 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func testViewContextAndPrivateContextUseSamePersistentStoreCoordinator() {
-        let viewContext = coreDataManager.viewContext
+        let viewContext = coreDataManager.mainContext
         let backgroundContext = coreDataManager.newBackgroundContext()
         XCTAssertEqual(viewContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "")
     }
     
     func testStoreCoordinatorHasASingleStore() {
-        let viewContext = coreDataManager.viewContext
+        let viewContext = coreDataManager.mainContext
         XCTAssertTrue(viewContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
     }
     
@@ -53,7 +53,7 @@ class THRCoreDataTests: XCTestCase {
         
         // Check count in main context is 0
         
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.mainContext
         
         let count1 = TestEntity.count(inContext: context)
         XCTAssertTrue(count1 == 0, "\(count1)")
@@ -62,7 +62,7 @@ class THRCoreDataTests: XCTestCase {
         newObject.title = "This is a test object"
         XCTAssertNotNil(newObject, "")
         
-        coreDataManager.saveChanges()
+        coreDataManager.saveMainContext()
         
         let count2 = TestEntity.count(inContext: context)
         XCTAssertTrue(count2 == 1, "\(count2)")
@@ -74,7 +74,7 @@ class THRCoreDataTests: XCTestCase {
         
         // Check count in main context is 0
         
-        let count1 = TestEntity.count(inContext: coreDataManager.viewContext)
+        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count1 == 0, "\(count1)")
         
         // Insert in to background context
@@ -100,14 +100,14 @@ class THRCoreDataTests: XCTestCase {
         
         // Check count in main context is 1 to show merging has happened
         
-        let count3 = TestEntity.count(inContext: coreDataManager.viewContext)
+        let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count3 == 1, "\(count3)")
         
         deleteAll()
     }
     
     func testBatchInsertOrUpdateMethod() {
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.mainContext
         
         var intermediateItems: [TestEntity.JSON] = []
         
@@ -124,16 +124,16 @@ class THRCoreDataTests: XCTestCase {
             }
         }
         
-        coreDataManager.saveChanges()
+        coreDataManager.saveMainContext()
         
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: coreDataManager.viewContext) {
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: coreDataManager.mainContext) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
         
-        coreDataManager.saveChanges()
+        coreDataManager.saveMainContext()
         
-        let items = TestEntity.fetch(inContext: coreDataManager.viewContext)
+        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
         XCTAssertTrue(items.count == 100, "\(items.count)")
         
         for item in items {
@@ -145,7 +145,7 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func testMaterialiseObjectMethod() {
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.mainContext
         let id = UUID().uuidString
         insertTestEntity(withUniqueID: id, inContext: context)
         let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: context)
@@ -154,20 +154,20 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func testFetchObjectMethod() {
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.mainContext
         let id = UUID().uuidString
         insertTestEntity(withUniqueID: id, inContext: context)
-        coreDataManager.saveChanges()
+        coreDataManager.saveMainContext()
         let object = TestEntity.fetchObject(withUniqueKeyValue: id, inContext: context)
         XCTAssertNotNil(object, "")
         deleteAll()
     }
     
     func testInsertAndDeleteAll() {
-        let context = coreDataManager.viewContext
+        let context = coreDataManager.mainContext
         let count = 100
         createTestObjects(inContext: context, count: count)
-        coreDataManager.saveChanges()
+        coreDataManager.saveMainContext()
         let count1 = TestEntity.count(inContext: context)
         XCTAssertTrue(count1 == count, "\(count1)")
         deleteAll()
@@ -177,24 +177,24 @@ class THRCoreDataTests: XCTestCase {
     
     func testInsertAndDeleteSingleObject() {
         let count = 2
-        let newObjects = createTestObjects(inContext: coreDataManager.viewContext, count: count)
+        let newObjects = createTestObjects(inContext: coreDataManager.mainContext, count: count)
         let itemToDelete = newObjects.first!
-        coreDataManager.saveChanges()
-        let count1 = TestEntity.count(inContext: coreDataManager.viewContext)
+        coreDataManager.saveMainContext()
+        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count1 == count, "\(count1)")
         let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
-        TestEntity.delete(inContext: coreDataManager.viewContext, matchingPredicate: predicate)
-        coreDataManager.saveChanges()
-        let count2 = TestEntity.count(inContext: coreDataManager.viewContext)
+        TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
+        coreDataManager.saveMainContext()
+        let count2 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count2 == count-1, "\(count2)")
         deleteAll()
     }
     
     func testInsertOrFetchObjectMethod() {
         let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
-        coreDataManager.saveChanges()
-        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
+        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.mainContext)
+        coreDataManager.saveMainContext()
+        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.mainContext)
         XCTAssertEqual(item1, item2)
         deleteAll()
     }
@@ -219,7 +219,7 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func deleteAll() {
-        TestEntity.delete(inContext: coreDataManager.viewContext)
-        coreDataManager.saveChanges()
+        TestEntity.delete(inContext: coreDataManager.mainContext)
+        coreDataManager.saveMainContext()
     }
 }

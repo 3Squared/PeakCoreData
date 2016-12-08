@@ -19,3 +19,15 @@ internal var defaultDirectoryURL: URL {
         fatalError("Error finding default directory: \(error)")
     }
 }
+
+public enum SaveResult {
+    case success
+    case failure(NSError)
+    
+    public func error() -> NSError? {
+        if case .failure(let error) = self {
+            return error
+        }
+        return nil
+    }
+}
