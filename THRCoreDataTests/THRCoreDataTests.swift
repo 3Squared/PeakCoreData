@@ -33,14 +33,14 @@ class THRCoreDataTests: XCTestCase {
     }
     
     func testBackgroundContext() {
-        let backgroundContext = coreDataManager.newBackgroundContext()
+        let backgroundContext = coreDataManager.backgroundContext
         XCTAssertNotNil(backgroundContext, "")
         XCTAssertEqual(backgroundContext.concurrencyType, .privateQueueConcurrencyType, "")
     }
     
     func testViewContextAndPrivateContextUseSamePersistentStoreCoordinator() {
         let viewContext = coreDataManager.mainContext
-        let backgroundContext = coreDataManager.newBackgroundContext()
+        let backgroundContext = coreDataManager.backgroundContext
         XCTAssertEqual(viewContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "")
     }
     
@@ -79,19 +79,13 @@ class THRCoreDataTests: XCTestCase {
         
         // Insert in to background context
         
-        let context = coreDataManager.newBackgroundContext()
+        let context = coreDataManager.backgroundContext
         
         let newObject = insertTestEntity(withUniqueID: "id_1", inContext: context)
         newObject.title = "This is a test object"
         XCTAssertNotNil(newObject, "")
         
-        // Save
-        
-        do {
-            try context.save()
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        coreDataManager.saveBackgroundContext()
         
         // Check count in private context is 1
         
