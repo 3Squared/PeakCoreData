@@ -148,8 +148,7 @@ class THRCoreDataTests: XCTestCase {
         let context = coreDataManager.viewContext
         let id = UUID().uuidString
         insertTestEntity(withUniqueID: id, inContext: context)
-        let predicate = NSPredicate(format: "%K == %@", argumentArray: [#keyPath(TestEntity.uniqueID), id])
-        let object = TestEntity.materialiseObject(inContext: context, matchingPredicate: predicate)
+        let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: context)
         XCTAssertNotNil(object, "")
         deleteAll()
     }
@@ -183,8 +182,8 @@ class THRCoreDataTests: XCTestCase {
         coreDataManager.saveChanges()
         let count1 = TestEntity.count(inContext: coreDataManager.viewContext)
         XCTAssertTrue(count1 == count, "\(count1)")
-        let predicate = TestEntity.uniquePredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
-        TestEntity.deleteAll(inContext: coreDataManager.viewContext, matchingPredicate: predicate)
+        let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
+        TestEntity.delete(inContext: coreDataManager.viewContext, matchingPredicate: predicate)
         coreDataManager.saveChanges()
         let count2 = TestEntity.count(inContext: coreDataManager.viewContext)
         XCTAssertTrue(count2 == count-1, "\(count2)")
@@ -193,9 +192,9 @@ class THRCoreDataTests: XCTestCase {
     
     func testInsertOrFetchObjectMethod() {
         let id = UUID().uuidString
-        let item1 = TestEntity.insertOrFetchObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
+        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
         coreDataManager.saveChanges()
-        let item2 = TestEntity.insertOrFetchObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
+        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.viewContext)
         XCTAssertEqual(item1, item2)
         deleteAll()
     }
@@ -215,14 +214,12 @@ class THRCoreDataTests: XCTestCase {
     
     @discardableResult
     func insertTestEntity(withUniqueID uniqueID: String, inContext context: NSManagedObjectContext) -> TestEntity {
-        let newObject = TestEntity.insert(inContext: context) { object in
-            object.uniqueID = uniqueID
-        }
+        let newObject = TestEntity.insertObject(withUniqueKeyValue: uniqueID, inContext: context)
         return newObject
     }
     
     func deleteAll() {
-        TestEntity.deleteAll(inContext: coreDataManager.viewContext)
+        TestEntity.delete(inContext: coreDataManager.viewContext)
         coreDataManager.saveChanges()
     }
 }
