@@ -66,8 +66,6 @@ class THRCoreDataTests: XCTestCase {
         
         let count2 = TestEntity.count(inContext: context)
         XCTAssertTrue(count2 == 1, "\(count2)")
-        
-        deleteAll()
     }
     
     func testInsertAndSaveInBackgroundContextMergesInToMainContext() {
@@ -96,8 +94,6 @@ class THRCoreDataTests: XCTestCase {
         
         let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count3 == 1, "\(count3)")
-        
-        deleteAll()
     }
     
     func testBatchInsertOrUpdateMethod() {
@@ -134,8 +130,6 @@ class THRCoreDataTests: XCTestCase {
             XCTAssertNotNil(item.uniqueID, "")
             XCTAssertNotNil(item.title, "")
         }
-        
-        deleteAll()
     }
     
     func testMaterialiseObjectMethod() {
@@ -144,7 +138,6 @@ class THRCoreDataTests: XCTestCase {
         insertTestEntity(withUniqueID: id, inContext: context)
         let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: context)
         XCTAssertNotNil(object, "")
-        deleteAll()
     }
     
     func testFetchObjectMethod() {
@@ -154,7 +147,6 @@ class THRCoreDataTests: XCTestCase {
         coreDataManager.saveMainContext()
         let object = TestEntity.fetchObject(withUniqueKeyValue: id, inContext: context)
         XCTAssertNotNil(object, "")
-        deleteAll()
     }
     
     func testInsertAndDeleteAll() {
@@ -181,7 +173,6 @@ class THRCoreDataTests: XCTestCase {
         coreDataManager.saveMainContext()
         let count2 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count2 == count-1, "\(count2)")
-        deleteAll()
     }
     
     func testInsertOrFetchObjectMethod() {
@@ -190,7 +181,6 @@ class THRCoreDataTests: XCTestCase {
         coreDataManager.saveMainContext()
         let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.mainContext)
         XCTAssertEqual(item1, item2)
-        deleteAll()
     }
     
     // MARK: - Helpers
