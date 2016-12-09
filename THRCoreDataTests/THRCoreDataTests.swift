@@ -181,6 +181,33 @@ class THRCoreDataTests: XCTestCase {
         }
     }
     
+    func testBatchInsertPerformance() {
+        let intermediateItems = createTestObjects(number: 1000)
+
+        measure {
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
+                (intermediate, managedObject) in
+                managedObject.title = intermediate.title
+            }
+            self.coreDataManager.saveMainContext()
+        }
+    }
+    
+    func testNonBatchInsertPerformance() {
+        let intermediateItems = createTestObjects(number: 1000)
+                
+        measure {
+            for intermediate in intermediateItems {
+                TestEntity.fetchOrInsertObject(withUniqueKeyValue: intermediate.uniqueID, inContext: self.coreDataManager.mainContext, withConfigurationBlock: { entity in
+                    entity.title = intermediate.title
+                })
+            }
+            self.coreDataManager.saveMainContext()
+        }
+    }
+
+
+    
     func testMaterialiseObjectMethod() {
         let context = coreDataManager.mainContext
         let id = UUID().uuidString
