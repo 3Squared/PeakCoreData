@@ -79,13 +79,12 @@ class THRCoreDataTests: XCTestCase {
         
         let context = coreDataManager.backgroundContext
         let expect = expectation(description: "Object inserted")
-        DispatchQueue(label: "", qos: .background, target: nil).async {
+        context.perform {
             let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
             newObject.title = "This is a test object"
             XCTAssertNotNil(newObject, "")
-            self.coreDataManager.save(context: context, wait: false) { result in
-                expect.fulfill()
-            }
+            self.coreDataManager.save(context: context, wait: true)
+            expect.fulfill()
         }
         
         waitForExpectations(timeout: 1)
