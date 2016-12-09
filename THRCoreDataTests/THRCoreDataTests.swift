@@ -99,26 +99,67 @@ class THRCoreDataTests: XCTestCase {
         let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count3 == 1, "\(count3)")
     }
+    
+    func testInsertAndSaveInChildOfBackgroundContextMergesInToMainContext() {
         
-    func testBatchInsertOrUpdateMethod() {
-        let context = coreDataManager.mainContext
+        // Check count in main context is 0
         
-        var intermediateItems: [TestEntity.JSON] = []
+        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
+        XCTAssertTrue(count1 == 0, "\(count1)")
         
-        for item in 0..<100 {
-            let id = UUID().uuidString
-            let title = "Item " + String(item)
-            let intermediate = TestEntity.JSON(uniqueID: id, title: title)
-            intermediateItems.append(intermediate)
-            
-            // Create a managed object for half the items, to check that they are correctly updated
-            
-            if item % 2 == 0 {
-                insertTestEntity(withUniqueID: id, inContext: context)
-            }
+        // Insert in to child context, on a background queue
+        
+        let expect = expectation(description: "Object inserted")
+        let context = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        context.perform {
+            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
+            newObject.title = "This is a test object"
+            XCTAssertNotNil(newObject, "")
+            self.coreDataManager.save(context: context, wait: true)
+            expect.fulfill()
         }
         
-        coreDataManager.saveMainContext()
+        waitForExpectations(timeout: 1)
+        
+        // Check count in background context is 1
+        
+        let count2 = TestEntity.count(inContext: coreDataManager.backgroundContext)
+        XCTAssertTrue(count2 == 1, "\(count2)")
+        
+        // Check count in main context is 1 to show merging has happened
+        
+        let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
+        XCTAssertTrue(count3 == 1, "\(count3)")
+    }
+    
+    func testChildContextChangesAreOnlyPushedOnSave() {
+        
+        // Check count in main context is 0
+        
+        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
+        XCTAssertTrue(count1 == 0, "\(count1)")
+        
+        // Insert in to child context, on a background queue
+        
+        let expect = expectation(description: "Object inserted")
+        
+        let context = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        context.perform {
+            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
+            newObject.title = "This is a test object"
+            expect.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1)
+        
+        // Check count in background context is still 0
+        
+        let count2 = TestEntity.count(inContext: coreDataManager.backgroundContext)
+        XCTAssertTrue(count2 == 0, "\(count2)")
+    }
+    
+    func testBatchInsertOrUpdateMethod() {
+        let intermediateItems = createTestObjects(number: 100)
         
         let itemsBeforeUpdate = TestEntity.fetch(inContext: coreDataManager.mainContext)
         XCTAssertTrue(itemsBeforeUpdate.count == 50, "\(itemsBeforeUpdate.count)")
@@ -192,6 +233,28 @@ class THRCoreDataTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    func createTestObjects(number: Int, test: (Int) -> Bool = {$0 % 2 == 0}) -> [TestEntity.JSON] {
+        let context = coreDataManager.mainContext
+        
+        var intermediateItems: [TestEntity.JSON] = []
+        
+        for item in 0..<number {
+            let id = UUID().uuidString
+            let title = "Item " + String(item)
+            let intermediate = TestEntity.JSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+            
+            // Create a managed object for half the items, to check that they are correctly updated
+            
+            if test(item) {
+                insertTestEntity(withUniqueID: id, inContext: context)
+            }
+        }
+        
+        coreDataManager.saveMainContext()
+        return intermediateItems;
+    }
     
     @discardableResult
     func createTestObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
