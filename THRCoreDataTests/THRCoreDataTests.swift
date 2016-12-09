@@ -75,15 +75,20 @@ class THRCoreDataTests: XCTestCase {
         let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count1 == 0, "\(count1)")
         
-        // Insert in to background context
+        // Insert in to background context, on a background queue
         
         let context = coreDataManager.backgroundContext
+        let expect = expectation(description: "Object inserted")
+        DispatchQueue(label: "", qos: .background, target: nil).async {
+            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
+            newObject.title = "This is a test object"
+            XCTAssertNotNil(newObject, "")
+            self.coreDataManager.save(context: context, wait: false) { result in
+                expect.fulfill()
+            }
+        }
         
-        let newObject = insertTestEntity(withUniqueID: "id_1", inContext: context)
-        newObject.title = "This is a test object"
-        XCTAssertNotNil(newObject, "")
-        
-        coreDataManager.saveBackgroundContext()
+        waitForExpectations(timeout: 1)
         
         // Check count in private context is 1
         
@@ -95,7 +100,7 @@ class THRCoreDataTests: XCTestCase {
         let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count3 == 1, "\(count3)")
     }
-    
+        
     func testBatchInsertOrUpdateMethod() {
         let context = coreDataManager.mainContext
         
@@ -115,6 +120,10 @@ class THRCoreDataTests: XCTestCase {
         }
         
         coreDataManager.saveMainContext()
+        
+        let itemsBeforeUpdate = TestEntity.fetch(inContext: coreDataManager.mainContext)
+        XCTAssertTrue(itemsBeforeUpdate.count == 50, "\(itemsBeforeUpdate.count)")
+
         
         TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: coreDataManager.mainContext) {
             (intermediate, managedObject) in
