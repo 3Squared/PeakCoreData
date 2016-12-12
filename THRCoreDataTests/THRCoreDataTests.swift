@@ -48,7 +48,7 @@ class THRCoreDataTests: XCTestCase {
         XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
     }
     
-    func testInsertAndSave_InMainContext() {
+    func test_InsertAndSave_InMainContext() {
         
         // GIVEN: objects in the main context
 
@@ -152,7 +152,7 @@ class THRCoreDataTests: XCTestCase {
         }
     }
     
-    func testThatChangesPropogate_FromMainContext_ToBackgroundContext() {
+    func test_ThatChangesPropogate_FromMainContext_ToBackgroundContext() {
         
         // GIVEN: objects in the main context
 
@@ -194,36 +194,172 @@ class THRCoreDataTests: XCTestCase {
         }
     }
     
-    func testInsertAndSaveInChildOfBackgroundContextMergesInToMainContext() {
+    func test_ThatChangesPropogate_FromChildOfMainContext_ToMainContext() {
         
-        // Check count in main context is 0
+        // GIVEN: objects in the child of the main context
         
-        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count1 == 0, "\(count1)")
+        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         
-        // Insert in to child context, on a background queue
+        var entities: [TestEntity] = []
         
-        let expect = expectation(description: "Object inserted")
-        let context = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        context.perform {
-            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
-            newObject.title = "This is a test object"
-            XCTAssertNotNil(newObject, "")
-            self.coreDataManager.save(context: context, wait: true)
-            expect.fulfill()
+        childContext.performAndWait {
+            entities = self.createTestObjects(inContext: childContext, count: 10)
         }
         
-        waitForExpectations(timeout: 1)
+        let titles = entities.map { $0.title! }
         
-        // Check count in background context is 1
+        // WHEN: we save the child of the main context
         
-        let count2 = TestEntity.count(inContext: coreDataManager.backgroundContext)
-        XCTAssertTrue(count2 == 1, "\(count2)")
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext, handler: nil)
         
-        // Check count in main context is 1 to show merging has happened
+        coreDataManager.save(context: childContext)
         
-        let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count3 == 1, "\(count3)")
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
+        
+        // WHEN: we fetch the objects in the main context
+        
+        let mainContext = coreDataManager.mainContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        mainContext.performAndWait {
+            results = try! mainContext.fetch(fetchRequest)
+        }
+        
+        // THEN: the main context returns the objects
+        
+        XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
+        }
+    }
+    
+    func test_ThatChangesPropogate_FromChildOfMainContext_ToBackgroundContext() {
+        
+        // GIVEN: objects in the child of the main context
+        
+        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
+        
+        var entities: [TestEntity] = []
+        
+        childContext.performAndWait {
+            entities = self.createTestObjects(inContext: childContext, count: 10)
+        }
+        
+        let titles = entities.map { $0.title! }
+        
+        // WHEN: we save the child of the main context
+        
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext, handler: nil)
+        
+        coreDataManager.save(context: childContext)
+        
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
+        
+        // WHEN: we fetch the objects in the background context
+        
+        let backgroundContext = coreDataManager.mainContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        backgroundContext.performAndWait {
+            results = try! backgroundContext.fetch(fetchRequest)
+        }
+        
+        // THEN: the background context returns the objects
+        
+        XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
+        }
+    }
+    
+    func test_ThatChangesPropogate_FromChildOfBackgroundContext_ToBackgroundContext() {
+        
+        // GIVEN: objects in the child of the background context
+        
+        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        
+        var entities: [TestEntity] = []
+        
+        childContext.performAndWait {
+            entities = self.createTestObjects(inContext: childContext, count: 10)
+        }
+        
+        let titles = entities.map { $0.title! }
+        
+        // WHEN: we save the child of the background context
+        
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext, handler: nil)
+        
+        coreDataManager.save(context: childContext)
+        
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
+        
+        // WHEN: we fetch the objects in the background context
+        
+        let backgroundContext = coreDataManager.backgroundContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        backgroundContext.performAndWait {
+            results = try! backgroundContext.fetch(fetchRequest)
+        }
+        
+        // THEN: the background context returns the objects
+        
+        XCTAssertEqual(results.count, entities.count, "Background context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Background context should return same objects")
+        }
+    }
+    
+    func test_ThatChangesPropogate_FromChildOfBackgroundContext_ToMainContext() {
+        
+        // GIVEN: objects in the child of the background context
+        
+        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        
+        var entities: [TestEntity] = []
+        
+        childContext.performAndWait {
+            entities = self.createTestObjects(inContext: childContext, count: 10)
+        }
+        
+        let titles = entities.map { $0.title! }
+        
+        // WHEN: we save the child of the background context
+        
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext, handler: nil)
+        
+        coreDataManager.save(context: childContext)
+        
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
+        
+        // WHEN: we fetch the objects in the main context
+        
+        let mainContext = coreDataManager.mainContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        mainContext.performAndWait {
+            results = try! mainContext.fetch(fetchRequest)
+        }
+        
+        // THEN: the main context returns the objects
+        
+        XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
+        }
     }
     
     func testChildContextChangesAreOnlyPushedOnSave() {
