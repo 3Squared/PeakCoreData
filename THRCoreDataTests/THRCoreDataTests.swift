@@ -25,10 +25,10 @@ class THRCoreDataTests: XCTestCase {
         super.tearDown()
     }
     
-    func testViewContext() {
-        let viewContext = coreDataManager.mainContext
-        XCTAssertNotNil(viewContext, "")
-        XCTAssertEqual(viewContext.concurrencyType, .mainQueueConcurrencyType, "")
+    func testMainContext() {
+        let mainContext = coreDataManager.mainContext
+        XCTAssertNotNil(mainContext, "")
+        XCTAssertEqual(mainContext.concurrencyType, .mainQueueConcurrencyType, "")
     }
     
     func testBackgroundContext() {
@@ -37,18 +37,18 @@ class THRCoreDataTests: XCTestCase {
         XCTAssertEqual(backgroundContext.concurrencyType, .privateQueueConcurrencyType, "")
     }
     
-    func testViewContextAndPrivateContextUseSamePersistentStoreCoordinator() {
-        let viewContext = coreDataManager.mainContext
+    func testMainContextAndBackgroundContextUseSamePersistentStoreCoordinator() {
+        let mainContext = coreDataManager.mainContext
         let backgroundContext = coreDataManager.backgroundContext
-        XCTAssertEqual(viewContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "")
+        XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "")
     }
     
     func testStoreCoordinatorHasASingleStore() {
-        let viewContext = coreDataManager.mainContext
-        XCTAssertTrue(viewContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
+        let mainContext = coreDataManager.mainContext
+        XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
     }
     
-    func testInsertAndSaveInViewContext() {
+    func testInsertAndSaveInMainContext() {
         
         // Check count in main context is 0
         
