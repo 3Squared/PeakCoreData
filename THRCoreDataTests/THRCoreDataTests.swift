@@ -50,53 +50,110 @@ class THRCoreDataTests: XCTestCase {
     
     func testInsertAndSaveInMainContext() {
         
-        // Check count in main context is 0
-        
         let context = coreDataManager.mainContext
         
-        let count1 = TestEntity.count(inContext: context)
-        XCTAssertTrue(count1 == 0, "\(count1)")
-        
-        let newObject = insertTestEntity(withUniqueID: "id_1", inContext: context)
-        newObject.title = "This is a test object"
+        let id = UUID().uuidString
+        let title = "This is a test object"
+        let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context) {
+            object in
+            object.title = title
+        }
         XCTAssertNotNil(newObject, "")
+        XCTAssertEqual(newObject.uniqueID, id)
+        XCTAssertEqual(newObject.title, title)
         
         coreDataManager.saveMainContext()
         
-        let count2 = TestEntity.count(inContext: context)
-        XCTAssertTrue(count2 == 1, "\(count2)")
+        let postInsertCount = TestEntity.count(inContext: context)
+        XCTAssertTrue(postInsertCount == 1, "\(postInsertCount)")
     }
     
-    func testInsertAndSaveInBackgroundContextMergesInToMainContext() {
-        
-        // Check count in main context is 0
-        
-        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count1 == 0, "\(count1)")
-        
-        // Insert in to background context, on a background queue
+    func testInsertAndSaveInBackgroundContext() {
         
         let context = coreDataManager.backgroundContext
-        let expect = expectation(description: "Object inserted")
-        context.perform {
-            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
-            newObject.title = "This is a test object"
-            XCTAssertNotNil(newObject, "")
-            self.coreDataManager.save(context: context, wait: true)
-            expect.fulfill()
+        
+        let id = UUID().uuidString
+        let title = "This is a test object"
+        let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context) {
+            object in
+            object.title = title
+        }
+        XCTAssertNotNil(newObject, "")
+        XCTAssertEqual(newObject.uniqueID, id)
+        XCTAssertEqual(newObject.title, title)
+        
+        coreDataManager.saveMainContext()
+        
+        let postInsertCount = TestEntity.count(inContext: context)
+        XCTAssertTrue(postInsertCount == 1, "\(postInsertCount)")
+    }
+    
+    func test_ThatChangesPropogate_FromBackgroundContext_ToMainContext() {
+        
+        let backgroundContext = coreDataManager.backgroundContext
+        
+        var entities: [TestEntity] = []
+        
+        backgroundContext.performAndWait {
+            entities = self.createTestObjects(inContext: backgroundContext, count: 10)
         }
         
-        waitForExpectations(timeout: 1)
+        let titles = entities.map { $0.title! }
         
-        // Check count in private context is 1
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext, handler: nil)
         
-        let count2 = TestEntity.count(inContext: context)
-        XCTAssertTrue(count2 == 1, "\(count2)")
+        coreDataManager.saveBackgroundContext()
         
-        // Check count in main context is 1 to show merging has happened
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
         
-        let count3 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count3 == 1, "\(count3)")
+        let mainContext = coreDataManager.mainContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        mainContext.performAndWait {
+            results = try! mainContext.fetch(fetchRequest)
+        }
+        
+        XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
+        }
+    }
+    
+    func test_ThatChangesPropogate_FromMainContext_ToBackgroundContext() {
+        
+        let mainContext = coreDataManager.mainContext
+        
+        var entities: [TestEntity] = []
+
+        mainContext.performAndWait {
+            entities = self.createTestObjects(inContext: mainContext, count: 10)
+        }
+        
+        let titles = entities.map { $0.title! }
+        
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext, handler: nil)
+        
+        coreDataManager.saveMainContext()
+        
+        waitForExpectations(timeout: 1.0) { (error) in
+            XCTAssertNil(error, "Expectation should not error")
+        }
+        
+        let backgroundContext = coreDataManager.backgroundContext
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        backgroundContext.performAndWait {
+            results = try! backgroundContext.fetch(fetchRequest)
+        }
+        
+        XCTAssertEqual(results.count, entities.count, "Background context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Background context should return same objects")
+        }
     }
     
     func testInsertAndSaveInChildOfBackgroundContextMergesInToMainContext() {
@@ -306,6 +363,7 @@ class THRCoreDataTests: XCTestCase {
         for _ in 0..<count {
             let id = UUID().uuidString
             let newObject = insertTestEntity(withUniqueID: id, inContext: context)
+            newObject.title = "Item " + id
             items.append(newObject)
         }
         return items
