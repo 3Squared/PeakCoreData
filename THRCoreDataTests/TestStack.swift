@@ -1,49 +1,34 @@
 //
-//  THRCoreDataTests.swift
-//  THRCoreDataTests
+//  TestStack.swift
+//  THRCoreData
 //
-//  Created by David Yates on 07/12/2016.
+//  Created by David Yates on 12/12/2016.
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
 import XCTest
-import CoreData
-@testable import THRCoreData
 
-class THRCoreDataTests: XCTestCase {
+class TestStack: TestCase {
     
-    var coreDataManager: CoreDataManager!
-    
-    override func setUp() {
-        super.setUp()
-        let bundle = Bundle(for: type(of: self))
-        coreDataManager = CoreDataManager(modelName: "TestModel", storeType: .inMemory, bundle: bundle)
-    }
-    
-    override func tearDown() {
-        coreDataManager = nil
-        super.tearDown()
-    }
-    
-    func testMainContext() {
+    func test_MainContext() {
         let mainContext = coreDataManager.mainContext
         XCTAssertNotNil(mainContext, "")
         XCTAssertEqual(mainContext.concurrencyType, .mainQueueConcurrencyType, "")
     }
     
-    func testBackgroundContext() {
+    func test_BackgroundContext() {
         let backgroundContext = coreDataManager.backgroundContext
         XCTAssertNotNil(backgroundContext, "")
         XCTAssertEqual(backgroundContext.concurrencyType, .privateQueueConcurrencyType, "")
     }
     
-    func testMainContextAndBackgroundContextUseSamePersistentStoreCoordinator() {
+    func test_SamePersistentStoreCoordinator() {
         let mainContext = coreDataManager.mainContext
         let backgroundContext = coreDataManager.backgroundContext
         XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "")
     }
     
-    func testStoreCoordinatorHasASingleStore() {
+    func test_SingleStore() {
         let mainContext = coreDataManager.mainContext
         XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
     }
@@ -51,29 +36,25 @@ class THRCoreDataTests: XCTestCase {
     func test_InsertAndSave_InMainContext() {
         
         // GIVEN: objects in the main context
-
-        let context = coreDataManager.mainContext
         
-        var entities: [TestEntity] = []
-        context.performAndWait {
-            entities = self.createTestObjects(inContext: context, count: 10)
-        }
+        let mainContext = coreDataManager.mainContext
+        let entities = self.createTestObjects(inContext: mainContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the main context
-
-        coreDataManager.save(context: context)
+        
+        coreDataManager.save(context: mainContext)
         
         // WHEN: we fetch the objects in the main context
-
+        
         let fetchRequest = TestEntity.sortedFetchRequest()
         var results: [TestEntity] = []
-        context.performAndWait {
-            results = try! context.fetch(fetchRequest)
+        mainContext.performAndWait {
+            results = try! mainContext.fetch(fetchRequest)
         }
         
         // THEN: the main context returns the objects
-
+        
         XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
         results.forEach { (testEntity: TestEntity) in
             XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
@@ -83,29 +64,25 @@ class THRCoreDataTests: XCTestCase {
     func test_InsertAndSave_InBackgroundContext() {
         
         // GIVEN: objects in the background context
-
-        let context = coreDataManager.backgroundContext
         
-        var entities: [TestEntity] = []
-        context.performAndWait {
-            entities = self.createTestObjects(inContext: context, count: 10)
-        }
+        let backgroundContext = coreDataManager.backgroundContext
+        let entities = self.createTestObjects(inContext: backgroundContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the background context
-
-        coreDataManager.save(context: context)
+        
+        coreDataManager.save(context: backgroundContext)
         
         // WHEN: we fetch the objects in the background context
-
+        
         let fetchRequest = TestEntity.sortedFetchRequest()
         var results: [TestEntity] = []
-        context.performAndWait {
-            results = try! context.fetch(fetchRequest)
+        backgroundContext.performAndWait {
+            results = try! backgroundContext.fetch(fetchRequest)
         }
         
         // THEN: the background context returns the objects
-
+        
         XCTAssertEqual(results.count, entities.count, "Background context should return same objects")
         results.forEach { (testEntity: TestEntity) in
             XCTAssertTrue(titles.contains(testEntity.title!), "Background context should return same objects")
@@ -117,15 +94,11 @@ class THRCoreDataTests: XCTestCase {
         // GIVEN: objects in the background context
         
         let backgroundContext = coreDataManager.backgroundContext
-        
-        var entities: [TestEntity] = []
-        backgroundContext.performAndWait {
-            entities = self.createTestObjects(inContext: backgroundContext, count: 10)
-        }
+        let entities = self.createTestObjects(inContext: backgroundContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the background context
-
+        
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext, handler: nil)
         
         coreDataManager.save(context: backgroundContext)
@@ -145,7 +118,7 @@ class THRCoreDataTests: XCTestCase {
         }
         
         // THEN: the main context returns the objects
-
+        
         XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
         results.forEach { (testEntity: TestEntity) in
             XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
@@ -155,19 +128,13 @@ class THRCoreDataTests: XCTestCase {
     func test_ThatChangesPropogate_FromMainContext_ToBackgroundContext() {
         
         // GIVEN: objects in the main context
-
+        
         let mainContext = coreDataManager.mainContext
-        
-        var entities: [TestEntity] = []
-
-        mainContext.performAndWait {
-            entities = self.createTestObjects(inContext: mainContext, count: 10)
-        }
-        
+        let entities = self.createTestObjects(inContext: mainContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the main context
-
+        
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext, handler: nil)
         
         coreDataManager.save(context: mainContext)
@@ -199,13 +166,7 @@ class THRCoreDataTests: XCTestCase {
         // GIVEN: objects in the child of the main context
         
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
-        
-        var entities: [TestEntity] = []
-        
-        childContext.performAndWait {
-            entities = self.createTestObjects(inContext: childContext, count: 10)
-        }
-        
+        let entities = self.createTestObjects(inContext: childContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the child of the main context
@@ -241,13 +202,7 @@ class THRCoreDataTests: XCTestCase {
         // GIVEN: objects in the child of the main context
         
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
-        
-        var entities: [TestEntity] = []
-        
-        childContext.performAndWait {
-            entities = self.createTestObjects(inContext: childContext, count: 10)
-        }
-        
+        let entities = self.createTestObjects(inContext: childContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the child of the main context
@@ -283,13 +238,7 @@ class THRCoreDataTests: XCTestCase {
         // GIVEN: objects in the child of the background context
         
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        
-        var entities: [TestEntity] = []
-        
-        childContext.performAndWait {
-            entities = self.createTestObjects(inContext: childContext, count: 10)
-        }
-        
+        let entities = self.createTestObjects(inContext: childContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the child of the background context
@@ -325,13 +274,7 @@ class THRCoreDataTests: XCTestCase {
         // GIVEN: objects in the child of the background context
         
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        
-        var entities: [TestEntity] = []
-        
-        childContext.performAndWait {
-            entities = self.createTestObjects(inContext: childContext, count: 10)
-        }
-        
+        let entities = self.createTestObjects(inContext: childContext, count: 10)
         let titles = entities.map { $0.title! }
         
         // WHEN: we save the child of the background context
@@ -361,7 +304,7 @@ class THRCoreDataTests: XCTestCase {
             XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
         }
     }
-    
+
     func testChildContextChangesAreOnlyPushedOnSave() {
         
         // Check count in main context is 0
@@ -375,7 +318,7 @@ class THRCoreDataTests: XCTestCase {
         
         let context = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         context.perform {
-            let newObject = self.insertTestEntity(withUniqueID: "id_1", inContext: context)
+            let newObject = TestEntity.insertObject(withUniqueKeyValue: "id_1", inContext: context)
             newObject.title = "This is a test object"
             expect.fulfill()
         }
@@ -386,171 +329,5 @@ class THRCoreDataTests: XCTestCase {
         
         let count2 = TestEntity.count(inContext: coreDataManager.backgroundContext)
         XCTAssertTrue(count2 == 0, "\(count2)")
-    }
-    
-    func testBatchInsertOrUpdateMethod() {
-        let intermediateItems = createTestObjects(number: 100)
-        
-        let itemsBeforeUpdate = TestEntity.fetch(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(itemsBeforeUpdate.count == 50, "\(itemsBeforeUpdate.count)")
-
-        
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: coreDataManager.mainContext) {
-            (intermediate, managedObject) in
-            managedObject.title = intermediate.title
-        }
-        
-        coreDataManager.saveMainContext()
-        
-        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(items.count == 100, "\(items.count)")
-        
-        for item in items {
-            XCTAssertNotNil(item.uniqueID, "")
-            XCTAssertNotNil(item.title, "")
-        }
-    }
-    
-    func testBatchInsertCreatesDuplicatesInSomeSituations() {
-        let intermediateItems = createTestObjects(number: 10)
-        
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
-            (intermediate, managedObject) in
-            managedObject.title = intermediate.title
-            
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
-                (intermediate, managedObject) in
-                managedObject.title = intermediate.title
-            }
-        }
-        
-        self.coreDataManager.saveMainContext()
-        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
-        
-        // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(items.count != 10, "\(items.count)")
-    }
-    
-    func testBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
-
-        measure {
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
-                (intermediate, managedObject) in
-                managedObject.title = intermediate.title
-            }
-            self.coreDataManager.saveMainContext()
-        }
-    }
-    
-    func testNonBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
-                
-        measure {
-            for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(withUniqueKeyValue: intermediate.uniqueID, inContext: self.coreDataManager.mainContext, withConfigurationBlock: { entity in
-                    entity.title = intermediate.title
-                })
-            }
-            self.coreDataManager.saveMainContext()
-        }
-    }
-
-    func testMaterialiseObjectMethod() {
-        let context = coreDataManager.mainContext
-        let id = UUID().uuidString
-        insertTestEntity(withUniqueID: id, inContext: context)
-        let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: context)
-        XCTAssertNotNil(object, "")
-    }
-    
-    func testFetchObjectMethod() {
-        let context = coreDataManager.mainContext
-        let id = UUID().uuidString
-        insertTestEntity(withUniqueID: id, inContext: context)
-        coreDataManager.saveMainContext()
-        let object = TestEntity.fetchObject(withUniqueKeyValue: id, inContext: context)
-        XCTAssertNotNil(object, "")
-    }
-    
-    func testInsertAndDeleteAll() {
-        let context = coreDataManager.mainContext
-        let count = 100
-        createTestObjects(inContext: context, count: count)
-        coreDataManager.saveMainContext()
-        let count1 = TestEntity.count(inContext: context)
-        XCTAssertTrue(count1 == count, "\(count1)")
-        deleteAll()
-        let count2 = TestEntity.count(inContext: context)
-        XCTAssertTrue(count2 == 0, "\(count2)")
-    }
-    
-    func testInsertAndDeleteSingleObject() {
-        let count = 2
-        let newObjects = createTestObjects(inContext: coreDataManager.mainContext, count: count)
-        let itemToDelete = newObjects.first!
-        coreDataManager.saveMainContext()
-        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count1 == count, "\(count1)")
-        let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
-        TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
-        coreDataManager.saveMainContext()
-        let count2 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count2 == count-1, "\(count2)")
-    }
-    
-    func testInsertOrFetchObjectMethod() {
-        let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.mainContext)
-        coreDataManager.saveMainContext()
-        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: coreDataManager.mainContext)
-        XCTAssertEqual(item1, item2)
-    }
-    
-    // MARK: - Helpers
-    
-    func createTestObjects(number: Int, test: (Int) -> Bool = {$0 % 2 == 0}) -> [TestEntity.JSON] {
-        let context = coreDataManager.mainContext
-        
-        var intermediateItems: [TestEntity.JSON] = []
-        
-        for item in 0..<number {
-            let id = UUID().uuidString
-            let title = "Item " + String(item)
-            let intermediate = TestEntity.JSON(uniqueID: id, title: title)
-            intermediateItems.append(intermediate)
-            
-            // Create a managed object for half the items, to check that they are correctly updated
-            
-            if test(item) {
-                insertTestEntity(withUniqueID: id, inContext: context)
-            }
-        }
-        
-        coreDataManager.saveMainContext()
-        return intermediateItems;
-    }
-    
-    @discardableResult
-    func createTestObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
-        var items: [TestEntity] = []
-        for _ in 0..<count {
-            let id = UUID().uuidString
-            let newObject = insertTestEntity(withUniqueID: id, inContext: context)
-            newObject.title = "Item " + id
-            items.append(newObject)
-        }
-        return items
-    }
-    
-    @discardableResult
-    func insertTestEntity(withUniqueID uniqueID: String, inContext context: NSManagedObjectContext) -> TestEntity {
-        let newObject = TestEntity.insertObject(withUniqueKeyValue: uniqueID, inContext: context)
-        return newObject
-    }
-    
-    func deleteAll() {
-        TestEntity.delete(inContext: coreDataManager.mainContext)
-        coreDataManager.saveMainContext()
     }
 }
