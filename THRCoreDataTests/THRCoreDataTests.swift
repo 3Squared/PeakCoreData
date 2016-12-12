@@ -48,65 +48,93 @@ class THRCoreDataTests: XCTestCase {
         XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "")
     }
     
-    func testInsertAndSaveInMainContext() {
+    func testInsertAndSave_InMainContext() {
         
+        // GIVEN: objects in the main context
+
         let context = coreDataManager.mainContext
         
-        let id = UUID().uuidString
-        let title = "This is a test object"
-        let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context) {
-            object in
-            object.title = title
+        var entities: [TestEntity] = []
+        context.performAndWait {
+            entities = self.createTestObjects(inContext: context, count: 10)
         }
-        XCTAssertNotNil(newObject, "")
-        XCTAssertEqual(newObject.uniqueID, id)
-        XCTAssertEqual(newObject.title, title)
+        let titles = entities.map { $0.title! }
         
-        coreDataManager.saveMainContext()
+        // WHEN: we save the main context
+
+        coreDataManager.save(context: context)
         
-        let postInsertCount = TestEntity.count(inContext: context)
-        XCTAssertTrue(postInsertCount == 1, "\(postInsertCount)")
+        // WHEN: we fetch the objects in the main context
+
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        context.performAndWait {
+            results = try! context.fetch(fetchRequest)
+        }
+        
+        // THEN: the main context returns the objects
+
+        XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
+        }
     }
     
-    func testInsertAndSaveInBackgroundContext() {
+    func test_InsertAndSave_InBackgroundContext() {
         
+        // GIVEN: objects in the background context
+
         let context = coreDataManager.backgroundContext
         
-        let id = UUID().uuidString
-        let title = "This is a test object"
-        let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context) {
-            object in
-            object.title = title
+        var entities: [TestEntity] = []
+        context.performAndWait {
+            entities = self.createTestObjects(inContext: context, count: 10)
         }
-        XCTAssertNotNil(newObject, "")
-        XCTAssertEqual(newObject.uniqueID, id)
-        XCTAssertEqual(newObject.title, title)
+        let titles = entities.map { $0.title! }
         
-        coreDataManager.saveMainContext()
+        // WHEN: we save the background context
+
+        coreDataManager.save(context: context)
         
-        let postInsertCount = TestEntity.count(inContext: context)
-        XCTAssertTrue(postInsertCount == 1, "\(postInsertCount)")
+        // WHEN: we fetch the objects in the background context
+
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        var results: [TestEntity] = []
+        context.performAndWait {
+            results = try! context.fetch(fetchRequest)
+        }
+        
+        // THEN: the background context returns the objects
+
+        XCTAssertEqual(results.count, entities.count, "Background context should return same objects")
+        results.forEach { (testEntity: TestEntity) in
+            XCTAssertTrue(titles.contains(testEntity.title!), "Background context should return same objects")
+        }
     }
     
     func test_ThatChangesPropogate_FromBackgroundContext_ToMainContext() {
         
+        // GIVEN: objects in the background context
+        
         let backgroundContext = coreDataManager.backgroundContext
         
         var entities: [TestEntity] = []
-        
         backgroundContext.performAndWait {
             entities = self.createTestObjects(inContext: backgroundContext, count: 10)
         }
-        
         let titles = entities.map { $0.title! }
         
+        // WHEN: we save the background context
+
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext, handler: nil)
         
-        coreDataManager.saveBackgroundContext()
+        coreDataManager.save(context: backgroundContext)
         
         waitForExpectations(timeout: 1.0) { (error) in
             XCTAssertNil(error, "Expectation should not error")
         }
+        
+        // WHEN: we fetch the objects in the main context
         
         let mainContext = coreDataManager.mainContext
         
@@ -116,14 +144,18 @@ class THRCoreDataTests: XCTestCase {
             results = try! mainContext.fetch(fetchRequest)
         }
         
+        // THEN: the main context returns the objects
+
         XCTAssertEqual(results.count, entities.count, "Main context should return same objects")
         results.forEach { (testEntity: TestEntity) in
             XCTAssertTrue(titles.contains(testEntity.title!), "Main context should return same objects")
         }
     }
     
-    func test_ThatChangesPropogate_FromMainContext_ToBackgroundContext() {
+    func testThatChangesPropogate_FromMainContext_ToBackgroundContext() {
         
+        // GIVEN: objects in the main context
+
         let mainContext = coreDataManager.mainContext
         
         var entities: [TestEntity] = []
@@ -134,13 +166,17 @@ class THRCoreDataTests: XCTestCase {
         
         let titles = entities.map { $0.title! }
         
+        // WHEN: we save the main context
+
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext, handler: nil)
         
-        coreDataManager.saveMainContext()
+        coreDataManager.save(context: mainContext)
         
         waitForExpectations(timeout: 1.0) { (error) in
             XCTAssertNil(error, "Expectation should not error")
         }
+        
+        // WHEN: we fetch the objects in the background context
         
         let backgroundContext = coreDataManager.backgroundContext
         
@@ -149,6 +185,8 @@ class THRCoreDataTests: XCTestCase {
         backgroundContext.performAndWait {
             results = try! backgroundContext.fetch(fetchRequest)
         }
+        
+        // THEN: the background context returns the objects
         
         XCTAssertEqual(results.count, entities.count, "Background context should return same objects")
         results.forEach { (testEntity: TestEntity) in
