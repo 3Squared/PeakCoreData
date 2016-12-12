@@ -21,7 +21,6 @@ class THRCoreDataTests: XCTestCase {
     }
     
     override func tearDown() {
-        deleteAll()
         coreDataManager = nil
         super.tearDown()
     }
@@ -206,8 +205,6 @@ class THRCoreDataTests: XCTestCase {
         }
     }
 
-
-    
     func testMaterialiseObjectMethod() {
         let context = coreDataManager.mainContext
         let id = UUID().uuidString
