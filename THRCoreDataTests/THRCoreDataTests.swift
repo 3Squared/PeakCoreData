@@ -180,6 +180,26 @@ class THRCoreDataTests: XCTestCase {
         }
     }
     
+    func testBatchInsertCreatesDuplicatesInSomeSituations() {
+        let intermediateItems = createTestObjects(number: 10)
+        
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
+            (intermediate, managedObject) in
+            managedObject.title = intermediate.title
+            
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
+                (intermediate, managedObject) in
+                managedObject.title = intermediate.title
+            }
+        }
+        
+        self.coreDataManager.saveMainContext()
+        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
+        
+        // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
+        XCTAssertTrue(items.count != 10, "\(items.count)")
+    }
+    
     func testBatchInsertPerformance() {
         let intermediateItems = createTestObjects(number: 1000)
 
