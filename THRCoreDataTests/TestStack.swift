@@ -307,27 +307,16 @@ class TestStack: TestCase {
 
     func testChildContextChangesAreOnlyPushedOnSave() {
         
-        // Check count in main context is 0
+        // GIVEN: objects in the child of the background context
         
-        let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
-        XCTAssertTrue(count1 == 0, "\(count1)")
+        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        self.createTestObjects(inContext: childContext, count: 10)
         
-        // Insert in to child context, on a background queue
+        // WHEN: we do not save the child context
         
-        let expect = expectation(description: "Object inserted")
+        // THEN: the background context does not return the objects
         
-        let context = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        context.perform {
-            let newObject = TestEntity.insertObject(withUniqueKeyValue: "id_1", inContext: context)
-            newObject.title = "This is a test object"
-            expect.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1)
-        
-        // Check count in background context is still 0
-        
-        let count2 = TestEntity.count(inContext: coreDataManager.backgroundContext)
-        XCTAssertTrue(count2 == 0, "\(count2)")
+        let count = TestEntity.count(inContext: coreDataManager.backgroundContext)
+        XCTAssertTrue(count == 0, "\(count)")
     }
 }
