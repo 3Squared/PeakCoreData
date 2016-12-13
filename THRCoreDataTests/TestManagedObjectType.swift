@@ -15,8 +15,7 @@ class TestManagedObjectType: TestCase {
         
         let itemsBeforeUpdate = TestEntity.fetch(inContext: coreDataManager.mainContext)
         XCTAssertTrue(itemsBeforeUpdate.count == 50, "\(itemsBeforeUpdate.count)")
-        
-        
+
         TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: coreDataManager.mainContext) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title

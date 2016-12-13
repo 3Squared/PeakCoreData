@@ -126,8 +126,11 @@ public final class CoreDataManager {
         }
         return persistentStoreCoordinator
     }()
-    
-    // MARK: - Public Methods
+}
+
+// MARK: - Public Methods
+
+extension CoreDataManager {
     
     public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
         let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
@@ -174,10 +177,13 @@ public final class CoreDataManager {
         }
         wait ? context.performAndWait(block) : context.perform(block)
     }
+}
+
+// MARK: - Private Methods
+
+extension CoreDataManager {
     
-    // MARK: - Private Helper Methods
-    
-    private func createContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType, name: String) -> NSManagedObjectContext {
+    fileprivate func createContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType, name: String) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: concurrencyType)
         context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
         let contextName = "THRCoreData.CoreDataManager.context."
@@ -186,28 +192,26 @@ public final class CoreDataManager {
     }
     
     @objc
-    private func didReceiveChildContextDidSave(notification: Notification) {
+    fileprivate func didReceiveChildContextDidSave(notification: Notification) {
         guard let context = notification.object as? NSManagedObjectContext else {
-            fatalError()
+            fatalError("didReceiveChildContextDidSave - wrong notification object")
         }
-        
         guard let parentContext = context.parent else {
             // Have reached the root context, nothing to do
             return
         }
-        
         save(context: parentContext)
     }
     
     @objc
-    private func didReceiveBackgroundContextDidSave(notification: Notification) {
+    fileprivate func didReceiveBackgroundContextDidSave(notification: Notification) {
         mainContext.perform {
             self.mainContext.mergeChanges(fromContextDidSave: notification)
         }
     }
     
     @objc
-    private func didReceiveMainContextDidSave(notification: Notification) {
+    fileprivate func didReceiveMainContextDidSave(notification: Notification) {
         backgroundContext.perform {
             self.backgroundContext.mergeChanges(fromContextDidSave: notification)
         }
