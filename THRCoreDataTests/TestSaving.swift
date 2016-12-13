@@ -13,75 +13,9 @@ import THRCoreData
 
 class TestSaving: TestCase {
     
-    func test_ThatSavingMainContext_WithChangesSucceeds_CompletionHandlerIsCalled() {
+    func test_SavingMainContextSucceedsAndMerges() {
         
-        let mainContext = coreDataManager.mainContext
-        
-        self.createTestObjects(inContext: mainContext, count: 100)
-        
-        var didSaveMain = false
-        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext) { notification in
-            didSaveMain = true
-            return true
-        }
-        
-        var didUpdateBackground = false
-        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange.rawValue, object: coreDataManager.backgroundContext) { notification in
-            didUpdateBackground = true
-            return true
-        }
-        
-        let saveExpectation = expectation(description: #function)
-        
-        coreDataManager.save(context: mainContext) { result in
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
-        }
-        
-        // THEN: then the main and background contexts are saved and the completion handler is called
-        waitForExpectations(timeout: 1.0, handler: { error in
-            XCTAssertNil(error, "Expectation should not error")
-            XCTAssertTrue(didSaveMain, "Main context should be saved")
-            XCTAssertTrue(didUpdateBackground, "Background context should be updated")
-        })
-    }
-    
-    func test_ThatSavingBackgroundContext_WithChangesSucceeds_CompletionHandlerIsCalled() {
-        
-        let backgroundContext = coreDataManager.backgroundContext
-        
-        self.createTestObjects(inContext: backgroundContext, count: 100)
-        
-        var didSaveBackground = false
-        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext) { notification in
-            didSaveBackground = true
-            return true
-        }
-        
-        var didUpdateMain = false
-        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange.rawValue, object: coreDataManager.mainContext) { notification in
-            didUpdateMain = true
-            return true
-        }
-        
-        let saveExpectation = expectation(description: #function)
-        
-        coreDataManager.save(context: backgroundContext) { result in
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
-        }
-        
-        // THEN: then the main and background contexts are saved and the completion handler is called
-        waitForExpectations(timeout: 1.0, handler: { error in
-            XCTAssertNil(error, "Expectation should not error")
-            XCTAssertTrue(didSaveBackground, "Main context should be saved")
-            XCTAssertTrue(didUpdateMain, "Background context should be updated")
-        })
-    }
-    
-    func test_ThatSavingMainContextAynchronously_WithChangesSucceeds_CompletionHandlerIsCalled() {
-        
-        let wait = false
+        let wait = true
         
         let mainContext = coreDataManager.mainContext
         
@@ -114,9 +48,9 @@ class TestSaving: TestCase {
         })
     }
     
-    func test_ThatSavingBackgroundContextAsynchronously_WithChangesSucceeds_CompletionHandlerIsCalled() {
+    func test_SavingBackgroundContextSucceedsAndMerges() {
         
-        let wait = false
+        let wait = true
 
         let backgroundContext = coreDataManager.backgroundContext
         
@@ -149,38 +83,90 @@ class TestSaving: TestCase {
         })
     }
     
-    func test_ThatAsyncSaveMainContext_WithoutChanges_ReturnsImmediately() {
+    func test_SavingMainContextAsynchronouslySucceedsAndMerges() {
+        
+        let wait = false
+        
+        let mainContext = coreDataManager.mainContext
+
+        self.createTestObjects(inContext: mainContext, count: 100)
+        
+        var didSaveMain = false
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext) { notification in
+            didSaveMain = true
+            return true
+        }
+        
+        var didUpdateBackground = false
+        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange.rawValue, object: coreDataManager.backgroundContext) { notification in
+            didUpdateBackground = true
+            return true
+        }
+        
+        let saveExpectation = expectation(description: #function)
+        
+        var didCallCompletion = false
+        coreDataManager.save(context: mainContext, wait: wait) { result in
+            didCallCompletion = true
+            XCTAssertTrue(result == SaveResult.success, "Save should not error")
+            saveExpectation.fulfill()
+        }
+        
+        XCTAssertFalse(didCallCompletion, "Save should be ignored")
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: 1.0, handler: { error in
+            XCTAssertNil(error, "Expectation should not error")
+            XCTAssertTrue(didCallCompletion, "Completion should be called")
+            XCTAssertTrue(didSaveMain, "Main context should be saved")
+            XCTAssertTrue(didUpdateBackground, "Background context should be updated")
+        })
+    }
+    
+    func test_SavingBackgroundContextAsynchronouslySucceedsAndMerges() {
         
         let wait = false
 
-        var didCallCompletion = false
+        let backgroundContext = coreDataManager.backgroundContext
         
-        // WHEN: we attempt to save the context asynchronously
-        coreDataManager.save(context: coreDataManager.mainContext, wait: wait) { result in
-            didCallCompletion = true
+        self.createTestObjects(inContext: backgroundContext, count: 100)
+        
+        var didSaveBackground = false
+        expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext) { notification in
+            didSaveBackground = true
+            return true
         }
         
-        // THEN: the save operation is ignored
-        XCTAssertFalse(didCallCompletion, "Save should be ignored")
-    }
-    
-    func test_ThatAsyncSaveBackgroundContext_WithoutChanges_ReturnsImmediately() {
-        
-        let wait = false
-        
-        var didCallCompletion = false
-        
-        // WHEN: we attempt to save the context asynchronously
-        coreDataManager.save(context: coreDataManager.backgroundContext, wait: wait) { result in
-            didCallCompletion = true
+        var didUpdateMain = false
+        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange.rawValue, object: coreDataManager.mainContext) { notification in
+            didUpdateMain = true
+            return true
         }
         
-        // THEN: the save operation is ignored
+        let saveExpectation = expectation(description: #function)
+        
+        var didCallCompletion = false
+        coreDataManager.save(context: backgroundContext, wait: wait) { result in
+            didCallCompletion = true
+            XCTAssertTrue(result == SaveResult.success, "Save should not error")
+            saveExpectation.fulfill()
+        }
+        
         XCTAssertFalse(didCallCompletion, "Save should be ignored")
+
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: 1.0, handler: { error in
+            XCTAssertNil(error, "Expectation should not error")
+            XCTAssertTrue(didCallCompletion, "Completion should be called")
+            XCTAssertTrue(didSaveBackground, "Main context should be saved")
+            XCTAssertTrue(didUpdateMain, "Background context should be updated")
+        })
     }
     
-    func test_ThatSavingChildContext_SucceedsAndSavesParentMainContext() {
+    func test_SavingChildContext_SucceedsAndSavesParentMainContext() {
         
+        let wait = true
+
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         
         self.createTestObjects(inContext: childContext, count: 100)
@@ -205,7 +191,7 @@ class TestSaving: TestCase {
         
         let saveExpectation = expectation(description: #function)
         
-        coreDataManager.save(context: childContext) {
+        coreDataManager.save(context: childContext, wait: wait) {
             result in
             XCTAssertTrue(result == .success, "Save should not error")
             saveExpectation.fulfill()
@@ -220,8 +206,10 @@ class TestSaving: TestCase {
         })
     }
     
-    func test_ThatSavingChildContext_SucceedsAndSavesParentBackgroundContext() {
+    func test_SavingChildContext_SucceedsAndSavesParentBackgroundContext() {
         
+        let wait = true
+
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         
         self.createTestObjects(inContext: childContext, count: 100)
@@ -246,7 +234,7 @@ class TestSaving: TestCase {
         
         let saveExpectation = expectation(description: #function)
         
-        coreDataManager.save(context: childContext) {
+        coreDataManager.save(context: childContext, wait: wait) {
             result in
             XCTAssertTrue(result == .success, "Save should not error")
             saveExpectation.fulfill()
@@ -261,8 +249,10 @@ class TestSaving: TestCase {
         })
     }
     
-    func test_ThatSavingChildContextAsynchronously_SucceedsAndSavesParentMainContext() {
+    func test_SavingChildContextAsynchronously_SucceedsAndSavesParentMainContext() {
         
+        let wait = false
+
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         
         self.createTestObjects(inContext: childContext, count: 100)
@@ -288,12 +278,14 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: childContext, wait: false) {
+        coreDataManager.save(context: childContext, wait: wait) {
             result in
             didCallCompletion = true
             XCTAssertTrue(result == .success, "Save should not error")
             saveExpectation.fulfill()
         }
+        
+        XCTAssertFalse(didCallCompletion, "Save should be ignored")
         
         // THEN: then all contexts are saved, synchronized and the completion handler is called
         waitForExpectations(timeout: defaultTimeout, handler: { (error) -> Void in
@@ -306,6 +298,8 @@ class TestSaving: TestCase {
     }
     
     func test_ThatSavingChildContextAsynchronously_SucceedsAndSavesParentBackgroundContext() {
+        
+        let wait = false
         
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         
@@ -332,7 +326,7 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: childContext, wait: false) {
+        coreDataManager.save(context: childContext, wait: wait) {
             result in
             didCallCompletion = true
             XCTAssertTrue(result == .success, "Save should not error")

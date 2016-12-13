@@ -45,11 +45,11 @@ class TestManagedObjectType: TestCase {
             }
         }
         
-        self.coreDataManager.saveMainContext()
-        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
+        coreDataManager.saveMainContext()
+        let count = countObjects(inContext: coreDataManager.mainContext)
         
         // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(items.count != 10, "\(items.count)")
+        XCTAssertTrue(count != 10, "\(count)")
     }
     
     func testBatchInsertPerformance() {
