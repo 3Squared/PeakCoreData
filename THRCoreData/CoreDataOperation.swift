@@ -16,19 +16,18 @@ import THRResult
 
 open class CoreDataOperation: ConcurrentOperation<Bool> {
     
-    fileprivate let targetContext: NSManagedObjectContext
+    fileprivate let coreDataManager: CoreDataManager
     fileprivate var childContext: NSManagedObjectContext!
     fileprivate(set) public var error: Error?
 
-    public init(targetContext: NSManagedObjectContext) {
-        self.targetContext = targetContext
+    public init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
     }
     
     // MARK: - ConcurrentOperation Overrides
 
     open override func run() {
-        childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        childContext.parent = targetContext
+        childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
         }
@@ -45,27 +44,16 @@ extension CoreDataOperation {
     }
     
     public func completeAndSave() {
+        defer { finish() }
         guard !isCancelled, childContext.hasChanges else {
             operationResult = Result { false }
-            return finish()
+            return
         }
         
-        do {
-            try childContext.save()
-            self.save(parentContext: childContext.parent, completion: { [weak self] error in
-                guard let strongSelf = self else { return }
-                strongSelf.operationResult = Result {
-                    if let contextError = error {
-                        throw contextError
-                    } else {
-                        return true
-                    }
-                }
-            })
-        } catch {
-            print("Error saving private context: \(error.localizedDescription)")
-            operationResult = Result { throw error }
-            return finish()
+        coreDataManager.save(context: childContext, wait: true) {
+            [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.operationResult = result
         }
     }
 }
