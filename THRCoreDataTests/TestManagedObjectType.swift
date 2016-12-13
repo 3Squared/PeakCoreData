@@ -53,7 +53,7 @@ class TestManagedObjectType: TestCase {
     }
     
     func testBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
+        let intermediateItems = createTestObjects(number: 100)
         
         measure {
             TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
@@ -65,7 +65,7 @@ class TestManagedObjectType: TestCase {
     }
     
     func testNonBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
+        let intermediateItems = createTestObjects(number: 100)
         
         measure {
             for intermediate in intermediateItems {
