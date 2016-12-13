@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE471DF96DAD000BA848 /* StoreType.swift */; };
 		8D03CE501DF97811000BA848 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE4F1DF97811000BA848 /* Utilities.swift */; };
+		8D06FC111E002B95001D7894 /* TestSaving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06FC101E002B95001D7894 /* TestSaving.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* TestCase.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* TestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* TestStack.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* TestManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* TestManagedObjectType.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		8D03CE471DF96DAD000BA848 /* StoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreType.swift; sourceTree = "<group>"; };
 		8D03CE4F1DF97811000BA848 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		8D06FC101E002B95001D7894 /* TestSaving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSaving.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* TestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* TestStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestStack.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* TestManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestManagedObjectType.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				8D9798141DF815E800DAB75A /* Test Model */,
 				8D33AA7A1DFF0DC80019F5B6 /* TestCase.swift */,
 				8D33AA7C1DFF0E120019F5B6 /* TestStack.swift */,
+				8D06FC101E002B95001D7894 /* TestSaving.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* TestManagedObjectType.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
@@ -322,6 +325,7 @@
 				8D33AA7B1DFF0DC80019F5B6 /* TestCase.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
+				8D06FC111E002B95001D7894 /* TestSaving.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

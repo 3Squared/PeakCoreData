@@ -11,6 +11,8 @@ import CoreData
 @testable
 import THRCoreData
 
+let defaultTimeout = TimeInterval(2)
+
 class TestCase: XCTestCase {
     
     var coreDataManager: CoreDataManager!
@@ -60,5 +62,14 @@ class TestCase: XCTestCase {
             }
         }
         return items
+    }
+    
+    func countObjects(inContext context: NSManagedObjectContext) -> Int {
+        let fetchRequest = TestEntity.fetchRequest(withConfigurationBlock: nil)
+        var count = 0
+        context.performAndWait {
+            count = try! context.count(for: fetchRequest)
+        }
+        return count
     }
 }
