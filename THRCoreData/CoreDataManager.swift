@@ -45,16 +45,10 @@ public final class CoreDataManager {
         self.modelName = modelName
         self.storeType = storeType
         self.bundle = bundle
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: nil, queue: nil, using: {
-            [weak self] notification in
-            guard let strongSelf = self else { return }
-            strongSelf.mergeChanges(fromContextDidSave: notification)
-        })
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     /// The database file name for the store.
@@ -96,11 +90,27 @@ public final class CoreDataManager {
     private var defaultPersistentStoreOptions: [AnyHashable: Any] {
         return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
     }
-
+    
     private(set) public lazy var mainContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        return managedObjectContext
+        let context = self.createContext(withConcurrencyType: .mainQueueConcurrencyType, name: "main")
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveMainContextDidSave(notification:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: context)
+        return context
+    }()
+    
+    private(set) public lazy var backgroundContext: NSManagedObjectContext = {
+        let context = self.createContext(withConcurrencyType: .privateQueueConcurrencyType, name: "background")
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveBackgroundContextDidSave(notification:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: context)
+        return context
     }()
     
     private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
@@ -115,19 +125,55 @@ public final class CoreDataManager {
         }
         return persistentStoreCoordinator
     }()
+}
+
+// MARK: - Public Methods
+
+extension CoreDataManager {
     
-    // MARK: - Public Methods
+    public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
+        let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
+        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
+        
+        switch concurrencyType {
+        case .mainQueueConcurrencyType:
+            childContext.parent = mainContext
+        case .privateQueueConcurrencyType:
+            childContext.parent = backgroundContext
+        case .confinementConcurrencyType:
+            fatalError("Error: ConfinementConcurrencyType is not supported because it is being deprecated in iOS 9.0")
+        }
+        
+        if let name = childContext.parent?.name {
+            childContext.name = name + ".child"
+        }
+
+        return childContext
+    }
     
     public func saveMainContext() {
         save(context: mainContext)
     }
     
+    public func saveBackgroundContext() {
+        save(context: backgroundContext)
+    }
+    
     public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((SaveResult) -> ())? = nil) {
         let block = {
-            guard context.hasChanges else { return }
+            guard context.hasChanges else {
+                completion?(.success)
+                return
+            }
             do {
                 try context.save()
-                completion?(.success)
+                
+                if let parentContext = context.parent {
+                    self.save(context: parentContext, wait: wait, completion: completion)
+                } else {
+                    completion?(.success)
+                }
+                
             } catch let error as NSError {
                 print("Error saving context: \(error.localizedDescription)")
                 completion?(.failure(error))
@@ -135,22 +181,31 @@ public final class CoreDataManager {
         }
         wait ? context.performAndWait(block) : context.perform(block)
     }
+}
+
+// MARK: - Private Methods
+
+extension CoreDataManager {
     
-    public func newBackgroundContext() -> NSManagedObjectContext {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        return managedObjectContext
+    fileprivate func createContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType, name: String) -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: concurrencyType)
+        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
+        let contextName = "THRCoreData.CoreDataManager.context."
+        context.name = contextName + name
+        return context
+    }
+
+    @objc
+    fileprivate func didReceiveBackgroundContextDidSave(notification: Notification) {
+        mainContext.perform {
+            self.mainContext.mergeChanges(fromContextDidSave: notification)
+        }
     }
     
-    // MARK: - Private Helper Methods
-    
-    private func mergeChanges(fromContextDidSave notification: Notification) {
-        guard let managedObjectContext = notification.object as? NSManagedObjectContext,
-            managedObjectContext.concurrencyType == .privateQueueConcurrencyType,
-            managedObjectContext.parent == nil else { return }
-        
-        mainContext.performAndWait {
-            self.mainContext.mergeChanges(fromContextDidSave: notification)
+    @objc
+    fileprivate func didReceiveMainContextDidSave(notification: Notification) {
+        backgroundContext.perform {
+            self.backgroundContext.mergeChanges(fromContextDidSave: notification)
         }
     }
 }

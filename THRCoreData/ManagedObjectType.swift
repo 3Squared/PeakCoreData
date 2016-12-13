@@ -227,7 +227,8 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - Warning: DO NOT initiate any Core Data operations in the closure block. This block is for setting properties ONLY.
+     - Warning: Please limit the Core Data operations that you perform in the closure block. For maximum performance, set properties ONLY.
+                This method can create duplicates in some circumstances. If you are inserting an object that has circular dependancies, such as a parent-child relationship, then many additional objects will be inserted as the method caches the objects that already exist when it begins. If additional objects of the same type as being inserted are added, then this method will not know about them, and insert duplicates. Please see the test `testBatchInsertCreatesDuplicatesInSomeSituations` for an example.
      
      - parameter intermediates:         An array of intermediate objects (e.g. structs) that conform to UniqueIdentifiable. These will be used to create or update the Managed Objects.
      - parameter context:               The context to use.
