@@ -45,8 +45,7 @@ extension CoreDataOperation {
     
     public func completeAndSave() {
         defer { finish() }
-        guard !isCancelled, childContext.hasChanges else {
-            operationResult = Result { false }
+        guard !isCancelled else {
             return
         }
         

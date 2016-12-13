@@ -45,15 +45,15 @@ class TestManagedObjectType: TestCase {
             }
         }
         
-        self.coreDataManager.saveMainContext()
-        let items = TestEntity.fetch(inContext: coreDataManager.mainContext)
+        coreDataManager.saveMainContext()
+        let count = countObjects(inContext: coreDataManager.mainContext)
         
         // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(items.count != 10, "\(items.count)")
+        XCTAssertTrue(count != 10, "\(count)")
     }
     
     func testBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
+        let intermediateItems = createTestObjects(number: 100)
         
         measure {
             TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
@@ -65,7 +65,7 @@ class TestManagedObjectType: TestCase {
     }
     
     func testNonBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 1000)
+        let intermediateItems = createTestObjects(number: 100)
         
         measure {
             for intermediate in intermediateItems {

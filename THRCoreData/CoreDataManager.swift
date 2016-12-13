@@ -148,11 +148,7 @@ extension CoreDataManager {
         if let name = childContext.parent?.name {
             childContext.name = name + ".child"
         }
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didReceiveChildContextDidSave(notification:)),
-                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
-                                               object: childContext)
+
         return childContext
     }
     
@@ -166,10 +162,18 @@ extension CoreDataManager {
     
     public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((Result<Bool>) -> ())? = nil) {
         let block = {
-            guard context.hasChanges else { return }
+            guard context.hasChanges else {
+                completion?(Result { false })
+                return
+            }
             do {
                 try context.save()
-                completion?(Result { true })
+                
+                if let parentContext = context.parent {
+                    self.save(context: parentContext, wait: wait, completion: completion)
+                } else {
+                    completion?(Result { true })
+                }
             } catch let error as NSError {
                 print("Error saving context: \(error.localizedDescription)")
                 completion?(Result { throw error })
@@ -190,19 +194,7 @@ extension CoreDataManager {
         context.name = contextName + name
         return context
     }
-    
-    @objc
-    fileprivate func didReceiveChildContextDidSave(notification: Notification) {
-        guard let context = notification.object as? NSManagedObjectContext else {
-            fatalError("didReceiveChildContextDidSave - wrong notification object")
-        }
-        guard let parentContext = context.parent else {
-            // Have reached the root context, nothing to do
-            return
-        }
-        save(context: parentContext)
-    }
-    
+
     @objc
     fileprivate func didReceiveBackgroundContextDidSave(notification: Notification) {
         mainContext.perform {
