@@ -57,17 +57,6 @@ extension CoreDataOperation {
                 strongSelf.finish(withError: error)
             }
         }
-
-//        do {
-//            try childContext.save()
-//            self.save(parentContext: childContext.parent, completion: { [weak self] error in
-//                guard let strongSelf = self else { return }
-//                strongSelf.finish(withError: error)
-//            })
-//        } catch {
-//            print("Error saving private context: \(error.localizedDescription)")
-//            finish(withError: error)
-//        }
     }
 }
 
