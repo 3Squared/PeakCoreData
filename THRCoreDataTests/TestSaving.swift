@@ -13,7 +13,7 @@ import THRCoreData
 
 class TestSaving: TestCase {
     
-    func testSavingNoChanges() {
+    func testSavingMainContextWithNoChanges() {
         let mainContext = coreDataManager.mainContext
         
         let saveExpectation = expectation(description: #function)
