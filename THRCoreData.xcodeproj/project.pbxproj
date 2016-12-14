@@ -11,6 +11,7 @@
 		8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE471DF96DAD000BA848 /* StoreType.swift */; };
 		8D03CE501DF97811000BA848 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE4F1DF97811000BA848 /* Utilities.swift */; };
 		8D06FC111E002B95001D7894 /* TestSaving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06FC101E002B95001D7894 /* TestSaving.swift */; };
+		8D0AD0B71E0194B7003600B2 /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* TestCase.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* TestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* TestStack.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* TestManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* TestManagedObjectType.swift */; };
@@ -49,6 +50,7 @@
 		8D03CE471DF96DAD000BA848 /* StoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreType.swift; sourceTree = "<group>"; };
 		8D03CE4F1DF97811000BA848 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8D06FC101E002B95001D7894 /* TestSaving.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSaving.swift; sourceTree = "<group>"; };
+		8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFunctions.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* TestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* TestStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestStack.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* TestManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestManagedObjectType.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
+				8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */,
 				8D03CE471DF96DAD000BA848 /* StoreType.swift */,
 				8D03CE4F1DF97811000BA848 /* Utilities.swift */,
 			);
@@ -419,6 +422,7 @@
 				8D9798061DF8144500DAB75A /* FetchedResultsDataProvider.swift in Sources */,
 				8D9797F91DF8143300DAB75A /* ManagedObjectType.swift in Sources */,
 				8D03CE501DF97811000BA848 /* Utilities.swift in Sources */,
+				8D0AD0B71E0194B7003600B2 /* CoreDataFunctions.swift in Sources */,
 				8D9798081DF8144500DAB75A /* CollectionViewDataSource.swift in Sources */,
 				8D9798051DF8144500DAB75A /* DataProvider.swift in Sources */,
 				8D9797FE1DF8143C00DAB75A /* CoreDataOperation.swift in Sources */,

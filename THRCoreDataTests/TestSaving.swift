@@ -34,7 +34,7 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: mainContext) { result in
+        save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
             case .success(_):
@@ -76,7 +76,7 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: backgroundContext) { result in
+        save(context: backgroundContext) { result in
             didCallCompletion = true
             switch result {
             case .success(_):
@@ -124,7 +124,7 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: childContext) {
+        save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {
@@ -174,7 +174,7 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        coreDataManager.save(context: childContext) {
+        save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {

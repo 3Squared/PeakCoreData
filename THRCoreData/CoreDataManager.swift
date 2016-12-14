@@ -139,7 +139,9 @@ extension CoreDataManager {
      * `.PrivateQueueConcurrencyType` will set `backgroundContext` as the parent.
      * `.MainQueueConcurrencyType` will set `mainContext` as the parent.
      
-     Saving the returned context will propagate changes through the parent context and then to the persistent store.
+     Saving the child context will propagate changes through the parent context and then to the persistent store.
+     
+     - warning: Do not use `.confinementConcurrencyType` type. It is deprecated and will cause a fatal error.
      
      - parameter concurrencyType: The concurrency pattern to use. The default is `.MainQueueConcurrencyType`.
      - parameter mergePolicyType: The merge policy to use. The default is `.MergeByPropertyObjectTrumpMergePolicyType`.
@@ -167,8 +169,6 @@ extension CoreDataManager {
         return childContext
     }
     
-    public typealias SaveCompletionType = (Result<Bool>) -> ()
-
     /**
      Attempts to commit unsaved changes to registered objects in the main context.
      
@@ -189,36 +189,6 @@ extension CoreDataManager {
      */
     public func saveBackgroundContext(withCompletion completion: SaveCompletionType? = nil) {
         save(context: backgroundContext, withCompletion: completion)
-    }
-    
-    /**
-     Attempts to commit unsaved changes to registered objects in the specified context.
-     
-     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
-     
-     - note: If the context you pass in is a child context, it will automatically propagate changes through the parent context and then to the persistent store.
-     
-     - parameter context:       The managed object context to save.
-     - parameter completion:    The closure to be executed when the save operation completes.
-     */
-    public func save(context: NSManagedObjectContext, withCompletion completion: SaveCompletionType? = nil) {
-        context.perform {
-            guard context.hasChanges else {
-                completion?(.success(false))
-                return
-            }
-            do {
-                try context.save()
-                if let parentContext = context.parent {
-                    self.save(context: parentContext, withCompletion: completion)
-                } else {
-                    completion?(.success(true))
-                }
-            } catch let error as NSError {
-                print("Error saving context: \(error.localizedDescription)")
-                completion?(.failure(error))
-            }
-        }
     }
 }
 
