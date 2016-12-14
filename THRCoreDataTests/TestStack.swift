@@ -48,14 +48,14 @@ class TestStack: TestCase {
         XCTAssertEqual(childContext.parent, coreDataManager.backgroundContext, "Parent of private queue child context should be background context")
     }
     
-    func testChildContextIsIndependent_OfMainContext() {
+    func testChildContextIsIndependentOfMainContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         self.createTestObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count == 0, "Count should be 0")
     }
     
-    func testChildContextIsIndependent_OfBackgroundContext() {
+    func testChildContextIsIndependentOfBackgroundContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         self.createTestObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.backgroundContext)
