@@ -13,8 +13,36 @@ import THRCoreData
 
 class TestSaving: TestCase {
     
-    func testSavingMainContextSucceedsAndMerges() {
+    func testSavingNoChanges() {
+        let mainContext = coreDataManager.mainContext
         
+        let saveExpectation = expectation(description: #function)
+        
+        var didCallCompletion = false
+        save(context: mainContext) { result in
+            didCallCompletion = true
+            switch result {
+            case .success(let outcome):
+                if case SaveOutcome.noChanges = outcome {
+                    saveExpectation.fulfill()
+                } else {
+                    XCTFail("Save should return no changes outcome")
+                }
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
+        }
+        
+        XCTAssertFalse(didCallCompletion, "Save should be ignored")
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: 1.0, handler: { error in
+            XCTAssertNil(error, "Expectation should not error")
+            XCTAssertTrue(didCallCompletion, "Completion should be called")
+        })
+    }
+    
+    func testSavingMainContextSucceedsAndMerges() {
         let mainContext = coreDataManager.mainContext
 
         createTestObjects(inContext: mainContext, count: 100)
@@ -37,8 +65,12 @@ class TestSaving: TestCase {
         save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
-            case .success(_):
-                saveExpectation.fulfill()
+            case .success(let outcome):
+                if case SaveOutcome.saved = outcome {
+                    saveExpectation.fulfill()
+                } else {
+                    XCTFail("Save should return saved outcome")
+                }
             case .failure(_):
                 XCTFail("Save should not error")
             }
@@ -56,7 +88,6 @@ class TestSaving: TestCase {
     }
     
     func testSavingBackgroundContextSucceedsAndMerges() {
-        
         let backgroundContext = coreDataManager.backgroundContext
         
         createTestObjects(inContext: backgroundContext, count: 100)
@@ -79,8 +110,12 @@ class TestSaving: TestCase {
         save(context: backgroundContext) { result in
             didCallCompletion = true
             switch result {
-            case .success(_):
-                saveExpectation.fulfill()
+            case .success(let outcome):
+                if case SaveOutcome.saved = outcome {
+                    saveExpectation.fulfill()
+                } else {
+                    XCTFail("Save should return saved outcome")
+                }
             case .failure(_):
                 XCTFail("Save should not error")
             }
@@ -98,7 +133,6 @@ class TestSaving: TestCase {
     }
     
     func testSavingChildofMainContextSucceedsAndSavesParent() {
-        
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         
         createTestObjects(inContext: childContext, count: 100)
@@ -128,8 +162,12 @@ class TestSaving: TestCase {
             result in
             didCallCompletion = true
             switch result {
-            case .success(_):
-                saveExpectation.fulfill()
+            case .success(let outcome):
+                if case SaveOutcome.saved = outcome {
+                    saveExpectation.fulfill()
+                } else {
+                    XCTFail("Save should return saved outcome")
+                }
             case .failure(_):
                 XCTFail("Save should not error")
             }
@@ -148,7 +186,6 @@ class TestSaving: TestCase {
     }
     
     func testSavingChildOfBackgroundContextSucceedsAndSavesParent() {
-        
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         
         createTestObjects(inContext: childContext, count: 100)
@@ -178,8 +215,12 @@ class TestSaving: TestCase {
             result in
             didCallCompletion = true
             switch result {
-            case .success(_):
-                saveExpectation.fulfill()
+            case .success(let outcome):
+                if case SaveOutcome.saved = outcome {
+                    saveExpectation.fulfill()
+                } else {
+                    XCTFail("Save should return saved outcome")
+                }
             case .failure(_):
                 XCTFail("Save should not error")
             }
