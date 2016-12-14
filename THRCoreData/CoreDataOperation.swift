@@ -47,8 +47,7 @@ extension CoreDataOperation {
             return
         }
         
-        save(context: childContext) {
-            [weak self] result in
+        save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.operationResult = result
             strongSelf.finish()
