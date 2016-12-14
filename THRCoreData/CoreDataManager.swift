@@ -92,6 +92,11 @@ public final class CoreDataManager {
         return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
     }
     
+    /**
+     The main managed object context.
+     
+     - note: Saving the main context automatically merges changes in to the background context.
+     */
     private(set) public lazy var mainContext: NSManagedObjectContext = {
         let context = self.createContext(withConcurrencyType: .mainQueueConcurrencyType, name: "main")
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -103,6 +108,11 @@ public final class CoreDataManager {
         return context
     }()
     
+    /**
+     The background managed object context.
+     
+     - note: Saving the background context automatically merges changes in to the main context.
+     */
     private(set) public lazy var backgroundContext: NSManagedObjectContext = {
         let context = self.createContext(withConcurrencyType: .privateQueueConcurrencyType, name: "background")
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
