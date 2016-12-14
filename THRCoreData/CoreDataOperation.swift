@@ -11,9 +11,6 @@ import CoreData
 import THROperations
 import THRResult
 
-// Slightly experimental version of our core data operation that uses child context.
-// This means changes are saved up the chain rather than being merged in to the main context.
-
 open class CoreDataOperation: ConcurrentOperation<Bool> {
     
     fileprivate let coreDataManager: CoreDataManager
