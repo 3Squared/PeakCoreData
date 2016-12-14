@@ -17,7 +17,7 @@ class TestSaving: TestCase {
         
         let mainContext = coreDataManager.mainContext
 
-        self.createTestObjects(inContext: mainContext, count: 100)
+        createTestObjects(inContext: mainContext, count: 100)
         
         var didSaveMain = false
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: mainContext) { notification in
@@ -59,7 +59,7 @@ class TestSaving: TestCase {
         
         let backgroundContext = coreDataManager.backgroundContext
         
-        self.createTestObjects(inContext: backgroundContext, count: 100)
+        createTestObjects(inContext: backgroundContext, count: 100)
         
         var didSaveBackground = false
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: backgroundContext) { notification in
@@ -97,11 +97,11 @@ class TestSaving: TestCase {
         })
     }
     
-    func testSavingChildContextSucceedsAndSavesParentMainContext() {
+    func testSavingChildofMainContextSucceedsAndSavesParent() {
         
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         
-        self.createTestObjects(inContext: childContext, count: 100)
+        createTestObjects(inContext: childContext, count: 100)
         
         var didSaveChild = false
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext) { notification in
@@ -147,11 +147,11 @@ class TestSaving: TestCase {
         })
     }
     
-    func testSavingChildContextSucceedsAndSavesParentBackgroundContext() {
+    func testSavingChildOfBackgroundContextSucceedsAndSavesParent() {
         
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         
-        self.createTestObjects(inContext: childContext, count: 100)
+        createTestObjects(inContext: childContext, count: 100)
         
         var didSaveChild = false
         expectation(forNotification: Notification.Name.NSManagedObjectContextDidSave.rawValue, object: childContext) { notification in
