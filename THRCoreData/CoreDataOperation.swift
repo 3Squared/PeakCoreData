@@ -32,17 +32,19 @@ open class CoreDataOperation: ConcurrentOperation<Bool> {
             self.performWork(inContext: self.childContext)
         }
     }
-}
-
-// MARK: - Public Methods
-
-extension CoreDataOperation {
+    
+    // MARK: - Methods to be overidden
     
     open func performWork(inContext context: NSManagedObjectContext) {
         print("\(self) must override `performWork()`.")
         finish()
     }
-    
+}
+
+// MARK: - Public Methods
+
+extension CoreDataOperation {
+
     public func completeAndSave() {
         guard !isCancelled else {
             finish()
