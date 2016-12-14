@@ -44,35 +44,16 @@ extension CoreDataOperation {
     }
     
     public func completeAndSave() {
-        defer { finish() }
         guard !isCancelled else {
+            finish()
             return
         }
         
-        coreDataManager.save(context: childContext, wait: true) {
+        coreDataManager.save(context: childContext) {
             [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.operationResult = result
-        }
-    }
-}
-
-// MARK: - Private Methods
-
-extension CoreDataOperation {
-    
-    fileprivate func save(parentContext: NSManagedObjectContext?, completion: @escaping (Error?) -> ()) {
-        guard let parentContext = parentContext, !isCancelled else {
-            return completion(nil)
-        }
-        parentContext.perform {
-            do {
-                try parentContext.save()
-                self.save(parentContext: parentContext.parent, completion: completion)
-            } catch {
-                print("Error saving private context: \(error.localizedDescription)")
-                completion(error)
-            }
+            strongSelf.finish()
         }
     }
 }
