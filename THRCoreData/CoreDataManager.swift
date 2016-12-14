@@ -132,6 +132,8 @@ public final class CoreDataManager {
 
 extension CoreDataManager {
     
+    public typealias SaveCompletionType = (Result<Bool>) -> ()
+    
     public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
         let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
         childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
@@ -160,8 +162,8 @@ extension CoreDataManager {
         save(context: backgroundContext)
     }
     
-    public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((Result<Bool>) -> ())? = nil) {
-        let block = {
+    public func save(context: NSManagedObjectContext, completion: SaveCompletionType? = nil) {
+        context.perform {
             guard context.hasChanges else {
                 completion?(Result { false })
                 return
@@ -170,7 +172,7 @@ extension CoreDataManager {
                 try context.save()
                 
                 if let parentContext = context.parent {
-                    self.save(context: parentContext, wait: wait, completion: completion)
+                    self.save(context: parentContext, completion: completion)
                 } else {
                     completion?(Result { true })
                 }
@@ -179,7 +181,6 @@ extension CoreDataManager {
                 completion?(Result { throw error })
             }
         }
-        wait ? context.performAndWait(block) : context.perform(block)
     }
 }
 
