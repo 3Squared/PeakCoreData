@@ -110,8 +110,8 @@
 		8D03CE4B1DF973D5000BA848 /* Stack */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
 				8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */,
+				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
 				8D03CE471DF96DAD000BA848 /* StoreType.swift */,
 				8D03CE4F1DF97811000BA848 /* Utilities.swift */,
 			);
