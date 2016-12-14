@@ -11,7 +11,7 @@ import CoreData
 @testable
 import THRCoreData
 
-class TestSaving: TestCase {
+class SavingTests: CoreDataTests {
     
     func testSavingMainContextWithNoChanges() {
         let mainContext = coreDataManager.mainContext

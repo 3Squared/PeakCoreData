@@ -11,7 +11,7 @@ import CoreData
 @testable
 import THRCoreData
 
-class TestManagedObjectType: TestCase {
+class ManagedObjectTypeTests: CoreDataTests {
     
     func testBatchInsertOrUpdateMethod() {
         let intermediateItems = createTestObjects(number: 100)

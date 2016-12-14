@@ -11,7 +11,7 @@ import CoreData
 @testable
 import THRCoreData
 
-class TestStack: TestCase {
+class StackTests: CoreDataTests {
     
     func testMainContext() {
         let mainContext = coreDataManager.mainContext
