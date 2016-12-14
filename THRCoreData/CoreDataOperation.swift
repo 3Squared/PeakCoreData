@@ -15,7 +15,6 @@ open class CoreDataOperation: ConcurrentOperation<Bool> {
     
     fileprivate let coreDataManager: CoreDataManager
     fileprivate var childContext: NSManagedObjectContext!
-    fileprivate(set) public var error: Error?
 
     public init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
