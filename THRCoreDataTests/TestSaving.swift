@@ -22,14 +22,10 @@ class TestSaving: TestCase {
         save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
-            case .success(let outcome):
-                if case SaveOutcome.noChanges = outcome {
-                    saveExpectation.fulfill()
-                } else {
-                    XCTFail("Save should return no changes outcome")
-                }
-            case .failure(_):
-                XCTFail("Save should not error")
+            case .success(.noChanges):
+                saveExpectation.fulfill()
+            default:
+                XCTFail("Save should return no changes outcome")
             }
         }
         
@@ -65,14 +61,10 @@ class TestSaving: TestCase {
         save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
-            case .success(let outcome):
-                if case SaveOutcome.saved = outcome {
-                    saveExpectation.fulfill()
-                } else {
-                    XCTFail("Save should return saved outcome")
-                }
-            case .failure(_):
-                XCTFail("Save should not error")
+            case .success(.saved):
+                saveExpectation.fulfill()
+            default:
+                XCTFail("Save should return saved outcome")
             }
         }
         
@@ -110,14 +102,10 @@ class TestSaving: TestCase {
         save(context: backgroundContext) { result in
             didCallCompletion = true
             switch result {
-            case .success(let outcome):
-                if case SaveOutcome.saved = outcome {
-                    saveExpectation.fulfill()
-                } else {
-                    XCTFail("Save should return saved outcome")
-                }
-            case .failure(_):
-                XCTFail("Save should not error")
+            case .success(.saved):
+                saveExpectation.fulfill()
+            default:
+                XCTFail("Save should return saved outcome")
             }
         }
         
@@ -162,14 +150,10 @@ class TestSaving: TestCase {
             result in
             didCallCompletion = true
             switch result {
-            case .success(let outcome):
-                if case SaveOutcome.saved = outcome {
-                    saveExpectation.fulfill()
-                } else {
-                    XCTFail("Save should return saved outcome")
-                }
-            case .failure(_):
-                XCTFail("Save should not error")
+            case .success(.saved):
+                saveExpectation.fulfill()
+            default:
+                XCTFail("Save should return saved outcome")
             }
         }
         
@@ -215,14 +199,10 @@ class TestSaving: TestCase {
             result in
             didCallCompletion = true
             switch result {
-            case .success(let outcome):
-                if case SaveOutcome.saved = outcome {
-                    saveExpectation.fulfill()
-                } else {
-                    XCTFail("Save should return saved outcome")
-                }
-            case .failure(_):
-                XCTFail("Save should not error")
+            case .success(.saved):
+                saveExpectation.fulfill()
+            default:
+                XCTFail("Save should return saved outcome")
             }
         }
         
