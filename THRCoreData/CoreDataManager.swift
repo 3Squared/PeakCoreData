@@ -171,7 +171,8 @@ extension CoreDataManager {
 
     /**
      Attempts to commit unsaved changes to registered objects in the main context.
-     This function is performed in the `perform` block on the main context's queue so is asynchronous.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
      - parameter completion:    The closure to be executed when the save operation completes.
      */
@@ -181,7 +182,8 @@ extension CoreDataManager {
     
     /**
      Attempts to commit unsaved changes to registered objects in the background context.
-     This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
      - parameter completion:    The closure to be executed when the save operation completes.
      */
@@ -191,7 +193,8 @@ extension CoreDataManager {
     
     /**
      Attempts to commit unsaved changes to registered objects in the specified context.
-     This function is performed in the `perform` block on the context's queue so is asynchronous.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
      - note: If the context you pass in is a child context, it will automatically propagate changes through the parent context and then to the persistent store.
      
