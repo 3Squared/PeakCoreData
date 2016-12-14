@@ -92,6 +92,11 @@ public final class CoreDataManager {
         return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
     }
     
+    /**
+     The main managed object context.
+     
+     - note: Saving the main context automatically merges changes in to the background context.
+     */
     private(set) public lazy var mainContext: NSManagedObjectContext = {
         let context = self.createContext(withConcurrencyType: .mainQueueConcurrencyType, name: "main")
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -103,6 +108,11 @@ public final class CoreDataManager {
         return context
     }()
     
+    /**
+     The background managed object context.
+     
+     - note: Saving the background context automatically merges changes in to the main context.
+     */
     private(set) public lazy var backgroundContext: NSManagedObjectContext = {
         let context = self.createContext(withConcurrencyType: .privateQueueConcurrencyType, name: "background")
         context.persistentStoreCoordinator = self.persistentStoreCoordinator
@@ -132,9 +142,24 @@ public final class CoreDataManager {
 
 extension CoreDataManager {
     
+    /**
+     Creates a new child context with the specified `concurrencyType` and `mergePolicyType`.
+     
+     The parent context is either `mainContext` or `backgroundContext` dependending on the specified `concurrencyType`:
+     * `.PrivateQueueConcurrencyType` will set `backgroundContext` as the parent.
+     * `.MainQueueConcurrencyType` will set `mainContext` as the parent.
+     
+     Saving the child context will propagate changes through the parent context and then to the persistent store.
+     
+     - warning: Do not use `.confinementConcurrencyType` type. It is deprecated and will cause a fatal error.
+     
+     - parameter concurrencyType: The concurrency pattern to use. The default is `.MainQueueConcurrencyType`.
+     - parameter mergePolicyType: The merge policy to use. The default is `.MergeByPropertyObjectTrumpMergePolicyType`.
+     
+     - returns: A new child managed object context.
+     */
     public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
         let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
-        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
         
         switch concurrencyType {
         case .mainQueueConcurrencyType:
@@ -148,38 +173,32 @@ extension CoreDataManager {
         if let name = childContext.parent?.name {
             childContext.name = name + ".child"
         }
+        
+        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
 
         return childContext
     }
     
-    public func saveMainContext() {
-        save(context: mainContext)
+    /**
+     Attempts to commit unsaved changes to registered objects in the main context.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     
+     - parameter completion:    The closure to be executed when the save operation completes.
+     */
+    public func saveMainContext(withCompletion completion: SaveCompletionType? = nil) {
+        save(context: mainContext, withCompletion: completion)
     }
     
-    public func saveBackgroundContext() {
-        save(context: backgroundContext)
-    }
-    
-    public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((Result<Bool>) -> ())? = nil) {
-        let block = {
-            guard context.hasChanges else {
-                completion?(Result { false })
-                return
-            }
-            do {
-                try context.save()
-                
-                if let parentContext = context.parent {
-                    self.save(context: parentContext, wait: wait, completion: completion)
-                } else {
-                    completion?(Result { true })
-                }
-            } catch let error as NSError {
-                print("Error saving context: \(error.localizedDescription)")
-                completion?(Result { throw error })
-            }
-        }
-        wait ? context.performAndWait(block) : context.perform(block)
+    /**
+     Attempts to commit unsaved changes to registered objects in the background context.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     
+     - parameter completion:    The closure to be executed when the save operation completes.
+     */
+    public func saveBackgroundContext(withCompletion completion: SaveCompletionType? = nil) {
+        save(context: backgroundContext, withCompletion: completion)
     }
 }
 

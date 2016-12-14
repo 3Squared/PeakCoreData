@@ -7,8 +7,11 @@
 //
 
 import XCTest
+import CoreData
+@testable
+import THRCoreData
 
-class TestManagedObjectType: TestCase {
+class ManagedObjectTypeTests: CoreDataTests {
     
     func testBatchInsertOrUpdateMethod() {
         let intermediateItems = createTestObjects(number: 100)
@@ -102,7 +105,7 @@ class TestManagedObjectType: TestCase {
         let count1 = TestEntity.count(inContext: context)
         XCTAssertTrue(count1 == count, "\(count1)")
         TestEntity.delete(inContext: coreDataManager.mainContext)
-        coreDataManager.save(context: context)
+        save(context: context)
         let count2 = TestEntity.count(inContext: context)
         XCTAssertTrue(count2 == 0, "\(count2)")
     }

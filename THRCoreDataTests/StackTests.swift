@@ -11,51 +11,51 @@ import CoreData
 @testable
 import THRCoreData
 
-class TestStack: TestCase {
+class StackTests: CoreDataTests {
     
-    func test_MainContext() {
+    func testMainContext() {
         let mainContext = coreDataManager.mainContext
         XCTAssertNotNil(mainContext, "Main context should never be nil")
         XCTAssertEqual(mainContext.concurrencyType, .mainQueueConcurrencyType, "Main context should have main queue concurrency type")
     }
     
-    func test_BackgroundContext() {
+    func testBackgroundContext() {
         let backgroundContext = coreDataManager.backgroundContext
         XCTAssertNotNil(backgroundContext, "Background context should never be nil")
         XCTAssertEqual(backgroundContext.concurrencyType, .privateQueueConcurrencyType, "Background context should have private queue concurrency type")
     }
     
-    func test_SamePersistentStoreCoordinator() {
+    func testSamePersistentStoreCoordinator() {
         let mainContext = coreDataManager.mainContext
         let backgroundContext = coreDataManager.backgroundContext
         XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
     }
     
-    func test_SingleStore() {
+    func testSingleStore() {
         let mainContext = coreDataManager.mainContext
         XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "Should only be 1 persistent store")
     }
     
-    func test_MainContextChildContext() {
+    func testMainContextChildContext() {
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         XCTAssertNotNil(childContext, "")
         XCTAssertEqual(childContext.parent, coreDataManager.mainContext, "Parent of main child queue context should be main context")
     }
     
-    func test_BackgroundContextChildContext() {
+    func testBackgroundContextChildContext() {
         let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         XCTAssertNotNil(childContext, "")
         XCTAssertEqual(childContext.parent, coreDataManager.backgroundContext, "Parent of private queue child context should be background context")
     }
     
-    func test_ChildContextIsIndependent_OfMainContext() {
+    func testChildContextIsIndependentOfMainContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         self.createTestObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count == 0, "Count should be 0")
     }
     
-    func test_ChildContextIsIndependent_OfBackgroundContext() {
+    func testChildContextIsIndependentOfBackgroundContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         self.createTestObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.backgroundContext)

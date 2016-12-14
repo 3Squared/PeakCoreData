@@ -13,7 +13,7 @@ import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
 
-class TestCase: XCTestCase {
+class CoreDataTests: XCTestCase {
     
     var coreDataManager: CoreDataManager!
     
