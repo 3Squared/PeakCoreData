@@ -8,11 +8,13 @@
 
 import UIKit
 import CoreData
+import THROperations
+import THRResult
 
 // Slightly experimental version of our core data operation that uses child context.
 // This means changes are saved up the chain rather than being merged in to the main context.
 
-open class CoreDataOperation: ConcurrentOperation {
+open class CoreDataOperation: ConcurrentOperation<Bool> {
     
     fileprivate let coreDataManager: CoreDataManager
     fileprivate var childContext: NSManagedObjectContext!
@@ -24,7 +26,7 @@ open class CoreDataOperation: ConcurrentOperation {
     
     // MARK: - ConcurrentOperation Overrides
 
-    open override func execute() {
+    open override func run() {
         childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
@@ -42,20 +44,15 @@ extension CoreDataOperation {
     }
     
     public func completeAndSave() {
-        guard !isCancelled, childContext.hasChanges else {
-            return finish(withError: nil)
+        defer { finish() }
+        guard !isCancelled else {
+            return
         }
         
         coreDataManager.save(context: childContext, wait: true) {
             [weak self] result in
             guard let strongSelf = self else { return }
-            switch result {
-            case .success:
-                strongSelf.finish()
-            case .failure(let error):
-                print("Error saving child context: \(error.localizedDescription)")
-                strongSelf.finish(withError: error)
-            }
+            strongSelf.operationResult = result
         }
     }
 }
@@ -63,11 +60,6 @@ extension CoreDataOperation {
 // MARK: - Private Methods
 
 extension CoreDataOperation {
-    
-    fileprivate func finish(withError error: Error?) {
-        self.error = error
-        finish()
-    }
     
     fileprivate func save(parentContext: NSManagedObjectContext?, completion: @escaping (Error?) -> ()) {
         guard let parentContext = parentContext, !isCancelled else {

@@ -19,28 +19,3 @@ internal var defaultDirectoryURL: URL {
         fatalError("Error finding default directory: \(error)")
     }
 }
-
-public enum SaveResult: Equatable {
-    case success
-    case failure(NSError)
-    
-    public func error() -> NSError? {
-        if case .failure(let error) = self {
-            return error
-        }
-        return nil
-    }
-}
-
-public func ==(lhs: SaveResult, rhs: SaveResult) -> Bool {
-    switch (lhs, rhs) {
-    case (.success, .success):
-        return true
-        
-    case (let .failure(error1), let .failure(error2)):
-        return error1 == error2
-        
-    default:
-        return false
-    }
-}

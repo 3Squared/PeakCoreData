@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import THRResult
 
 public protocol CoreDataManagerSettable: class {
     
@@ -159,10 +160,10 @@ extension CoreDataManager {
         save(context: backgroundContext)
     }
     
-    public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((SaveResult) -> ())? = nil) {
+    public func save(context: NSManagedObjectContext, wait: Bool = true, completion: ((Result<Bool>) -> ())? = nil) {
         let block = {
             guard context.hasChanges else {
-                completion?(.success)
+                completion?(Result { false })
                 return
             }
             do {
@@ -171,12 +172,11 @@ extension CoreDataManager {
                 if let parentContext = context.parent {
                     self.save(context: parentContext, wait: wait, completion: completion)
                 } else {
-                    completion?(.success)
+                    completion?(Result { true })
                 }
-                
             } catch let error as NSError {
                 print("Error saving context: \(error.localizedDescription)")
-                completion?(.failure(error))
+                completion?(Result { throw error })
             }
         }
         wait ? context.performAndWait(block) : context.perform(block)

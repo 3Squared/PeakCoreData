@@ -36,8 +36,12 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         coreDataManager.save(context: mainContext, wait: wait) { result in
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         // THEN: then the main and background contexts are saved and the completion handler is called
@@ -71,8 +75,12 @@ class TestSaving: TestCase {
         let saveExpectation = expectation(description: #function)
         
         coreDataManager.save(context: backgroundContext, wait: wait) { result in
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         // THEN: then the main and background contexts are saved and the completion handler is called
@@ -108,8 +116,12 @@ class TestSaving: TestCase {
         var didCallCompletion = false
         coreDataManager.save(context: mainContext, wait: wait) { result in
             didCallCompletion = true
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored")
@@ -148,8 +160,12 @@ class TestSaving: TestCase {
         var didCallCompletion = false
         coreDataManager.save(context: backgroundContext, wait: wait) { result in
             didCallCompletion = true
-            XCTAssertTrue(result == SaveResult.success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored")
@@ -193,8 +209,12 @@ class TestSaving: TestCase {
         
         coreDataManager.save(context: childContext, wait: wait) {
             result in
-            XCTAssertTrue(result == .success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         // THEN: then all contexts are saved, synchronized and the completion handler is called
@@ -236,8 +256,12 @@ class TestSaving: TestCase {
         
         coreDataManager.save(context: childContext, wait: wait) {
             result in
-            XCTAssertTrue(result == .success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         // THEN: then all contexts are saved, synchronized and the completion handler is called
@@ -281,8 +305,12 @@ class TestSaving: TestCase {
         coreDataManager.save(context: childContext, wait: wait) {
             result in
             didCallCompletion = true
-            XCTAssertTrue(result == .success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored")
@@ -329,8 +357,12 @@ class TestSaving: TestCase {
         coreDataManager.save(context: childContext, wait: wait) {
             result in
             didCallCompletion = true
-            XCTAssertTrue(result == .success, "Save should not error")
-            saveExpectation.fulfill()
+            switch result {
+            case .success(_):
+                saveExpectation.fulfill()
+            case .failure(_):
+                XCTFail("Save should not error")
+            }
         }
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored")
