@@ -57,10 +57,6 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
         self.tableView.endUpdates()
     }
     
-    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return delegate.shouldShowSectionIndexTitles() ? dataProvider.sectionIndexTitles : nil
-    }
-    
     // MARK: UITableViewDataSource
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,5 +77,33 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return delegate.canEditRow(at: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        delegate.commit(editingStyle: editingStyle, forRowAt: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return delegate.canMoveRow(at: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        delegate.move(rowAt: sourceIndexPath, to: destinationIndexPath)
+    }
+    
+    public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return delegate.shouldShowSectionIndexTitles() ? dataProvider.sectionIndexTitles : nil
+    }
+    
+    public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return dataProvider.section(forSectionIndexTitle: title, at: index)
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return delegate.titleForHeader(in: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return delegate.titleForFooter(in: section)
     }
 }
