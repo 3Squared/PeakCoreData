@@ -52,7 +52,7 @@ class OperationTests: CoreDataTests {
     }
     
     func testBatchImportOperation() {
-        let numberOfInserts = 3
+        let numberOfInserts = 5
         let numberOfItems = 100
         var previousOperation: BatchImportOperation? = nil
 
