@@ -18,7 +18,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, inContext: mainContext)
         
         let countBeforeUpdate = TestEntity.count(inContext: mainContext)
-        XCTAssertTrue(countBeforeUpdate == (expectedCount/2), "Count before update should be equal to half expected count")
+        XCTAssertEqual(countBeforeUpdate, (expectedCount/2), "Count before update should be equal to half expected count")
 
         TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: mainContext) {
             (intermediate, managedObject) in
@@ -85,11 +85,11 @@ class ManagedObjectTypeTests: CoreDataTests {
     func testInsertAndDeleteAll() {
         let count = 100
         CoreDataTests.createTestManagedObjects(inContext: mainContext, count: count)
-        let count1 = TestEntity.count(inContext: mainContext)
-        XCTAssertTrue(count1 == count, "\(count1)")
+        let preDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
         TestEntity.delete(inContext: mainContext)
-        let count2 = TestEntity.count(inContext: mainContext)
-        XCTAssertTrue(count2 == 0, "\(count2)")
+        let postDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(postDeleteCount, 0, "Count after delete should be 0")
     }
     
     func testInsertAndDeleteSingleObject() {
@@ -98,13 +98,13 @@ class ManagedObjectTypeTests: CoreDataTests {
         let itemToDelete = newObjects.first!
         let preDeleteCount = TestEntity.count(inContext: mainContext)
         
-        XCTAssertTrue(preDeleteCount == count, "\(preDeleteCount)")
+        XCTAssertEqual(preDeleteCount, count, "\(preDeleteCount)")
         
         let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
         TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
         let postDeleteCount = TestEntity.count(inContext: mainContext)
         
-        XCTAssertTrue(postDeleteCount == count-1, "\(postDeleteCount)")
+        XCTAssertEqual(postDeleteCount, count-1, "\(postDeleteCount)")
     }
     
     func testInsertOrFetchObjectMethod() {
