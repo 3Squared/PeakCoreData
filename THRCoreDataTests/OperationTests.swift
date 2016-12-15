@@ -36,6 +36,7 @@ class OperationTests: CoreDataTests {
         
         var count = 0
         let finishOperation = BlockOperation {
+            // Check that all the changes have made their way to the main context
             let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.coreDataManager.mainContext)
             count = Int(objectToUpdate.count)
             finishExpectation.fulfill()
@@ -68,6 +69,7 @@ class OperationTests: CoreDataTests {
         
         var count = 0
         let finishOperation = BlockOperation {
+            // Check that all the changes have made their way to the main context
             count = TestEntity.count(inContext: self.coreDataManager.mainContext)
             finishExpectation.fulfill()
         }
