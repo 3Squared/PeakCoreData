@@ -50,14 +50,14 @@ class StackTests: CoreDataTests {
     
     func testChildContextIsIndependentOfMainContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
-        self.createTestObjects(inContext: childContext, count: 100)
+        CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.mainContext)
         XCTAssertTrue(count == 0, "Count should be 0")
     }
     
     func testChildContextIsIndependentOfBackgroundContext() {
         let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        self.createTestObjects(inContext: childContext, count: 100)
+        CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: coreDataManager.backgroundContext)
         XCTAssertTrue(count == 0, "Count should be 0")
     }

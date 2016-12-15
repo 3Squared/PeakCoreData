@@ -18,8 +18,7 @@ class OperationTests: CoreDataTests {
         return queue
     }
     
-    func testCoreDataOperation() {
-        
+    func testAddOneOperation() {
         let expectedCount = 100
         let id = UUID().uuidString
         var previousOperation: AddOneOperation? = nil
@@ -50,6 +49,37 @@ class OperationTests: CoreDataTests {
             XCTAssertEqual(count, expectedCount)
         })
     }
+    
+    func testBatchImportOperation() {
+        let numberOfInserts = 3
+        let numberOfItems = 100
+        var previousOperation: BatchImportOperation? = nil
+
+        let finishExpectation = expectation(description: #function)
+
+        for _ in 0..<numberOfInserts {
+            let operation = BatchImportOperation(coreDataManager: coreDataManager, intermediateItemCount: numberOfItems)
+            if let previousOperation = previousOperation {
+                operation.addDependency(previousOperation)
+            }
+            operationQueue.addOperation(operation)
+            previousOperation = operation
+        }
+        
+        var count = 0
+        let finishOperation = BlockOperation {
+            count = TestEntity.count(inContext: self.coreDataManager.mainContext)
+            finishExpectation.fulfill()
+        }
+        
+        finishOperation.addDependency(previousOperation!)
+        operationQueue.addOperation(finishOperation)
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: 1.0, handler: { error in
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
+        })
+    }
 }
 
 class AddOneOperation: CoreDataOperation {
@@ -64,6 +94,25 @@ class AddOneOperation: CoreDataOperation {
     override func performWork(inContext context: NSManagedObjectContext) {
         let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: uniqueKeyValue, inContext: context)
         objectToUpdate.count += 1
+        completeAndSave()
+    }
+}
+
+class BatchImportOperation: CoreDataOperation {
+    
+    let intermediateItemCount: Int
+    
+    init(coreDataManager: CoreDataManager, intermediateItemCount: Int) {
+        self.intermediateItemCount = intermediateItemCount
+        super.init(coreDataManager: coreDataManager)
+    }
+    
+    override func performWork(inContext context: NSManagedObjectContext) {
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: intermediateItemCount, inContext: context)
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: context) {
+            (intermediate, managedObject) in
+            managedObject.title = intermediate.title
+        }
         completeAndSave()
     }
 }

@@ -28,11 +28,8 @@ class CoreDataTests: XCTestCase {
         super.tearDown()
     }
     
-    func createTestObjects(number: Int, test: (Int) -> Bool = {$0 % 2 == 0}) -> [TestEntity.JSON] {
-        let context = coreDataManager.mainContext
-        
+    static func createTestIntermediateObjects(number: Int, inContext context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntity.JSON] {
         var intermediateItems: [TestEntity.JSON] = []
-        
         for item in 0..<number {
             let id = UUID().uuidString
             let title = "Item " + String(item)
@@ -45,31 +42,18 @@ class CoreDataTests: XCTestCase {
                 TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
             }
         }
-        
-        coreDataManager.saveMainContext()
         return intermediateItems;
     }
     
     @discardableResult
-    func createTestObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
+    static func createTestManagedObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
-        context.performAndWait {
-            for _ in 0..<count {
-                let id = UUID().uuidString
-                let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
-                newObject.title = "Item " + id
-                items.append(newObject)
-            }
+        for item in 0..<count {
+            let id = UUID().uuidString
+            let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
+            newObject.title = "Item " + String(item)
+            items.append(newObject)
         }
         return items
-    }
-    
-    func countObjects(inContext context: NSManagedObjectContext) -> Int {
-        let fetchRequest = TestEntity.fetchRequest(withConfigurationBlock: nil)
-        var count = 0
-        context.performAndWait {
-            count = try! context.count(for: fetchRequest)
-        }
-        return count
     }
 }

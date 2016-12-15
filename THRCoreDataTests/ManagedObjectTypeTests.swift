@@ -14,7 +14,9 @@ import THRCoreData
 class ManagedObjectTypeTests: CoreDataTests {
     
     func testBatchInsertOrUpdateMethod() {
-        let intermediateItems = createTestObjects(number: 100)
+        let context = coreDataManager.mainContext
+        
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, inContext: context)
         
         let itemsBeforeUpdate = TestEntity.fetch(inContext: coreDataManager.mainContext)
         XCTAssertTrue(itemsBeforeUpdate.count == 50, "\(itemsBeforeUpdate.count)")
@@ -36,27 +38,32 @@ class ManagedObjectTypeTests: CoreDataTests {
     }
     
     func testBatchInsertCreatesDuplicatesInSomeSituations() {
-        let intermediateItems = createTestObjects(number: 10)
+        let context = coreDataManager.mainContext
+
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 10, inContext: context)
         
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: context) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: context) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
         }
         
         coreDataManager.saveMainContext()
-        let count = countObjects(inContext: coreDataManager.mainContext)
         
+        let count = TestEntity.count(inContext: coreDataManager.mainContext)
+                
         // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
         XCTAssertTrue(count != 10, "\(count)")
     }
     
     func testBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 100)
+        let context = coreDataManager.mainContext
+
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, inContext: context)
         
         measure {
             TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: self.coreDataManager.mainContext) {
@@ -68,7 +75,9 @@ class ManagedObjectTypeTests: CoreDataTests {
     }
     
     func testNonBatchInsertPerformance() {
-        let intermediateItems = createTestObjects(number: 100)
+        let context = coreDataManager.mainContext
+
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, inContext: context)
         
         measure {
             for intermediate in intermediateItems {
@@ -100,7 +109,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     func testInsertAndDeleteAll() {
         let context = coreDataManager.mainContext
         let count = 100
-        createTestObjects(inContext: context, count: count)
+        CoreDataTests.createTestManagedObjects(inContext: context, count: count)
         coreDataManager.saveMainContext()
         let count1 = TestEntity.count(inContext: context)
         XCTAssertTrue(count1 == count, "\(count1)")
@@ -112,7 +121,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertAndDeleteSingleObject() {
         let count = 2
-        let newObjects = createTestObjects(inContext: coreDataManager.mainContext, count: count)
+        let newObjects = CoreDataTests.createTestManagedObjects(inContext: coreDataManager.mainContext, count: count)
         let itemToDelete = newObjects.first!
         coreDataManager.saveMainContext()
         let count1 = TestEntity.count(inContext: coreDataManager.mainContext)
