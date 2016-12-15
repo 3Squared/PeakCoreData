@@ -18,6 +18,14 @@ class CoreDataTests: XCTestCase {
     
     var coreDataManager: CoreDataManager!
     
+    var mainContext: NSManagedObjectContext {
+        return coreDataManager.mainContext
+    }
+    
+    var backgroundContext: NSManagedObjectContext {
+        return coreDataManager.backgroundContext
+    }
+    
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: type(of: self))
