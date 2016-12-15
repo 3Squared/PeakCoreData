@@ -42,7 +42,7 @@ class CoreDataTests: XCTestCase {
                 TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
             }
         }
-        return intermediateItems;
+        return intermediateItems
     }
     
     @discardableResult
