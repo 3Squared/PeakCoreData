@@ -85,9 +85,12 @@ class ManagedObjectTypeTests: CoreDataTests {
     func testInsertAndDeleteAll() {
         let count = 100
         CoreDataTests.createTestManagedObjects(inContext: mainContext, count: count)
+        
         let preDeleteCount = TestEntity.count(inContext: mainContext)
         XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
+       
         TestEntity.delete(inContext: mainContext)
+        
         let postDeleteCount = TestEntity.count(inContext: mainContext)
         XCTAssertEqual(postDeleteCount, 0, "Count after delete should be 0")
     }
@@ -96,14 +99,14 @@ class ManagedObjectTypeTests: CoreDataTests {
         let count = 2
         let newObjects = CoreDataTests.createTestManagedObjects(inContext: coreDataManager.mainContext, count: count)
         let itemToDelete = newObjects.first!
-        let preDeleteCount = TestEntity.count(inContext: mainContext)
         
+        let preDeleteCount = TestEntity.count(inContext: mainContext)
         XCTAssertEqual(preDeleteCount, count, "\(preDeleteCount)")
         
         let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
         TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
-        let postDeleteCount = TestEntity.count(inContext: mainContext)
         
+        let postDeleteCount = TestEntity.count(inContext: mainContext)
         XCTAssertEqual(postDeleteCount, count-1, "\(postDeleteCount)")
     }
     
