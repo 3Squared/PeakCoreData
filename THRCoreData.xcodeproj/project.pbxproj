@@ -12,6 +12,7 @@
 		8D03CE501DF97811000BA848 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE4F1DF97811000BA848 /* Utilities.swift */; };
 		8D06FC111E002B95001D7894 /* SavingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06FC101E002B95001D7894 /* SavingTests.swift */; };
 		8D0AD0B71E0194B7003600B2 /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */; };
+		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
@@ -51,6 +52,7 @@
 		8D03CE4F1DF97811000BA848 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8D06FC101E002B95001D7894 /* SavingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavingTests.swift; sourceTree = "<group>"; };
 		8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFunctions.swift; sourceTree = "<group>"; };
+		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */,
 				8D06FC101E002B95001D7894 /* SavingTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
+				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
 			path = THRCoreDataTests;
@@ -438,6 +441,7 @@
 				8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */,
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
+				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
 				8D06FC111E002B95001D7894 /* SavingTests.swift in Sources */,
