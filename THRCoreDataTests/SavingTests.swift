@@ -13,6 +13,12 @@ import THRCoreData
 
 class SavingTests: CoreDataTests {
     
+    /*
+     The following tests highlight the asynchronous nature of the save method.
+     In all cases, didCallCompletion will be false immediately following the call to save.
+     However, once the save completion block has been called, all saves and merges should be complete.
+    */
+
     func testSavingMainContextWithNoChanges() {
         let saveExpectation = expectation(description: #function)
         
@@ -149,7 +155,6 @@ class SavingTests: CoreDataTests {
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored here")
         
-        // THEN: then all contexts are saved, synchronized and the completion handler is called
         waitForExpectations(timeout: defaultTimeout, handler: { (error) -> Void in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
@@ -197,7 +202,6 @@ class SavingTests: CoreDataTests {
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored here")
         
-        // THEN: then all contexts are saved, synchronized and the completion handler is called
         waitForExpectations(timeout: defaultTimeout, handler: { (error) -> Void in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
