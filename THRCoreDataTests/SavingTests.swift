@@ -106,8 +106,8 @@ class SavingTests: CoreDataTests {
         waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
-            XCTAssertTrue(didSaveBackground, "Main context should be saved")
-            XCTAssertTrue(didUpdateMain, "Background context should be updated")
+            XCTAssertTrue(didSaveBackground, "Background context should be saved")
+            XCTAssertTrue(didUpdateMain, "Main context should be updated")
         })
     }
     
@@ -202,8 +202,8 @@ class SavingTests: CoreDataTests {
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
             XCTAssertTrue(didSaveChild, "Child context should be saved")
-            XCTAssertTrue(didSaveBackground, "Main context should be saved")
-            XCTAssertTrue(didUpdateMain, "Background context should be updated")
+            XCTAssertTrue(didSaveBackground, "Background context should be saved")
+            XCTAssertTrue(didUpdateMain, "Main context should be updated")
         })
     }
 }
