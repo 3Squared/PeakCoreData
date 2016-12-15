@@ -12,6 +12,7 @@ import CoreData
 import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
+let modelName = "TestModel"
 
 class CoreDataTests: XCTestCase {
     
@@ -20,7 +21,7 @@ class CoreDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: type(of: self))
-        coreDataManager = CoreDataManager(modelName: "TestModel", storeType: .inMemory, bundle: bundle)
+        coreDataManager = CoreDataManager(modelName: modelName, storeType: .inMemory, bundle: bundle)
     }
     
     override func tearDown() {
