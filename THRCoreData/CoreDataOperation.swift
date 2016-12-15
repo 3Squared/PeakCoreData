@@ -8,79 +8,49 @@
 
 import UIKit
 import CoreData
+import THROperations
+import THRResult
 
-// Slightly experimental version of our core data operation that uses child context.
-// This means changes are saved up the chain rather than being merged in to the main context.
-
-open class CoreDataOperation: ConcurrentOperation {
+open class CoreDataOperation: ConcurrentOperation<SaveOutcome> {
     
-    fileprivate let targetContext: NSManagedObjectContext
+    fileprivate let coreDataManager: CoreDataManager
     fileprivate var childContext: NSManagedObjectContext!
-    fileprivate(set) public var error: Error?
 
-    public init(targetContext: NSManagedObjectContext) {
-        self.targetContext = targetContext
+    public init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
     }
     
     // MARK: - ConcurrentOperation Overrides
 
-    open override func execute() {
-        childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        childContext.parent = targetContext
+    open override func run() {
+        childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
         }
+    }
+    
+    // MARK: - Methods to be overidden
+    
+    open func performWork(inContext context: NSManagedObjectContext) {
+        print("\(self) must override `performWork()`.")
+        finish()
     }
 }
 
 // MARK: - Public Methods
 
 extension CoreDataOperation {
-    
-    open func performWork(inContext context: NSManagedObjectContext) {
-        print("\(self) must override `performWork()`.")
-        finish()
-    }
-    
+
     public func completeAndSave() {
-        guard !isCancelled, childContext.hasChanges else {
-            return finish(withError: nil)
+        guard !isCancelled else {
+            finish()
+            return
         }
         
-        do {
-            try childContext.save()
-            self.save(parentContext: childContext.parent, completion: { [weak self] error in
-                guard let strongSelf = self else { return }
-                strongSelf.finish(withError: error)
-            })
-        } catch {
-            print("Error saving private context: \(error.localizedDescription)")
-            finish(withError: error)
-        }
-    }
-}
-
-// MARK: - Private Methods
-
-extension CoreDataOperation {
-    
-    fileprivate func finish(withError error: Error?) {
-        self.error = error
-        finish()
-    }
-    
-    fileprivate func save(parentContext: NSManagedObjectContext?, completion: @escaping (Error?) -> ()) {
-        guard let parentContext = parentContext, !isCancelled else {
-            return completion(nil)
-        }
-        parentContext.perform {
-            do {
-                try parentContext.save()
-                self.save(parentContext: parentContext.parent, completion: completion)
-            } catch {
-                print("Error saving private context: \(error.localizedDescription)")
-                completion(error)
-            }
+        save(context: childContext) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.operationResult = result
+            strongSelf.finish()
         }
     }
 }

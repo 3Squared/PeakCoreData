@@ -17,116 +17,213 @@ public protocol CoreDataManagerSettable: class {
 public extension CoreDataManagerSettable {
     
     var managedObjectContext: NSManagedObjectContext {
-        return coreDataManager.viewContext
+        return coreDataManager.mainContext
     }
 }
 
 public final class CoreDataManager {
     
+    enum ModelFileExtension: String {
+        case bundle = "momd"
+        case sqlite = "sqlite"
+    }
+    
     private let modelName: String
-    private let storeType: String
+    private let storeType: StoreType
     private let bundle: Bundle
-
-    public init(modelName: String, storeType: String = NSSQLiteStoreType, bundle: Bundle = Bundle.main) {
+    
+    /**
+     Constructs a new `CoreDataManager` instance with the specified model name, store type and bundle.
+     
+     - parameter modelName: The name of the Core Data model.
+     - parameter storeType: The store type for the Core Data model. The default is `.sqlite`, with the user's documents directory.
+     - parameter bundle:    The bundle in which the model is located. The default is the main bundle.
+     
+     - returns: A new `CoreDataManager` instance.
+     */
+    public init(modelName: String, storeType: StoreType = .sqlite(defaultDirectoryURL), bundle: Bundle = .main) {
         self.modelName = modelName
         self.storeType = storeType
         self.bundle = bundle
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: nil, queue: nil, using: {
-            [weak self] notification in
-            guard let strongSelf = self else { return }
-            strongSelf.mergeChanges(fromContextDidSave: notification)
-        })
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    private var persistentStoreURL: URL {
-        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsDirectoryURL.appendingPathComponent(modelName + ".sqlite")
-    }
-    
-    // MARK: - Core Data Stack
-    
-    private(set) public lazy var viewContext: NSManagedObjectContext = {
-        if #available(iOS 10.0, *) { return self.storeContainer.viewContext }
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        return managedObjectContext
-    }()
-    
-    @available(iOS 10.0, *)
-    private lazy var storeContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: self.modelName, managedObjectModel: self.managedObjectModel!)
-        container.persistentStoreDescriptions = self.persistentStoreDescriptions
-        container.loadPersistentStores { storeDescription, error in
-            guard let error = error else { return }
-            fatalError("Error loading persistent stores: \(error)")
+    /// The database file name for the store.
+    private var databaseFilename: String {
+        switch storeType {
+        case .sqlite:
+            return modelName + "." + ModelFileExtension.sqlite.rawValue
+        default:
+            return modelName
         }
-        return container
+    }
+    
+    /**
+     The URL specifying the full path to the store.
+     
+     - note: If the store is in-memory, then this value will be `nil`.
+     */
+    private var storeURL: URL? {
+        return storeType.storeDirectory?.appendingPathComponent(databaseFilename)
+    }
+    
+    /// The URL of the model file in the specified `bundle`.
+    private var modelURL: URL {
+        guard let url = bundle.url(forResource: modelName, withExtension: ModelFileExtension.bundle.rawValue) else {
+            fatalError("Error loading model URL for model named \(modelName) in bundle: \(bundle)")
+        }
+        return url
+    }
+    
+    /// The managed object model for the model specified by `modelName`.
+    private var managedObjectModel: NSManagedObjectModel {
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("Error loading managed object model at url: \(modelURL)")
+        }
+        return model
+    }
+    
+    /// The default persistent store options to allow automatic model migrations.
+    private var defaultPersistentStoreOptions: [AnyHashable: Any] {
+        return [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
+    }
+    
+    /**
+     The main managed object context.
+     
+     - note: Saving the main context automatically merges changes in to the background context.
+     */
+    private(set) public lazy var mainContext: NSManagedObjectContext = {
+        let context = self.createContext(withConcurrencyType: .mainQueueConcurrencyType, name: "main")
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveMainContextDidSave(notification:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: context)
+        return context
     }()
     
-    @available(iOS 10.0, *)
-    private lazy var persistentStoreDescriptions: [NSPersistentStoreDescription] = {
-        let description = NSPersistentStoreDescription(url: self.persistentStoreURL)
-        description.shouldInferMappingModelAutomatically = true
-        description.shouldMigrateStoreAutomatically = true
-        return [description]
-    }()
-    
-    private lazy var managedObjectModel: NSManagedObjectModel? = {
-        guard let modelURL = self.bundle.url(forResource: self.modelName, withExtension: "momd") else { return nil }
-        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
-        return managedObjectModel
+    /**
+     The background managed object context.
+     
+     - note: Saving the background context automatically merges changes in to the main context.
+     */
+    private(set) public lazy var backgroundContext: NSManagedObjectContext = {
+        let context = self.createContext(withConcurrencyType: .privateQueueConcurrencyType, name: "background")
+        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveBackgroundContextDidSave(notification:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: context)
+        return context
     }()
     
     private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
-        guard let managedObjectModel = self.managedObjectModel else { return nil }
-        
-        let persistentStoreURL = self.persistentStoreURL
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        
+        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         do {
-            let options = [ NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true ]
-            try persistentStoreCoordinator.addPersistentStore(ofType: self.storeType, configurationName: nil, at: persistentStoreURL, options: options)
-        } catch let error as NSError {
+            try persistentStoreCoordinator.addPersistentStore(ofType: self.storeType.type,
+                                                              configurationName: nil,
+                                                              at: self.storeURL,
+                                                              options: self.defaultPersistentStoreOptions)
+        } catch {
             fatalError("Error adding persistent store: \(error.localizedDescription)")
         }
-        
         return persistentStoreCoordinator
     }()
+}
+
+// MARK: - Public Methods
+
+extension CoreDataManager {
     
-    // MARK: - Public Methods
-    
-    public func saveChanges() {
-        guard viewContext.hasChanges else { return }
-        viewContext.performAndWait({
-            do {
-                try self.viewContext.save()
-            } catch let error as NSError {
-                print("Error Saving Main Context: \(error.localizedDescription)")
-            }
-        })
-    }
-    
-    public func newBackgroundContext() -> NSManagedObjectContext {
-        if #available(iOS 10.0, *) { return self.storeContainer.newBackgroundContext() }
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        return managedObjectContext
-    }
-    
-    // MARK: - Private Helper Methods
-    
-    private func mergeChanges(fromContextDidSave notification: Notification) {
-        guard let managedObjectContext = notification.object as? NSManagedObjectContext,
-            managedObjectContext.concurrencyType == .privateQueueConcurrencyType,
-            managedObjectContext.parent == nil else { return }
+    /**
+     Creates a new child context with the specified `concurrencyType` and `mergePolicyType`.
+     
+     The parent context is either `mainContext` or `backgroundContext` dependending on the specified `concurrencyType`:
+     * `.PrivateQueueConcurrencyType` will set `backgroundContext` as the parent.
+     * `.MainQueueConcurrencyType` will set `mainContext` as the parent.
+     
+     Saving the child context will propagate changes through the parent context and then to the persistent store.
+     
+     - warning: Do not use `.confinementConcurrencyType` type. It is deprecated and will cause a fatal error.
+     
+     - parameter concurrencyType: The concurrency pattern to use. The default is `.MainQueueConcurrencyType`.
+     - parameter mergePolicyType: The merge policy to use. The default is `.MergeByPropertyObjectTrumpMergePolicyType`.
+     
+     - returns: A new child managed object context.
+     */
+    public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
+        let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
         
-        viewContext.performAndWait {
-            self.viewContext.mergeChanges(fromContextDidSave: notification)
+        switch concurrencyType {
+        case .mainQueueConcurrencyType:
+            childContext.parent = mainContext
+        case .privateQueueConcurrencyType:
+            childContext.parent = backgroundContext
+        case .confinementConcurrencyType:
+            fatalError("Error: ConfinementConcurrencyType is not supported because it is being deprecated in iOS 9.0")
+        }
+        
+        if let name = childContext.parent?.name {
+            childContext.name = name + ".child"
+        }
+        
+        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
+
+        return childContext
+    }
+    
+    /**
+     Attempts to commit unsaved changes to registered objects in the main context.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     
+     - parameter completion:    The closure to be executed when the save operation completes.
+     */
+    public func saveMainContext(withCompletion completion: SaveCompletionType? = nil) {
+        save(context: mainContext, withCompletion: completion)
+    }
+    
+    /**
+     Attempts to commit unsaved changes to registered objects in the background context.
+     
+     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     
+     - parameter completion:    The closure to be executed when the save operation completes.
+     */
+    public func saveBackgroundContext(withCompletion completion: SaveCompletionType? = nil) {
+        save(context: backgroundContext, withCompletion: completion)
+    }
+}
+
+// MARK: - Private Methods
+
+extension CoreDataManager {
+    
+    fileprivate func createContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType, name: String) -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: concurrencyType)
+        context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
+        let contextName = "THRCoreData.CoreDataManager.context."
+        context.name = contextName + name
+        return context
+    }
+
+    @objc
+    fileprivate func didReceiveBackgroundContextDidSave(notification: Notification) {
+        mainContext.perform {
+            self.mainContext.mergeChanges(fromContextDidSave: notification)
+        }
+    }
+    
+    @objc
+    fileprivate func didReceiveMainContextDidSave(notification: Notification) {
+        backgroundContext.perform {
+            self.backgroundContext.mergeChanges(fromContextDidSave: notification)
         }
     }
 }
