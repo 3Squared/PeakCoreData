@@ -13,6 +13,55 @@ import THRCoreData
 
 class ManagedObjectTypeTests: CoreDataTests {
     
+    func testMaterialiseObject() {
+        let id = UUID().uuidString
+        TestEntity.insertObject(withUniqueKeyValue: id, inContext: mainContext)
+        let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: mainContext)
+        XCTAssertNotNil(object, "")
+    }
+    
+    func testFetchObject() {
+        let id = UUID().uuidString
+        TestEntity.insertObject(withUniqueKeyValue: id, inContext: mainContext)
+        let object = TestEntity.fetchObject(withUniqueKeyValue: id, inContext: mainContext)
+        XCTAssertNotNil(object, "")
+    }
+    
+    func testInsertAndDeleteAll() {
+        let count = 100
+        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: count)
+        
+        let preDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
+        
+        TestEntity.delete(inContext: mainContext)
+        
+        let postDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(postDeleteCount, 0, "Count after delete should be 0")
+    }
+    
+    func testInsertAndDeleteSingleObject() {
+        let count = 2
+        let newObjects = CoreDataTests.createTestManagedObjects(inContext: coreDataManager.mainContext, count: count)
+        let itemToDelete = newObjects.first!
+        
+        let preDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(preDeleteCount, count, "\(preDeleteCount)")
+        
+        let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
+        TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
+        
+        let postDeleteCount = TestEntity.count(inContext: mainContext)
+        XCTAssertEqual(postDeleteCount, count-1, "\(postDeleteCount)")
+    }
+    
+    func testInsertOrFetchObjectMethod() {
+        let id = UUID().uuidString
+        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: mainContext)
+        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: mainContext)
+        XCTAssertEqual(item1, item2)
+    }
+    
     func testBatchInsertOrUpdate() {
         let expectedCount = 100
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, inContext: mainContext)
@@ -66,54 +115,5 @@ class ManagedObjectTypeTests: CoreDataTests {
                 }
             }
         }
-    }
-    
-    func testMaterialiseObject() {
-        let id = UUID().uuidString
-        TestEntity.insertObject(withUniqueKeyValue: id, inContext: mainContext)
-        let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: mainContext)
-        XCTAssertNotNil(object, "")
-    }
-    
-    func testFetchObject() {
-        let id = UUID().uuidString
-        TestEntity.insertObject(withUniqueKeyValue: id, inContext: mainContext)
-        let object = TestEntity.fetchObject(withUniqueKeyValue: id, inContext: mainContext)
-        XCTAssertNotNil(object, "")
-    }
-    
-    func testInsertAndDeleteAll() {
-        let count = 100
-        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: count)
-        
-        let preDeleteCount = TestEntity.count(inContext: mainContext)
-        XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
-       
-        TestEntity.delete(inContext: mainContext)
-        
-        let postDeleteCount = TestEntity.count(inContext: mainContext)
-        XCTAssertEqual(postDeleteCount, 0, "Count after delete should be 0")
-    }
-    
-    func testInsertAndDeleteSingleObject() {
-        let count = 2
-        let newObjects = CoreDataTests.createTestManagedObjects(inContext: coreDataManager.mainContext, count: count)
-        let itemToDelete = newObjects.first!
-        
-        let preDeleteCount = TestEntity.count(inContext: mainContext)
-        XCTAssertEqual(preDeleteCount, count, "\(preDeleteCount)")
-        
-        let predicate = TestEntity.uniqueObjectPredicate(withUniqueKeyValue: itemToDelete.uniqueID!)
-        TestEntity.delete(inContext: coreDataManager.mainContext, matchingPredicate: predicate)
-        
-        let postDeleteCount = TestEntity.count(inContext: mainContext)
-        XCTAssertEqual(postDeleteCount, count-1, "\(postDeleteCount)")
-    }
-    
-    func testInsertOrFetchObjectMethod() {
-        let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: mainContext)
-        let item2 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: mainContext)
-        XCTAssertEqual(item1, item2)
     }
 }
