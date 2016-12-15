@@ -29,7 +29,7 @@ class SavingTests: CoreDataTests {
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored here")
         
-        waitForExpectations(timeout: 1.0, handler: { error in
+        waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
         })
@@ -65,7 +65,7 @@ class SavingTests: CoreDataTests {
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored here")
         
-        waitForExpectations(timeout: 1.0, handler: { error in
+        waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
             XCTAssertTrue(didSaveMain, "Main context should be saved")
@@ -103,7 +103,7 @@ class SavingTests: CoreDataTests {
         
         XCTAssertFalse(didCallCompletion, "Save should be ignored here")
 
-        waitForExpectations(timeout: 1.0, handler: { error in
+        waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertNil(error, "Expectation should not error")
             XCTAssertTrue(didCallCompletion, "Completion should be called")
             XCTAssertTrue(didSaveBackground, "Main context should be saved")

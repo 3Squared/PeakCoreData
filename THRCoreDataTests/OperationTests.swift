@@ -46,7 +46,7 @@ class OperationTests: CoreDataTests {
         operationQueue.addOperation(finishOperation)
         
         // THEN: then the main and background contexts are saved and the completion handler is called
-        waitForExpectations(timeout: 1.0, handler: { error in
+        waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertEqual(count, expectedCount)
         })
     }
@@ -78,7 +78,7 @@ class OperationTests: CoreDataTests {
         operationQueue.addOperation(finishOperation)
         
         // THEN: then the main and background contexts are saved and the completion handler is called
-        waitForExpectations(timeout: 1.0, handler: { error in
+        waitForExpectations(timeout: defaultTimeout, handler: { error in
             XCTAssertEqual(count, (numberOfInserts * numberOfItems))
         })
     }
