@@ -21,6 +21,7 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
         super.init()
         collectionView.dataSource = self
         collectionView.reloadData()
+        showEmptyViewIfNeeded()
     }
     
     public var selectedObject: Data.Object? {
@@ -29,8 +30,10 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
     }
     
     public func processUpdates(updates: [DataProviderUpdate<Data.Object>]?) {
-        guard let updates = updates, self.collectionView.window != nil else {
-            return self.collectionView.reloadData()
+        guard let updates = updates, collectionView.window != nil else {
+            collectionView.reloadData()
+            showEmptyViewIfNeeded()
+            return
         }
         self.collectionView.performBatchUpdates({
             for update in updates {
@@ -51,8 +54,22 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
                     self.collectionView.insertSections(IndexSet(integer: section))
                 }
             }
-        }, completion: nil)
+        }, completion: { success in
+            self.showEmptyViewIfNeeded()
+        })
     }
+    
+    public func showEmptyViewIfNeeded() {
+        if dataProvider.totalNumberOfItems == 0, let emptyView = delegate.emptyView() {
+            collectionView.backgroundView = emptyView
+        } else {
+            let view = UIView()
+            view.backgroundColor = collectionView.backgroundColor
+            collectionView.backgroundView = view
+        }
+    }
+    
+    // MARK: UICollectionViewDataSource
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataProvider.numberOfSections
