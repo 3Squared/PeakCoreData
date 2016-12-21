@@ -14,9 +14,21 @@ import THRCoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let coreDataManager = CoreDataManager(modelName: "THRCoreDataExample")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        guard let tbc = window?.rootViewController as? UITabBarController else { fatalError() }
+        
+        for vc in tbc.viewControllers! {
+            if let nc = vc as? UINavigationController, let vc = nc.topViewController as? CoreDataManagerSettable {
+                vc.coreDataManager = coreDataManager
+            }
+            if let vc = vc as? CoreDataManagerSettable {
+                vc.coreDataManager = coreDataManager
+            }
+        }
+        
         return true
     }
 
