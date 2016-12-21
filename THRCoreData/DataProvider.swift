@@ -14,6 +14,7 @@ public protocol DataProvider: class {
     
     var numberOfSections: Int { get }
     var allObjects: [Object]? { get }
+    var totalNumberOfItems: Int { get }
     var sectionNameKeyPath: String? { get }
     var isEmpty: Bool { get }
     var sectionIndexTitles: [String] { get }
