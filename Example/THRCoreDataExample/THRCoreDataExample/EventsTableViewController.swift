@@ -13,10 +13,17 @@ import CoreData
 class EventsTableViewController: UITableViewController, CoreDataManagerSettable {
 
     var coreDataManager: CoreDataManager!
-    
+
     fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsTableViewController>
     fileprivate var dataProvider: DataProvider!
     fileprivate var dataSource: TableViewDataSource<EventsTableViewController, DataProvider>!
+    
+    fileprivate lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .long
+        df.timeStyle = .short
+        return df
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +76,7 @@ extension EventsTableViewController: DataSourceDelegate {
     }
     
     func configure(cell: EventTableViewCell, forObject object: Event) {
-        cell.textLabel?.text = object.date?.description
+        cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))
     }
     
     func canEditRow(at indexPath: IndexPath) -> Bool {

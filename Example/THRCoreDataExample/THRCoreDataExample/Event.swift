@@ -20,7 +20,7 @@ extension Event {
 extension Event: ManagedObjectType {
     
     public static var defaultSortDescriptors: [NSSortDescriptor] {
-        let sort1 = NSSortDescriptor(key: #keyPath(Event.date), ascending: true)
+        let sort1 = NSSortDescriptor(key: #keyPath(Event.date), ascending: false)
         return [sort1]
     }
 }

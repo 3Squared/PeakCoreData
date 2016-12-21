@@ -129,11 +129,11 @@
             </objects>
             <point key="canvasLocation" x="-481" y="7"/>
         </scene>
-        <!--Item-->
+        <!--Collection View-->
         <scene sceneID="QbG-lL-Ggo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="W56-kf-jNs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="gO6-Tj-5Ng"/>
+                    <tabBarItem key="tabBarItem" title="Collection View" id="gO6-Tj-5Ng"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jNy-gc-9As">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -148,11 +148,11 @@
             </objects>
             <point key="canvasLocation" x="469.60000000000002" y="332.38380809595208"/>
         </scene>
-        <!--Item-->
+        <!--Table View-->
         <scene sceneID="U4E-gl-weB">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="klc-Wx-wgy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="I6f-DX-32g"/>
+                    <tabBarItem key="tabBarItem" title="Table View" id="I6f-DX-32g"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ebo-f8-lcd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

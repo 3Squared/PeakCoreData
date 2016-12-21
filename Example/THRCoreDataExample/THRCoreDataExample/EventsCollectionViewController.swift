@@ -18,6 +18,13 @@ class EventsCollectionViewController: UICollectionViewController, CoreDataManage
     fileprivate var dataProvider: DataProvider!
     fileprivate var dataSource: CollectionViewDataSource<EventsCollectionViewController, DataProvider>!
     
+    fileprivate lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        return df
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -64,6 +71,6 @@ extension EventsCollectionViewController: DataSourceDelegate {
     }
     
     func configure(cell: EventCollectionViewCell, forObject object: Event) {
-        cell.dateLabel.text = object.date?.description
+        cell.dateLabel.text = dateFormatter.string(from: (object.date! as Date))
     }
 }

@@ -11,5 +11,4 @@ import UIKit
 class EventTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "eventTableViewCell"
-
 }
