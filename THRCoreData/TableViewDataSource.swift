@@ -21,6 +21,7 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
         super.init()
         tableView.dataSource = self
         tableView.reloadData()
+        showEmptyViewIfNeeded()
     }
     
     public var selectedObject: Data.Object? {
@@ -30,10 +31,12 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
     
     public func processUpdates(updates: [DataProviderUpdate<Data.Object>]?) {
         guard let updates = updates, self.tableView.window != nil else {
-            return self.tableView.reloadData()
+            tableView.reloadData()
+            showEmptyViewIfNeeded()
+            return
         }
         
-        self.tableView.beginUpdates()
+        tableView.beginUpdates()
         for update in updates {
             switch update {
             case .insert(let indexPath):
@@ -54,7 +57,18 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
                 self.tableView.deleteSections(indexSet, with: .fade)
             }
         }
-        self.tableView.endUpdates()
+        tableView.endUpdates()
+        showEmptyViewIfNeeded()
+    }
+    
+    public func showEmptyViewIfNeeded() {
+        if dataProvider.totalNumberOfItems == 0, let emptyView = delegate.emptyView {
+            tableView.backgroundView = emptyView
+        } else {
+            let view = UIView()
+            view.backgroundColor = tableView.backgroundColor
+            tableView.backgroundView = view
+        }
     }
     
     // MARK: UITableViewDataSource
