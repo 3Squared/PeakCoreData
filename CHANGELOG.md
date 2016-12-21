@@ -4,6 +4,12 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+0.2.3
+-----
+
+- Adds a simple example project to show the framework in action.
+
+
 0.2.2
 -----
 
