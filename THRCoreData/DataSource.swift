@@ -19,6 +19,7 @@ public protocol DataSourceDelegate: class {
     func configure(cell: Cell, forObject object: Object)
     
     // Optional (default implementation below)
+    func emptyView() -> UIView?
     func canEditRow(at indexPath: IndexPath) -> Bool
     func canMoveRow(at indexPath: IndexPath) -> Bool
     func shouldShowSectionIndexTitles() -> Bool
@@ -29,6 +30,10 @@ public protocol DataSourceDelegate: class {
 }
 
 public extension DataSourceDelegate {
+    
+    func emptyView() -> UIView? {
+        return nil
+    }
     
     func canEditRow(at indexPath: IndexPath) -> Bool {
         return false

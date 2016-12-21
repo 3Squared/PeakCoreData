@@ -32,6 +32,11 @@ public class FetchedResultsDataProvider<Delegate: DataProviderDelegate>: NSObjec
         return fetchedResultsController.fetchedObjects
     }
     
+    public var totalNumberOfItems: Int {
+        guard let allObjects = allObjects else { return 0 }
+        return allObjects.count
+    }
+    
     public var numberOfSections: Int {
         guard let sections = fetchedResultsController.sections else { return 0 }
         return sections.count
