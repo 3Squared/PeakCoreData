@@ -27,6 +27,7 @@ class EventsTableViewController: UITableViewController, CoreDataManagerSettable 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     @IBAction func addButtonTapped(_ sender: Any) {
         let newEvent = Event.insertObject(inContext: coreDataManager.mainContext)
         newEvent.date = NSDate()

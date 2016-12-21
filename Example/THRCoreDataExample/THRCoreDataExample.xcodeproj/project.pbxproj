@@ -85,11 +85,10 @@
 			isa = PBXGroup;
 			children = (
 				8D6DE8E21E0ADA5800C515DC /* AppDelegate.swift */,
-				8D8E95541E0AE0E3000E83C7 /* EventsTableViewController.swift */,
-				8D8E95551E0AE0E3000E83C7 /* EventsCollectionViewController.swift */,
-				8D8E95601E0AE132000E83C7 /* Storyboard */,
 				8D8E955F1E0AE129000E83C7 /* Model */,
+				8D8E95601E0AE132000E83C7 /* Storyboard */,
 				8D8E955E1E0AE122000E83C7 /* Views */,
+				8D8E95631E0AE503000E83C7 /* View Controller */,
 				8D6DE8EC1E0ADA5800C515DC /* Assets.xcassets */,
 				8D6DE8F11E0ADA5800C515DC /* Info.plist */,
 			);
@@ -123,6 +122,15 @@
 				8D6DE8EE1E0ADA5800C515DC /* LaunchScreen.storyboard */,
 			);
 			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		8D8E95631E0AE503000E83C7 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8D8E95541E0AE0E3000E83C7 /* EventsTableViewController.swift */,
+				8D8E95551E0AE0E3000E83C7 /* EventsCollectionViewController.swift */,
+			);
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 		A3EA1CF8884F16770FCA96E2 /* Frameworks */ = {

@@ -14,11 +14,13 @@ import THRCoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let coreDataManager = CoreDataManager(modelName: "THRCoreDataExample")
+    var coreDataManager: CoreDataManager!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        guard let tbc = window?.rootViewController as? UITabBarController else { fatalError() }
+        guard let tbc = window?.rootViewController as? UITabBarController else { fatalError("Wrong initial view controller") }
+        
+        coreDataManager = CoreDataManager(modelName: "THRCoreDataExample")
         
         for vc in tbc.viewControllers! {
             if let nc = vc as? UINavigationController, let vc = nc.topViewController as? CoreDataManagerSettable {
