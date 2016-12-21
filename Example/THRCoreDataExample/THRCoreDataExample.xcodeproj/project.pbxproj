@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BAA9E9FCAE8A86421673959 /* Pods_THRCoreDataExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F84B42906FA4E600D7DF14 /* Pods_THRCoreDataExample.framework */; };
 		8D6DE8E31E0ADA5800C515DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DE8E21E0ADA5800C515DC /* AppDelegate.swift */; };
 		8D6DE8E51E0ADA5800C515DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DE8E41E0ADA5800C515DC /* ViewController.swift */; };
 		8D6DE8E81E0ADA5800C515DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D6DE8E61E0ADA5800C515DC /* Main.storyboard */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64F84B42906FA4E600D7DF14 /* Pods_THRCoreDataExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BB4E5F3ED534398B24DCFF8 /* Pods-THRCoreDataExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample.release.xcconfig"; sourceTree = "<group>"; };
+		79374B54CB6685DA3DBC5685 /* Pods-THRCoreDataExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample.debug.xcconfig"; sourceTree = "<group>"; };
 		8D6DE8DF1E0ADA5800C515DC /* THRCoreDataExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = THRCoreDataExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D6DE8E21E0ADA5800C515DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D6DE8E41E0ADA5800C515DC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,17 +35,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BAA9E9FCAE8A86421673959 /* Pods_THRCoreDataExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		733ED3461BB0E25BB873879E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				79374B54CB6685DA3DBC5685 /* Pods-THRCoreDataExample.debug.xcconfig */,
+				6BB4E5F3ED534398B24DCFF8 /* Pods-THRCoreDataExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		8D6DE8D61E0ADA5800C515DC = {
 			isa = PBXGroup;
 			children = (
 				8D6DE8E11E0ADA5800C515DC /* THRCoreDataExample */,
 				8D6DE8E01E0ADA5800C515DC /* Products */,
+				733ED3461BB0E25BB873879E /* Pods */,
+				A3EA1CF8884F16770FCA96E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +83,14 @@
 			path = THRCoreDataExample;
 			sourceTree = "<group>";
 		};
+		A3EA1CF8884F16770FCA96E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64F84B42906FA4E600D7DF14 /* Pods_THRCoreDataExample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D6DE8F41E0ADA5800C515DC /* Build configuration list for PBXNativeTarget "THRCoreDataExample" */;
 			buildPhases = (
+				1BFAFEAAA73D330C81BBAFBE /* [CP] Check Pods Manifest.lock */,
 				8D6DE8DB1E0ADA5800C515DC /* Sources */,
 				8D6DE8DC1E0ADA5800C515DC /* Frameworks */,
 				8D6DE8DD1E0ADA5800C515DC /* Resources */,
+				BE26AAF6A12A242796A34AD5 /* [CP] Embed Pods Frameworks */,
+				E7B67686CE33ACFBD38614A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -134,6 +161,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1BFAFEAAA73D330C81BBAFBE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BE26AAF6A12A242796A34AD5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7B67686CE33ACFBD38614A7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D6DE8DB1E0ADA5800C515DC /* Sources */ = {
@@ -263,6 +338,7 @@
 		};
 		8D6DE8F51E0ADA5800C515DC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79374B54CB6685DA3DBC5685 /* Pods-THRCoreDataExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = VPQ4FHFFW8;
@@ -276,6 +352,7 @@
 		};
 		8D6DE8F61E0ADA5800C515DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BB4E5F3ED534398B24DCFF8 /* Pods-THRCoreDataExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = VPQ4FHFFW8;
