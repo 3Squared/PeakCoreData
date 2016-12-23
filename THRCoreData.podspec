@@ -17,8 +17,18 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.requires_arc = true
   s.source       = { :git => "git@gitlab.3squared.com:iOSLibraries/THRCoreData.git", :tag => s.version.to_s }
-  s.source_files = "THRCoreData", "THRCoreData/**/*.{h,m,swift}"
-  s.dependency 'THROperations', '~> 0.0.1'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3' }
+  s.dependency 'THROperations', '~> 0.0.1'
+  s.default_subspec = 'Core'
+
+  s.subspec 'Core' do |cs|
+    cs.source_files = "THRCoreData/Core/*.{h,m,swift}"
+  end
+  
+  s.subspec 'Network' do |ns|
+    ns.source_files = "THRCoreData/Network/*.{h,m,swift}"
+    ns.dependency 'THRCoreData/Core'
+    ns.dependency 'THRNetwork', '~> 0.0.7'
+  end
 
 end

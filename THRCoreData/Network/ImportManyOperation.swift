@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import THRCoreData
 import THROperations
 import CoreData
 import THRNetwork
