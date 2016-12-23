@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B1C61321E0D4A4000350CC2 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C61311E0D4A4000350CC2 /* Updatable.swift */; };
 		1B8D9AFE1E0D3F970020A7AF /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9AF11E0D3F970020A7AF /* CollectionViewDataSource.swift */; };
 		1B8D9AFF1E0D3F970020A7AF /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9AF21E0D3F970020A7AF /* CoreDataFunctions.swift */; };
 		1B8D9B001E0D3F970020A7AF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9AF31E0D3F970020A7AF /* CoreDataManager.swift */; };
@@ -20,6 +21,8 @@
 		1B8D9B091E0D3F970020A7AF /* UniqueIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9AFC1E0D3F970020A7AF /* UniqueIdentifiable.swift */; };
 		1B8D9B0A1E0D3F970020A7AF /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9AFD1E0D3F970020A7AF /* Utilities.swift */; };
 		1B8D9B0C1E0D3FD00020A7AF /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8D9B0B1E0D3FD00020A7AF /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B8D9B131E0D40C80020A7AF /* ImportManyOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9B111E0D40C80020A7AF /* ImportManyOperation.swift */; };
+		1B8D9B141E0D40C80020A7AF /* ImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D9B121E0D40C80020A7AF /* ImportOperation.swift */; };
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
 		8D06FC111E002B95001D7894 /* SavingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06FC101E002B95001D7894 /* SavingTests.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
@@ -45,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		0BD79BEBB1E24DFC1D10243C /* Pods-THRCoreDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1B1C61311E0D4A4000350CC2 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Updatable.swift; path = Network/Updatable.swift; sourceTree = "<group>"; };
 		1B8D9AF11E0D3F970020A7AF /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionViewDataSource.swift; path = Core/CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		1B8D9AF21E0D3F970020A7AF /* CoreDataFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataFunctions.swift; path = Core/CoreDataFunctions.swift; sourceTree = "<group>"; };
 		1B8D9AF31E0D3F970020A7AF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = Core/CoreDataManager.swift; sourceTree = "<group>"; };
@@ -58,6 +62,8 @@
 		1B8D9AFC1E0D3F970020A7AF /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UniqueIdentifiable.swift; path = Core/UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		1B8D9AFD1E0D3F970020A7AF /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Core/Utilities.swift; sourceTree = "<group>"; };
 		1B8D9B0B1E0D3FD00020A7AF /* THRCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = THRCoreData.h; path = ../../../../../.Trash/THRCoreData.h; sourceTree = "<group>"; };
+		1B8D9B111E0D40C80020A7AF /* ImportManyOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportManyOperation.swift; path = Network/ImportManyOperation.swift; sourceTree = "<group>"; };
+		1B8D9B121E0D40C80020A7AF /* ImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportOperation.swift; path = Network/ImportOperation.swift; sourceTree = "<group>"; };
 		27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5731AC9A295C6ABFEDFE1B56 /* Pods-THRCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +131,7 @@
 			children = (
 				1B8D9AF81E0D3F970020A7AF /* ManagedObjectType.swift */,
 				1B8D9AFC1E0D3F970020A7AF /* UniqueIdentifiable.swift */,
+				1B1C61311E0D4A4000350CC2 /* Updatable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -154,7 +161,7 @@
 			children = (
 				8D03CE4B1DF973D5000BA848 /* Stack */,
 				8D03CE4C1DF973DB000BA848 /* Protocols */,
-				8D97980B1DF8146F00DAB75A /* Core Data Operation */,
+				8D97980B1DF8146F00DAB75A /* Operations */,
 				8D9798091DF8144900DAB75A /* Data Source and Provider */,
 				8D97980A1DF8145600DAB75A /* Supporting Files */,
 			);
@@ -196,12 +203,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8D97980B1DF8146F00DAB75A /* Core Data Operation */ = {
+		8D97980B1DF8146F00DAB75A /* Operations */ = {
 			isa = PBXGroup;
 			children = (
 				1B8D9AF41E0D3F970020A7AF /* CoreDataOperation.swift */,
+				1B8D9B121E0D40C80020A7AF /* ImportOperation.swift */,
+				1B8D9B111E0D40C80020A7AF /* ImportManyOperation.swift */,
 			);
-			name = "Core Data Operation";
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		8D9798141DF815E800DAB75A /* Test Model */ = {
@@ -426,9 +435,12 @@
 				1B8D9B021E0D3F970020A7AF /* DataProvider.swift in Sources */,
 				1B8D9B031E0D3F970020A7AF /* DataSource.swift in Sources */,
 				1B8D9B041E0D3F970020A7AF /* FetchedResultsDataProvider.swift in Sources */,
+				1B8D9B131E0D40C80020A7AF /* ImportManyOperation.swift in Sources */,
 				1B8D9B051E0D3F970020A7AF /* ManagedObjectType.swift in Sources */,
 				1B8D9B061E0D3F970020A7AF /* StoreType.swift in Sources */,
 				1B8D9B071E0D3F970020A7AF /* TableViewDataSource.swift in Sources */,
+				1B8D9B141E0D40C80020A7AF /* ImportOperation.swift in Sources */,
+				1B1C61321E0D4A4000350CC2 /* Updatable.swift in Sources */,
 				1B8D9B091E0D3F970020A7AF /* UniqueIdentifiable.swift in Sources */,
 				1B8D9B0A1E0D3F970020A7AF /* Utilities.swift in Sources */,
 			);

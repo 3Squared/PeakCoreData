@@ -1,15 +1,19 @@
 PODS:
+  - THRNetwork (0.0.7):
+    - THROperations (~> 0.0.1)
   - THROperations (0.0.1):
     - THRResult (~> 0.0.1)
   - THRResult (0.0.1)
 
 DEPENDENCIES:
+  - THRNetwork (~> 0.0.7)
   - THROperations (~> 0.0.1)
 
 SPEC CHECKSUMS:
+  THRNetwork: 57cd0d4fe50d085a8ed547eaa4e53541d2c32955
   THROperations: 18de9672b2d47dc53128a0e344459daa9b2e0276
   THRResult: 173d7193812ef859e14c8fdbe8cd81e9deea5db4
 
-PODFILE CHECKSUM: d8499474fc2f9f7e2650994bc0c732d1fcda6735
+PODFILE CHECKSUM: d8cb9f8bd25540118181024ad9f40be3b72df7ac
 
 COCOAPODS: 1.1.1
