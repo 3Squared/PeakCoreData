@@ -9,7 +9,7 @@
 import Foundation
 import THRNetwork
 
-protocol Updatable {
+public protocol Updatable {
     associatedtype T: JSONConvertible
     func updateProperties(with json: T)
 }

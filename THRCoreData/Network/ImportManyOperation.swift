@@ -11,8 +11,8 @@ import THROperations
 import CoreData
 import THRNetwork
 
-class ImportManyOperation<J, M>: CoreDataOperation where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
-    override func performWork(inContext context: NSManagedObjectContext) {
+open class ImportManyOperation<J, M>: CoreDataOperation where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
+    override open func performWork(inContext context: NSManagedObjectContext) {
         defer { completeAndSave() }
         
         // Bad way to restore some type safety
