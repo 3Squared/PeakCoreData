@@ -61,7 +61,7 @@
 		1B8D9AFA1E0D3F970020A7AF /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TableViewDataSource.swift; path = Core/TableViewDataSource.swift; sourceTree = "<group>"; };
 		1B8D9AFC1E0D3F970020A7AF /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UniqueIdentifiable.swift; path = Core/UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		1B8D9AFD1E0D3F970020A7AF /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Core/Utilities.swift; sourceTree = "<group>"; };
-		1B8D9B0B1E0D3FD00020A7AF /* THRCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = THRCoreData.h; path = ../../../../../.Trash/THRCoreData.h; sourceTree = "<group>"; };
+		1B8D9B0B1E0D3FD00020A7AF /* THRCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		1B8D9B111E0D40C80020A7AF /* ImportManyOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportManyOperation.swift; path = Network/ImportManyOperation.swift; sourceTree = "<group>"; };
 		1B8D9B121E0D40C80020A7AF /* ImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportOperation.swift; path = Network/ImportOperation.swift; sourceTree = "<group>"; };
 		27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
