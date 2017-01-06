@@ -1,6 +1,6 @@
 //
 //  Updatable.swift
-//  GitHubbed
+//  THRCoreData
 //
 //  Created by Sam Oakley on 15/12/2016.
 //  Copyright © 2016 3Squared Ltd. All rights reserved.

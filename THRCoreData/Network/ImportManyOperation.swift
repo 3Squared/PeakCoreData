@@ -1,17 +1,18 @@
 //
 //  ImportManyOperation.swift
-//  GitHubbed
+//  THRCoreData
 //
 //  Created by Ben Walker on 15/12/2016.
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
 import Foundation
-import THROperations
 import CoreData
+import THROperations
 import THRNetwork
 
 open class ImportManyOperation<J, M>: CoreDataOperation where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
+    
     override open func performWork(inContext context: NSManagedObjectContext) {
         defer { completeAndSave() }
         
