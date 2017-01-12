@@ -13,15 +13,17 @@ public protocol DataProvider: class {
     associatedtype Object: NSManagedObject
     
     var numberOfSections: Int { get }
-    var allObjects: [Object]? { get }
-    var totalNumberOfItems: Int { get }
-    var sectionNameKeyPath: String? { get }
+    var fetchedObjects: [Object]? { get }
+    var fetchedObjectsCount: Int { get }
     var isEmpty: Bool { get }
+    var sectionNameKeyPath: String? { get }
     var sectionIndexTitles: [String] { get }
-
+    var cacheName: String? { get }
+    
     func numberOfItems(in section: Int) -> Int
     func name(in section: Int) -> String?
     func object(at indexPath: IndexPath) -> Object
+    func indexPath(forObject object: Object) -> IndexPath?
     func section(forSectionIndexTitle title: String, at index: Int) -> Int
     func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo
 }

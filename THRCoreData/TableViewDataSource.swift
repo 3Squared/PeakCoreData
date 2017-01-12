@@ -62,7 +62,7 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
     }
     
     public func showEmptyViewIfNeeded() {
-        if dataProvider.totalNumberOfItems == 0, let emptyView = delegate.emptyView() {
+        if dataProvider.isEmpty, let emptyView = delegate.emptyView() {
             tableView.backgroundView = emptyView
         } else {
             let view = UIView()
