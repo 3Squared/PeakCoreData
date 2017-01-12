@@ -4,6 +4,13 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+0.2.4
+-----
+
+- Adds indexPath(forObject:) method.
+- Makes property names more consistent in places.
+
+
 0.2.3
 -----
 

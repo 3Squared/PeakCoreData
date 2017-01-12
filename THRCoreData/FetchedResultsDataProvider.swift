@@ -28,13 +28,18 @@ public class FetchedResultsDataProvider<Delegate: DataProviderDelegate>: NSObjec
         }
     }
     
-    public var allObjects: [Object]? {
+    public var fetchedObjects: [Object]? {
         return fetchedResultsController.fetchedObjects
     }
     
-    public var totalNumberOfItems: Int {
-        guard let allObjects = allObjects else { return 0 }
-        return allObjects.count
+    public var fetchedObjectsCount: Int {
+        guard let fetchedObjects = fetchedObjects else { return 0 }
+        return fetchedObjects.count
+    }
+    
+    public var isEmpty: Bool {
+        guard let fetchedObjects = fetchedObjects else { return true }
+        return fetchedObjects.isEmpty
     }
     
     public var numberOfSections: Int {
@@ -50,13 +55,12 @@ public class FetchedResultsDataProvider<Delegate: DataProviderDelegate>: NSObjec
         return fetchedResultsController.sectionIndexTitles
     }
     
-    public var isEmpty: Bool {
-        guard let allObjects = allObjects else { return true }
-        return allObjects.isEmpty
+    public var cacheName: String? {
+        return fetchedResultsController.cacheName
     }
     
     public func reconfigureFetchRequest(block: (NSFetchRequest<Object>) -> ()) {
-        NSFetchedResultsController<Object>.deleteCache(withName: fetchedResultsController.cacheName)
+        NSFetchedResultsController<Object>.deleteCache(withName: cacheName)
         block(fetchedResultsController.fetchRequest)
         do {
             try fetchedResultsController.performFetch()
@@ -72,6 +76,10 @@ public class FetchedResultsDataProvider<Delegate: DataProviderDelegate>: NSObjec
     
     public func object(at indexPath: IndexPath) -> Object {
         return fetchedResultsController.object(at: indexPath)
+    }
+    
+    public func indexPath(forObject object: Object) -> IndexPath? {
+        return fetchedResultsController.indexPath(forObject: object)
     }
     
     public func numberOfItems(in section: Int) -> Int {
