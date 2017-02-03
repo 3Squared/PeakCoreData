@@ -1,60 +1,95 @@
 # THRCoreData
 
+Collection of classes to make working with Core Data easier and help DRY-up your code. Provides convenience methods and classes for working in a multi-threaded environment with `NSManagedObject`s and `NSManagedObjectContext`s. Codifies some good practises for importing large data sets efficiently.
 
-### CoreDataManager
+# Installation
 
-Creating a `CoreDataManager` will set up your model, `PersistentStore` and `PersistentStoreCoordinator`. The `CoreDataManager` gives access to the main context, and a single background context.  
+* Using [Cocoapods](http://cocoapods.org), add `pod 'THRCoreData'` to your Podfile.
+* `import THRCoreData` as necessary.
 
-There is a convenience method for saving these ManagedObjectContext's
+# Usage
 
-`saveMainContext` and `saveBackgroundContext`  
+## CoreDataManager
 
-These methods check to see if the context has changes before saving, then safely saves the context and handles any errors. They also take an optional completion block parameter which default value is nil.
+`CoreDataManager` is your first point of entry for using THRCoreData. It creates and manages `NSManagedObjectContext` instances for you.
 
-You should create your `CoreDataManager` in your app delegate,  Passing it the name of your dataModel as a parameter.  This should then be passed into each viewController using the `CoreDataManagerSettable` protocol.
+### Initialisation
 
-Finally you should save the mainContext in `applicationWillTerminate`
+You should only ever use a single `CoreDataManager` as it maintains the persistent store coordinator instance for your Core Data stack. It is recommended you create it in your AppDelegate and then pass it to your initial view controller.
 
 ```
-func applicationWillTerminate(_ application: UIApplication) {
-	coreDataManager.saveMainContext()
+import THRCoreData
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataManagerSettable {
+        
+    var window: UIWindow?
+    var coreDataManager: CoreDataManager!
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // Setup core data manager / sync manager
+        
+        coreDataManager = CoreDataManager(modelName: "MODEL_NAME")
+
+        // Pass core data manager to initial view controller
+        
+        guard let viewController = window?.rootViewController as? CoreDataManagerSettable else { fatalError("Wrong initial view controller type") }
+
+        viewController.coreDataManager = coreDataManager
+        
+        return true
+    }
 }
-```  
+```
+
+The `CoreDataManager` initialiser can take two additional properties: 
+
+* `StoreType`: This is an `enum` that encapsulates the three different model types `NSSQLiteStoreType`, `NSBinaryStoreType` and `NSInMemoryStoreType`. This is set to `NSSQLiteStoreType` by default. Note: If you are writing unit tests that interact with Core Data, then a context manager with `NSInMemoryStoreType` is useful as changes are not persisted between test suite runs, and side effects from your production SQLite database do not contaminate your tests.
+* `Bundle`: The `Bundle` that contains the model file. This is set to `.main` by default, but it is useful to be able to specify the specific `Bundle` when using the `CoreDataManager` in unit tests.
+
+The `CoreDataManager` creates and manages two `NSManagedObjectContext` instances:
+
+### Main Context
+
+The main context is initialised with `NSMainQueueConcurrencyType`and should therefore only be used while on the main thread. Failure to use the main context on the main thread will result inconsistent behaviour and possible crashes. This context can be saved using the `saveMainContext()` method. When the main context is saved, the changes are automatically merged in to the background context.
+
+### Background Context
+
+The background context is initialised with `NSPrivateQueueConcurrencyType` and so is designed to perform Core Data work off the main thread. This context can be saved using the `saveBackgroundContext()` method. When the backgound context is saved, the changes are automatically merged in to the main context.
+
+### Child Contexts
+
+The `createChildContext(withConcurrencyType:mergePolicyType:)` method creates a new child context with the specified `concurrencyType` and `mergePolicyType`. The parent context is either `mainContext` or `backgroundContext` depending on the specified `concurrencyType`:
+
+* `.PrivateQueueConcurrencyType` will set `backgroundContext` as the parent.
+* `.MainQueueConcurrencyType` will set `mainContext` as the parent.
+
+These child contexts should be saved using the `save(context:withCompletion:)` method. Saving the child context will propagate changes through the parent context and then to the persistent store.
+
+### Saving
+
+It is important to note that the `save(context:withCompletion:)` method is asynchronous. This means any code that is reliant on the save being complete should be handed to the method in the optional completion block. The `saveMainContext()` and `saveBackgroundContext() methods both use this method and can also take an optional completion block.
 
 ### CoreDataManagerSettable
 
-Each viewController that needs to access the `CoreDataManager` should conform to `CoreDataManagerSettable`
-
-After Creating your CoreDataManager you need to pass it to your initial view controller using `window?.rootViewController` if your rootViewController is a `UINavigationController` then you will need to cast to  UINavigationController then access its topViewController.  Finally cast the initial controller to type `CoreDataManagerSettable` and set the coreDataManager.
-
-Example code:
-
-`UINavigationController is initial view controller`
+Each view controller that needs access to the `CoreDataManager` should conform to `CoreDataManagerSettable`, which allows it to be passed around more easily in `prepare(for:sender:)`. For example:
 
 ```
-coreDataManager = CoreDataManager(modelName: "Model_Name")
-guard let navigationController = window?.rootViewController as? UINavigationController else { fatalError("Wrong view controller type") }
-     
-if let rootViewController = navigationController.topViewController as? CoreDataManagerSettable {
-	rootViewController.coreDataManager = coreDataManager
-}
-```
-
-`UITabBarController is initial view controller`
-
-```
-coreDataManager = CoreDataManager(modelName: "Model_Name")
-guard let tabBarController = window?.rootViewController as? UITabBarController else { fatalError("Wrong view controller type") }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-for vc in tabBarController.viewControllers! {
-	if let navigationController = vc as? UINavigationController, let rootViewController = navigationController.topViewController as? CoreDataManagerSettable {
-		rootViewController.coreDataManager = coreDataManager
+        if let controller = segue.destination as? CoreDataManagerSettable {
+            controller.coreDataManager = coreDataManager
+        }
+        
+        if let navController = segue.destination as? UINavigationController, let controller = navController.topViewController as? CoreDataManagerSettable {
+            controller.coreDataManager = coreDataManager
+        }
     }
-}
 
 ```
 
-### ManagedObjectType
+## ManagedObjectType
 
 Managed object type has convenience methods for:
 
