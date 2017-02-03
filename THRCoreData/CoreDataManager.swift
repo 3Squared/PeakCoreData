@@ -144,7 +144,7 @@ extension CoreDataManager {
     /**
      Creates a new child context with the specified `concurrencyType` and `mergePolicyType`.
      
-     The parent context is either `mainContext` or `backgroundContext` dependending on the specified `concurrencyType`:
+     The parent context is either `mainContext` or `backgroundContext` depending on the specified `concurrencyType`:
      * `.PrivateQueueConcurrencyType` will set `backgroundContext` as the parent.
      * `.MainQueueConcurrencyType` will set `mainContext` as the parent.
      
