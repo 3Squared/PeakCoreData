@@ -13,10 +13,13 @@ import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
 let modelName = "TestModel"
+var storeURL: URL {
+    return defaultDirectoryURL.appendingPathComponent(modelName)
+}
 
 class CoreDataTests: XCTestCase {
     
-    var coreDataManager: CoreDataManager!
+    var coreDataManager: PersistentContainer!
     
     var mainContext: NSManagedObjectContext {
         return coreDataManager.mainContext
@@ -29,7 +32,30 @@ class CoreDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: type(of: self))
-        coreDataManager = CoreDataManager(modelName: modelName, storeType: .inMemory, bundle: bundle)
+        guard let modelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
+            fatalError("*** Error loading model URL for model named \(name) in main bundle")
+        }
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("*** Error loading managed object model at url: \(modelURL)")
+        }
+        coreDataManager = PersistentContainer(name: modelName, model: model)
+        
+        var storeDescription = PersistentStoreDescription(url: storeURL)
+        storeDescription.type = .inMemory
+        storeDescription.shouldAddStoreAsynchronously = false
+        
+        coreDataManager.persistentStoreDescription = storeDescription
+        
+        coreDataManager.loadPersistentStores {
+            complete in
+            
+            switch complete {
+            case .success(let description):
+                print(description)
+            case .failure(let error):
+                fatalError("*** Error loading persistent stores \(error)")
+            }
+        }
     }
     
     override func tearDown() {

@@ -23,7 +23,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: mainContext) { result in
+        coreDataManager.save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
             case .success(.noChanges):
@@ -59,7 +59,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: mainContext) { result in
+        coreDataManager.save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
             case .success(.saved):
@@ -97,7 +97,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: backgroundContext) { result in
+        coreDataManager.save(context: backgroundContext) { result in
             didCallCompletion = true
             switch result {
             case .success(.saved):
@@ -142,7 +142,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: childContext) {
+        coreDataManager.save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {
@@ -189,7 +189,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: childContext) {
+        coreDataManager.save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {

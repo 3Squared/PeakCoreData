@@ -88,7 +88,7 @@ class AddOneOperation: CoreDataOperation {
     
     let uniqueKeyValue: String
     
-    init(coreDataManager: CoreDataManager, uniqueKeyValue: String) {
+    init(coreDataManager: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
         super.init(coreDataManager: coreDataManager)
     }
@@ -104,7 +104,7 @@ class BatchImportOperation: CoreDataOperation {
     
     let intermediateItemCount: Int
     
-    init(coreDataManager: CoreDataManager, intermediateItemCount: Int) {
+    init(coreDataManager: PersistentContainer, intermediateItemCount: Int) {
         self.intermediateItemCount = intermediateItemCount
         super.init(coreDataManager: coreDataManager)
     }
