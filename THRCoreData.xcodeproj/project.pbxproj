@@ -16,7 +16,6 @@
 		8D897ABF1E5AF23800325C6F /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */; };
 		8D897AFE1E5B05AC00325C6F /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */; };
 		8D897B001E5B0B5D00325C6F /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */; };
-		8D897B031E5B26DD00325C6F /* StoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897B021E5B26DD00325C6F /* StoreType.swift */; };
 		8D897B071E5B3DE800325C6F /* AsyncStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897B061E5B3DE800325C6F /* AsyncStackTests.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -57,7 +56,6 @@
 		8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
 		8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
-		8D897B021E5B26DD00325C6F /* StoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreType.swift; sourceTree = "<group>"; };
 		8D897B061E5B3DE800325C6F /* AsyncStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncStackTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			children = (
 				8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */,
 				8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */,
-				8D897B021E5B26DD00325C6F /* StoreType.swift */,
 			);
 			name = Stack;
 			sourceTree = "<group>";
@@ -428,7 +425,6 @@
 				8D9798061DF8144500DAB75A /* FetchedResultsDataProvider.swift in Sources */,
 				8D897ABF1E5AF23800325C6F /* PersistentContainerSettable.swift in Sources */,
 				8D9797F91DF8143300DAB75A /* ManagedObjectType.swift in Sources */,
-				8D897B031E5B26DD00325C6F /* StoreType.swift in Sources */,
 				8D897B001E5B0B5D00325C6F /* PersistentStoreDescription.swift in Sources */,
 				8D9798081DF8144500DAB75A /* CollectionViewDataSource.swift in Sources */,
 				8D9798051DF8144500DAB75A /* DataProvider.swift in Sources */,

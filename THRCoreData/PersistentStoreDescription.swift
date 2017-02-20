@@ -17,6 +17,20 @@ fileprivate var migrateStoreOptions: PersistentStoreOptions {
     ]
 }
 
+public enum StoreType {
+    case sqlite
+    case inMemory
+    
+    public var value: String {
+        switch self {
+        case .sqlite:
+            return NSSQLiteStoreType
+        case .inMemory:
+            return NSInMemoryStoreType
+        }
+    }
+}
+
 /// A description object used to create and/or load a persistent store.
 public struct PersistentStoreDescription {
     
