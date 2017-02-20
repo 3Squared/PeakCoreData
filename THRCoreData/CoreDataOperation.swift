@@ -13,17 +13,17 @@ import THRResult
 
 open class CoreDataOperation: ConcurrentOperation<SaveOutcome> {
     
-    fileprivate let coreDataManager: CoreDataManager
+    fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
 
-    public init(coreDataManager: CoreDataManager) {
-        self.coreDataManager = coreDataManager
+    public init(persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
     }
     
     // MARK: - ConcurrentOperation Overrides
 
     open override func run() {
-        childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
         }
@@ -47,7 +47,7 @@ extension CoreDataOperation {
             return
         }
         
-        save(context: childContext) { [weak self] result in
+        persistentContainer.save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.operationResult = result
             strongSelf.finish()
