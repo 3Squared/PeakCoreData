@@ -13,7 +13,7 @@ public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> (
 public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
 public typealias PersistentStoreOptions = [AnyHashable: Any]
 
-internal var defaultStoreOptions: PersistentStoreOptions {
+internal var migrateStoreOptions: PersistentStoreOptions {
     return [
         NSMigratePersistentStoresAutomaticallyOption: true,
         NSInferMappingModelAutomaticallyOption: true
