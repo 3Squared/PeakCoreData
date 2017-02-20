@@ -180,6 +180,11 @@ public final class PersistentContainer {
 
 extension PersistentContainer {
     
+    /**
+     Creates the default directory for the persistent stores on the current platform.
+     
+     - return: An NSURL that references the directory in which the persistent store will be located or are currently located.
+    */
     public func defaultDirectoryURL() -> URL {
         let searchPathDirectory = FileManager.SearchPathDirectory.documentDirectory
         
