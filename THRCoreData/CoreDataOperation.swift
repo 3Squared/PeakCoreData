@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import THROperations
-import THRResult
 
 open class CoreDataOperation: BaseOperation {
     

@@ -14,6 +14,7 @@ public enum SaveOutcome {
     case noChanges
 }
 public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
+public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
 
 public final class PersistentContainer {
     
@@ -25,21 +26,21 @@ public final class PersistentContainer {
     /**
      The main managed object context.
      
-     - note: Saving the main context automatically merges changes in to the background context.
+     - note:        Saving the main context automatically merges changes in to the background context.
      */
     public let mainContext: NSManagedObjectContext
     
     /**
      The background managed object context.
      
-     - note: Saving the background context automatically merges changes in to the main context.
+     - note:        Saving the background context automatically merges changes in to the main context.
      */
     public let backgroundContext: NSManagedObjectContext
     
     /**
      The persistent store description used to create the persistent stores referenced by this persistent container.
      
-     - discussion: If you want to override the type (or types) of persistent store used by the persistent container, you can set this property with a `PersistentStoreDescription` object.
+     - discussion:  If you want to override the type (or types) of persistent store used by the persistent container, you can set this property with a `PersistentStoreDescription` object.
      If you will be configuring a custom persistent store description, you must set this property before calling loadPersistentStores(completionHandler:).
      */
     public var persistentStoreDescription: PersistentStoreDescription?
@@ -47,7 +48,7 @@ public final class PersistentContainer {
     /**
      The name of this persistent container. (read-only)
      
-     - discussion: This property is passed in as part of the initialization of the persistent container. 
+     - discussion:  This property is passed in as part of the initialization of the persistent container.
      This name is used to locate the `NSManagedObjectModel` (if the `NSManagedObjectModel` object is not passed in as part of the initialization) and is used to name the persistent store.
     */
     public let name: String
@@ -55,14 +56,14 @@ public final class PersistentContainer {
     /**
      The model associated with this persistent container. (read-only)
      
-     - discussion: This property contains a reference to the `NSManagedObjectModel` object associated with this persistent container.
+     - discussion:  This property contains a reference to the `NSManagedObjectModel` object associated with this persistent container.
      */
     public let managedObjectModel: NSManagedObjectModel
     
     /**
      The persistent store coordinator associated with this persistent container. (read-only)
      
-     - discussion: When the persistent container is initialized, it creates a persistent store coordinator as part of that initialization. That persistent store coordinator is referenced in this property.
+     - discussion:  When the persistent container is initialized, it creates a persistent store coordinator as part of that initialization. That persistent store coordinator is referenced in this property.
      */
     public let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
@@ -71,9 +72,9 @@ public final class PersistentContainer {
      
      - parameter name: The name used by the persistent container.
      
-     - returns: A persistent container initialized with the given name.
+     - returns:     A persistent container initialized with the given name.
      
-     - discussion: By default, the provided name value is used to name the persistent store and is used to look up the name of the `NSManagedObjectModel` object to be used with the `PersistentContainer` object.
+     - discussion:  By default, the provided name value is used to name the persistent store and is used to look up the name of the `NSManagedObjectModel` object to be used with the `PersistentContainer` object.
     */
     public convenience init(name: String) {
         guard let modelURL = Bundle.main.url(forResource: name, withExtension: ModelFileExtension.bundle.rawValue) else {
@@ -88,12 +89,12 @@ public final class PersistentContainer {
     /**
      Initializes a persistent container with the given name and model.
      
-     - parameter name: The name used by the persistent container.
-     - parameter model: The managed object model to be used by the persistent container.
+     - parameter    name: The name used by the persistent container.
+     - parameter    model: The managed object model to be used by the persistent container.
 
-     - returns: A persistent container initialized with the given name and model.
+     - returns:     A persistent container initialized with the given name and model.
      
-     - discussion: By default, the provided name value of the container is used as the name of the persisent store associated with the container. Passing in the `NSManagedObjectModel` object overrides the lookup of the model by the provided name value.
+     - discussion:  By default, the provided name value of the container is used as the name of the persisent store associated with the container. Passing in the `NSManagedObjectModel` object overrides the lookup of the model by the provided name value.
      */
     public init(name: String, model: NSManagedObjectModel) {
         self.name = name
@@ -130,9 +131,9 @@ public final class PersistentContainer {
     /**
      Instructs the persistent container to load the persistent stores.
 
-     - parameter block: Once the loading of the persistent stores has completed, this block will be executed on the calling thread.
+     - parameter    block: Once the loading of the persistent stores has completed, this block will be executed on the calling thread.
 
-     - discussion: Once the persistent container has been initialized, you need to execute loadPersistentStores(completionHandler:)
+     - discussion:  Once the persistent container has been initialized, you need to execute loadPersistentStores(completionHandler:)
      to instruct the container to load the persistent stores and complete the creation of the Core Data stack.
      Once the completion handler has fired, the stack is fully initialized and is ready for use.
     */
@@ -183,7 +184,7 @@ extension PersistentContainer {
     /**
      Creates the default directory for the persistent stores on the current platform.
      
-     - return: An NSURL that references the directory in which the persistent store will be located or are currently located.
+     - return:      An NSURL that references the directory in which the persistent store will be located or are currently located.
     */
     public func defaultDirectoryURL() -> URL {
         let searchPathDirectory = FileManager.SearchPathDirectory.documentDirectory
@@ -207,12 +208,12 @@ extension PersistentContainer {
      
      Saving the child context will propagate changes through the parent context and then to the persistent store.
      
-     - warning: Do not use `.confinementConcurrencyType` type. It is deprecated and will cause a fatal error.
+     - warning:     Do not use `.confinementConcurrencyType` type. It is deprecated and will cause a fatal error.
      
-     - parameter concurrencyType: The concurrency pattern to use. The default is `.MainQueueConcurrencyType`.
-     - parameter mergePolicyType: The merge policy to use. The default is `.MergeByPropertyObjectTrumpMergePolicyType`.
+     - parameter    concurrencyType: The concurrency pattern to use. The default is `.MainQueueConcurrencyType`.
+     - parameter    mergePolicyType: The merge policy to use. The default is `.MergeByPropertyObjectTrumpMergePolicyType`.
      
-     - returns: A new child managed object context.
+     - returns:     A new child managed object context.
      */
     public func createChildContext(withConcurrencyType concurrencyType: NSManagedObjectContextConcurrencyType = .mainQueueConcurrencyType, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) -> NSManagedObjectContext {
         let childContext = NSManagedObjectContext(concurrencyType: concurrencyType)
@@ -235,17 +236,15 @@ extension PersistentContainer {
         return childContext
     }
     
-    public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
-    
     /**
      Attempts to commit unsaved changes to registered objects in the specified context.
      
-     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     - warning:     This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
-     - note: If the context you pass in is a child context, it will automatically propagate changes through the parent context and then to the persistent store.
+     - note:        If the context you pass in is a child context, it will automatically propagate changes through the parent context and then to the persistent store.
      
-     - parameter context:       The managed object context to save.
-     - parameter completion:    The closure to be executed when the save operation completes.
+     - parameter    context:       The managed object context to save.
+     - parameter    completion:    The closure to be executed when the save operation completes.
      */
     public func save(context: NSManagedObjectContext, withCompletion completion: SaveCompletionType? = nil) {
         context.perform {
@@ -270,9 +269,9 @@ extension PersistentContainer {
     /**
      Attempts to commit unsaved changes to registered objects in the main context.
      
-     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     - warning:     This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
-     - parameter completion:    The closure to be executed when the save operation completes.
+     - parameter    completion: The closure to be executed when the save operation completes.
      */
     public func saveMainContext(withCompletion completion: SaveCompletionType? = nil) {
         save(context: mainContext, withCompletion: completion)
@@ -281,9 +280,9 @@ extension PersistentContainer {
     /**
      Attempts to commit unsaved changes to registered objects in the background context.
      
-     - warning: This function is performed in the `perform` block on the background context's queue so is asynchronous.
+     - warning:     This function is performed in the `perform` block on the background context's queue so is asynchronous.
      
-     - parameter completion:    The closure to be executed when the save operation completes.
+     - parameter    completion: The closure to be executed when the save operation completes.
      */
     public func saveBackgroundContext(withCompletion completion: SaveCompletionType? = nil) {
         save(context: backgroundContext, withCompletion: completion)
