@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataOperation: ConcurrentOperation<SaveOutcome> {
+open class CoreDataOperation: BaseOperation {
     
     fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
@@ -49,7 +49,6 @@ extension CoreDataOperation {
         
         persistentContainer.save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
-            strongSelf.operationResult = result
             strongSelf.finish()
         }
     }
