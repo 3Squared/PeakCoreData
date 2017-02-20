@@ -64,7 +64,14 @@ public final class PersistentContainer {
         NotificationCenter.default.removeObserver(self)
     }
     
-    public func loadPersistentStores(completionHandler: @escaping SetupCompletionType) {
+    /**
+     - parameter block: Once the loading of the persistent stores has completed, this block will be executed on the calling thread.
+
+     Once the persistent container has been initialized, you need to execute loadPersistentStores(completionHandler:)
+     to instruct the container to load the persistent stores and complete the creation of the Core Data stack.
+     Once the completion handler has fired, the stack is fully initialized and is ready for use.
+    */
+    public func loadPersistentStores(completionHandler block: @escaping SetupCompletionType) {
         let description = persistentStoreDescription ?? PersistentStoreDescription(url: defaultStoreURL)
         let isAsync = description.shouldAddStoreAsynchronously
         let creationClosure = {
@@ -76,20 +83,20 @@ public final class PersistentContainer {
             } catch {
                 if isAsync {
                     DispatchQueue.main.async {
-                        completionHandler(.failure(error))
+                        block(.failure(error))
                     }
                 } else {
-                    completionHandler(.failure(error))
+                    block(.failure(error))
                 }
                 return
             }
             
             if isAsync {
                 DispatchQueue.main.async {
-                    completionHandler(.success(description))
+                    block(.success(description))
                 }
             } else {
-                completionHandler(.success(description))
+                block(.success(description))
             }
         }
         
