@@ -17,17 +17,9 @@ var storeURL: URL {
     return defaultDirectoryURL.appendingPathComponent(modelName)
 }
 
-class CoreDataTests: XCTestCase {
+class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var coreDataManager: PersistentContainer!
-    
-    var mainContext: NSManagedObjectContext {
-        return coreDataManager.mainContext
-    }
-    
-    var backgroundContext: NSManagedObjectContext {
-        return coreDataManager.backgroundContext
-    }
+    var persistentContainer: PersistentContainer!
     
     override func setUp() {
         super.setUp()
@@ -38,15 +30,15 @@ class CoreDataTests: XCTestCase {
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
-        coreDataManager = PersistentContainer(name: modelName, model: model)
+        persistentContainer = PersistentContainer(name: modelName, model: model)
         
         var storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory
         storeDescription.shouldAddStoreAsynchronously = false
         
-        coreDataManager.persistentStoreDescription = storeDescription
+        persistentContainer.persistentStoreDescription = storeDescription
         
-        coreDataManager.loadPersistentStores {
+        persistentContainer.loadPersistentStores {
             complete in
             
             switch complete {
@@ -59,7 +51,7 @@ class CoreDataTests: XCTestCase {
     }
     
     override func tearDown() {
-        coreDataManager = nil
+        persistentContainer = nil
         super.tearDown()
     }
     
