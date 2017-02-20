@@ -13,6 +13,12 @@ public final class PersistentContainer {
     
     public let mainContext: NSManagedObjectContext
     public let backgroundContext: NSManagedObjectContext
+    /**
+     The persistent store descriptions used to create the persistent stores referenced by this persistent container.
+     
+     - discussion: If you want to override the type (or types) of persistent store(s) used by the persistent container, you can set this property with an array of `PersistentStoreDescription` objects.
+     If you will be configuring custom persistent store descriptions, you must set this property before calling loadPersistentStores(completionHandler:).
+     */
     public var persistentStoreDescription: PersistentStoreDescription?
     
     internal let name: String
@@ -22,6 +28,15 @@ public final class PersistentContainer {
         return defaultDirectoryURL.appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
     }
     
+    /**
+     Initializes a persistent container with the given data model name.
+     
+     - parameter name: The name used by the persistent container.
+     
+     - returns: A persistent container initialized with the given name.
+     
+     - discussion: By default, the provided name value is used to name the persistent store and is used to look up the name of the `NSManagedObjectModel` object to be used with the `PersistentContainer` object.
+    */
     public convenience init(name: String) {
         guard let modelURL = Bundle.main.url(forResource: name, withExtension: ModelFileExtension.bundle.rawValue) else {
             fatalError("*** Error loading model URL for model named \(name)")
@@ -32,6 +47,16 @@ public final class PersistentContainer {
         self.init(name: name, model: model)
     }
     
+    /**
+     Initializes a persistent container with the given name and model.
+     
+     - parameter name: The name used by the persistent container.
+     - parameter model: The managed object model to be used by the persistent container.
+
+     - returns: A persistent container initialized with the given name and model.
+     
+     - discussion: By default, the provided name value of the container is used as the name of the persisent store associated with the container. Passing in the `NSManagedObjectModel` object overrides the lookup of the model by the provided name value.
+     */
     public init(name: String, model: NSManagedObjectModel) {
         self.name = name
         self.model = model
@@ -65,9 +90,11 @@ public final class PersistentContainer {
     }
     
     /**
+     Instructs the persistent container to load the persistent stores.
+
      - parameter block: Once the loading of the persistent stores has completed, this block will be executed on the calling thread.
 
-     Once the persistent container has been initialized, you need to execute loadPersistentStores(completionHandler:)
+     - discussion: Once the persistent container has been initialized, you need to execute loadPersistentStores(completionHandler:)
      to instruct the container to load the persistent stores and complete the creation of the Core Data stack.
      Once the completion handler has fired, the stack is fully initialized and is ready for use.
     */
