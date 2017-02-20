@@ -80,6 +80,13 @@ public final class PersistentContainer {
                                                                        configurationName: nil,
                                                                        at: description.url,
                                                                        options: description.options)
+                if isAsync {
+                    DispatchQueue.main.async {
+                        block(.success(description))
+                    }
+                } else {
+                    block(.success(description))
+                }
             } catch {
                 if isAsync {
                     DispatchQueue.main.async {
@@ -88,15 +95,6 @@ public final class PersistentContainer {
                 } else {
                     block(.failure(error))
                 }
-                return
-            }
-            
-            if isAsync {
-                DispatchQueue.main.async {
-                    block(.success(description))
-                }
-            } else {
-                block(.success(description))
             }
         }
         
