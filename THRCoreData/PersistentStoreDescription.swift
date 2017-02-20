@@ -15,7 +15,7 @@ public struct PersistentStoreDescription {
     public var options = defaultStoreOptions
     public var shouldAddStoreAsynchronously = false
 
-    init(url: URL) {
+    public init(url: URL) {
         self.url = url
     }
 }
