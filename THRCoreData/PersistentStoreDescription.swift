@@ -32,8 +32,8 @@ public struct PersistentStoreDescription {
      */
     public var shouldMigrateStoreAutomatically = true
     
-    internal var options: PersistentStoreOptions {
-        guard shouldMigrateStoreAutomatically else { return [:] }
+    internal var options: PersistentStoreOptions? {
+        guard shouldMigrateStoreAutomatically else { return nil }
         return migrateStoreOptions
     }
 
