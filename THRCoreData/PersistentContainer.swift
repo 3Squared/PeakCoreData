@@ -22,22 +22,49 @@ public final class PersistentContainer {
         case sqlite = "sqlite"
     }
     
-    public let mainContext: NSManagedObjectContext
-    public let backgroundContext: NSManagedObjectContext
     /**
-     The persistent store descriptions used to create the persistent stores referenced by this persistent container.
+     The main managed object context.
      
-     - discussion: If you want to override the type (or types) of persistent store(s) used by the persistent container, you can set this property with an array of `PersistentStoreDescription` objects.
-     If you will be configuring custom persistent store descriptions, you must set this property before calling loadPersistentStores(completionHandler:).
+     - note: Saving the main context automatically merges changes in to the background context.
+     */
+    public let mainContext: NSManagedObjectContext
+    
+    /**
+     The background managed object context.
+     
+     - note: Saving the background context automatically merges changes in to the main context.
+     */
+    public let backgroundContext: NSManagedObjectContext
+    
+    /**
+     The persistent store description used to create the persistent stores referenced by this persistent container.
+     
+     - discussion: If you want to override the type (or types) of persistent store used by the persistent container, you can set this property with a `PersistentStoreDescription` object.
+     If you will be configuring a custom persistent store description, you must set this property before calling loadPersistentStores(completionHandler:).
      */
     public var persistentStoreDescription: PersistentStoreDescription?
     
-    internal let name: String
-    internal let model: NSManagedObjectModel
-    internal let persistentStoreCoordinator: NSPersistentStoreCoordinator
-    internal var defaultStoreURL: URL {
-        return defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
-    }
+    /**
+     The name of this persistent container. (read-only)
+     
+     - discussion: This property is passed in as part of the initialization of the persistent container. 
+     This name is used to locate the `NSManagedObjectModel` (if the `NSManagedObjectModel` object is not passed in as part of the initialization) and is used to name the persistent store.
+    */
+    public let name: String
+    
+    /**
+     The model associated with this persistent container. (read-only)
+     
+     - discussion: This property contains a reference to the `NSManagedObjectModel` object associated with this persistent container.
+     */
+    public let managedObjectModel: NSManagedObjectModel
+    
+    /**
+     The persistent store coordinator associated with this persistent container. (read-only)
+     
+     - discussion: When the persistent container is initialized, it creates a persistent store coordinator as part of that initialization. That persistent store coordinator is referenced in this property.
+     */
+    public let persistentStoreCoordinator: NSPersistentStoreCoordinator
     
     /**
      Initializes a persistent container with the given data model name.
@@ -70,7 +97,7 @@ public final class PersistentContainer {
      */
     public init(name: String, model: NSManagedObjectModel) {
         self.name = name
-        self.model = model
+        self.managedObjectModel = model
         self.persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
         
         let mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
@@ -110,7 +137,13 @@ public final class PersistentContainer {
      Once the completion handler has fired, the stack is fully initialized and is ready for use.
     */
     public func loadPersistentStores(completionHandler block: @escaping SetupCompletionType) {
-        let description = persistentStoreDescription ?? PersistentStoreDescription(url: defaultStoreURL)
+        let description: PersistentStoreDescription
+        if let persistentStoreDescription = persistentStoreDescription {
+            description = persistentStoreDescription
+        } else {
+            let storeURL = defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
+            description = PersistentStoreDescription(url: storeURL)
+        }
         let isAsync = description.shouldAddStoreAsynchronously
         let creationClosure = {
             do {
