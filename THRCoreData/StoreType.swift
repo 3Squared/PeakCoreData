@@ -9,6 +9,7 @@
 import CoreData
 import THRResult
 
+/// Simple enum to make different store types type-safe
 public enum StoreType {
     case sqlite
     case inMemory
