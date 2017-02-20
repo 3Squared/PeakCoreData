@@ -70,7 +70,7 @@ public final class PersistentContainer {
     /**
      Initializes a persistent container with the given data model name.
      
-     - parameter name: The name used by the persistent container.
+     - parameter    name: The name used by the persistent container.
      
      - returns:     A persistent container initialized with the given name.
      
