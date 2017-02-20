@@ -13,9 +13,6 @@ import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
 let modelName = "TestModel"
-var storeURL: URL {
-    return defaultDirectoryURL.appendingPathComponent(modelName)
-}
 
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
@@ -31,6 +28,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
         persistentContainer = PersistentContainer(name: modelName, model: model)
+        let storeURL = persistentContainer.defaultStoreURL.appendingPathComponent(modelName)
         
         var storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory

@@ -26,7 +26,8 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
         persistentContainer = PersistentContainer(name: modelName, model: model)
-        
+        let storeURL = persistentContainer.defaultStoreURL.appendingPathComponent(modelName)
+
         var storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory
         storeDescription.shouldAddStoreAsynchronously = true

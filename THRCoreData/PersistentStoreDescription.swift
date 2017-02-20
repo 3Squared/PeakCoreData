@@ -8,6 +8,15 @@
 
 import CoreData
 
+public typealias PersistentStoreOptions = [AnyHashable: Any]
+
+fileprivate var migrateStoreOptions: PersistentStoreOptions {
+    return [
+        NSMigratePersistentStoresAutomaticallyOption: true,
+        NSInferMappingModelAutomaticallyOption: true
+    ]
+}
+
 /// A description object used to create and/or load a persistent store.
 public struct PersistentStoreDescription {
     

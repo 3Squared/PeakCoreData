@@ -9,7 +9,18 @@
 import CoreData
 import THRResult
 
+public enum SaveOutcome {
+    case saved
+    case noChanges
+}
+public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
+
 public final class PersistentContainer {
+    
+    public enum ModelFileExtension: String {
+        case bundle = "momd"
+        case sqlite = "sqlite"
+    }
     
     public let mainContext: NSManagedObjectContext
     public let backgroundContext: NSManagedObjectContext
@@ -25,7 +36,7 @@ public final class PersistentContainer {
     internal let model: NSManagedObjectModel
     internal let persistentStoreCoordinator: NSPersistentStoreCoordinator
     internal var defaultStoreURL: URL {
-        return defaultDirectoryURL.appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
+        return defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
     }
     
     /**
@@ -136,6 +147,19 @@ public final class PersistentContainer {
 
 extension PersistentContainer {
     
+    public func defaultDirectoryURL() -> URL {
+        let searchPathDirectory = FileManager.SearchPathDirectory.documentDirectory
+        
+        do {
+            return try FileManager.default.url(for: searchPathDirectory,
+                                               in: .userDomainMask,
+                                               appropriateFor: nil,
+                                               create: true)
+        } catch {
+            fatalError("*** Error finding default directory: \(error)")
+        }
+    }
+    
     /**
      Creates a new child context with the specified `concurrencyType` and `mergePolicyType`.
      
@@ -172,6 +196,8 @@ extension PersistentContainer {
         
         return childContext
     }
+    
+    public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
     
     /**
      Attempts to commit unsaved changes to registered objects in the specified context.
