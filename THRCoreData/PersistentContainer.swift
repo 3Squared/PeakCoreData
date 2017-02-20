@@ -16,6 +16,7 @@ public enum SaveOutcome {
 public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
 public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
 
+/// A container that encapsulates the Core Data stack in your application.
 public final class PersistentContainer {
     
     internal enum ModelFileExtension: String {
@@ -24,16 +25,22 @@ public final class PersistentContainer {
     }
     
     /**
-     The main managed object context.
+     The managed object context associated with the main queue. (read-only)
      
-     - note:        Saving the main context automatically merges changes in to the background context.
+     - discussion:  This property contains a reference to the `NSManagedObjectContext` that is created and owned by the persistent container which is associated with the main queue of the application. 
+     This context is created automatically as part of the initialization of the persistent container. 
+     This context is configured to be generational and to automatically consume save notifications from other contexts. 
+     This context is associated directly with the NSPersistentStoreCoordinator.
      */
     public let mainContext: NSManagedObjectContext
     
     /**
-     The background managed object context.
+     The managed object context associated with a background queue. (read-only)
      
-     - note:        Saving the background context automatically merges changes in to the main context.
+     - discussion:  This property contains a reference to the `NSManagedObjectContext` that is created and owned by the persistent container which is associated with a background queue of the application.
+     This context is created automatically as part of the initialization of the persistent container.
+     This context is configured to be generational and to automatically consume save notifications from other contexts.
+     This context is associated directly with the NSPersistentStoreCoordinator.
      */
     public let backgroundContext: NSManagedObjectContext
     

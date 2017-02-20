@@ -121,8 +121,8 @@
 		8D03CE4C1DF973DB000BA848 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */,
 				8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */,
+				8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */,
 				8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */,
 			);
 			name = Protocols;
@@ -151,10 +151,10 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D03CE4B1DF973D5000BA848 /* Stack */,
-				8D03CE4C1DF973DB000BA848 /* Protocols */,
 				8D97980B1DF8146F00DAB75A /* Core Data Operation */,
 				8D9798091DF8144900DAB75A /* Data Source and Provider */,
+				8D03CE4C1DF973DB000BA848 /* Protocols */,
+				8D03CE4B1DF973D5000BA848 /* Stack */,
 				8D97980A1DF8145600DAB75A /* Supporting Files */,
 			);
 			path = THRCoreData;
@@ -178,11 +178,11 @@
 		8D9798091DF8144900DAB75A /* Data Source and Provider */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797FF1DF8144500DAB75A /* DataSource.swift */,
+				8D9798031DF8144500DAB75A /* CollectionViewDataSource.swift */,
 				8D9798001DF8144500DAB75A /* DataProvider.swift */,
+				8D9797FF1DF8144500DAB75A /* DataSource.swift */,
 				8D9798011DF8144500DAB75A /* FetchedResultsDataProvider.swift */,
 				8D9798021DF8144500DAB75A /* TableViewDataSource.swift */,
-				8D9798031DF8144500DAB75A /* CollectionViewDataSource.swift */,
 			);
 			name = "Data Source and Provider";
 			sourceTree = "<group>";
