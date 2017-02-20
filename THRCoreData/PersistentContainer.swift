@@ -17,7 +17,7 @@ public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> (
 
 public final class PersistentContainer {
     
-    public enum ModelFileExtension: String {
+    internal enum ModelFileExtension: String {
         case bundle = "momd"
         case sqlite = "sqlite"
     }
