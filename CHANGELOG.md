@@ -9,6 +9,7 @@ The changelog for `THRCoreData`.
 
 - Refactored stack to more closely resemble Apple's 'NSPersistentContainer and NSPersistentStoreDescription.
 - Now possible to add persistent stores asynchronously.
+- Update CoreDataOperation to use latest version of THROperation.
 - Increased documentation and unit test coverage.
 
 
