@@ -93,6 +93,8 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
             XCTAssertEqual(testContext.persistentStoreCoordinator!.persistentStores.count, 1, "Should be 1 persistent store here")
         })
     }
+    
+    
 
     func testSamePersistentStoreCoordinator() {
         XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
