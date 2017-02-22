@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
-		8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE471DF96DAD000BA848 /* StoreType.swift */; };
-		8D03CE501DF97811000BA848 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D03CE4F1DF97811000BA848 /* Utilities.swift */; };
 		8D06FC111E002B95001D7894 /* SavingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D06FC101E002B95001D7894 /* SavingTests.swift */; };
-		8D0AD0B71E0194B7003600B2 /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
+		8D897ABF1E5AF23800325C6F /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */; };
+		8D897AFE1E5B05AC00325C6F /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */; };
+		8D897B001E5B0B5D00325C6F /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */; };
+		8D897B071E5B3DE800325C6F /* AsyncStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D897B061E5B3DE800325C6F /* AsyncStackTests.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8D9797F81DF8143300DAB75A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9797F51DF8143300DAB75A /* CoreDataManager.swift */; };
 		8D9797F91DF8143300DAB75A /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */; };
 		8D9797FA1DF8143300DAB75A /* UniqueIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */; };
 		8D9797FE1DF8143C00DAB75A /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9797FC1DF8143C00DAB75A /* CoreDataOperation.swift */; };
@@ -48,20 +48,20 @@
 		27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5731AC9A295C6ABFEDFE1B56 /* Pods-THRCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D03CE471DF96DAD000BA848 /* StoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreType.swift; sourceTree = "<group>"; };
-		8D03CE4F1DF97811000BA848 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8D06FC101E002B95001D7894 /* SavingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavingTests.swift; sourceTree = "<group>"; };
-		8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataFunctions.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
+		8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
+		8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
+		8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
+		8D897B061E5B3DE800325C6F /* AsyncStackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncStackTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D9797E41DF8138100DAB75A /* THRCoreDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = THRCoreDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797EB1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D9797F51DF8143300DAB75A /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		8D9797FC1DF8143C00DAB75A /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
@@ -112,10 +112,8 @@
 		8D03CE4B1DF973D5000BA848 /* Stack */ = {
 			isa = PBXGroup;
 			children = (
-				8D0AD0B61E0194B7003600B2 /* CoreDataFunctions.swift */,
-				8D9797F51DF8143300DAB75A /* CoreDataManager.swift */,
-				8D03CE471DF96DAD000BA848 /* StoreType.swift */,
-				8D03CE4F1DF97811000BA848 /* Utilities.swift */,
+				8D897AFD1E5B05AC00325C6F /* PersistentContainer.swift */,
+				8D897AFF1E5B0B5D00325C6F /* PersistentStoreDescription.swift */,
 			);
 			name = Stack;
 			sourceTree = "<group>";
@@ -124,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9797F61DF8143300DAB75A /* ManagedObjectType.swift */,
+				8D897ABE1E5AF23800325C6F /* PersistentContainerSettable.swift */,
 				8D9797F71DF8143300DAB75A /* UniqueIdentifiable.swift */,
 			);
 			name = Protocols;
@@ -152,10 +151,10 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D03CE4B1DF973D5000BA848 /* Stack */,
-				8D03CE4C1DF973DB000BA848 /* Protocols */,
 				8D97980B1DF8146F00DAB75A /* Core Data Operation */,
 				8D9798091DF8144900DAB75A /* Data Source and Provider */,
+				8D03CE4C1DF973DB000BA848 /* Protocols */,
+				8D03CE4B1DF973D5000BA848 /* Stack */,
 				8D97980A1DF8145600DAB75A /* Supporting Files */,
 			);
 			path = THRCoreData;
@@ -167,6 +166,7 @@
 				8D9798141DF815E800DAB75A /* Test Model */,
 				8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */,
 				8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */,
+				8D897B061E5B3DE800325C6F /* AsyncStackTests.swift */,
 				8D06FC101E002B95001D7894 /* SavingTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
@@ -178,11 +178,11 @@
 		8D9798091DF8144900DAB75A /* Data Source and Provider */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797FF1DF8144500DAB75A /* DataSource.swift */,
+				8D9798031DF8144500DAB75A /* CollectionViewDataSource.swift */,
 				8D9798001DF8144500DAB75A /* DataProvider.swift */,
+				8D9797FF1DF8144500DAB75A /* DataSource.swift */,
 				8D9798011DF8144500DAB75A /* FetchedResultsDataProvider.swift */,
 				8D9798021DF8144500DAB75A /* TableViewDataSource.swift */,
-				8D9798031DF8144500DAB75A /* CollectionViewDataSource.swift */,
 			);
 			name = "Data Source and Provider";
 			sourceTree = "<group>";
@@ -421,15 +421,14 @@
 			files = (
 				8D9798071DF8144500DAB75A /* TableViewDataSource.swift in Sources */,
 				8D9798041DF8144500DAB75A /* DataSource.swift in Sources */,
-				8D03CE481DF96DAD000BA848 /* StoreType.swift in Sources */,
+				8D897AFE1E5B05AC00325C6F /* PersistentContainer.swift in Sources */,
 				8D9798061DF8144500DAB75A /* FetchedResultsDataProvider.swift in Sources */,
+				8D897ABF1E5AF23800325C6F /* PersistentContainerSettable.swift in Sources */,
 				8D9797F91DF8143300DAB75A /* ManagedObjectType.swift in Sources */,
-				8D03CE501DF97811000BA848 /* Utilities.swift in Sources */,
-				8D0AD0B71E0194B7003600B2 /* CoreDataFunctions.swift in Sources */,
+				8D897B001E5B0B5D00325C6F /* PersistentStoreDescription.swift in Sources */,
 				8D9798081DF8144500DAB75A /* CollectionViewDataSource.swift in Sources */,
 				8D9798051DF8144500DAB75A /* DataProvider.swift in Sources */,
 				8D9797FE1DF8143C00DAB75A /* CoreDataOperation.swift in Sources */,
-				8D9797F81DF8143300DAB75A /* CoreDataManager.swift in Sources */,
 				8D9797FA1DF8143300DAB75A /* UniqueIdentifiable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +445,7 @@
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
 				8D06FC111E002B95001D7894 /* SavingTests.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
+				8D897B071E5B3DE800325C6F /* AsyncStackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "THRCoreData"
-  s.version      = "0.2.4"
+  s.version      = "0.3.0"
   s.summary      = "Lightweight Core Data helper to reduce boilerplate code."
   s.homepage     = "https://gitlab.3squared.com/iOSLibraries/THRCoreData.git"
   s.license      = { :type => 'Custom', :file => 'LICENCE' }
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.source       = { :git => "git@gitlab.3squared.com:iOSLibraries/THRCoreData.git", :tag => s.version.to_s }
   s.source_files = "THRCoreData", "THRCoreData/**/*.{h,m,swift}"
-  s.dependency 'THROperations', '~> 0.0.1'
+  s.dependency 'THROperations'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3' }
 
 end

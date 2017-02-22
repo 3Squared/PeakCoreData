@@ -1,15 +1,15 @@
 PODS:
-  - THROperations (0.0.1):
+  - THROperations (0.1.0):
     - THRResult (~> 0.0.1)
   - THRResult (0.0.1)
 
 DEPENDENCIES:
-  - THROperations (~> 0.0.1)
+  - THROperations
 
 SPEC CHECKSUMS:
-  THROperations: 18de9672b2d47dc53128a0e344459daa9b2e0276
+  THROperations: 039c24eb7416cf8d684c1e07be9135b5876af06a
   THRResult: 173d7193812ef859e14c8fdbe8cd81e9deea5db4
 
-PODFILE CHECKSUM: d8499474fc2f9f7e2650994bc0c732d1fcda6735
+PODFILE CHECKSUM: 56d79fa355be41575e740fa32b2df3228b6ff402
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

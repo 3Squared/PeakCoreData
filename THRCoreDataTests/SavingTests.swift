@@ -23,7 +23,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: mainContext) { result in
+        persistentContainer.save(context: mainContext) { result in
             didCallCompletion = true
             switch result {
             case .success(.noChanges):
@@ -59,7 +59,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: mainContext) { result in
+        persistentContainer.saveMainContext { (result) in
             didCallCompletion = true
             switch result {
             case .success(.saved):
@@ -97,7 +97,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: backgroundContext) { result in
+        persistentContainer.saveBackgroundContext { result in
             didCallCompletion = true
             switch result {
             case .success(.saved):
@@ -118,7 +118,7 @@ class SavingTests: CoreDataTests {
     }
     
     func testSavingChildOfMainContextSucceedsAndSavesParent() {
-        let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         
         var didSaveChild = false
@@ -142,7 +142,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: childContext) {
+        persistentContainer.save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {
@@ -165,7 +165,7 @@ class SavingTests: CoreDataTests {
     }
     
     func testSavingChildOfBackgroundContextSucceedsAndSavesParent() {
-        let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         
         var didSaveChild = false
@@ -189,7 +189,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        save(context: childContext) {
+        persistentContainer.save(context: childContext) {
             result in
             didCallCompletion = true
             switch result {
