@@ -59,7 +59,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        persistentContainer.save(context: mainContext) { result in
+        persistentContainer.saveMainContext { (result) in
             didCallCompletion = true
             switch result {
             case .success(.saved):
@@ -97,7 +97,7 @@ class SavingTests: CoreDataTests {
         let saveExpectation = expectation(description: #function)
         
         var didCallCompletion = false
-        persistentContainer.save(context: backgroundContext) { result in
+        persistentContainer.saveBackgroundContext { result in
             didCallCompletion = true
             switch result {
             case .success(.saved):
