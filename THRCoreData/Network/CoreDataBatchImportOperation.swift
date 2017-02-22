@@ -12,7 +12,7 @@ import THROperations
 import THRNetwork
 import THRResult
 
-open class ImportManyOperation<J, M>: CoreDataOperation, ConsumesResult where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
+open class CoreDataBatchImportOperation<J, M>: CoreDataOperation, ConsumesResult where J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
     
     public var input: Result<[J]> = Result { throw ResultError.noResult }
 
@@ -24,7 +24,6 @@ open class ImportManyOperation<J, M>: CoreDataOperation, ConsumesResult where J:
         
         do {
             let intermediates = try input.resolve()
-            
             M.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
                 model.updateProperties(with: intermediate as! M.T)
             }

@@ -56,7 +56,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         for item in 0..<number {
             let id = UUID().uuidString
             let title = "Item " + String(item)
-            let intermediate = TestEntity.JSON(uniqueID: id, title: title)
+            let intermediate = try! TestEntity.JSON(fromJson: ["id": id, "title": title])
             intermediateItems.append(intermediate)
             
             // Create a managed object for half the items, to check that they are correctly updated

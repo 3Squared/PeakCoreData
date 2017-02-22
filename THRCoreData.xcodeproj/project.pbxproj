@@ -31,8 +31,7 @@
 		CBF972B81E5DEF0D00F37801 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */; };
 		CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */; };
 		CBF972BB1E5DEF2100F37801 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* Updatable.swift */; };
-		CBF972BE1E5DEF2900F37801 /* ImportManyOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* ImportManyOperation.swift */; };
-		CBF972BF1E5DEF2900F37801 /* ImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BD1E5DEF2900F37801 /* ImportOperation.swift */; };
+		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
 		E8ADC1A6D96F21719BC9F596 /* Pods_THRCoreDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,8 +77,7 @@
 		CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentContainer.swift; path = Core/PersistentContainer.swift; sourceTree = "<group>"; };
 		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentStoreDescription.swift; path = Core/PersistentStoreDescription.swift; sourceTree = "<group>"; };
 		CBF972BA1E5DEF2100F37801 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Updatable.swift; path = Network/Updatable.swift; sourceTree = "<group>"; };
-		CBF972BC1E5DEF2900F37801 /* ImportManyOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportManyOperation.swift; path = Network/ImportManyOperation.swift; sourceTree = "<group>"; };
-		CBF972BD1E5DEF2900F37801 /* ImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportOperation.swift; path = Network/ImportOperation.swift; sourceTree = "<group>"; };
+		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataBatchImportOperation.swift; path = Network/CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
 		E4660F831E862B77D4C59B2B /* Pods-THRCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -206,8 +204,7 @@
 		8D97980B1DF8146F00DAB75A /* Core Data Operation */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972BC1E5DEF2900F37801 /* ImportManyOperation.swift */,
-				CBF972BD1E5DEF2900F37801 /* ImportOperation.swift */,
+				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 			);
 			name = "Core Data Operation";
@@ -437,8 +434,7 @@
 				CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */,
 				CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */,
 				CBF972B81E5DEF0D00F37801 /* PersistentContainer.swift in Sources */,
-				CBF972BE1E5DEF2900F37801 /* ImportManyOperation.swift in Sources */,
-				CBF972BF1E5DEF2900F37801 /* ImportOperation.swift in Sources */,
+				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
 				CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */,
 				CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */,
