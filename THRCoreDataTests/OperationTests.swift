@@ -26,7 +26,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(coreDataManager: coreDataManager, uniqueKeyValue: id)
+            let operation = AddOneOperation(persistentContainer: persistentContainer, uniqueKeyValue: id)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -37,7 +37,7 @@ class OperationTests: CoreDataTests {
         var count = 0
         let finishOperation = BlockOperation {
             // Check that all the changes have made their way to the main context
-            let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.coreDataManager.mainContext)
+            let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.mainContext)
             count = Int(objectToUpdate.count)
             finishExpectation.fulfill()
         }
@@ -59,7 +59,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<numberOfInserts {
-            let operation = BatchImportOperation(coreDataManager: coreDataManager, intermediateItemCount: numberOfItems)
+            let operation = BatchImportOperation(persistentContainer: persistentContainer, intermediateItemCount: numberOfItems)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -70,7 +70,7 @@ class OperationTests: CoreDataTests {
         var count = 0
         let finishOperation = BlockOperation {
             // Check that all the changes have made their way to the main context
-            count = TestEntity.count(inContext: self.coreDataManager.mainContext)
+            count = TestEntity.count(inContext: self.mainContext)
             finishExpectation.fulfill()
         }
         
@@ -88,9 +88,9 @@ class AddOneOperation: CoreDataOperation {
     
     let uniqueKeyValue: String
     
-    init(coreDataManager: CoreDataManager, uniqueKeyValue: String) {
+    init(persistentContainer: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(coreDataManager: coreDataManager)
+        super.init(persistentContainer: persistentContainer)
     }
     
     override func performWork(inContext context: NSManagedObjectContext) {
@@ -104,9 +104,9 @@ class BatchImportOperation: CoreDataOperation {
     
     let intermediateItemCount: Int
     
-    init(coreDataManager: CoreDataManager, intermediateItemCount: Int) {
+    init(persistentContainer: PersistentContainer, intermediateItemCount: Int) {
         self.intermediateItemCount = intermediateItemCount
-        super.init(coreDataManager: coreDataManager)
+        super.init(persistentContainer: persistentContainer)
     }
     
     override func performWork(inContext context: NSManagedObjectContext) {

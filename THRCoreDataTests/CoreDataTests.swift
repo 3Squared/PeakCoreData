@@ -14,26 +14,40 @@ import THRCoreData
 let defaultTimeout = TimeInterval(2)
 let modelName = "TestModel"
 
-class CoreDataTests: XCTestCase {
+class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var coreDataManager: CoreDataManager!
-    
-    var mainContext: NSManagedObjectContext {
-        return coreDataManager.mainContext
-    }
-    
-    var backgroundContext: NSManagedObjectContext {
-        return coreDataManager.backgroundContext
-    }
+    var persistentContainer: PersistentContainer!
     
     override func setUp() {
         super.setUp()
         let bundle = Bundle(for: type(of: self))
-        coreDataManager = CoreDataManager(modelName: modelName, storeType: .inMemory, bundle: bundle)
+        guard let modelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
+            fatalError("*** Error loading model URL for model named \(name) in main bundle")
+        }
+        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
+            fatalError("*** Error loading managed object model at url: \(modelURL)")
+        }
+        persistentContainer = PersistentContainer(name: modelName, model: model)
+        let storeURL = persistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
+        
+        var storeDescription = PersistentStoreDescription(url: storeURL)
+        storeDescription.type = .inMemory        
+        persistentContainer.persistentStoreDescription = storeDescription
+        
+        persistentContainer.loadPersistentStores {
+            complete in
+            
+            switch complete {
+            case .success(let description):
+                print(description)
+            case .failure(let error):
+                fatalError("*** Error loading persistent stores \(error)")
+            }
+        }
     }
     
     override func tearDown() {
-        coreDataManager = nil
+        persistentContainer = nil
         super.tearDown()
     }
     
