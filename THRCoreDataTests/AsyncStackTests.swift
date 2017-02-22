@@ -14,25 +14,27 @@ import THRCoreData
 class AsyncStackTests: XCTestCase, PersistentContainerSettable {
 
     var persistentContainer: PersistentContainer!
-    
-    override func setUp() {
-        super.setUp()
-        
+    var model: NSManagedObjectModel {
         let bundle = Bundle(for: type(of: self))
         guard let modelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
-            fatalError("*** Error loading model URL for model named \(name) in main bundle")
+            fatalError("*** Error loading model URL for model named \(modelName) in main bundle")
         }
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
-        persistentContainer = PersistentContainer(name: modelName, model: model)
+        return model
+    }
+    var asyncStoreDescription: PersistentStoreDescription {
         let storeURL = persistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
-
         var storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory
         storeDescription.shouldAddStoreAsynchronously = true
-        
-        persistentContainer.persistentStoreDescription = storeDescription
+        return storeDescription
+    }
+    
+    override func setUp() {
+        super.setUp()
+        persistentContainer = PersistentContainer(name: modelName, model: model)
     }
     
     override func tearDown() {
@@ -45,6 +47,7 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
         let setupExpectation = expectation(description: #function)
         
         var didCallCompletion = false
+        persistentContainer.persistentStoreDescription = asyncStoreDescription
         persistentContainer.loadPersistentStores { result in
             didCallCompletion = true
             switch result {
@@ -70,6 +73,7 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
         let setupExpectation = expectation(description: #function)
         
         var didCallCompletion = false
+        persistentContainer.persistentStoreDescription = asyncStoreDescription
         persistentContainer.loadPersistentStores { result in
             didCallCompletion = true
             switch result {
@@ -89,7 +93,7 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
             XCTAssertEqual(testContext.persistentStoreCoordinator!.persistentStores.count, 1, "Should be 1 persistent store here")
         })
     }
-    
+
     func testSamePersistentStoreCoordinator() {
         XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
     }
