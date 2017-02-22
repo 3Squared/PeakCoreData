@@ -32,26 +32,26 @@ class StackTests: CoreDataTests {
     }
     
     func testMainContextChildContext() {
-        let childContext = coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         XCTAssertNotNil(childContext, "")
         XCTAssertEqual(childContext.parent, mainContext, "Parent of main child queue context should be main context")
     }
     
     func testBackgroundContextChildContext() {
-        let childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         XCTAssertNotNil(childContext, "")
         XCTAssertEqual(childContext.parent, backgroundContext, "Parent of private queue child context should be background context")
     }
     
     func testChildContextIsIndependentOfMainContext() {
-        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
         CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: mainContext)
         XCTAssertTrue(count == 0, "Count should be 0")
     }
     
     func testChildContextIsIndependentOfBackgroundContext() {
-        let childContext = self.coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        let childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
         let count = TestEntity.count(inContext: backgroundContext)
         XCTAssertTrue(count == 0, "Count should be 0")

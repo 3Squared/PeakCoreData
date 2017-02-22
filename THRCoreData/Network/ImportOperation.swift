@@ -10,19 +10,20 @@ import Foundation
 import CoreData
 import THROperations
 import THRNetwork
+import THRResult
 
-open class ImportOperation<J, M>: CoreDataOperation where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
+open class ImportOperation<J, M>: CoreDataOperation, ConsumesResult where J: JSONConvertible, J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
     
+    public var input: Result<J> = Result { throw ResultError.noResult }
+
     override open func performWork(inContext context: NSManagedObjectContext) {
         defer { completeAndSave() }
         
         // Bad way to restore some type safety
         if J.self != M.T.self { fatalError() }
         
-        guard let previous = dependencies.last as? ResultOperation<J> else { return }
-        
         do {
-            let intermediate = try previous.result().resolve()
+            let intermediate = try input.resolve()
             
             M.fetchOrInsertObject(withUniqueKeyValue: intermediate.uniqueIDValue, inContext: context) { model in
                 model.updateProperties(with: intermediate as! M.T)

@@ -60,7 +60,7 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
     }
     
     public func showEmptyViewIfNeeded() {
-        if dataProvider.totalNumberOfItems == 0, let emptyView = delegate.emptyView() {
+        if dataProvider.isEmpty, let emptyView = delegate.emptyView() {
             collectionView.backgroundView = emptyView
         } else {
             let view = UIView()
