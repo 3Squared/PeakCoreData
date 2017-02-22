@@ -14,6 +14,8 @@ open class CoreDataOperation: BaseOperation {
     
     fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
+    
+    public var saveError: Error?
 
     public init(persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
@@ -48,6 +50,9 @@ extension CoreDataOperation {
         
         persistentContainer.save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
+            if case .failure(let error) = result {
+                strongSelf.saveError = error
+            }
             strongSelf.finish()
         }
     }
