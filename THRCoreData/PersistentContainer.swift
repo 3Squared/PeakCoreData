@@ -231,7 +231,7 @@ extension PersistentContainer {
         case .privateQueueConcurrencyType:
             childContext.parent = backgroundContext
         case .confinementConcurrencyType:
-            fatalError("Error: ConfinementConcurrencyType is not supported because it is being deprecated in iOS 9.0")
+            fatalError("*** confinementConcurrencyType is not supported because it is being deprecated in iOS 9.0")
         }
         
         if let name = childContext.parent?.name {
