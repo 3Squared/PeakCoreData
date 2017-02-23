@@ -43,7 +43,9 @@ open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
 
 extension CoreDataOperation {
 
-    public func completeAndSave() {
+    /// Save the context, and finish the operation.
+    /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
+    public func finishAndSave() {
         guard !isCancelled else {
             finish()
             return
