@@ -12,4 +12,5 @@ import THRNetwork
 public protocol Updatable {
     associatedtype JSONRepresentation: JSONConvertible
     func updateProperties(with json: JSONRepresentation)
+    func updateRelationships(with json: JSONRepresentation)
 }

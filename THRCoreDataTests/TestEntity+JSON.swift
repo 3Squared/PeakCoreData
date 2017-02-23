@@ -23,6 +23,11 @@ extension TestEntity: Updatable {
     }
     
     public func updateProperties(with json: TestEntity.JSON) {
+        uniqueID = json.uniqueID
+        title = json.title
+    }
+    
+    public func updateRelationships(with json: TestEntity.JSON) {
         
     }
 }
