@@ -12,7 +12,7 @@ import THROperations
 import THRNetwork
 import THRResult
 
-open class CoreDataBatchImportOperation<JSONRepresentation, ManagedObject>: CoreDataOperation, ConsumesResult where
+open class CoreDataImportOperation<JSONRepresentation, ManagedObject>: CoreDataOperation, ConsumesResult where
     ManagedObject: NSManagedObject,
     ManagedObject: ManagedObjectType,
     ManagedObject: UniqueIdentifiable,
