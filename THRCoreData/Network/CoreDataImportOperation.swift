@@ -12,15 +12,14 @@ import THROperations
 import THRNetwork
 import THRResult
 
-open class CoreDataImportOperation<JSONRepresentation, ManagedObject>: CoreDataOperation, ConsumesResult where
+open class CoreDataImportOperation<ManagedObject>: CoreDataOperation, ConsumesResult where
     ManagedObject: NSManagedObject,
     ManagedObject: ManagedObjectType,
     ManagedObject: UniqueIdentifiable,
     ManagedObject: Updatable,
-    JSONRepresentation: UniqueIdentifiable,
-    JSONRepresentation == ManagedObject.JSONRepresentation
+    ManagedObject.JSONRepresentation: UniqueIdentifiable
 {
-    public var input: Result<[JSONRepresentation]> = Result { throw ResultError.noResult }
+    public var input: Result<[ManagedObject.JSONRepresentation]> = Result { throw ResultError.noResult }
     
     override open func performWork(inContext context: NSManagedObjectContext) {
         defer { completeAndSave() }
