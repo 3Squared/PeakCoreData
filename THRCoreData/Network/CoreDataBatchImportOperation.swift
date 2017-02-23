@@ -12,20 +12,22 @@ import THROperations
 import THRNetwork
 import THRResult
 
-open class CoreDataBatchImportOperation<J, M>: CoreDataOperation, ConsumesResult where J: UniqueIdentifiable, M: NSManagedObject, M: ManagedObjectType, M: UniqueIdentifiable, M: Updatable {
+open class CoreDataBatchImportOperation<JSONRepresentation, ManagedObject>: CoreDataOperation, ConsumesResult where
+    ManagedObject: NSManagedObject,
+    ManagedObject: ManagedObjectType,
+    ManagedObject: UniqueIdentifiable,
+    ManagedObject: Updatable,
+    JSONRepresentation: UniqueIdentifiable,
+    JSONRepresentation == ManagedObject.JSONRepresentation
+{
+    public var input: Result<[JSONRepresentation]> = Result { throw ResultError.noResult }
     
-    public var input: Result<[J]> = Result { throw ResultError.noResult }
-
     override open func performWork(inContext context: NSManagedObjectContext) {
         defer { completeAndSave() }
-        
-        // Bad way to restore some type safety
-        if J.self != M.T.self { fatalError() }
-        
         do {
             let intermediates = try input.resolve()
-            M.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
-                model.updateProperties(with: intermediate as! M.T)
+            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
+                model.updateProperties(with: intermediate)
             }
         } catch {
             print(error)
