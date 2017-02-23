@@ -91,10 +91,10 @@ class OperationTests: CoreDataTests {
     }
 }
 
-class AddOneOperation: CoreDataOperation {
+class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
-    
+
     init(persistentContainer: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
         super.init(persistentContainer: persistentContainer)
@@ -107,21 +107,3 @@ class AddOneOperation: CoreDataOperation {
     }
 }
 
-//class BatchImportOperation: CoreDataOperation {
-//    
-//    let intermediateItemCount: Int
-//    
-//    init(persistentContainer: PersistentContainer, intermediateItemCount: Int) {
-//        self.intermediateItemCount = intermediateItemCount
-//        super.init(persistentContainer: persistentContainer)
-//    }
-//    
-//    override func performWork(inContext context: NSManagedObjectContext) {
-//        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: intermediateItemCount, inContext: context)
-//        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: context) {
-//            (intermediate, managedObject) in
-//            managedObject.title = intermediate.title
-//        }
-//        completeAndSave()
-//    }
-//}

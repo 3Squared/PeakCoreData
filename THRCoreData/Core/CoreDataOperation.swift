@@ -9,13 +9,14 @@
 import UIKit
 import CoreData
 import THROperations
+import THRResult
 
-open class CoreDataOperation: BaseOperation {
+open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
     
     fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
     
-    public var saveError: Error?
+    public var output: Result<Output> = Result { throw ResultError.noResult }
 
     public init(persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
@@ -51,7 +52,7 @@ extension CoreDataOperation {
         persistentContainer.save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
             if case .failure(let error) = result {
-                strongSelf.saveError = error
+                strongSelf.output = Result { throw error }
             }
             strongSelf.finish()
         }
