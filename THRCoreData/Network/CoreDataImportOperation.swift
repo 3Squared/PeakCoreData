@@ -28,6 +28,10 @@ open class CoreDataImportOperation<ManagedObject>: CoreDataOperation, ConsumesRe
             ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
                 model.updateProperties(with: intermediate)
             }
+            
+            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
+                model.updateRelationships(with: intermediate)
+            }
         } catch {
             print(error)
         }
