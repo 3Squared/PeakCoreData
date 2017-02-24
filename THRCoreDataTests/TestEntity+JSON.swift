@@ -8,22 +8,37 @@
 
 import Foundation
 @testable import THRCoreData
+import THRNetwork
 
-extension TestEntity {
+extension TestEntity: Updatable {
     
-    struct JSON {
+    public struct JSON: JSONConvertible {
         let uniqueID: String
         let title: String
+        
+        public init(fromJson json: JSONObject) throws {
+            uniqueID = json["id"] as! String
+            title = json["title"] as! String
+        }
+    }
+    
+    public func updateProperties(with json: TestEntity.JSON) {
+        uniqueID = json.uniqueID
+        title = json.title
+    }
+    
+    public func updateRelationships(with json: TestEntity.JSON) {
+        
     }
 }
 
 extension TestEntity.JSON: UniqueIdentifiable {
     
-    static var uniqueIDKey: String {
+    public static var uniqueIDKey: String {
         return "uniqueID"
     }
     
-    var uniqueIDValue: String {
+    public var uniqueIDValue: String {
         return uniqueID
     }
 }
