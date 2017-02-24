@@ -21,7 +21,7 @@ open class CoreDataImportOperation<ManagedObject>: CoreDataOperation<Changeset>,
 {
     public var input: Result<[ManagedObject.JSONRepresentation]> = Result { throw ResultError.noResult }
 
-    override open func performWork(inContext context: NSManagedObjectContext) {
+    open override func performWork(inContext context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
 
