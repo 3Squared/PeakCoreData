@@ -4,6 +4,14 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+0.4.0
+-----
+
+- Adds a CoreDataImportOperation in a separate subspec
+- Adds a default block to loadPersistentStore() method
+- Changes completeAndSave() to finishAndSave()
+
+
 0.3.0
 -----
 

@@ -21,14 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let tbc = window?.rootViewController as? UITabBarController else { fatalError("Wrong initial view controller") }
         
         persistentContainer = PersistentContainer(name: "THRCoreDataExample")
-        persistentContainer.loadPersistentStores { (result) in
-            switch result {
-            case .success(let description):
-                print(description)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        persistentContainer.loadPersistentStores()
 
         for vc in tbc.viewControllers! {
             if let nc = vc as? UINavigationController, let vc = nc.topViewController as? PersistentContainerSettable {
