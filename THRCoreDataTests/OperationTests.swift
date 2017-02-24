@@ -10,6 +10,7 @@ import XCTest
 import CoreData
 @testable
 import THRCoreData
+import THRResult
 
 class OperationTests: CoreDataTests {
     
@@ -54,40 +55,74 @@ class OperationTests: CoreDataTests {
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
-        var previousOperation: BatchImportOperation? = nil
+        var previousOperation: CoreDataImportOperation<TestEntity>? = nil
 
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<numberOfInserts {
-            let operation = BatchImportOperation(persistentContainer: persistentContainer, intermediateItemCount: numberOfItems)
+        
+            // Create intermediate objects
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.mainContext)
+            try! persistentContainer.mainContext.save()
+            
+            
+            // Create import operation with intermediates as input
+            let operation = CoreDataImportOperation<TestEntity>(persistentContainer: persistentContainer)
+            operation.input = Result { input }
+            
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
+            
             operationQueue.addOperation(operation)
             previousOperation = operation
         }
         
-        var count = 0
-        let finishOperation = BlockOperation {
-            // Check that all the changes have made their way to the main context
-            count = TestEntity.count(inContext: self.mainContext)
+        previousOperation?.addResultBlock { result in
+            let count = TestEntity.count(inContext: self.mainContext)
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
             finishExpectation.fulfill()
         }
         
-        finishOperation.addDependency(previousOperation!)
-        operationQueue.addOperation(finishOperation)
-        
         // THEN: then the main and background contexts are saved and the completion handler is called
-        waitForExpectations(timeout: defaultTimeout, handler: { error in
-            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
-        })
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
+    func testBatchImportOutcomeNumbersAreCorrect() {
+        let numberOfItems = 100
+        let finishExpectation = expectation(description: #function)
+
+        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.mainContext)
+        try! persistentContainer.mainContext.save()
+        
+        // Create import operation with intermediates as input
+        let operation = CoreDataImportOperation<TestEntity>(persistentContainer: persistentContainer)
+        operation.input = Result { input }
+        
+        operation.addResultBlock { result in
+            let outcome = try! result.resolve()
+            outcome.inserted.forEach {
+                XCTAssertFalse($0.isTemporaryID)
+            }
+            outcome.updated.forEach {
+                XCTAssertFalse($0.isTemporaryID)
+            }
+            XCTAssertEqual(outcome.inserted.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.updated.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.all.count, numberOfItems)
+
+            finishExpectation.fulfill()
+        }
+        
+        operationQueue.addOperation(operation)
+        waitForExpectations(timeout: defaultTimeout)
     }
 }
 
-class AddOneOperation: CoreDataOperation {
+class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
-    
+
     init(persistentContainer: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
         super.init(persistentContainer: persistentContainer)
@@ -96,25 +131,7 @@ class AddOneOperation: CoreDataOperation {
     override func performWork(inContext context: NSManagedObjectContext) {
         let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: uniqueKeyValue, inContext: context)
         objectToUpdate.count += 1
-        completeAndSave()
+        finishAndSave()
     }
 }
 
-class BatchImportOperation: CoreDataOperation {
-    
-    let intermediateItemCount: Int
-    
-    init(persistentContainer: PersistentContainer, intermediateItemCount: Int) {
-        self.intermediateItemCount = intermediateItemCount
-        super.init(persistentContainer: persistentContainer)
-    }
-    
-    override func performWork(inContext context: NSManagedObjectContext) {
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: intermediateItemCount, inContext: context)
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, inContext: context) {
-            (intermediate, managedObject) in
-            managedObject.title = intermediate.title
-        }
-        completeAndSave()
-    }
-}
