@@ -67,7 +67,7 @@ class OperationTests: CoreDataTests {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntity>(persistentContainer: persistentContainer)
+            let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -96,7 +96,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.mainContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataImportOperation<TestEntity>(persistentContainer: persistentContainer)
+        let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
         operation.input = Result { input }
         
         operation.addResultBlock { result in
@@ -125,7 +125,7 @@ class AddOneOperation: CoreDataOperation<Void> {
 
     init(persistentContainer: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(persistentContainer: persistentContainer)
+        super.init(with: persistentContainer)
     }
     
     override func performWork(inContext context: NSManagedObjectContext) {

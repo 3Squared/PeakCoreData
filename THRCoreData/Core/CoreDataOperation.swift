@@ -18,7 +18,7 @@ open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
     
     public var output: Result<Output> = Result { throw ResultError.noResult }
 
-    public init(persistentContainer: PersistentContainer) {
+    public init(with persistentContainer: PersistentContainer) {
         self.persistentContainer = persistentContainer
     }
     
