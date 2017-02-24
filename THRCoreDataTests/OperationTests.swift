@@ -27,7 +27,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(persistentContainer: persistentContainer, uniqueKeyValue: id)
+            let operation = AddOneOperation(with: persistentContainer, uniqueKeyValue: id)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -123,7 +123,7 @@ class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
 
-    init(persistentContainer: PersistentContainer, uniqueKeyValue: String) {
+    init(with persistentContainer: PersistentContainer, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
         super.init(with: persistentContainer)
     }
