@@ -34,16 +34,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         storeDescription.type = .inMemory        
         persistentContainer.persistentStoreDescription = storeDescription
         
-        persistentContainer.loadPersistentStores {
-            complete in
-            
-            switch complete {
-            case .success(let description):
-                print(description)
-            case .failure(let error):
-                fatalError("*** Error loading persistent stores \(error)")
-            }
-        }
+        persistentContainer.loadPersistentStores()
     }
     
     override func tearDown() {
