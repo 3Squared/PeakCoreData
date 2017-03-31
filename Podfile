@@ -6,7 +6,8 @@ source 'git@gitlab.3squared.com:iOSLibraries/CocoaPodSpecs.git'
 target 'THRCoreData' do
   use_frameworks!
 
-  pod 'THROperations', '~> 0.0.1'
+  pod 'THROperations'
+  pod 'THRNetwork'
 
   target 'THRCoreDataTests' do
     inherit! :search_paths

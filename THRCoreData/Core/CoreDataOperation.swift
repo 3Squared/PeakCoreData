@@ -11,19 +11,21 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataOperation: ConcurrentOperation<SaveOutcome> {
+open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
     
-    fileprivate let coreDataManager: CoreDataManager
+    fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
+    
+    public var output: Result<Output> = Result { throw ResultError.noResult }
 
-    public init(coreDataManager: CoreDataManager) {
-        self.coreDataManager = coreDataManager
+    public init(with persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
     }
     
     // MARK: - ConcurrentOperation Overrides
 
     open override func run() {
-        childContext = coreDataManager.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
         }
@@ -41,15 +43,19 @@ open class CoreDataOperation: ConcurrentOperation<SaveOutcome> {
 
 extension CoreDataOperation {
 
-    public func completeAndSave() {
+    /// Save the context, and finish the operation.
+    /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
+    public func finishAndSave() {
         guard !isCancelled else {
             finish()
             return
         }
         
-        save(context: childContext) { [weak self] result in
+        persistentContainer.save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
-            strongSelf.operationResult = result
+            if case .failure(let error) = result {
+                strongSelf.output = Result { throw error }
+            }
             strongSelf.finish()
         }
     }
