@@ -14,52 +14,29 @@ pod 'THRCoreData'
 
 ### PersistentContainer
 
-`PersistentContainer` works in a similar way to `NSPersistentContainer` in that it sets up and manages your core data stack. 
+`PersistentContainer` is a container that encapsulates the Core Data stack in your application and works in a similar way to `NSPersistentContainer`. It is recommemded that you initialise the `PersistentContainer`in your `AppDelegate` then pass it on to your initial view controller.
 
-You should only ever use a single `CoreDataManager` as it maintains the persistent store coordinator instance for your Core Data stack. It is recommended you create it in your AppDelegate and then pass it to your initial view controller.
-
-```
-import THRCoreData
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CoreDataManagerSettable {
-        
-    var window: UIWindow?
-    var coreDataManager: CoreDataManager!
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        // Setup core data manager / sync manager
-        
-        coreDataManager = CoreDataManager(modelName: "MODEL_NAME")
-
-        // Pass core data manager to initial view controller
-        
-        guard let viewController = window?.rootViewController as? CoreDataManagerSettable else { fatalError("Wrong initial view controller type") }
-
-        viewController.coreDataManager = coreDataManager
-        
-        return true
-    }
-}
+```Swift
+let persistentContainer = PersistentContainer(name: "THRCoreDataExample")
+persistentContainer.loadPersistentStores()
 ```
 
-The `CoreDataManager` initialiser can take two additional properties: 
+### PersistentStoreDescription
 
-* `StoreType`: This is an `enum` that encapsulates the three different model types `NSSQLiteStoreType`, `NSBinaryStoreType` and `NSInMemoryStoreType`. This is set to `NSSQLiteStoreType` by default. Note: If you are writing unit tests that interact with Core Data, then a context manager with `NSInMemoryStoreType` is useful as changes are not persisted between test suite runs, and side effects from your production SQLite database do not contaminate your tests.
-* `Bundle`: The `Bundle` that contains the model file. This is set to `.main` by default, but it is useful to be able to specify the specific `Bundle` when using the `CoreDataManager` in unit tests.
+A `PersistentStoreDescription` object can be used to customise the way the persistent store is setup and loaded. This includes the store url, store type (`NSSQLiteStoreType`, `NSInMemoryStoreType`), whether the store should be loaded synchronously or asychronously and whether the store should migrate the store automatically. This should be initialised and set on the `PersistentContainer` before `loadPersistentStores()` is called.
 
-The `CoreDataManager` creates and manages two `NSManagedObjectContext` instances:
+```Swift
+var storeDescription = PersistentStoreDescription(url: storeURL)
+storeDescription.type = .inMemory
+persistentContainer.persistentStoreDescription = storeDescription
+```
 
-### Main Context
+### NSManagedObjectContexts
 
-The main context is initialised with `NSMainQueueConcurrencyType`and should therefore only be used while on the main thread. Failure to use the main context on the main thread will result inconsistent behaviour and possible crashes. This context can be saved using the `saveMainContext()` method. When the main context is saved, the changes are automatically merged in to the background context.
+The `PersistentContainer` creates and manages two `NSManagedObjectContext` instances:
 
-### Background Context
-
-The background context is initialised with `NSPrivateQueueConcurrencyType` and so is designed to perform Core Data work off the main thread. This context can be saved using the `saveBackgroundContext()` method. When the backgound context is saved, the changes are automatically merged in to the main context.
-
-### Child Contexts
+1. `mainContext` is initialised with concurrency type `NSMainQueueConcurrencyType` and so should only be used while on the main thread. This context can be saved using the `saveMainContext()` method and changes from the `mainContext` are automatically merged in to the background context.
+2. `backgroundContext` is initialised with concurrency type `NSPrivateQueueConcurrencyType` and so is designed to perform work off the main thread. This context can be saved using the `saveBackgroundContext()` method and changes are automatically merged in to the main context.
 
 The `createChildContext(withConcurrencyType:mergePolicyType:)` method creates a new child context with the specified `concurrencyType` and `mergePolicyType`. The parent context is either `mainContext` or `backgroundContext` depending on the specified `concurrencyType`:
 
@@ -90,7 +67,7 @@ Each view controller that needs access to the `CoreDataManager` should conform t
 
 ```
 
-## ManagedObjectType
+### ManagedObjectType
 
 Managed object type has convenience methods for:
 
