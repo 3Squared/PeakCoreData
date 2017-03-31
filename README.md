@@ -1,19 +1,20 @@
 # THRCoreData
 
-Collection of classes to make working with Core Data easier and help DRY-up your code. Provides convenience methods and classes for working in a multi-threaded environment with `NSManagedObject`s and `NSManagedObjectContext`s. Codifies some good practises for importing large data sets efficiently.
+Swift framework that makes working with Core Data easier and helps DRY-up your code. Provides convenience methods and classes for working in a multi-threaded environment with `NSManagedObject`s and `NSManagedObjectContext`s. Codifies some good practises for importing large data sets efficiently.
 
-# Installation
+## Installation
 
-* Using [Cocoapods](http://cocoapods.org), add `pod 'THRCoreData'` to your Podfile.
-* `import THRCoreData` as necessary.
+THRCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
-# Usage
+```ruby
+pod 'THRCoreData'
+```
 
-## CoreDataManager
+## Usage
 
-`CoreDataManager` is your first point of entry for using THRCoreData. It creates and manages `NSManagedObjectContext` instances for you.
+### PersistentContainer
 
-### Initialisation
+`PersistentContainer` works in a similar way to `NSPersistentContainer` in that it sets up and manages your core data stack. 
 
 You should only ever use a single `CoreDataManager` as it maintains the persistent store coordinator instance for your Core Data stack. It is recommended you create it in your AppDelegate and then pass it to your initial view controller.
 
