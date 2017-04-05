@@ -1,7 +1,7 @@
 PODS:
-  - THRNetwork (0.2.0):
-    - THROperations (~> 0.1.0)
-  - THROperations (0.1.0):
+  - THRNetwork (0.2.1):
+    - THROperations
+  - THROperations (0.2.0):
     - THRResult (~> 0.0.1)
   - THRResult (0.0.1)
 
@@ -10,8 +10,8 @@ DEPENDENCIES:
   - THROperations
 
 SPEC CHECKSUMS:
-  THRNetwork: 4226594e6ea3091d7c010024d3578ce378783e45
-  THROperations: 039c24eb7416cf8d684c1e07be9135b5876af06a
+  THRNetwork: b84cfa5631c4b5acb8fe886f453de3c525645aea
+  THROperations: 4b367afde0725be08875883bf67959b7c24b3daf
   THRResult: 173d7193812ef859e14c8fdbe8cd81e9deea5db4
 
 PODFILE CHECKSUM: 237530031ba44c464cff79994e22e5c7be14133f

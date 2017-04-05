@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
+open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     
     fileprivate let persistentContainer: PersistentContainer
     fileprivate var childContext: NSManagedObjectContext!
@@ -24,7 +24,7 @@ open class CoreDataOperation<Output>: BaseOperation, ProducesResult {
     
     // MARK: - ConcurrentOperation Overrides
 
-    open override func run() {
+    open override func execute() {
         childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
