@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+0.4.1
+-----
+
+- Updates THRNetwork and THROperations to latest versions
+
 0.4.0
 -----
 
