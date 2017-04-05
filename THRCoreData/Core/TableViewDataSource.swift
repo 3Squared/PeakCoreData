@@ -30,7 +30,7 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
     }
     
     public func processUpdates(updates: [DataProviderUpdate<Data.Object>]?) {
-        guard let updates = updates, self.tableView.window != nil else {
+        guard let updates = updates, tableView.window != nil else {
             tableView.reloadData()
             showEmptyViewIfNeeded()
             return
@@ -40,21 +40,21 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
         for update in updates {
             switch update {
             case .insert(let indexPath):
-                self.tableView.insertRows(at: [indexPath as IndexPath], with: .fade)
+                tableView.insertRows(at: [indexPath as IndexPath], with: .fade)
             case .update(let indexPath, let object):
-                guard let cell = self.tableView.cellForRow(at: indexPath as IndexPath) as? Delegate.Cell else { break }
-                self.delegate.configure(cell: cell, forObject: object)
+                guard let cell = tableView.cellForRow(at: indexPath as IndexPath) as? Delegate.Cell else { break }
+                delegate.configure(cell: cell, forObject: object)
             case .move(let fromIndexPath, let toIndexPath):
-                self.tableView.deleteRows(at: [fromIndexPath as IndexPath], with: .fade)
-                self.tableView.insertRows(at: [toIndexPath as IndexPath], with: .fade)
+                tableView.deleteRows(at: [fromIndexPath as IndexPath], with: .fade)
+                tableView.insertRows(at: [toIndexPath as IndexPath], with: .fade)
             case .delete(let indexPath):
-                self.tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
+                tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
             case .insertSection(let section):
                 let indexSet = IndexSet(integer: section)
-                self.tableView.insertSections(indexSet, with: .fade)
+                tableView.insertSections(indexSet, with: .fade)
             case .deleteSection(let section):
                 let indexSet = IndexSet(integer: section)
-                self.tableView.deleteSections(indexSet, with: .fade)
+                tableView.deleteSections(indexSet, with: .fade)
             }
         }
         tableView.endUpdates()
