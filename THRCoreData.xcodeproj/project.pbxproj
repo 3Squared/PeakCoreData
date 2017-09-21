@@ -63,19 +63,19 @@
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		B3CDBB0EF560E3F0BF171C18 /* Pods-THRCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
-		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataOperation.swift; path = Core/CoreDataOperation.swift; sourceTree = "<group>"; };
-		CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewDataSource.swift; path = Core/CollectionViewDataSource.swift; sourceTree = "<group>"; };
-		CBF972A71E5DEE7D00F37801 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataProvider.swift; path = Core/DataProvider.swift; sourceTree = "<group>"; };
-		CBF972A81E5DEE7D00F37801 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataSource.swift; path = Core/DataSource.swift; sourceTree = "<group>"; };
-		CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchedResultsDataProvider.swift; path = Core/FetchedResultsDataProvider.swift; sourceTree = "<group>"; };
-		CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewDataSource.swift; path = Core/TableViewDataSource.swift; sourceTree = "<group>"; };
-		CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedObjectType.swift; path = Core/ManagedObjectType.swift; sourceTree = "<group>"; };
-		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UniqueIdentifiable.swift; path = Core/UniqueIdentifiable.swift; sourceTree = "<group>"; };
-		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentContainerSettable.swift; path = Core/PersistentContainerSettable.swift; sourceTree = "<group>"; };
-		CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentContainer.swift; path = Core/PersistentContainer.swift; sourceTree = "<group>"; };
-		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentStoreDescription.swift; path = Core/PersistentStoreDescription.swift; sourceTree = "<group>"; };
-		CBF972BA1E5DEF2100F37801 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Updatable.swift; path = Network/Updatable.swift; sourceTree = "<group>"; };
-		CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataImportOperation.swift; path = Network/CoreDataImportOperation.swift; sourceTree = "<group>"; };
+		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
+		CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
+		CBF972A71E5DEE7D00F37801 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		CBF972A81E5DEE7D00F37801 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProvider.swift; sourceTree = "<group>"; };
+		CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
+		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
+		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
+		CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
+		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
+		CBF972BA1E5DEF2100F37801 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataImportOperation.swift; sourceTree = "<group>"; };
 		E4660F831E862B77D4C59B2B /* Pods-THRCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,24 +111,54 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8D03CE4B1DF973D5000BA848 /* Stack */ = {
+		8D1F2E281F74089500FE6643 /* Stack */ = {
 			isa = PBXGroup;
 			children = (
 				CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */,
+				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
 				CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */,
 			);
 			name = Stack;
 			sourceTree = "<group>";
 		};
-		8D03CE4C1DF973DB000BA848 /* Protocols */ = {
+		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972BA1E5DEF2100F37801 /* Updatable.swift */,
 				CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */,
 				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
-				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
+				CBF972BA1E5DEF2100F37801 /* Updatable.swift */,
 			);
 			name = Protocols;
+			sourceTree = "<group>";
+		};
+		8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */ = {
+			isa = PBXGroup;
+			children = (
+				CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */,
+				CBF972A71E5DEE7D00F37801 /* DataProvider.swift */,
+				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
+				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
+				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
+			);
+			name = "Fetched Results Data Source and Provider";
+			sourceTree = "<group>";
+		};
+		8D1F2E2B1F7408D600FE6643 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */,
+				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
+		8D1F2E2C1F7408E000FE6643 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8D9797DE1DF8138100DAB75A /* THRCoreData.h */,
+				8D9797DF1DF8138100DAB75A /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8D9797D11DF8138100DAB75A = {
@@ -154,11 +184,11 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D97980B1DF8146F00DAB75A /* Core Data Operation */,
-				8D9798091DF8144900DAB75A /* Data Source and Provider */,
-				8D03CE4C1DF973DB000BA848 /* Protocols */,
-				8D03CE4B1DF973D5000BA848 /* Stack */,
-				8D97980A1DF8145600DAB75A /* Supporting Files */,
+				8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */,
+				8D1F2E2B1F7408D600FE6643 /* Operations */,
+				8D1F2E291F7408AA00FE6643 /* Protocols */,
+				8D1F2E281F74089500FE6643 /* Stack */,
+				8D1F2E2C1F7408E000FE6643 /* Supporting Files */,
 			);
 			path = THRCoreData;
 			sourceTree = "<group>";
@@ -175,36 +205,6 @@
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
 			path = THRCoreDataTests;
-			sourceTree = "<group>";
-		};
-		8D9798091DF8144900DAB75A /* Data Source and Provider */ = {
-			isa = PBXGroup;
-			children = (
-				CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */,
-				CBF972A71E5DEE7D00F37801 /* DataProvider.swift */,
-				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
-				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
-				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
-			);
-			name = "Data Source and Provider";
-			sourceTree = "<group>";
-		};
-		8D97980A1DF8145600DAB75A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				8D9797DE1DF8138100DAB75A /* THRCoreData.h */,
-				8D9797DF1DF8138100DAB75A /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8D97980B1DF8146F00DAB75A /* Core Data Operation */ = {
-			isa = PBXGroup;
-			children = (
-				CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */,
-				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
-			);
-			name = "Core Data Operation";
 			sourceTree = "<group>";
 		};
 		8D9798141DF815E800DAB75A /* Test Model */ = {

@@ -1,24 +1,22 @@
 PODS:
-  - THRCoreData (0.4.0):
-    - THRCoreData/Core (= 0.4.0)
-  - THRCoreData/Core (0.4.0):
+  - THRCoreData (1.0.0):
     - THROperations
-  - THROperations (0.1.0):
-    - THRResult (~> 0.0.1)
-  - THRResult (0.0.1)
+  - THROperations (1.0.0):
+    - THRResult (~> 1.0.0)
+  - THRResult (1.0.0)
 
 DEPENDENCIES:
   - THRCoreData (from `../../`)
 
 EXTERNAL SOURCES:
   THRCoreData:
-    :path: "../../"
+    :path: ../../
 
 SPEC CHECKSUMS:
-  THRCoreData: b37ff0becfa3bc7bcd3c4e8f6648a49837dd90a0
-  THROperations: 039c24eb7416cf8d684c1e07be9135b5876af06a
-  THRResult: 173d7193812ef859e14c8fdbe8cd81e9deea5db4
+  THRCoreData: a3c6b11a9d8407eda0bce78c986ca4f10474b0d1
+  THROperations: dd0f3b3b359f79edbfe2be1075d64ed5cde696f1
+  THRResult: 296480bc05503d1de3329f1dc71e44ace12d9176
 
 PODFILE CHECKSUM: 87d07075c01d614ec54515555e4891a409777612
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

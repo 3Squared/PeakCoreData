@@ -7,7 +7,6 @@ target 'THRCoreData' do
   use_frameworks!
 
   pod 'THROperations'
-  pod 'THRResult'
 
   target 'THRCoreDataTests' do
     inherit! :search_paths
