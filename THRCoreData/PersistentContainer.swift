@@ -118,6 +118,7 @@ open class PersistentContainer {
         if let persistentStoreDescription = persistentStoreDescription {
             description = persistentStoreDescription
         } else {
+            // There is a missing full stop here. But fixing this would break apps already using the framework.
             let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
             description = PersistentStoreDescription(url: storeURL)
         }
