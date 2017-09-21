@@ -67,36 +67,4 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
             XCTAssertEqual(testContext.persistentStoreCoordinator!.persistentStores.count, 1, "Should be 1 persistent store here")
         })
     }
-    
-    func testBackgroundContext() {
-        let testContext = backgroundContext
-        let setupExpectation = expectation(description: #function)
-        
-        var didCallCompletion = false
-        persistentContainer.persistentStoreDescription = asyncStoreDescription
-        persistentContainer.loadPersistentStores { result in
-            didCallCompletion = true
-            switch result {
-            case .success(_):
-                setupExpectation.fulfill()
-            default:
-                XCTFail("Setup should return success")
-            }
-        }
-        
-        XCTAssertEqual(testContext.persistentStoreCoordinator!.persistentStores.count, 0, "Should be 0 persistent stores here")
-        XCTAssertFalse(didCallCompletion, "Completion should not have been called here")
-        
-        waitForExpectations(timeout: defaultTimeout, handler: { error in
-            XCTAssertNil(error, "Expectation should not error")
-            XCTAssertTrue(didCallCompletion, "Completion should be called")
-            XCTAssertEqual(testContext.persistentStoreCoordinator!.persistentStores.count, 1, "Should be 1 persistent store here")
-        })
-    }
-    
-    
-
-    func testSamePersistentStoreCoordinator() {
-        XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
-    }
 }
