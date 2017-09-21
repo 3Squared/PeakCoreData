@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataImportOperation<ManagedObject, Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataImportOperation<Intermediate, ManagedObject>: CoreDataOperation<Changeset>, ConsumesResult where
     ManagedObject: NSManagedObject,
     ManagedObject: ManagedObjectType,
     ManagedObject: UniqueIdentifiable,
