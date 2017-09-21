@@ -68,6 +68,13 @@ extension CoreDataOperation {
     }
 }
 
+public enum SaveOutcome {
+    case saved
+    case noChanges
+}
+
+public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
+
 extension CoreDataOperation {
     
     fileprivate func save(context: NSManagedObjectContext, withCompletion completion: SaveCompletionType? = nil) {

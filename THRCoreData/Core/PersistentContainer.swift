@@ -9,12 +9,7 @@
 import CoreData
 import THRResult
 
-public enum SaveOutcome {
-    case saved
-    case noChanges
-}
 public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
-public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
 
 /// A container that encapsulates the Core Data stack in your application.
 public final class PersistentContainer {
