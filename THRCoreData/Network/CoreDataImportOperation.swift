@@ -9,17 +9,17 @@
 import Foundation
 import CoreData
 import THROperations
-import THRNetwork
 import THRResult
 
-open class CoreDataImportOperation<ManagedObject>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataImportOperation<ManagedObject, Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
     ManagedObject: NSManagedObject,
     ManagedObject: ManagedObjectType,
     ManagedObject: UniqueIdentifiable,
     ManagedObject: Updatable,
-    ManagedObject.JSONRepresentation: UniqueIdentifiable
+    Intermediate: UniqueIdentifiable,
+    Intermediate == ManagedObject.JSONRepresentation
 {
-    public var input: Result<[ManagedObject.JSONRepresentation]> = Result { throw ResultError.noResult }
+    public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
 
     open override func performWork(inContext context: NSManagedObjectContext) {
         do {
@@ -33,7 +33,7 @@ open class CoreDataImportOperation<ManagedObject>: CoreDataOperation<Changeset>,
                 model.updateRelationships(with: intermediate)
             }
             
-            // We must do this in order to pass the IDs as a result, otherwise the objects 
+            // We must do this in order to pass the IDs as a result, otherwise the objects
             // will have temporary IDs that cannot be used with another context.
             try context.obtainPermanentIDs(for: Array(context.insertedObjects))
 
@@ -64,3 +64,4 @@ public struct Changeset {
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
 }
+

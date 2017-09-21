@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import THRNetwork
 
 public protocol Updatable {
-    associatedtype JSONRepresentation: JSONConvertible
+    associatedtype JSONRepresentation: Decodable
     func updateProperties(with json: JSONRepresentation)
     func updateRelationships(with json: JSONRepresentation)
 }
