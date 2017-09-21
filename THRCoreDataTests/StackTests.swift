@@ -29,30 +29,4 @@ class StackTests: CoreDataTests {
     func testSingleStore() {
         XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "Should only be 1 persistent store")
     }
-    
-    func testMainContextChildContext() {
-        let childContext = persistentContainer.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
-        XCTAssertNotNil(childContext, "")
-        XCTAssertEqual(childContext.parent, mainContext, "Parent of main child queue context should be main context")
-    }
-    
-    func testBackgroundContextChildContext() {
-        let childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        XCTAssertNotNil(childContext, "")
-        XCTAssertEqual(childContext.parent, backgroundContext, "Parent of private queue child context should be background context")
-    }
-    
-    func testChildContextIsIndependentOfMainContext() {
-        let childContext = persistentContainer.createChildContext(withConcurrencyType: .mainQueueConcurrencyType)
-        CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
-        let count = TestEntity.count(inContext: mainContext)
-        XCTAssertTrue(count == 0, "Count should be 0")
-    }
-    
-    func testChildContextIsIndependentOfBackgroundContext() {
-        let childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
-        CoreDataTests.createTestManagedObjects(inContext: childContext, count: 100)
-        let count = TestEntity.count(inContext: backgroundContext)
-        XCTAssertTrue(count == 0, "Count should be 0")
-    }
 }
