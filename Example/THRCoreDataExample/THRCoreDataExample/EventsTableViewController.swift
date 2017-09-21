@@ -38,7 +38,11 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     @IBAction func addButtonTapped(_ sender: Any) {
         let newEvent = Event.insertObject(inContext: mainContext)
         newEvent.date = NSDate()
-        persistentContainer.saveMainContext()
+        do {
+            try mainContext.save()
+        } catch {
+            fatalError()
+        }
     }
 
     fileprivate func setupTableView() {
@@ -87,7 +91,11 @@ extension EventsTableViewController: DataSourceDelegate {
         if editingStyle == .delete {
             let objectToDelete = dataProvider.object(at: indexPath)
             mainContext.delete(objectToDelete)
-            persistentContainer.saveMainContext()
+            do {
+                try mainContext.save()
+            } catch {
+                fatalError()
+            }
         }
     }
 }
