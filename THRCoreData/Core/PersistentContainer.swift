@@ -144,7 +144,7 @@ public final class PersistentContainer {
         if let persistentStoreDescription = persistentStoreDescription {
             description = persistentStoreDescription
         } else {
-            let storeURL = defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
+            let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
             description = PersistentStoreDescription(url: storeURL)
         }
         let isAsync = description.shouldAddStoreAsynchronously
@@ -188,7 +188,7 @@ extension PersistentContainer {
      
      - return:      An NSURL that references the directory in which the persistent store will be located or are currently located.
     */
-    public func defaultDirectoryURL() -> URL {
+    public static func defaultDirectoryURL() -> URL {
         let searchPathDirectory = FileManager.SearchPathDirectory.documentDirectory
         
         do {
@@ -206,15 +206,13 @@ extension PersistentContainer {
 
 extension PersistentContainer {
 
-    @objc
-    fileprivate func didReceiveBackgroundContextDidSave(notification: Notification) {
+    @objc private func didReceiveBackgroundContextDidSave(notification: Notification) {
         mainContext.perform {
             self.mainContext.mergeChanges(fromContextDidSave: notification)
         }
     }
     
-    @objc
-    fileprivate func didReceiveMainContextDidSave(notification: Notification) {
+    @objc private func didReceiveMainContextDidSave(notification: Notification) {
         backgroundContext.perform {
             self.backgroundContext.mergeChanges(fromContextDidSave: notification)
         }

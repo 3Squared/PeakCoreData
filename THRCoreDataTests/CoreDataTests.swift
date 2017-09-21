@@ -30,7 +30,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
         persistentContainer = PersistentContainer(name: modelName, model: model)
-        let storeURL = persistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
+        let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
         
         var storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory        
