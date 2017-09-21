@@ -8,8 +8,7 @@
 
 import XCTest
 import CoreData
-@testable
-import THRCoreData
+@testable import THRCoreData
 
 class StackTests: CoreDataTests {
     

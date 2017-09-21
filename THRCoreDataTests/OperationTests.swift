@@ -27,7 +27,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(with: persistentContainer, uniqueKeyValue: id)
+            let operation = AddOneOperation(with: mainContext, uniqueKeyValue: id)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -55,7 +55,7 @@ class OperationTests: CoreDataTests {
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
-        var previousOperation: CoreDataImportOperation<TestEntity>? = nil
+        var previousOperation: CoreDataImportOperation<TestEntity, TestEntityJSON>? = nil
 
         let finishExpectation = expectation(description: #function)
 
@@ -67,7 +67,7 @@ class OperationTests: CoreDataTests {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
+            let operation = CoreDataImportOperation<TestEntity, TestEntityJSON>(with: mainContext)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -96,7 +96,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.mainContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
+        let operation = CoreDataImportOperation<TestEntity, TestEntityJSON>(with: mainContext)
         operation.input = Result { input }
         
         operation.addResultBlock { result in
@@ -123,9 +123,9 @@ class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
 
-    init(with persistentContainer: PersistentContainer, uniqueKeyValue: String) {
+    init(with targetContext: NSManagedObjectContext, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(with: persistentContainer)
+        super.init(with: targetContext)
     }
     
     override func performWork(inContext context: NSManagedObjectContext) {
