@@ -416,13 +416,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/THRNetwork/THRNetwork.framework",
 				"${BUILT_PRODUCTS_DIR}/THROperations/THROperations.framework",
 				"${BUILT_PRODUCTS_DIR}/THRResult/THRResult.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/THRNetwork.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/THROperations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/THRResult.framework",
 			);
