@@ -106,13 +106,13 @@ public final class PersistentContainer {
         let mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         mainContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         mainContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
-        mainContext.name = "THRCoreData.CoreDataManager.context.main"
+        mainContext.name = "THRCoreData.PersistentContainer.context.main"
         self.mainContext = mainContext
         
         let backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         backgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         backgroundContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
-        backgroundContext.name = "THRCoreData.CoreDataManager.context.background"
+        backgroundContext.name = "THRCoreData.PersistentContainer.context.background"
         self.backgroundContext = backgroundContext
         
         let notificationCenter = NotificationCenter.default
