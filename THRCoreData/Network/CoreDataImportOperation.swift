@@ -64,4 +64,3 @@ public struct Changeset {
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
 }
-

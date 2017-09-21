@@ -35,7 +35,7 @@ public class CollectionViewDataSource<Delegate: DataSourceDelegate, Data: DataPr
             showEmptyViewIfNeeded()
             return
         }
-        self.collectionView.performBatchUpdates({
+        collectionView.performBatchUpdates({
             for update in updates {
                 switch update {
                 case .insert(let indexPath):
