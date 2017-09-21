@@ -181,6 +181,8 @@ public final class PersistentContainer {
     }
 }
 
+// MARK: - Public Methods
+
 extension PersistentContainer {
     
     /**
