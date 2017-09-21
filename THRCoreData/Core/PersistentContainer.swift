@@ -30,16 +30,6 @@ public final class PersistentContainer {
     public let mainContext: NSManagedObjectContext
     
     /**
-     The managed object context associated with a background queue. (read-only)
-     
-     - discussion:  This property contains a reference to the `NSManagedObjectContext` that is created and owned by the persistent container which is associated with a background queue of the application.
-     This context is created automatically as part of the initialization of the persistent container.
-     This context is configured to be generational and to automatically consume save notifications from other contexts.
-     This context is associated directly with the NSPersistentStoreCoordinator.
-     */
-    public let backgroundContext: NSManagedObjectContext
-    
-    /**
      The persistent store description used to create the persistent stores referenced by this persistent container.
      
      - discussion:  If you want to override the type (or types) of persistent store used by the persistent container, you can set this property with a `PersistentStoreDescription` object.
@@ -108,22 +98,6 @@ public final class PersistentContainer {
         mainContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
         mainContext.name = "THRCoreData.PersistentContainer.context.main"
         self.mainContext = mainContext
-        
-        let backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        backgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        backgroundContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyStoreTrumpMergePolicyType)
-        backgroundContext.name = "THRCoreData.PersistentContainer.context.background"
-        self.backgroundContext = backgroundContext
-        
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,
-                                       selector: #selector(didReceiveMainContextDidSave(notification:)),
-                                       name: NSNotification.Name.NSManagedObjectContextDidSave,
-                                       object: mainContext)
-        notificationCenter.addObserver(self,
-                                       selector: #selector(didReceiveBackgroundContextDidSave(notification:)),
-                                       name: NSNotification.Name.NSManagedObjectContextDidSave,
-                                       object: backgroundContext)
     }
     
     deinit {
@@ -186,11 +160,11 @@ public final class PersistentContainer {
 extension PersistentContainer {
     
     /**
-     Creates the default directory for the persistent stores on the current platform.
+     Creates the default directory for the persistent stores.
      
-     - return:      An NSURL that references the directory in which the persistent store will be located or are currently located.
+     - return:      An URL that references the directory in which the persistent store will be located or are currently located.
     */
-    public static func defaultDirectoryURL() -> URL {
+    public class func defaultDirectoryURL() -> URL {
         let searchPathDirectory = FileManager.SearchPathDirectory.documentDirectory
         
         do {
@@ -202,21 +176,23 @@ extension PersistentContainer {
             fatalError("*** Error finding default directory: \(error)")
         }
     }
-}
-
-// MARK: - Private Methods
-
-extension PersistentContainer {
-
-    @objc private func didReceiveBackgroundContextDidSave(notification: Notification) {
-        mainContext.perform {
-            self.mainContext.mergeChanges(fromContextDidSave: notification)
-        }
-    }
     
-    @objc private func didReceiveMainContextDidSave(notification: Notification) {
-        backgroundContext.perform {
-            self.backgroundContext.mergeChanges(fromContextDidSave: notification)
+    /**
+     Creates a private managed object context
+     
+     - return:      A newly created private managed object context.
+     */
+    public func newBackgroundContext() -> NSManagedObjectContext {
+        let backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        backgroundContext.persistentStoreCoordinator = persistentStoreCoordinator
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: backgroundContext, queue: nil) { [weak self] (notification) in
+            guard let strongSelf = self else { return }
+            strongSelf.mainContext.perform {
+                strongSelf.mainContext.mergeChanges(fromContextDidSave: notification)
+            }
         }
+        
+        return backgroundContext
     }
 }
