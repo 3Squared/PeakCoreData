@@ -12,7 +12,7 @@ import THRResult
 public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
 
 /// A container that encapsulates the Core Data stack in your application.
-open final class PersistentContainer {
+open class PersistentContainer {
     
     internal enum ModelFileExtension: String {
         case bundle = "momd"
