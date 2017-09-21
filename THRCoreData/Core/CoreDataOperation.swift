@@ -13,19 +13,26 @@ import THRResult
 
 open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     
-    fileprivate let persistentContainer: PersistentContainer
+    fileprivate let targetContext: NSManagedObjectContext
+    fileprivate let mergePolicyType: NSMergePolicyType
     fileprivate var childContext: NSManagedObjectContext!
     
     public var output: Result<Output> = Result { throw ResultError.noResult }
 
-    public init(with persistentContainer: PersistentContainer) {
-        self.persistentContainer = persistentContainer
+    public init(with targetContext: NSManagedObjectContext, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+        self.targetContext = targetContext
+        self.mergePolicyType = mergePolicyType
     }
     
     // MARK: - ConcurrentOperation Overrides
 
     open override func execute() {
-        childContext = persistentContainer.createChildContext(withConcurrencyType: .privateQueueConcurrencyType)
+        childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        childContext.parent = targetContext
+        if let targetContextName = targetContext.name {
+            childContext.name = targetContextName + ".child"
+        }
+        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
         childContext.performAndWait {
             self.performWork(inContext: self.childContext)
         }
@@ -51,12 +58,35 @@ extension CoreDataOperation {
             return
         }
         
-        persistentContainer.save(context: childContext) { [weak self] result in
+        save(context: childContext) { [weak self] result in
             guard let strongSelf = self else { return }
             if case .failure(let error) = result {
                 strongSelf.output = Result { throw error }
             }
             strongSelf.finish()
+        }
+    }
+}
+
+extension CoreDataOperation {
+    
+    fileprivate func save(context: NSManagedObjectContext, withCompletion completion: SaveCompletionType? = nil) {
+        context.perform {
+            guard context.hasChanges else {
+                completion?(.success(.noChanges))
+                return
+            }
+            do {
+                try context.save()
+                if let parentContext = context.parent {
+                    self.save(context: parentContext, withCompletion: completion)
+                } else {
+                    completion?(.success(.saved))
+                }
+            } catch let error as NSError {
+                print("Error saving context: \(error.localizedDescription)")
+                completion?(.failure(error))
+            }
         }
     }
 }
