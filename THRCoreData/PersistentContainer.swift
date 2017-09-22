@@ -7,9 +7,8 @@
 //
 
 import CoreData
-import THRResult
 
-public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
+public typealias SetupCompletionType = (PersistentStoreDescription, Error?) -> ()
 
 /// A container that encapsulates the Core Data stack in your application.
 /// - warning:
@@ -117,7 +116,7 @@ public final class PersistentContainer {
      to instruct the container to load the persistent stores and complete the creation of the Core Data stack.
      Once the completion handler has fired, the stack is fully initialized and is ready for use.
     */
-    public func loadPersistentStores(completionHandler block: @escaping SetupCompletionType = { _ in }) {
+    public func loadPersistentStores(completionHandler: @escaping SetupCompletionType = { _ , _ in }) {
         let description: PersistentStoreDescription
         if let persistentStoreDescription = persistentStoreDescription {
             description = persistentStoreDescription
@@ -131,9 +130,9 @@ public final class PersistentContainer {
                                                                    configurationName: nil,
                                                                    at: description.url,
                                                                    options: description.options)
-            block(.success(description))
+            completionHandler(description, nil)
         } catch {
-            block(.failure(error))
+            completionHandler(description, error)
         }
     }
 }
