@@ -28,7 +28,7 @@ open class CoreDataImportOperation<Intermediate>: CoreDataOperation<Changeset>, 
             }
             
             Intermediate.ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
-                intermediate.updateRelationships(on: managedObject)
+                intermediate.updateRelationships(on: managedObject, withContext: context)
             }
             
             // We must do this in order to pass the IDs as a result, otherwise the objects
