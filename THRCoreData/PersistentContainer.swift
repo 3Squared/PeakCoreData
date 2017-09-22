@@ -116,7 +116,7 @@ public final class PersistentContainer {
      to instruct the container to load the persistent stores and complete the creation of the Core Data stack.
      Once the completion handler has fired, the stack is fully initialized and is ready for use.
     */
-    public func loadPersistentStores(completionHandler: @escaping SetupCompletionType = { _ , _ in }) {
+    public func loadPersistentStores(completionHandler: @escaping SetupCompletionType = { _, _ in }) {
         let description: PersistentStoreDescription
         if let persistentStoreDescription = persistentStoreDescription {
             description = persistentStoreDescription
