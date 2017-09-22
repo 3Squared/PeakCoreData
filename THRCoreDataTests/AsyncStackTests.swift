@@ -26,7 +26,7 @@ class AsyncStackTests: XCTestCase, PersistentContainerSettable {
     }
     var asyncStoreDescription: PersistentStoreDescription {
         let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
-        var storeDescription = PersistentStoreDescription(url: storeURL)
+        let storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory
         storeDescription.shouldAddStoreAsynchronously = true
         return storeDescription

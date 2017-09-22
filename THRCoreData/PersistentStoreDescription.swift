@@ -32,7 +32,7 @@ public enum StoreType {
 }
 
 /// A description object used to create and/or load a persistent store.
-public struct PersistentStoreDescription {
+public class PersistentStoreDescription {
     
     /// The URL that the store will use for its location.
     public let url: URL?

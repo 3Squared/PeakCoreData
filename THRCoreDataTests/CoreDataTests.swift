@@ -32,7 +32,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         persistentContainer = PersistentContainer(name: modelName, model: model)
         let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
         
-        var storeDescription = PersistentStoreDescription(url: storeURL)
+        let storeDescription = PersistentStoreDescription(url: storeURL)
         storeDescription.type = .inMemory        
         persistentContainer.persistentStoreDescription = storeDescription
         
