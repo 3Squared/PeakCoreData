@@ -12,6 +12,10 @@ import THRResult
 public typealias SetupCompletionType = (Result<PersistentStoreDescription>) -> ()
 
 /// A container that encapsulates the Core Data stack in your application.
+/// - warning:
+/// There is a missing full stop in the storeURL. Fixing this would break apps that already use PersistentContainer.
+/// - warning:
+/// It is recommended that you do not use this in new apps that only support iOS 10+. Use NSPersistentContainer instead.
 public final class PersistentContainer {
     
     internal enum ModelFileExtension: String {
@@ -118,7 +122,6 @@ public final class PersistentContainer {
         if let persistentStoreDescription = persistentStoreDescription {
             description = persistentStoreDescription
         } else {
-            // There is a missing full stop here. But fixing this would break apps already using the framework.
             let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
             description = PersistentStoreDescription(url: storeURL)
         }
