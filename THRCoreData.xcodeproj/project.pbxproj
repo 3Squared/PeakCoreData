@@ -29,7 +29,7 @@
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
 		CBF972B81E5DEF0D00F37801 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */; };
 		CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */; };
-		CBF972BB1E5DEF2100F37801 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* Updatable.swift */; };
+		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
 		CBF972BE1E5DEF2900F37801 /* CoreDataImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */; };
 		E8ADC1A6D96F21719BC9F596 /* Pods_THRCoreDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */; };
 /* End PBXBuildFile section */
@@ -74,7 +74,7 @@
 		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
 		CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
-		CBF972BA1E5DEF2100F37801 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
 		CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataImportOperation.swift; sourceTree = "<group>"; };
 		E4660F831E862B77D4C59B2B /* Pods-THRCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -125,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */,
+				CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */,
 				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
-				CBF972BA1E5DEF2100F37801 /* Updatable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -434,7 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBF972BB1E5DEF2100F37801 /* Updatable.swift in Sources */,
+				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
 				CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */,
