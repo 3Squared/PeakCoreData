@@ -102,11 +102,7 @@ public final class PersistentContainer {
         mainContext.name = "THRCoreData.PersistentContainer.context.main"
         self.mainContext = mainContext
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
+
     /**
      Instructs the persistent container to load the persistent stores.
 
