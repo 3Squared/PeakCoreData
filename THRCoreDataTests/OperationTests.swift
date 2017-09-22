@@ -55,7 +55,7 @@ class OperationTests: CoreDataTests {
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
-        var previousOperation: CoreDataImportOperation<TestEntityJSON, TestEntity>? = nil
+        var previousOperation: CoreDataImportOperation<TestEntityJSON>? = nil
 
         let finishExpectation = expectation(description: #function)
 
@@ -67,7 +67,7 @@ class OperationTests: CoreDataTests {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntityJSON, TestEntity>(with: mainContext)
+            let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -96,7 +96,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.mainContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataImportOperation<TestEntityJSON, TestEntity>(with: mainContext)
+        let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
         operation.input = Result { input }
         
         operation.addResultBlock { result in

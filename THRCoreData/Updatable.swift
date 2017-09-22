@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import CoreData
 
-public protocol Updatable {
-    associatedtype JSONRepresentation: Decodable
-    func updateProperties(with json: JSONRepresentation)
-    func updateRelationships(with json: JSONRepresentation)
+public protocol ManagedObjectUpdatable {
+    associatedtype ManagedObject: NSManagedObject
+    func updateProperties(on managedObject: ManagedObject)
+    func updateRelationships(on managedObject: ManagedObject)
 }

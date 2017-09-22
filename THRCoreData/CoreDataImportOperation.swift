@@ -11,26 +11,24 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataImportOperation<Intermediate, ManagedObject>: CoreDataOperation<Changeset>, ConsumesResult where
-    ManagedObject: NSManagedObject,
-    ManagedObject: ManagedObjectType,
-    ManagedObject: UniqueIdentifiable,
-    ManagedObject: Updatable,
+open class CoreDataImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+    Intermediate: ManagedObjectUpdatable,
     Intermediate: UniqueIdentifiable,
-    Intermediate == ManagedObject.JSONRepresentation
+    Intermediate.ManagedObject: ManagedObjectType,
+    Intermediate.ManagedObject: UniqueIdentifiable
 {
     public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
 
     open override func performWork(inContext context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
-
-            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
-                model.updateProperties(with: intermediate)
+            
+            Intermediate.ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
+                intermediate.updateProperties(on: managedObject)
             }
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, model in
-                model.updateRelationships(with: intermediate)
+            Intermediate.ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
+                intermediate.updateRelationships(on: managedObject)
             }
             
             // We must do this in order to pass the IDs as a result, otherwise the objects

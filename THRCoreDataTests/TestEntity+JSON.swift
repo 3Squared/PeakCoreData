@@ -19,15 +19,15 @@ public struct TestEntityJSON: Decodable {
     }
 }
 
-extension TestEntity: Updatable {
-
-    public func updateProperties(with json: TestEntityJSON) {
-        uniqueID = json.uniqueID
-        title = json.title
+extension TestEntityJSON: ManagedObjectUpdatable {
+    
+    public func updateProperties(on managedObject: TestEntity) {
+        managedObject.uniqueID = uniqueID
+        managedObject.title = title
     }
     
-    public func updateRelationships(with json: TestEntityJSON) {
-        
+    public func updateRelationships(on managedObject: TestEntity) {
+        //
     }
 }
 
