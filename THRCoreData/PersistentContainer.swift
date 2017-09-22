@@ -125,36 +125,15 @@ public final class PersistentContainer {
             let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(name + ModelFileExtension.sqlite.rawValue)
             description = PersistentStoreDescription(url: storeURL)
         }
-        let isAsync = description.shouldAddStoreAsynchronously
-        let creationClosure = {
-            do {
-                try self.persistentStoreCoordinator.addPersistentStore(ofType: description.type.value,
-                                                                       configurationName: nil,
-                                                                       at: description.url,
-                                                                       options: description.options)
-                if isAsync {
-                    DispatchQueue.main.async {
-                        block(.success(description))
-                    }
-                } else {
-                    block(.success(description))
-                }
-            } catch {
-                if isAsync {
-                    DispatchQueue.main.async {
-                        block(.failure(error))
-                    }
-                } else {
-                    block(.failure(error))
-                }
-            }
-        }
         
-        if isAsync {
-            let queue = DispatchQueue.global(qos: .userInitiated)
-            queue.async(execute: creationClosure)
-        } else {
-            creationClosure()
+        do {
+            try self.persistentStoreCoordinator.addPersistentStore(ofType: description.type.value,
+                                                                   configurationName: nil,
+                                                                   at: description.url,
+                                                                   options: description.options)
+            block(.success(description))
+        } catch {
+            block(.failure(error))
         }
     }
 }

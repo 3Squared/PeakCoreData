@@ -41,14 +41,6 @@ public class PersistentStoreDescription {
     public var type: StoreType = .sqlite
     
     /**
-     A flag that determines whether the store is added asynchronously.
-     
-     - discussion: By default, the store is added to the `PersistentStoreCoordinator` synchronously on the calling thread. 
-     If this flag is set to true, the store is added asynchronously on a background queue. The default for this flag is false.
-    */
-    public var shouldAddStoreAsynchronously = false
-    
-    /**
      A flag indicating whether the associated persistent store should be migrated automatically.
      
      - discussion: This flag is set to true by default.
