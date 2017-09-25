@@ -146,9 +146,9 @@
 		8D1F2E2B1F7408D600FE6643 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
-				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
