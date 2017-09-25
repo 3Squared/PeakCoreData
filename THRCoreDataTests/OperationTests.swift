@@ -55,8 +55,7 @@ class OperationTests: CoreDataTests {
     func testSingleImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 1
-        var previousOperation: CoreDataImportOperation<TestEntityJSON>? = nil
-        
+        var previousOperation: CoreDataImportObjectOperation<TestEntityJSON>? = nil
         let finishExpectation = expectation(description: #function)
         
         for _ in 0..<numberOfInserts {
@@ -65,10 +64,9 @@ class OperationTests: CoreDataTests {
             let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
             try! mainContext.save()
             
-            
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
-            operation.input = Result { input }
+            let operation = CoreDataImportObjectOperation<TestEntityJSON>(with: mainContext)
+            operation.input = Result { input.first! }
             
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
