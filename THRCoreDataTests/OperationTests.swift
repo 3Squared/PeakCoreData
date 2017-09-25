@@ -55,7 +55,7 @@ class OperationTests: CoreDataTests {
     func testSingleImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 1
-        var previousOperation: CoreDataImportObjectOperation<TestEntityJSON>? = nil
+        var previousOperation: CoreDataSingleImportOperation<TestEntityJSON>? = nil
         let finishExpectation = expectation(description: #function)
         
         for _ in 0..<numberOfInserts {
@@ -65,7 +65,7 @@ class OperationTests: CoreDataTests {
             try! mainContext.save()
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportObjectOperation<TestEntityJSON>(with: mainContext)
+            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: mainContext)
             operation.input = Result { input.first! }
             
             if let previousOperation = previousOperation {
@@ -89,7 +89,7 @@ class OperationTests: CoreDataTests {
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
-        var previousOperation: CoreDataImportOperation<TestEntityJSON>? = nil
+        var previousOperation: CoreDataBatchImportOperation<TestEntityJSON>? = nil
 
         let finishExpectation = expectation(description: #function)
 
@@ -101,7 +101,7 @@ class OperationTests: CoreDataTests {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
+            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -130,7 +130,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.mainContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
         operation.input = Result { input }
         
         operation.addResultBlock { result in

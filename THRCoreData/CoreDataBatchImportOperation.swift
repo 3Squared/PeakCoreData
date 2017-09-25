@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
     Intermediate: ManagedObjectUpdatable,
     Intermediate: UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType,
