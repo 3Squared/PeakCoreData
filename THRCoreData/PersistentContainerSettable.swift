@@ -18,8 +18,4 @@ public extension PersistentContainerSettable {
     var mainContext: NSManagedObjectContext {
         return persistentContainer.mainContext
     }
-    
-    var backgroundContext: NSManagedObjectContext {
-        return persistentContainer.backgroundContext
-    }
 }

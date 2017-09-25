@@ -7,32 +7,32 @@
 //
 
 import Foundation
+import CoreData
 @testable import THRCoreData
-import THRNetwork
 
-extension TestEntity: Updatable {
+public struct TestEntityJSON: Decodable {
+    let uniqueID: String
+    let title: String
     
-    public struct JSON: JSONConvertible {
-        let uniqueID: String
-        let title: String
-        
-        public init(fromJson json: JSONObject) throws {
-            uniqueID = json["id"] as! String
-            title = json["title"] as! String
-        }
-    }
-    
-    public func updateProperties(with json: TestEntity.JSON) {
-        uniqueID = json.uniqueID
-        title = json.title
-    }
-    
-    public func updateRelationships(with json: TestEntity.JSON) {
-        
+    enum CodingKeys: String, CodingKey {
+        case uniqueID = "id"
+        case title = "title"
     }
 }
 
-extension TestEntity.JSON: UniqueIdentifiable {
+extension TestEntityJSON: ManagedObjectUpdatable {
+    
+    public func updateProperties(on managedObject: TestEntity) {
+        managedObject.uniqueID = uniqueID
+        managedObject.title = title
+    }
+    
+    public func updateRelationships(on managedObject: TestEntity, withContext context: NSManagedObjectContext) {
+        //
+    }
+}
+
+extension TestEntityJSON: UniqueIdentifiable {
     
     public static var uniqueIDKey: String {
         return "uniqueID"
