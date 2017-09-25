@@ -19,15 +19,17 @@ open class CoreDataImportOperation<Intermediate>: CoreDataOperation<Changeset>, 
 {
     public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
 
+    typealias ManagedObject = Intermediate.ManagedObject
+
     open override func performWork(inContext context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
             
-            Intermediate.ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
+            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
                 intermediate.updateProperties(on: managedObject)
             }
             
-            Intermediate.ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
+            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
                 intermediate.updateRelationships(on: managedObject, withContext: context)
             }
             

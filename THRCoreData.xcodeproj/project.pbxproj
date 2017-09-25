@@ -17,6 +17,7 @@
 		8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D97980F1DF815E400DAB75A /* TestEntity.swift */; };
 		8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */; };
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
+		8DFAC10F1F7918420015EDC0 /* CoreDataImportObjectOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataImportObjectOperation.swift */; };
 		CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
 		CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */; };
 		CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A71E5DEE7D00F37801 /* DataProvider.swift */; };
@@ -60,6 +61,7 @@
 		8D97980F1DF815E400DAB75A /* TestEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEntity.swift; sourceTree = "<group>"; };
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
+		8DFAC10E1F7918420015EDC0 /* CoreDataImportObjectOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataImportObjectOperation.swift; sourceTree = "<group>"; };
 		B3CDBB0EF560E3F0BF171C18 /* Pods-THRCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
 		CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */,
+				8DFAC10E1F7918420015EDC0 /* CoreDataImportObjectOperation.swift */,
 				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 			);
 			name = Operations;
@@ -435,6 +438,7 @@
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
 				CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */,
+				8DFAC10F1F7918420015EDC0 /* CoreDataImportObjectOperation.swift in Sources */,
 				CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */,
 				CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */,
 				CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */,
