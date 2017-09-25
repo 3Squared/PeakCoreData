@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 @testable import THRCoreData
 
 public struct TestEntityJSON: Decodable {
@@ -26,7 +27,7 @@ extension TestEntityJSON: ManagedObjectUpdatable {
         managedObject.title = title
     }
     
-    public func updateRelationships(on managedObject: TestEntity) {
+    public func updateRelationships(on managedObject: TestEntity, withContext context: NSManagedObjectContext) {
         //
     }
 }

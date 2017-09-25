@@ -52,6 +52,42 @@ class OperationTests: CoreDataTests {
         })
     }
     
+    func testSingleImportOperation() {
+        let numberOfInserts = 5
+        let numberOfItems = 1
+        var previousOperation: CoreDataImportOperation<TestEntityJSON>? = nil
+        
+        let finishExpectation = expectation(description: #function)
+        
+        for _ in 0..<numberOfInserts {
+            
+            // Create intermediate objects
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
+            try! mainContext.save()
+            
+            
+            // Create import operation with intermediates as input
+            let operation = CoreDataImportOperation<TestEntityJSON>(with: mainContext)
+            operation.input = Result { input }
+            
+            if let previousOperation = previousOperation {
+                operation.addDependency(previousOperation)
+            }
+            
+            operationQueue.addOperation(operation)
+            previousOperation = operation
+        }
+        
+        previousOperation?.addResultBlock { result in
+            let count = TestEntity.count(inContext: self.mainContext)
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
+            finishExpectation.fulfill()
+        }
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
@@ -62,8 +98,8 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.mainContext)
-            try! persistentContainer.mainContext.save()
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
+            try! mainContext.save()
             
             
             // Create import operation with intermediates as input
