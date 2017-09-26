@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
     Intermediate: ManagedObjectUpdatable,
     Intermediate: UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType,
@@ -21,7 +21,7 @@ class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Changeset>,
     
     typealias ManagedObject = Intermediate.ManagedObject
 
-    override func performWork(inContext context: NSManagedObjectContext) {
+    open override func performWork(inContext context: NSManagedObjectContext) {
         do {
             let intermediate = try input.resolve()
             let managedObject = ManagedObject.fetchOrInsertObject(withUniqueKeyValue: intermediate.uniqueIDValue, inContext: context)

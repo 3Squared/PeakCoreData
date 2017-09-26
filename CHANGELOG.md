@@ -4,6 +4,23 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+1.0.1
+-----
+
+- Makes the `CoreDataSingleImportOperation` open so it can actually be used.
+
+
+1.0.0
+-----
+
+- Removes saving from PersistentContainer.
+- Removes background context from PersistentContainer and adds a method for creating a new background context.
+- Removes ability to load store asynchronously.
+- Removes THRNetwork as a subspec.
+- Removes Updatable and replaces with ManagedObjectUpdatable. Codable objects are now responsible for updating the managed object (used to be the other way around).
+- The `CoreDataOperation` now takes a target context rather than the persistent container.
+- The `CoreDataImportOperation` is renamed to `CoreDataBatchImportOperation` and have added a `CoreDataSingleImportOperation` to handle importing a single object.
+
 0.4.1
 -----
 
@@ -20,7 +37,7 @@ The changelog for `THRCoreData`.
 0.3.0
 -----
 
-- Refactored stack to more closely resemble Apple's 'NSPersistentContainer and NSPersistentStoreDescription.
+- Refactored stack to more closely resemble Apple's `NSPersistentContainer` and `NSPersistentStoreDescription`.
 - Now possible to add persistent stores asynchronously.
 - Update CoreDataOperation to use latest version of THROperation.
 - Increased documentation and unit test coverage.
