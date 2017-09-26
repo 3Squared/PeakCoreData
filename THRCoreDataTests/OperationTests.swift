@@ -27,7 +27,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(with: persistentContainer, uniqueKeyValue: id)
+            let operation = AddOneOperation(with: mainContext, uniqueKeyValue: id)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -52,22 +52,56 @@ class OperationTests: CoreDataTests {
         })
     }
     
+    func testSingleImportOperation() {
+        let numberOfInserts = 5
+        let numberOfItems = 1
+        var previousOperation: CoreDataSingleImportOperation<TestEntityJSON>? = nil
+        let finishExpectation = expectation(description: #function)
+        
+        for _ in 0..<numberOfInserts {
+            
+            // Create intermediate objects
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
+            try! mainContext.save()
+            
+            // Create import operation with intermediates as input
+            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: mainContext)
+            operation.input = Result { input.first! }
+            
+            if let previousOperation = previousOperation {
+                operation.addDependency(previousOperation)
+            }
+            
+            operationQueue.addOperation(operation)
+            previousOperation = operation
+        }
+        
+        previousOperation?.addResultBlock { result in
+            let count = TestEntity.count(inContext: self.mainContext)
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
+            finishExpectation.fulfill()
+        }
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
     func testBatchImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
-        var previousOperation: CoreDataImportOperation<TestEntity>? = nil
+        var previousOperation: CoreDataBatchImportOperation<TestEntityJSON>? = nil
 
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.mainContext)
-            try! persistentContainer.mainContext.save()
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
+            try! mainContext.save()
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
+            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -96,7 +130,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.mainContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataImportOperation<TestEntity>(with: persistentContainer)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
         operation.input = Result { input }
         
         operation.addResultBlock { result in
@@ -123,9 +157,9 @@ class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
 
-    init(with persistentContainer: PersistentContainer, uniqueKeyValue: String) {
+    init(with targetContext: NSManagedObjectContext, uniqueKeyValue: String) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(with: persistentContainer)
+        super.init(with: targetContext)
     }
     
     override func performWork(inContext context: NSManagedObjectContext) {

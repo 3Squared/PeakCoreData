@@ -12,10 +12,8 @@ import Foundation
 import CoreData
 
 public protocol ManagedObjectType: class {
-    
     static var entityName: String { get }
     static var defaultSortDescriptors: [NSSortDescriptor] { get }
-    
     var managedObjectContext: NSManagedObjectContext? { get }
 }
 
@@ -45,8 +43,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - returns: A fetch request sorted by `defaultSortDescriptors`.
      */
     static func sortedFetchRequest(withPredicate predicate: NSPredicate? = nil) -> NSFetchRequest<Self> {
-        return fetchRequest() {
-            request in
+        return fetchRequest() { request in
             request.sortDescriptors = defaultSortDescriptors
             request.predicate = predicate
         }
@@ -98,8 +95,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - returns: The count of all objects or all objects matching the predicate.
      */
     static func count(inContext context: NSManagedObjectContext, matchingPredicate predicate: NSPredicate? = nil) -> Int {
-        let countRequest = fetchRequest {
-            request in
+        let countRequest = fetchRequest { request in
             request.predicate = predicate
         }
         do {
@@ -116,14 +112,11 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - parameter predicate:     Optional predicate to be applied to the fetch request.
      */
     static func delete(inContext context: NSManagedObjectContext, matchingPredicate predicate: NSPredicate? = nil) {
-        let itemsToDelete = fetch(inContext: context) {
-            fetchRequest in
+        let itemsToDelete = fetch(inContext: context) { fetchRequest in
             fetchRequest.predicate = predicate
             fetchRequest.includesPropertyValues = false
         }
-        for item in itemsToDelete {
-            context.delete(item)
-        }
+        itemsToDelete.forEach { context.delete($0) }
     }
 }
 
@@ -155,8 +148,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      */
     @discardableResult
     static func insertObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        return insertObject(inContext: context) {
-            object in
+        return insertObject(inContext: context) { object in
             object.setValue(uniqueKeyValue, forKey: uniqueIDKey)
             configure?(object)
         }
@@ -175,8 +167,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
     static func fetchObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext) -> Self? {
         let predicate = uniqueObjectPredicate(withUniqueKeyValue: uniqueKeyValue)
         guard let object = materialiseObject(withUniqueKeyValue: uniqueKeyValue, inContext: context) else {
-            return fetch(inContext: context) {
-                request in
+            return fetch(inContext: context) { request in
                 request.predicate = predicate
                 request.returnsObjectsAsFaults = false
                 request.fetchLimit = 1
