@@ -32,9 +32,9 @@ extension TestEntityJSON: ManagedObjectUpdatable {
 }
 
 extension TestEntityJSON: ManagedObjectInitialisable {
-    public init?(withManagedObject object: TestEntity) throws {
-        uniqueID = object.uniqueIDValue
-        title = object.title!
+    public init(with managedObject: TestEntity) throws {
+        uniqueID = managedObject.uniqueIDValue
+        title = managedObject.title!
     }
 }
 

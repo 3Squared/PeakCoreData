@@ -17,11 +17,11 @@ public protocol ManagedObjectUpdatable {
 
 public protocol ManagedObjectInitialisable {
     associatedtype ManagedObject: NSManagedObject
-    init?(withManagedObject: ManagedObject) throws
+    init(with managedObject: ManagedObject) throws
 }
 
 public extension ManagedObjectType where Self: NSManagedObject {
     func encode<T>(to type: T.Type, encoder: JSONEncoder) throws -> Data where T: ManagedObjectInitialisable, T: Codable, T.ManagedObject == Self {
-        return try encoder.encode(T(withManagedObject: self))
+        return try encoder.encode(T(with: self))
     }
 }
