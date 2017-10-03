@@ -39,7 +39,6 @@ extension TestEntityJSON: ManagedObjectInitialisable {
 }
 
 extension TestEntityJSON: UniqueIdentifiable {
-    
     public static var uniqueIDKey: String {
         return "uniqueID"
     }
