@@ -116,4 +116,18 @@ class ManagedObjectTypeTests: CoreDataTests {
             }
         }
     }
+    
+    func testEncodingToData() {
+        let id = UUID().uuidString
+        let item1 = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: mainContext)
+        item1.title = "Hello"
+        
+        let data = try! item1.encode(to: TestEntityJSON.self, encoder: JSONEncoder())
+        
+        XCTAssertNotNil(data)
+        
+        let json = String(data: data, encoding: .utf8)
+        
+        XCTAssertEqual(json!, "{\"id\":\"\(item1.uniqueID!)\",\"title\":\"\(item1.title!)\"}")
+    }
 }
