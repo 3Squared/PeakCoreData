@@ -19,3 +19,14 @@ public extension PersistentContainerSettable {
         return persistentContainer.mainContext
     }
 }
+
+protocol NSPersistentContainerSettable: class {
+    var persistentContainer: NSPersistentContainer! { get set }
+}
+
+extension NSPersistentContainerSettable {
+    
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+}
