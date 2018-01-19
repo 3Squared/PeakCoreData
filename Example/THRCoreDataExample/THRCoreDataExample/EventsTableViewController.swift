@@ -37,7 +37,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     
     @IBAction func addButtonTapped(_ sender: Any) {
         let newEvent = Event.insertObject(inContext: mainContext)
-        newEvent.date = NSDate()
+        newEvent.date = Date()
         do {
             try mainContext.save()
         } catch {

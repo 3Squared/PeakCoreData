@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: ../../
 
 SPEC CHECKSUMS:
-  THRCoreData: fb8026acc149f44862031e0fbe46792af4a8ebf8
+  THRCoreData: f89ee998f23adf0ef02c8bcec94c721db7c1ca8f
   THROperations: dd0f3b3b359f79edbfe2be1075d64ed5cde696f1
   THRResult: 296480bc05503d1de3329f1dc71e44ace12d9176
 
