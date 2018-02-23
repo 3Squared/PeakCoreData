@@ -32,6 +32,9 @@
 		CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */; };
 		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
 		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
+		CBFCD4A920123A3600B927DE /* FetchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFCD4A820123A3600B927DE /* FetchedCollection.swift */; };
+		CBFCD4AB20123E5F00B927DE /* FetchedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFCD4AA20123E5F00B927DE /* FetchedCollectionTests.swift */; };
+		CBFFEB87203F22C300123074 /* FetchedObjectObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFEB86203F22C300123074 /* FetchedObjectObserverTests.swift */; };
 		E8ADC1A6D96F21719BC9F596 /* Pods_THRCoreDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +81,9 @@
 		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
 		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
 		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
+		CBFCD4A820123A3600B927DE /* FetchedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollection.swift; sourceTree = "<group>"; };
+		CBFCD4AA20123E5F00B927DE /* FetchedCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionTests.swift; sourceTree = "<group>"; };
+		CBFFEB86203F22C300123074 /* FetchedObjectObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedObjectObserverTests.swift; sourceTree = "<group>"; };
 		E4660F831E862B77D4C59B2B /* Pods-THRCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,6 +147,7 @@
 				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
 				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
 				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
+				CBFCD4A820123A3600B927DE /* FetchedCollection.swift */,
 			);
 			name = "Fetched Results Data Source and Provider";
 			sourceTree = "<group>";
@@ -205,6 +212,8 @@
 				8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
+				CBFCD4AA20123E5F00B927DE /* FetchedCollectionTests.swift */,
+				CBFFEB86203F22C300123074 /* FetchedObjectObserverTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
 			path = THRCoreDataTests;
@@ -438,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
+				CBFCD4A920123A3600B927DE /* FetchedCollection.swift in Sources */,
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
@@ -460,10 +470,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */,
+				CBFCD4AB20123E5F00B927DE /* FetchedCollectionTests.swift in Sources */,
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
+				CBFFEB87203F22C300123074 /* FetchedObjectObserverTests.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
 			);
