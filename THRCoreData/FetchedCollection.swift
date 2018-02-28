@@ -151,7 +151,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
     /// - Parameter onChange: A callback called when the object is changed.
     /// - Returns: A FetchedObjectObserver initialised with self as the managed object.
     public func observe(onChange: @escaping (Self?) -> Void) -> FetchedObjectObserver<Self> {
-        return observe(in: managedObjectContext!, onChange: onChange)
+        return FetchedObjectObserver(with: self, onChange: onChange)
     }
     
     /// Observe changes to the managed object.
@@ -262,13 +262,10 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetc
     
     public var endIndex: IndexPath {
         // This method expects the "past the end"-end. So, the count.
-        if let sections = self.frc.sections {
-            let lastSection = sections.count - 1
-            let lastItemInSection = sections[lastSection].numberOfObjects
-            return IndexPath(item: lastItemInSection, section: lastSection)
-        } else {
-            return IndexPath(item: frc.fetchedObjects?.count ?? 0, section: 0)
-        }
+        let sections = self.frc.sections!
+        let lastSection = sections.count - 1
+        let lastItemInSection = sections[lastSection].numberOfObjects
+        return IndexPath(item: lastItemInSection, section: lastSection)
     }
     
     public subscript (position: IndexPath) -> T {
