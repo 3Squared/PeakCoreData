@@ -82,6 +82,27 @@ class FetchedCollectionTests: CoreDataTests {
         results.cleanUp()
     }
     
+    func testInsertSectionChanges() {
+        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1)
+        try! mainContext.save()
+        
+        let results = sectionedThings() { _, _ in }
+        XCTAssertEqual(results.sections.count, 1)
+        
+        mainContext.performAndWait {
+            CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 1)
+            try! self.mainContext.save()
+        }
+
+        XCTAssertEqual(results.sections.count, 2)
+
+        results.sections.forEach { section in
+            XCTAssertEqual(section.numberOfObjects, 1)
+        }
+        
+        results.cleanUp()
+    }
+
     
     func testDeletionChanges() {
         let expect = expectation(description: "")
@@ -233,7 +254,7 @@ class FetchedCollectionTests: CoreDataTests {
         results.cleanUp()
     }
     
-    
+
     func allThings(_ onChange: @escaping (Result<FetchedCollection<TestEntity>>, [DataProviderUpdate<TestEntity>]?) -> Void) -> FetchedCollection<TestEntity> {
         return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(),
                                      managedObjectContext: mainContext,
