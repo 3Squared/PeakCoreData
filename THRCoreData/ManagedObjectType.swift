@@ -26,10 +26,6 @@ public extension ManagedObjectType {
     static var defaultSortDescriptors: [NSSortDescriptor] {
         return []
     }
-
-    static func entity(inContext context: NSManagedObjectContext) -> NSEntityDescription {
-        return NSEntityDescription.entity(forEntityName: entityName, in: context)!
-    }
 }
 
 public extension ManagedObjectType where Self: NSManagedObject {
@@ -68,7 +64,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      */
     @discardableResult
     static func insertObject(inContext context: NSManagedObjectContext, withConfigurationBlock configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        let object = Self(entity: entity(inContext: context), insertInto: context)
+        let object = Self(context: context)
         configure?(object)
         return object
     }
