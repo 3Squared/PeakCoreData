@@ -134,9 +134,9 @@
 				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
 				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
 				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
+				8DEA21522050361400F70E1E /* FetchedUpdate.swift */,
 				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
 				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
-				8DEA21522050361400F70E1E /* FetchedUpdate.swift */,
 			);
 			name = "Fetched Results Data Source and Provider";
 			sourceTree = "<group>";
