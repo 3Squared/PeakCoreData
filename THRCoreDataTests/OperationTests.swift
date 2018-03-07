@@ -27,7 +27,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(with: mainContext, uniqueKeyValue: id)
+            let operation = AddOneOperation(with: viewContext, uniqueKeyValue: id)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -38,7 +38,7 @@ class OperationTests: CoreDataTests {
         var count = 0
         let finishOperation = BlockOperation {
             // Check that all the changes have made their way to the main context
-            let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.mainContext)
+            let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.viewContext)
             count = Int(objectToUpdate.count)
             finishExpectation.fulfill()
         }
@@ -61,11 +61,11 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
             
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
-            try! mainContext.save()
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: viewContext)
+            try! viewContext.save()
             
             // Create import operation with intermediates as input
-            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: mainContext)
+            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: viewContext)
             operation.input = Result { input.first! }
             
             if let previousOperation = previousOperation {
@@ -77,7 +77,7 @@ class OperationTests: CoreDataTests {
         }
         
         previousOperation?.addResultBlock { result in
-            let count = TestEntity.count(inContext: self.mainContext)
+            let count = TestEntity.count(inContext: self.viewContext)
             XCTAssertEqual(count, (numberOfInserts * numberOfItems))
             finishExpectation.fulfill()
         }
@@ -96,12 +96,12 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: mainContext)
-            try! mainContext.save()
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: viewContext)
+            try! viewContext.save()
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
+            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: viewContext)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -113,7 +113,7 @@ class OperationTests: CoreDataTests {
         }
         
         previousOperation?.addResultBlock { result in
-            let count = TestEntity.count(inContext: self.mainContext)
+            let count = TestEntity.count(inContext: self.viewContext)
             XCTAssertEqual(count, (numberOfInserts * numberOfItems))
             finishExpectation.fulfill()
         }
@@ -126,11 +126,11 @@ class OperationTests: CoreDataTests {
         let numberOfItems = 100
         let finishExpectation = expectation(description: #function)
 
-        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.mainContext)
-        try! persistentContainer.mainContext.save()
+        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.viewContext)
+        try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: mainContext)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: viewContext)
         operation.input = Result { input }
         
         operation.addResultBlock { result in

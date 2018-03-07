@@ -12,9 +12,9 @@ import CoreData
 
 class StackTests: CoreDataTests {
     
-    func testMainContext() {
-        XCTAssertNotNil(mainContext, "Main context should never be nil")
-        XCTAssertEqual(mainContext.concurrencyType, .mainQueueConcurrencyType, "Main context should have main queue concurrency type")
+    func testViewContext() {
+        XCTAssertNotNil(viewContext, "Main context should never be nil")
+        XCTAssertEqual(viewContext.concurrencyType, .mainQueueConcurrencyType, "Main context should have main queue concurrency type")
     }
     
     func testBackgroundContext() {
@@ -25,14 +25,15 @@ class StackTests: CoreDataTests {
     
     func testSamePersistentStoreCoordinator() {
         let backgroundContext = persistentContainer.newBackgroundContext()
-        XCTAssertEqual(mainContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
+        XCTAssertEqual(viewContext.persistentStoreCoordinator, backgroundContext.persistentStoreCoordinator, "Main and background context should share the same persistent store coordinator")
     }
     
     func testSingleStore() {
-        XCTAssertTrue(mainContext.persistentStoreCoordinator!.persistentStores.count == 1, "Should only be 1 persistent store")
+        XCTAssertTrue(viewContext.persistentStoreCoordinator!.persistentStores.count == 1, "Should only be 1 persistent store")
     }
     
     func testSavingNewBackgroundContextSucceedsAndMerges() {
+        viewContext.automaticallyMergesChangesFromParent = true
         let backgroundContext = persistentContainer.newBackgroundContext()
         CoreDataTests.createTestManagedObjects(inContext: backgroundContext, count: 100)
         
@@ -43,7 +44,7 @@ class StackTests: CoreDataTests {
         }
         
         var didUpdateMain = false
-        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange, object: mainContext) { notification in
+        expectation(forNotification: Notification.Name.NSManagedObjectContextObjectsDidChange, object: viewContext) { notification in
             didUpdateMain = true
             return true
         }
