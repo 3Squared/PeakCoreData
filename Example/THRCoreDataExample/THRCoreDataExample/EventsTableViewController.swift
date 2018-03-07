@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import THRCoreData
 import CoreData
+import THRCoreData
 
 class EventsTableViewController: UITableViewController, PersistentContainerSettable {
 
-    var persistentContainer: PersistentContainer!
+    var persistentContainer: NSPersistentContainer!
 
     fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsTableViewController>
     fileprivate var dataProvider: DataProvider!
@@ -36,17 +36,17 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let newEvent = Event.insertObject(inContext: mainContext)
+        let newEvent = Event.insertObject(inContext: viewContext)
         newEvent.date = Date()
         do {
-            try mainContext.save()
+            try viewContext.save()
         } catch {
             fatalError()
         }
     }
 
     fileprivate func setupTableView() {
-        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = FetchedResultsDataProvider(fetchedResultsController: frc, delegate: self)
         dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, delegate: self)
     }
@@ -59,7 +59,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 extension EventsTableViewController: DataProviderDelegate {
     
     func dataProviderDidUpdate(updates: [DataProviderUpdate<Event>]?) {
-        mainContext.performAndWait {
+        viewContext.performAndWait {
             self.dataSource?.processUpdates(updates: updates)
         }
     }
@@ -90,9 +90,9 @@ extension EventsTableViewController: DataSourceDelegate {
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let objectToDelete = dataProvider.object(at: indexPath)
-            mainContext.delete(objectToDelete)
+            viewContext.delete(objectToDelete)
             do {
-                try mainContext.save()
+                try viewContext.save()
             } catch {
                 fatalError()
             }
