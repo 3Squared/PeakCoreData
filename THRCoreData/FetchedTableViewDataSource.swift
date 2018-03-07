@@ -54,7 +54,8 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     private let fetchedResultsController: NSFetchedResultsController<Object>
     private let cellIdentifier: String
     private weak var delegate: Delegate!
-    
+    private var updates: [Update<Object>] = []
+
     public var animateUpdates: Bool = true
     public var onDidChangeContent: (() -> Void)?
     
@@ -190,36 +191,32 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard animateUpdates && tableView.window != nil else { return }
         
-        tableView.beginUpdates()
+        updates = []
     }
     
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         guard animateUpdates && tableView.window != nil else { return }
         
         if let indexPath = indexPath, let newIndexPath = newIndexPath {
-            tableView.moveRow(at: indexPath, to: newIndexPath)
+            updates.append(.move(indexPath, newIndexPath))
             return
         }
-        
+
         switch type {
         case .insert:
-            guard let newIndexPath = newIndexPath else { return }
-            tableView.insertRows(at: [newIndexPath], with: .fade)
+            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+            updates.append(.insert(newIndexPath))
         case .update:
-            guard let indexPath = indexPath else { return }
-            guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { return }
-            guard let object = anObject as? Object else { return }
-            delegate.configure(cell, with: object)
+            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+            updates.append(.update(indexPath, object(at: indexPath)))
         case .move:
-            guard let indexPath = indexPath else { return }
-            guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { return }
-            guard let object = anObject as? Object else { return }
-            delegate.configure(cell, with: object)
-            guard let newIndexPath = newIndexPath else { return }
-            tableView.moveRow(at: indexPath, to: newIndexPath)
+            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
+            updates.append(.update(indexPath, object(at: indexPath)))
+            updates.append(.move(indexPath, newIndexPath))
         case .delete:
-            guard let indexPath = indexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+            updates.append(.delete(indexPath))
         }
     }
     
@@ -228,21 +225,54 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            updates.append(.insertSection(at: sectionIndex))
         case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            updates.append(.deleteSection(at: sectionIndex))
         default:
-            return
+            break
         }
     }
     
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if animateUpdates && tableView.window != nil {
-            tableView.endUpdates()
-        } else {
+        guard animateUpdates, tableView.window != nil else {
             tableView.reloadData()
+            showEmptyViewIfNeeded()
+            onDidChangeContent?()
+            return
         }
-        showEmptyViewIfNeeded()
-        onDidChangeContent?()
+        
+        let batchUpdates: () -> Void = {
+            self.updates.forEach { (update) in
+                switch update {
+                case .insert(let indexPath):
+                    self.tableView.insertRows(at: [indexPath], with: .fade)
+                case .update(let indexPath, let object):
+                    guard let cell = self.tableView.cellForRow(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
+                    self.delegate.configure(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
+                    self.tableView.moveRow(at: indexPath, to: newIndexPath)
+                case .delete(let indexPath):
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                case .deleteSection(let section):
+                    self.tableView.deleteSections(IndexSet(integer: section), with: .fade)
+                case .insertSection(let section):
+                    self.tableView.insertSections(IndexSet(integer: section), with: .fade)
+                }
+            }
+        }
+        
+        if #available(iOS 11.0, *) {
+            tableView.performBatchUpdates(batchUpdates) { [weak self] (success) in
+                guard let strongSelf = self else { return }
+                strongSelf.showEmptyViewIfNeeded()
+                strongSelf.onDidChangeContent?()
+            }
+        } else {
+            tableView.beginUpdates()
+            batchUpdates()
+            tableView.endUpdates()
+            showEmptyViewIfNeeded()
+            onDidChangeContent?()
+        }
     }
 }
