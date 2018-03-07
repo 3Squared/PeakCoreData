@@ -189,8 +189,8 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
             return
         }
         
-        collectionView.performBatchUpdates({
-            updates.forEach { (update) in
+        let batchUpdates: () -> Void = {
+            self.updates.forEach { (update) in
                 switch update {
                 case .insert(let indexPath):
                     self.collectionView.insertItems(at: [indexPath])
@@ -208,9 +208,11 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
                     self.collectionView.insertSections(IndexSet(integer: section))
                 }
             }
-        }, completion: { success in
+        }
+        
+        collectionView.performBatchUpdates(batchUpdates) { (success) in
             self.showEmptyViewIfNeeded()
             self.onDidChangeContent?()
-        })
+        }
     }
 }
