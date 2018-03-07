@@ -122,39 +122,6 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
         }
     }
     
-    private func processUpdates(_ updates: [Update<Object>]) {
-        guard animateUpdates, collectionView.window != nil else {
-            collectionView.reloadData()
-            showEmptyViewIfNeeded()
-            onDidChangeContent?()
-            return
-        }
-
-        collectionView.performBatchUpdates({
-            updates.forEach { (update) in
-                switch update {
-                case .insert(let indexPath):
-                    self.collectionView.insertItems(at: [indexPath])
-                case .update(let indexPath, let object):
-                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("wrong cell type") }
-                    self.delegate.configure(cell, with: object)
-                case .move(let indexPath, let newIndexPath):
-                    self.collectionView.deleteItems(at: [indexPath])
-                    self.collectionView.insertItems(at: [newIndexPath])
-                case .delete(let indexPath):
-                    self.collectionView.deleteItems(at: [indexPath])
-                case .deleteSection(let section):
-                    self.collectionView.deleteSections(IndexSet(integer: section))
-                case .insertSection(let section):
-                    self.collectionView.insertSections(IndexSet(integer: section))
-                }
-            }
-        }, completion: { success in
-            self.showEmptyViewIfNeeded()
-            self.onDidChangeContent?()
-        })
-    }
-    
     // MARK: UICollectionViewDataSource
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -213,6 +180,35 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        processUpdates(updates)
+        guard animateUpdates, collectionView.window != nil else {
+            collectionView.reloadData()
+            showEmptyViewIfNeeded()
+            onDidChangeContent?()
+            return
+        }
+        
+        collectionView.performBatchUpdates({
+            updates.forEach { (update) in
+                switch update {
+                case .insert(let indexPath):
+                    self.collectionView.insertItems(at: [indexPath])
+                case .update(let indexPath, let object):
+                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("wrong cell type") }
+                    self.delegate.configure(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
+                    self.collectionView.deleteItems(at: [indexPath])
+                    self.collectionView.insertItems(at: [newIndexPath])
+                case .delete(let indexPath):
+                    self.collectionView.deleteItems(at: [indexPath])
+                case .deleteSection(let section):
+                    self.collectionView.deleteSections(IndexSet(integer: section))
+                case .insertSection(let section):
+                    self.collectionView.insertSections(IndexSet(integer: section))
+                }
+            }
+        }, completion: { success in
+            self.showEmptyViewIfNeeded()
+            self.onDidChangeContent?()
+        })
     }
 }
