@@ -54,7 +54,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     private let fetchedResultsController: NSFetchedResultsController<Object>
     private let cellIdentifier: String
     private weak var delegate: Delegate!
-    private var updates: [Update<Object>] = []
+    private var updates: [FetchedUpdate<Object>] = []
 
     public var animateUpdates: Bool = true
     public var onDidChangeContent: (() -> Void)?

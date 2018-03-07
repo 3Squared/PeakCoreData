@@ -23,15 +23,6 @@ public extension FetchedCollectionViewDataSourceDelegate {
     var emptyView: UIView? { return nil }
 }
 
-enum Update<Object> {
-    case insert(IndexPath)
-    case update(IndexPath, Object)
-    case move(IndexPath, IndexPath)
-    case delete(IndexPath)
-    case insertSection(at: Int)
-    case deleteSection(at: Int)
-}
-
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     
     public typealias Object = Delegate.Object
@@ -41,7 +32,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     private let cellIdentifier: String
     private let fetchedResultsController: NSFetchedResultsController<Object>
     private weak var delegate: Delegate!
-    private var updates: [Update<Object>] = []
+    private var updates: [FetchedUpdate<Object>] = []
     
     public var animateUpdates: Bool = true
     public var onDidChangeContent: (() -> Void)?
