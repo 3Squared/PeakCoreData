@@ -14,14 +14,20 @@ import THRCoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var persistentContainer: PersistentContainer!
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "THRCoreDataExample")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         guard let tbc = window?.rootViewController as? UITabBarController else { fatalError("Wrong initial view controller") }
-        
-        persistentContainer = PersistentContainer(name: "THRCoreDataExample")
-        persistentContainer.loadPersistentStores()
 
         for vc in tbc.viewControllers! {
             if let nc = vc as? UINavigationController, let vc = nc.topViewController as? PersistentContainerSettable {

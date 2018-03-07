@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import THRCoreData
 import CoreData
+import THRCoreData
 
 class EventsCollectionViewController: UICollectionViewController, PersistentContainerSettable {
     
-    var persistentContainer: PersistentContainer!
+    var persistentContainer: NSPersistentContainer!
     
     fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsCollectionViewController>
     fileprivate var dataProvider: DataProvider!
@@ -35,17 +35,17 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let newEvent = Event.insertObject(inContext: mainContext)
+        let newEvent = Event.insertObject(inContext: viewContext)
         newEvent.date = Date()
         do {
-            try mainContext.save()
+            try viewContext.save()
         } catch {
             fatalError()
         }
     }
     
     fileprivate func setupTableView() {
-        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: mainContext, sectionNameKeyPath: nil, cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         dataProvider = FetchedResultsDataProvider(fetchedResultsController: frc, delegate: self)
         dataSource = CollectionViewDataSource(collectionView: self.collectionView!, dataProvider: dataProvider, delegate: self)
     }
@@ -54,7 +54,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
 extension EventsCollectionViewController: DataProviderDelegate {
     
     func dataProviderDidUpdate(updates: [DataProviderUpdate<Event>]?) {
-        mainContext.performAndWait {
+        viewContext.performAndWait {
             self.dataSource?.processUpdates(updates: updates)
         }
     }

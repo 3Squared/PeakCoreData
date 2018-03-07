@@ -15,10 +15,7 @@ let modelName = "TestModel"
 
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var persistentContainer: PersistentContainer!
-    var mainContext: NSManagedObjectContext {
-        return persistentContainer.mainContext
-    }
+    var persistentContainer: NSPersistentContainer!
     
     override func setUp() {
         super.setUp()
@@ -29,14 +26,17 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
             fatalError("*** Error loading managed object model at url: \(modelURL)")
         }
-        persistentContainer = PersistentContainer(name: modelName, model: model)
-        let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
+        persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
+        let storeURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
+        let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        storeDescription.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [storeDescription]
         
-        let storeDescription = PersistentStoreDescription(url: storeURL)
-        storeDescription.type = .inMemory        
-        persistentContainer.persistentStoreDescription = storeDescription
-        
-        persistentContainer.loadPersistentStores()
+        persistentContainer.loadPersistentStores { (description, error) in
+            if let error = error {
+                print(error)
+            }
+        }
     }
     
     override func tearDown() {
