@@ -23,7 +23,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         return df
     }()
     
-    public lazy var emptyView: UIView? = {
+    lazy var emptyView: UIView? = {
         let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
         let view = nibViews?.first as! EmptyView
         view.titleLabel.text = "No events in table view"
@@ -35,10 +35,6 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         setupTableView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
@@ -56,7 +52,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
-            print("Something changed")
+            print("Table View - Something changed")
         }
     }
     
