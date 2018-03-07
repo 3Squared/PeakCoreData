@@ -143,6 +143,8 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
     // MARK: NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        guard animateUpdates, collectionView.window != nil else { return }
+
         updates = []
     }
     
