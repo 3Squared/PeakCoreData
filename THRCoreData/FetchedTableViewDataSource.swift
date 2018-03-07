@@ -118,6 +118,13 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         return fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
     }
     
+    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
+        NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
+        configure(fetchedResultsController.fetchRequest)
+        do { try fetchedResultsController.performFetch() } catch { fatalError("fetch request failed") }
+        tableView.reloadData()
+    }
+    
     public func showEmptyViewIfNeeded() {
         if isEmpty, let emptyView = delegate.emptyView {
             tableView.backgroundView = emptyView
