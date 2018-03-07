@@ -12,6 +12,7 @@
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
+		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D97980F1DF815E400DAB75A /* TestEntity.swift */; };
@@ -52,6 +53,7 @@
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
+		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
 				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
 				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
+				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
 			name = "Fetched Results Data Source and Provider";
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
 				CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */,
 				CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */,
+				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
