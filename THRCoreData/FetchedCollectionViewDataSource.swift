@@ -23,7 +23,7 @@ public extension FetchedCollectionViewDataSourceDelegate {
     var emptyView: UIView? { return nil }
 }
 
-private enum Update<Object> {
+enum Update<Object> {
     case insert(IndexPath)
     case update(IndexPath, Object)
     case move(IndexPath, IndexPath)
@@ -32,7 +32,7 @@ private enum Update<Object> {
     case deleteSection(at: Int)
 }
 
-class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
+public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
@@ -67,7 +67,7 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
         return fetchedResultsController.sectionNameKeyPath
     }
     
-    required init(collectionView: UICollectionView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    public required init(collectionView: UICollectionView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
         self.collectionView = collectionView
         self.cellIdentifier = cellIdentifier
         self.fetchedResultsController = fetchedResultsController
@@ -124,15 +124,15 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
     
     // MARK: UICollectionViewDataSource
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return numberOfSections
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfItems(in: section)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
@@ -142,13 +142,13 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
     
     // MARK: NSFetchedResultsControllerDelegate
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard animateUpdates, collectionView.window != nil else { return }
 
         updates = []
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         guard animateUpdates, collectionView.window != nil else { return }
         
         switch type {
@@ -161,6 +161,7 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
         case .move:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
             guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
+            updates.append(.update(indexPath, object(at: indexPath)))
             updates.append(.move(indexPath, newIndexPath))
         case .delete:
             guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
@@ -181,7 +182,7 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
         }
     }
     
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard animateUpdates, collectionView.window != nil else {
             collectionView.reloadData()
             showEmptyViewIfNeeded()
@@ -195,11 +196,10 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
                 case .insert(let indexPath):
                     self.collectionView.insertItems(at: [indexPath])
                 case .update(let indexPath, let object):
-                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("wrong cell type") }
+                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
                     self.delegate.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
-                    self.collectionView.deleteItems(at: [indexPath])
-                    self.collectionView.insertItems(at: [newIndexPath])
+                    self.collectionView.moveItem(at: indexPath, to: newIndexPath)
                 case .delete(let indexPath):
                     self.collectionView.deleteItems(at: [indexPath])
                 case .deleteSection(let section):
@@ -210,9 +210,10 @@ class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceD
             }
         }
         
-        collectionView.performBatchUpdates(batchUpdates) { (success) in
-            self.showEmptyViewIfNeeded()
-            self.onDidChangeContent?()
+        collectionView.performBatchUpdates(batchUpdates) { [weak self] (success) in
+            guard let strongSelf = self else { return }
+            strongSelf.showEmptyViewIfNeeded()
+            strongSelf.onDidChangeContent?()
         }
     }
 }
