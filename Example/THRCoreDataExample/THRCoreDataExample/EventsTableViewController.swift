@@ -47,7 +47,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         }
     }
 
-    fileprivate func setupTableView() {
+    private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true

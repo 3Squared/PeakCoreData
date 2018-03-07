@@ -46,7 +46,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
         }
     }
     
-    fileprivate func setupTableView() {
+    private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         dataSource = FetchedCollectionViewDataSource(collectionView: collectionView!, cellIdentifier: EventCollectionViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
