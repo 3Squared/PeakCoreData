@@ -14,24 +14,26 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     
     var persistentContainer: NSPersistentContainer!
     
-    fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsCollectionViewController>
-    fileprivate var dataProvider: DataProvider!
-    fileprivate var dataSource: CollectionViewDataSource<EventsCollectionViewController, DataProvider>!
+    private var dataSource: FetchedCollectionViewDataSource<EventsCollectionViewController>!
     
-    fileprivate lazy var dateFormatter: DateFormatter = {
+    private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .short
         df.timeStyle = .short
         return df
     }()
     
+    lazy var emptyView: UIView? = {
+        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
+        let view = nibViews?.first as! EmptyView
+        view.titleLabel.text = "No events in collection view"
+        view.subtitleLabel.text = "Nothing. Nada."
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
@@ -44,37 +46,19 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
         }
     }
     
-    fileprivate func setupTableView() {
+    private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = FetchedResultsDataProvider(fetchedResultsController: frc, delegate: self)
-        dataSource = CollectionViewDataSource(collectionView: self.collectionView!, dataProvider: dataProvider, delegate: self)
-    }
-}
-
-extension EventsCollectionViewController: DataProviderDelegate {
-    
-    func dataProviderDidUpdate(updates: [DataProviderUpdate<Event>]?) {
-        viewContext.performAndWait {
-            self.dataSource?.processUpdates(updates: updates)
+        dataSource = FetchedCollectionViewDataSource(collectionView: collectionView!, cellIdentifier: EventCollectionViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource.animateUpdates = true
+        dataSource.onDidChangeContent = {
+            print("Collection View - Something changed")
         }
     }
 }
 
-extension EventsCollectionViewController: DataSourceDelegate {
+extension EventsCollectionViewController: FetchedCollectionViewDataSourceDelegate {
     
-    func emptyView() -> UIView? {
-        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
-        let view = nibViews?.first as! EmptyView
-        view.titleLabel.text = "No events in collection view"
-        view.subtitleLabel.text = "Nope. Nothing in here."
-        return view
-    }
-    
-    func cellIdentifier(forObject object: Event) -> String {
-        return EventCollectionViewCell.cellIdentifier
-    }
-    
-    func configure(cell: EventCollectionViewCell, forObject object: Event) {
+    func configure(_ cell: EventCollectionViewCell, with object: Event) {
         cell.dateLabel.text = dateFormatter.string(from: (object.date! as Date))
     }
 }

@@ -13,26 +13,28 @@ import THRCoreData
 class EventsTableViewController: UITableViewController, PersistentContainerSettable {
 
     var persistentContainer: NSPersistentContainer!
-
-    fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsTableViewController>
-    fileprivate var dataProvider: DataProvider!
-    fileprivate var dataSource: TableViewDataSource<EventsTableViewController, DataProvider>!
     
-    fileprivate lazy var dateFormatter: DateFormatter = {
+    private var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
+    
+    private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .long
         df.timeStyle = .short
         return df
     }()
     
+    lazy var emptyView: UIView? = {
+        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
+        let view = nibViews?.first as! EmptyView
+        view.titleLabel.text = "No events in table view"
+        view.subtitleLabel.text = "Not a sausage."
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         setupTableView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
@@ -45,10 +47,13 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         }
     }
 
-    fileprivate func setupTableView() {
+    private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = FetchedResultsDataProvider(fetchedResultsController: frc, delegate: self)
-        dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, delegate: self)
+        dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource.animateUpdates = true
+        dataSource.onDidChangeContent = {
+            print("Table View - Something changed")
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,30 +61,9 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     }
 }
 
-extension EventsTableViewController: DataProviderDelegate {
+extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
     
-    func dataProviderDidUpdate(updates: [DataProviderUpdate<Event>]?) {
-        viewContext.performAndWait {
-            self.dataSource?.processUpdates(updates: updates)
-        }
-    }
-}
-
-extension EventsTableViewController: DataSourceDelegate {
-
-    func emptyView() -> UIView? {
-        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
-        let view = nibViews?.first as! EmptyView
-        view.titleLabel.text = "No events in table view"
-        view.subtitleLabel.text = "Not a sausage."
-        return view
-    }
-    
-    func cellIdentifier(forObject object: Event) -> String {
-        return EventTableViewCell.cellIdentifier
-    }
-    
-    func configure(cell: EventTableViewCell, forObject object: Event) {
+    func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))
     }
     
@@ -88,14 +72,13 @@ extension EventsTableViewController: DataSourceDelegate {
     }
     
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let objectToDelete = dataProvider.object(at: indexPath)
+        switch editingStyle {
+        case .delete:
+            let objectToDelete = dataSource.object(at: indexPath)
             viewContext.delete(objectToDelete)
-            do {
-                try viewContext.save()
-            } catch {
-                fatalError()
-            }
+            try! viewContext.save()
+        default:
+            break
         }
     }
 }
