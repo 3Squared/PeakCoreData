@@ -30,93 +30,79 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     
     private let collectionView: UICollectionView
     private let cellIdentifier: String
-    private let fetchedResultsController: NSFetchedResultsController<Object>
+    private var dataProvider: FetchedDataProvider<FetchedCollectionViewDataSource>!
     private weak var delegate: Delegate!
-    private var updates: [FetchedUpdate<Object>] = []
     
     public var animateUpdates: Bool = true
     public var onDidChangeContent: (() -> Void)?
     
     public var cacheName: String? {
-        return fetchedResultsController.cacheName
+        return dataProvider.cacheName
     }
     
     public var fetchedObjectsCount: Int {
-        var sum = 0
-        fetchedResultsController.sections?.forEach { (sectionInfo) in
-            sum += sectionInfo.numberOfObjects
-        }
-        return sum
+        return dataProvider.fetchedObjectsCount
     }
     
     public var isEmpty: Bool {
-        return fetchedObjectsCount == 0
+        return dataProvider.isEmpty
     }
     
     public var numberOfSections: Int {
-        guard let sections = fetchedResultsController.sections else { return 0 }
-        return sections.count
+        return dataProvider.numberOfSections
     }
     
     public var sectionIndexTitles: [String] {
-        return fetchedResultsController.sectionIndexTitles
+        return dataProvider.sectionIndexTitles
     }
     
     public var sectionNameKeyPath: String? {
-        return fetchedResultsController.sectionNameKeyPath
+        return dataProvider.sectionNameKeyPath
     }
     
     public required init(collectionView: UICollectionView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
         self.collectionView = collectionView
         self.cellIdentifier = cellIdentifier
-        self.fetchedResultsController = fetchedResultsController
         self.delegate = delegate
         super.init()
-        fetchedResultsController.delegate = self
-        try! fetchedResultsController.performFetch()
         collectionView.dataSource = self
+        dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController, delegate: self)
+        showEmptyViewIfNeeded()
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
-        return fetchedResultsController.indexPath(forObject: object)
+        return dataProvider.indexPath(forObject: object)
     }
     
     public func name(in section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        return dataProvider.name(in: section)
     }
     
     public func numberOfItems(in section: Int) -> Int {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
-        return sectionInfo.numberOfObjects
+        return dataProvider.numberOfItems(in: section)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
-        return fetchedResultsController.object(at: indexPath)
+        return dataProvider.object(at: indexPath)
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
+        return dataProvider.section(forSectionIndexTitle: title, at: index)
     }
     
     public func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+        return dataProvider.sectionInfo(forSection: section)
     }
     
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
-        NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
-        configure(fetchedResultsController.fetchRequest)
-        do { try fetchedResultsController.performFetch() } catch { fatalError("fetch request failed") }
-        collectionView.reloadData()
+        dataProvider.reconfigureFetchRequest(configure)
     }
     
     public func showEmptyViewIfNeeded() {
         if isEmpty, let emptyView = delegate.emptyView {
             collectionView.backgroundView = emptyView
         } else {
-            let view = UIView()
-            view.backgroundColor = collectionView.backgroundColor
-            collectionView.backgroundView = view
+            collectionView.backgroundView = nil
         }
     }
     
@@ -137,51 +123,12 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         delegate.configure(cell, with: object(at: indexPath))
         return cell
     }
-    
-    // MARK: NSFetchedResultsControllerDelegate
-    
-    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard animateUpdates, collectionView.window != nil else { return }
+}
 
-        updates = []
-    }
+extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        guard animateUpdates, collectionView.window != nil else { return }
-        
-        switch type {
-        case .insert:
-            guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            updates.append(.insert(indexPath))
-        case .update:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
-        case .move:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
-            updates.append(.move(indexPath, newIndexPath))
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.delete(indexPath))
-        }
-    }
-    
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        guard animateUpdates, collectionView.window != nil else { return }
-
-        switch type {
-        case .insert:
-            updates.append(.insertSection(at: sectionIndex))
-        case .delete:
-            updates.append(.deleteSection(at: sectionIndex))
-        default:
-            break
-        }
-    }
-    
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard animateUpdates, collectionView.window != nil else {
+    func dataProviderDidUpdate(updates: [FetchedUpdate<Delegate.Object>]?) {
+        guard let updates = updates, animateUpdates, collectionView.window != nil else {
             collectionView.reloadData()
             showEmptyViewIfNeeded()
             onDidChangeContent?()
@@ -189,7 +136,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         }
         
         let batchUpdates: () -> Void = {
-            self.updates.forEach { (update) in
+            updates.forEach { (update) in
                 switch update {
                 case .insert(let indexPath):
                     self.collectionView.insertItems(at: [indexPath])
@@ -215,3 +162,4 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         }
     }
 }
+

@@ -16,8 +16,6 @@ public protocol FetchedTableViewDataSourceDelegate: class {
     
     // Optional
     var emptyView: UIView? { get }
-    var shouldShowSectionIndexTitles: Bool { get }
-    
     func titleForHeader(in section: Int) -> String?
     func titleForFooter(in section: Int) -> String?
     func canEditRow(at indexPath: IndexPath) -> Bool
@@ -29,8 +27,6 @@ public protocol FetchedTableViewDataSourceDelegate: class {
 public extension FetchedTableViewDataSourceDelegate {
     
     var emptyView: UIView? { return nil }
-    
-    var shouldShowSectionIndexTitles: Bool { return false }
     
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
     
@@ -45,101 +41,87 @@ public extension FetchedTableViewDataSourceDelegate {
     func titleForFooter(in section: Int) -> String? { return nil }
 }
 
-public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource {
     
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
     
     private let tableView: UITableView
-    private let fetchedResultsController: NSFetchedResultsController<Object>
     private let cellIdentifier: String
+    private var dataProvider: FetchedDataProvider<FetchedTableViewDataSource>!
     private weak var delegate: Delegate!
-    private var updates: [FetchedUpdate<Object>] = []
-
+    
     public var animateUpdates: Bool = true
+    public var showSectionIndexTitles: Bool = false
     public var onDidChangeContent: (() -> Void)?
     
     public var cacheName: String? {
-        return fetchedResultsController.cacheName
+        return dataProvider.cacheName
     }
     
     public var fetchedObjectsCount: Int {
-        var sum = 0
-        fetchedResultsController.sections?.forEach { (sectionInfo) in
-            sum += sectionInfo.numberOfObjects
-        }
-        return sum
+        return dataProvider.fetchedObjectsCount
     }
     
     public var isEmpty: Bool {
-        return fetchedObjectsCount == 0
+        return dataProvider.isEmpty
     }
     
     public var numberOfSections: Int {
-        guard let sections = fetchedResultsController.sections else { return 0 }
-        return sections.count
+        return dataProvider.numberOfSections
     }
     
     public var sectionIndexTitles: [String] {
-        return fetchedResultsController.sectionIndexTitles
+        return dataProvider.sectionIndexTitles
     }
     
     public var sectionNameKeyPath: String? {
-        return fetchedResultsController.sectionNameKeyPath
+        return dataProvider.sectionNameKeyPath
     }
     
     public required init(tableView: UITableView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
         self.tableView = tableView
         self.cellIdentifier = cellIdentifier
-        self.fetchedResultsController = fetchedResultsController
         self.delegate = delegate
         super.init()
-        fetchedResultsController.delegate = self
-        try! fetchedResultsController.performFetch()
         tableView.dataSource = self
+        dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController, delegate: self)
         showEmptyViewIfNeeded()
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
-        return fetchedResultsController.indexPath(forObject: object)
+        return dataProvider.indexPath(forObject: object)
     }
     
     public func name(in section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        return dataProvider.name(in: section)
     }
     
     public func numberOfItems(in section: Int) -> Int {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return 0 }
-        return sectionInfo.numberOfObjects
+        return dataProvider.numberOfItems(in: section)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
-        return fetchedResultsController.object(at: indexPath)
+        return dataProvider.object(at: indexPath)
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
+        return dataProvider.section(forSectionIndexTitle: title, at: index)
     }
     
     public func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+        return dataProvider.sectionInfo(forSection: section)
     }
     
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
-        NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
-        configure(fetchedResultsController.fetchRequest)
-        do { try fetchedResultsController.performFetch() } catch { fatalError("fetch request failed") }
-        tableView.reloadData()
+        dataProvider.reconfigureFetchRequest(configure)
     }
     
     public func showEmptyViewIfNeeded() {
         if isEmpty, let emptyView = delegate.emptyView {
             tableView.backgroundView = emptyView
         } else {
-            let view = UIView()
-            view.backgroundColor = tableView.backgroundColor
-            tableView.backgroundView = view
+            tableView.backgroundView = nil
         }
     }
     
@@ -186,62 +168,18 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return delegate.shouldShowSectionIndexTitles ? sectionIndexTitles : nil
+        return showSectionIndexTitles ? sectionIndexTitles : nil
     }
     
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return section(forSectionIndexTitle: title, at: index)
     }
-    
-    // MARK: NSFetchedResultsControllerDelegate
-    
-    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard animateUpdates && tableView.window != nil else { return }
-        
-        updates = []
-    }
-    
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        guard animateUpdates && tableView.window != nil else { return }
-        
-        if let indexPath = indexPath, let newIndexPath = newIndexPath {
-            updates.append(.move(indexPath, newIndexPath))
-            return
-        }
+}
 
-        switch type {
-        case .insert:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            updates.append(.insert(newIndexPath))
-        case .update:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
-        case .move:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
-            updates.append(.move(indexPath, newIndexPath))
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.delete(indexPath))
-        }
-    }
+extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
     
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        guard animateUpdates && tableView.window != nil else { return }
-        
-        switch type {
-        case .insert:
-            updates.append(.insertSection(at: sectionIndex))
-        case .delete:
-            updates.append(.deleteSection(at: sectionIndex))
-        default:
-            break
-        }
-    }
-    
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard animateUpdates, tableView.window != nil else {
+    func dataProviderDidUpdate(updates: [FetchedUpdate<Delegate.Object>]?) {
+        guard let updates = updates, animateUpdates, tableView.window != nil else {
             tableView.reloadData()
             showEmptyViewIfNeeded()
             onDidChangeContent?()
@@ -249,7 +187,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         }
         
         let batchUpdates: () -> Void = {
-            self.updates.forEach { (update) in
+            updates.forEach { (update) in
                 switch update {
                 case .insert(let indexPath):
                     self.tableView.insertRows(at: [indexPath], with: .fade)

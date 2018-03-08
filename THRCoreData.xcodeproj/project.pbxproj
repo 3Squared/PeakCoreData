@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
+		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
@@ -19,15 +20,9 @@
 		8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */; };
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
-		8DEA21532050361400F70E1E /* FetchedUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEA21522050361400F70E1E /* FetchedUpdate.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
-		CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */; };
-		CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A71E5DEE7D00F37801 /* DataProvider.swift */; };
-		CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A81E5DEE7D00F37801 /* DataSource.swift */; };
-		CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */; };
-		CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */; };
 		CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */; };
 		CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */; };
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
@@ -51,6 +46,7 @@
 		27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5731AC9A295C6ABFEDFE1B56 /* Pods-THRCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
@@ -65,16 +61,10 @@
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
-		8DEA21522050361400F70E1E /* FetchedUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedUpdate.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
 		B3CDBB0EF560E3F0BF171C18 /* Pods-THRCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
-		CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
-		CBF972A71E5DEE7D00F37801 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
-		CBF972A81E5DEE7D00F37801 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProvider.swift; sourceTree = "<group>"; };
-		CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
@@ -129,12 +119,7 @@
 		8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */,
-				CBF972A71E5DEE7D00F37801 /* DataProvider.swift */,
-				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
-				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
-				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
-				8DEA21522050361400F70E1E /* FetchedUpdate.swift */,
+				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
 				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
 				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
@@ -436,18 +421,13 @@
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
-				8DEA21532050361400F70E1E /* FetchedUpdate.swift in Sources */,
-				CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
-				CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */,
-				CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */,
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
-				CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
+				8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
 				CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */,
 				8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */,
-				CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
