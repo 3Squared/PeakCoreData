@@ -63,8 +63,16 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         return fetchedResultsController.cacheName
     }
     
+    public var fetchedObjectsCount: Int {
+        var sum = 0
+        fetchedResultsController.sections?.forEach { (sectionInfo) in
+            sum += sectionInfo.numberOfObjects
+        }
+        return sum
+    }
+    
     public var isEmpty: Bool {
-        return numberOfSections == 0 || (numberOfItems(in: 0) == 0)
+        return fetchedObjectsCount == 0
     }
     
     public var numberOfSections: Int {
@@ -89,7 +97,6 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         fetchedResultsController.delegate = self
         try! fetchedResultsController.performFetch()
         tableView.dataSource = self
-        tableView.reloadData()
         showEmptyViewIfNeeded()
     }
     
