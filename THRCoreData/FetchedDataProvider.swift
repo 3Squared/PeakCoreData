@@ -21,7 +21,6 @@ enum FetchedUpdate<Object> {
 
 protocol FetchedDataProviderDelegate: class {
     associatedtype Object: NSManagedObject
-    
     func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?)
 }
 

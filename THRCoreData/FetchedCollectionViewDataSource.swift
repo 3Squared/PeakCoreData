@@ -12,20 +12,16 @@ import CoreData
 public protocol FetchedCollectionViewDataSourceDelegate: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UICollectionViewCell
-    
     func configure(_ cell: Cell, with object: Object)
-    
     // Optional
     var emptyView: UIView? { get }
 }
 
 public extension FetchedCollectionViewDataSourceDelegate {
-    
     var emptyView: UIView? { return nil }
 }
 
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
-    
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
     

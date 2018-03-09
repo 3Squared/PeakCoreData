@@ -12,9 +12,7 @@ import CoreData
 public protocol FetchedTableViewDataSourceDelegate: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UITableViewCell
-    
     func configure(_ cell: Cell, with object: Object)
-    
     // Optional
     var emptyView: UIView? { get }
     func titleForHeader(in section: Int) -> String?
@@ -36,7 +34,6 @@ public extension FetchedTableViewDataSourceDelegate {
 }
 
 public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource {
-    
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
     
