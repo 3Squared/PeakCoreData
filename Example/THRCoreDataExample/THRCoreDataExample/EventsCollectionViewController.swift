@@ -37,7 +37,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let newEvent = Event.insertObject(inContext: viewContext)
+        let newEvent = Event.insertObject(in: viewContext)
         newEvent.date = Date()
         do {
             try viewContext.save()
