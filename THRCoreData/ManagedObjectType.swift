@@ -32,7 +32,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
     
     typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> ()
     typealias ManagedObjectConfigurationBlock = (Self) -> ()
-
+    
     /**
      - parameter predicate:     Optional predicate to be applied to the sorted fetch request.
      
@@ -44,7 +44,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
             request.predicate = predicate
         }
     }
-
+    
     /**
      - parameter configure:     Optional configuration block for the fetch request.
      
@@ -59,7 +59,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
     /**
      - parameter context:       The context to use.
      - parameter configure:     Optional configuration block to be applied to the inserted object.
-
+     
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
@@ -135,7 +135,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      Inserts an object in to the context, applies the unique id and then configures the object (optional).
      
      - Note: The managed object must conform to UniqueIdentifiable.
-
+     
      - parameter uniqueKeyValue:    The unique id of the object you want to insert.
      - parameter context:           The context to use.
      - parameter configure:         Optional configuration block to be applied to the inserted object.
@@ -149,7 +149,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
             configure?(object)
         }
     }
-
+    
     /**
      Efficient method for fetching a single object by its unique id.
      
@@ -162,42 +162,22 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      */
     static func fetchObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext) -> Self? {
         let predicate = uniqueObjectPredicate(withUniqueKeyValue: uniqueKeyValue)
-        guard let object = materialiseObject(withUniqueKeyValue: uniqueKeyValue, inContext: context) else {
-            return fetch(inContext: context) { request in
-                request.predicate = predicate
-                request.returnsObjectsAsFaults = false
-                request.fetchLimit = 1
+        return fetch(inContext: context) { request in
+            request.predicate = predicate
+            request.returnsObjectsAsFaults = false
+            request.fetchLimit = 1
             }.first
-        }
-        return object
-    }
-    
-    /**
-     Attempts to fetch a single object by its unique id from the context's registered objects.
-     
-     - parameter uniqueKeyValue:    The unique id of the object you want to fetch.
-     - parameter context:           The context to use.
-     
-     - returns: The object with the specified unique id.
-     */
-    static func materialiseObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext) -> Self? {
-        let predicate = uniqueObjectPredicate(withUniqueKeyValue: uniqueKeyValue)
-        for object in context.registeredObjects where !object.isFault {
-            guard let result = object as? Self, predicate.evaluate(with: result) else { continue }
-            return result
-        }
-        return nil
     }
     
     /**
      Fetches an object with the specified unique id if it exists, or inserts one if it doesn't.
      
      - Note: The managed object must conform to UniqueIdentifiable.
-
+     
      - parameter uniqueKeyValue:    The unique id of the object you want to fetch or insert.
      - parameter context:           The context to use.
      - parameter configure:         Configuration block, which can be used to configure the object once fetched or inserted.
-
+     
      - returns: The object with the specified unique id.
      */
     @discardableResult
@@ -215,14 +195,14 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      - Note: The managed object must conform to UniqueIdentifiable.
      
      - Warning: Please limit the Core Data operations that you perform in the closure block. For maximum performance, set properties ONLY.
-                This method can create duplicates in some circumstances. If you are inserting an object that has circular dependancies, such as a parent-child relationship, then many additional objects will be inserted as the method caches the objects that already exist when it begins. If additional objects of the same type as being inserted are added, then this method will not know about them, and insert duplicates. Please see the test `testBatchInsertCreatesDuplicatesInSomeSituations` for an example.
+     This method can create duplicates in some circumstances. If you are inserting an object that has circular dependancies, such as a parent-child relationship, then many additional objects will be inserted as the method caches the objects that already exist when it begins. If additional objects of the same type as being inserted are added, then this method will not know about them, and insert duplicates. Please see the test `testBatchInsertCreatesDuplicatesInSomeSituations` for an example.
      
      - parameter intermediates:         An array of intermediate objects (e.g. structs) that conform to UniqueIdentifiable. These will be used to create or update the Managed Objects.
      - parameter context:               The context to use.
      - parameter configureProperties:   A configuration block, called with the intermediate object and either:
-                                            a) an existing managed object for you to update, or; 
-                                            b) a newly inserted managed object for you to set the fields.
-                                        In both cases the unique identifier will already be set
+     a) an existing managed object for you to update, or; 
+     b) a newly inserted managed object for you to set the fields.
+     In both cases the unique identifier will already be set
      */
     static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], inContext context: NSManagedObjectContext, configureProperties: (IntermediateType, Self) -> ()) {
         
@@ -251,7 +231,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
         }
         
         guard let matchingObjects = try? context.fetch(request) else { fatalError("Error fetching!") }
-
+        
         // Create iterators to move through both sets of objects.
         // Both start at 0. We move through the remote objects.
         // When a matching managed object is found, we move on by one.
