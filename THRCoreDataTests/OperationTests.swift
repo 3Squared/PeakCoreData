@@ -27,7 +27,7 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
 
         for _ in 0..<expectedCount {
-            let operation = AddOneOperation(with: viewContext, uniqueKeyValue: id)
+            let operation = AddOneOperation(uniqueKeyValue: id, persistentContainer: persistentContainer)
             if let previousOperation = previousOperation {
                 operation.addDependency(previousOperation)
             }
@@ -65,7 +65,7 @@ class OperationTests: CoreDataTests {
             try! viewContext.save()
             
             // Create import operation with intermediates as input
-            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: viewContext)
+            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: persistentContainer)
             operation.input = Result { input.first! }
             
             if let previousOperation = previousOperation {
@@ -101,7 +101,7 @@ class OperationTests: CoreDataTests {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: viewContext)
+            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -130,7 +130,7 @@ class OperationTests: CoreDataTests {
         try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: viewContext)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
         operation.input = Result { input }
         
         operation.addResultBlock { result in
@@ -157,15 +157,15 @@ class AddOneOperation: CoreDataOperation<Void> {
     
     let uniqueKeyValue: String
 
-    init(with targetContext: NSManagedObjectContext, uniqueKeyValue: String) {
+    init(uniqueKeyValue: String, persistentContainer: NSPersistentContainer) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(with: targetContext)
+        super.init(with: persistentContainer)
     }
     
     override func performWork(in context: NSManagedObjectContext) {
         let objectToUpdate = TestEntity.fetchOrInsertObject(with: uniqueKeyValue, in: context)
         objectToUpdate.count += 1
-        finishAndSave()
+        saveAndFinish()
     }
 }
 
