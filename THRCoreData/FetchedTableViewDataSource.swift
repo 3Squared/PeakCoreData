@@ -12,6 +12,7 @@ import CoreData
 public protocol FetchedTableViewDataSourceDelegate: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UITableViewCell
+    
     func configure(_ cell: Cell, with object: Object)
     
     // Optional
