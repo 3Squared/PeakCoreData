@@ -25,19 +25,12 @@ public protocol FetchedTableViewDataSourceDelegate: class {
 }
 
 public extension FetchedTableViewDataSourceDelegate {
-    
     var emptyView: UIView? { return nil }
-    
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
-    
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) { }
-    
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
-    
     func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
-    
     func titleForHeader(in section: Int) -> String? { return nil }
-    
     func titleForFooter(in section: Int) -> String? { return nil }
 }
 

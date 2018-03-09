@@ -12,6 +12,7 @@ import CoreData
 public protocol FetchedCollectionViewDataSourceDelegate: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UICollectionViewCell
+    
     func configure(_ cell: Cell, with object: Object)
     
     // Optional

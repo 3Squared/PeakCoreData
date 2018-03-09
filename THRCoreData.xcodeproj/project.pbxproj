@@ -116,14 +116,14 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
-		8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */ = {
+		8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */ = {
 			isa = PBXGroup;
 			children = (
 				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
 				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
 				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
-			name = "Fetched Results Data Source and Provider";
+			name = "Fetched Data Sources";
 			sourceTree = "<group>";
 		};
 		8D1F2E2B1F7408D600FE6643 /* Operations */ = {
@@ -169,7 +169,7 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */,
+				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
 				8D1F2E2C1F7408E000FE6643 /* Supporting Files */,
