@@ -19,20 +19,13 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
     override func setUp() {
         super.setUp()
-        let bundle = Bundle(for: type(of: self))
-        guard let modelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
-            fatalError("*** Error loading model URL for model named \(modelName) in main bundle")
-        }
-        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("*** Error loading managed object model at url: \(modelURL)")
-        }
-        persistentContainer = NSPersistentContainer(name: modelName, managedObjectModel: model)
-        let storeURL = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
-        let storeDescription = NSPersistentStoreDescription(url: storeURL)
-        storeDescription.type = NSInMemoryStoreType
-        persistentContainer.persistentStoreDescriptions = [storeDescription]
-        
-        persistentContainer.loadPersistentStores { (description, error) in
+        let testBundle = Bundle(for: type(of: self))
+        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
+        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { storeDescription, error in
             if let error = error {
                 print(error)
             }
