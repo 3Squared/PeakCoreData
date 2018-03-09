@@ -11,7 +11,6 @@
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
-		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
@@ -49,7 +48,6 @@
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
-		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,7 +180,6 @@
 			children = (
 				8D9798141DF815E800DAB75A /* Test Model */,
 				8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */,
-				8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
@@ -435,7 +432,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */,
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
