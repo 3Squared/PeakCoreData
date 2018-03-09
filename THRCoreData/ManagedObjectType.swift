@@ -38,7 +38,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      
      - returns: A fetch request sorted by `defaultSortDescriptors`.
      */
-    static func sortedFetchRequest(withPredicate predicate: NSPredicate? = nil) -> NSFetchRequest<Self> {
+    static func sortedFetchRequest(with predicate: NSPredicate? = nil) -> NSFetchRequest<Self> {
         return fetchRequest() { request in
             request.sortDescriptors = defaultSortDescriptors
             request.predicate = predicate
@@ -50,7 +50,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      
      - returns: A configured fetch request for the entity.
      */
-    static func fetchRequest(withConfigurationBlock configure: FetchRequestConfigurationBlock? = nil) -> NSFetchRequest<Self> {
+    static func fetchRequest(configure: FetchRequestConfigurationBlock? = nil) -> NSFetchRequest<Self> {
         let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
         configure?(fetchRequest)
         return fetchRequest
@@ -63,7 +63,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
-    static func insertObject(inContext context: NSManagedObjectContext, withConfigurationBlock configure: ManagedObjectConfigurationBlock? = nil) -> Self {
+    static func insertObject(in context: NSManagedObjectContext, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
         let object = Self(context: context)
         configure?(object)
         return object
@@ -75,8 +75,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
      
      - returns: An array of objects matching the configured fetch request.
      */
-    static func fetch(inContext context: NSManagedObjectContext, withConfigurationBlock configure: FetchRequestConfigurationBlock? = nil) -> [Self] {
-        let request = fetchRequest(withConfigurationBlock: configure)
+    static func fetch(in context: NSManagedObjectContext, configure: FetchRequestConfigurationBlock? = nil) -> [Self] {
+        let request = fetchRequest(configure: configure)
         do {
             return try context.fetch(request)
         } catch {
@@ -90,7 +90,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      
      - returns: The count of all objects or all objects matching the predicate.
      */
-    static func count(inContext context: NSManagedObjectContext, matchingPredicate predicate: NSPredicate? = nil) -> Int {
+    static func count(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) -> Int {
         let countRequest = fetchRequest { request in
             request.predicate = predicate
         }
@@ -107,8 +107,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the fetch request.
      */
-    static func delete(inContext context: NSManagedObjectContext, matchingPredicate predicate: NSPredicate? = nil) {
-        let itemsToDelete = fetch(inContext: context) { fetchRequest in
+    static func delete(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) {
+        let itemsToDelete = fetch(in: context) { fetchRequest in
             fetchRequest.predicate = predicate
             fetchRequest.includesPropertyValues = false
         }
@@ -120,6 +120,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIdentifiable {
     
+    typealias UniqueKeyValueType = Any
+    
     /**
      - Note: The managed object must conform to UniqueIdentifiable.
      
@@ -127,7 +129,7 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      
      - returns: A predicate that can be used to fetch a single object with the specified unique id.
      */
-    static func uniqueObjectPredicate(withUniqueKeyValue uniqueKeyValue: Any) -> NSPredicate {
+    static func uniqueObjectPredicate(with uniqueKeyValue: UniqueKeyValueType) -> NSPredicate {
         return NSPredicate(format: "%K == %@", argumentArray: [Self.uniqueIDKey, uniqueKeyValue])
     }
     
@@ -143,8 +145,8 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
-    static func insertObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        return insertObject(inContext: context) { object in
+    static func insertObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
+        return insertObject(in: context) { object in
             object.setValue(uniqueKeyValue, forKey: uniqueIDKey)
             configure?(object)
         }
@@ -160,11 +162,10 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      
      - returns: The object with the specified unique id.
      */
-    static func fetchObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext) -> Self? {
-        let predicate = uniqueObjectPredicate(withUniqueKeyValue: uniqueKeyValue)
-        return fetch(inContext: context) { request in
+    static func fetchObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext) -> Self? {
+        let predicate = uniqueObjectPredicate(with: uniqueKeyValue)
+        return fetch(in: context) { request in
             request.predicate = predicate
-            request.returnsObjectsAsFaults = false
             request.fetchLimit = 1
             }.first
     }
@@ -181,9 +182,9 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      - returns: The object with the specified unique id.
      */
     @discardableResult
-    static func fetchOrInsertObject(withUniqueKeyValue uniqueKeyValue: Any, inContext context: NSManagedObjectContext, withConfigurationBlock configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        guard let existingObject = fetchObject(withUniqueKeyValue: uniqueKeyValue, inContext: context) else {
-            return insertObject(withUniqueKeyValue: uniqueKeyValue, inContext: context, configure: configure)
+    static func fetchOrInsertObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
+        guard let existingObject = fetchObject(with: uniqueKeyValue, in: context) else {
+            return insertObject(with: uniqueKeyValue, in: context, configure: configure)
         }
         configure?(existingObject)
         return existingObject
@@ -194,17 +195,18 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - Warning: Please limit the Core Data operations that you perform in the closure block. For maximum performance, set properties ONLY.
-     This method can create duplicates in some circumstances. If you are inserting an object that has circular dependancies, such as a parent-child relationship, then many additional objects will be inserted as the method caches the objects that already exist when it begins. If additional objects of the same type as being inserted are added, then this method will not know about them, and insert duplicates. Please see the test `testBatchInsertCreatesDuplicatesInSomeSituations` for an example.
+     - Warning: This method can create duplicates in some circumstances. If you are inserting an object that has circular dependancies, such as a parent-child relationship,
+     then many additional objects will be inserted as the method caches the objects that already exist when it begins. If additional objects of the same type as being inserted are added,
+     then this method will not know about them, and insert duplicates. Please see the test `testBatchInsertCreatesDuplicatesInSomeSituations` for an example.
      
      - parameter intermediates:         An array of intermediate objects (e.g. structs) that conform to UniqueIdentifiable. These will be used to create or update the Managed Objects.
      - parameter context:               The context to use.
-     - parameter configureProperties:   A configuration block, called with the intermediate object and either:
+     - parameter configure:             A configuration block, called with the intermediate object and either:
      a) an existing managed object for you to update, or; 
      b) a newly inserted managed object for you to set the fields.
      In both cases the unique identifier will already be set
      */
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], inContext context: NSManagedObjectContext, configureProperties: (IntermediateType, Self) -> ()) {
+    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> ()) {
         
         // Nothing to insert, exit immediately.
         
@@ -245,11 +247,11 @@ public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIden
         while intermediate != nil {
             let intermediateID = intermediate!.uniqueIDValue
             if let existingObject = managedObject, existingObject.uniqueIDValue == intermediate!.uniqueIDValue {
-                configureProperties(intermediate!, existingObject)
+                configure(intermediate!, existingObject)
                 managedObject = managedObjectIterator.next()
             } else {
-                let newObject = insertObject(withUniqueKeyValue: intermediateID, inContext: context)
-                configureProperties(intermediate!, newObject)
+                let newObject = insertObject(with: intermediateID, in: context)
+                configure(intermediate!, newObject)
             }
             intermediate = intermediatesIterator.next()
         }

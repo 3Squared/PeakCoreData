@@ -9,7 +9,6 @@
 import CoreData
 
 public protocol PersistentContainerSettable: class {
-    
     var persistentContainer: NSPersistentContainer! { get set }
 }
 

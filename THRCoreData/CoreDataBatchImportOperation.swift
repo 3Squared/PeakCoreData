@@ -21,16 +21,16 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changes
 
     typealias ManagedObject = Intermediate.ManagedObject
 
-    open override func performWork(inContext context: NSManagedObjectContext) {
+    open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
+            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
                 intermediate.updateProperties(on: managedObject)
             }
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, inContext: context) { intermediate, managedObject in
-                intermediate.updateRelationships(on: managedObject, withContext: context)
+            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
+                intermediate.updateRelationships(on: managedObject, in: context)
             }
             
             // We must do this in order to pass the IDs as a result, otherwise the objects

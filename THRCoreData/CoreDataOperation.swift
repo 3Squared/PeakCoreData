@@ -34,13 +34,13 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
         }
         childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
         childContext.performAndWait {
-            self.performWork(inContext: self.childContext)
+            self.performWork(in: self.childContext)
         }
     }
     
     // MARK: - Methods to be overidden
     
-    open func performWork(inContext context: NSManagedObjectContext) {
+    open func performWork(in context: NSManagedObjectContext) {
         print("\(self) must override `performWork()`.")
         finish()
     }

@@ -38,7 +38,7 @@ class OperationTests: CoreDataTests {
         var count = 0
         let finishOperation = BlockOperation {
             // Check that all the changes have made their way to the main context
-            let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: id, inContext: self.viewContext)
+            let objectToUpdate = TestEntity.fetchOrInsertObject(with: id, in: self.viewContext)
             count = Int(objectToUpdate.count)
             finishExpectation.fulfill()
         }
@@ -77,7 +77,7 @@ class OperationTests: CoreDataTests {
         }
         
         previousOperation?.addResultBlock { result in
-            let count = TestEntity.count(inContext: self.viewContext)
+            let count = TestEntity.count(in: self.viewContext)
             XCTAssertEqual(count, (numberOfInserts * numberOfItems))
             finishExpectation.fulfill()
         }
@@ -113,7 +113,7 @@ class OperationTests: CoreDataTests {
         }
         
         previousOperation?.addResultBlock { result in
-            let count = TestEntity.count(inContext: self.viewContext)
+            let count = TestEntity.count(in: self.viewContext)
             XCTAssertEqual(count, (numberOfInserts * numberOfItems))
             finishExpectation.fulfill()
         }
@@ -162,8 +162,8 @@ class AddOneOperation: CoreDataOperation<Void> {
         super.init(with: targetContext)
     }
     
-    override func performWork(inContext context: NSManagedObjectContext) {
-        let objectToUpdate = TestEntity.fetchOrInsertObject(withUniqueKeyValue: uniqueKeyValue, inContext: context)
+    override func performWork(in context: NSManagedObjectContext) {
+        let objectToUpdate = TestEntity.fetchOrInsertObject(with: uniqueKeyValue, in: context)
         objectToUpdate.count += 1
         finishAndSave()
     }

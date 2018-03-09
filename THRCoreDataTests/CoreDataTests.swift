@@ -11,7 +11,6 @@ import CoreData
 @testable import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
-let modelName = "TestModel"
 
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
@@ -48,7 +47,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(item) {
-                TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
+                TestEntity.insertObject(with: id, in: context)
             }
         }
         return intermediateItems
@@ -59,7 +58,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         var items: [TestEntity] = []
         for item in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
+            let newObject = TestEntity.insertObject(with: id, in: context)
             newObject.title = "Item " + String(item)
             items.append(newObject)
         }
