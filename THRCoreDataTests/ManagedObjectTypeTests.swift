@@ -13,13 +13,6 @@ import THRCoreData
 
 class ManagedObjectTypeTests: CoreDataTests {
     
-    func testMaterialiseObject() {
-        let id = UUID().uuidString
-        TestEntity.insertObject(withUniqueKeyValue: id, inContext: viewContext)
-        let object = TestEntity.materialiseObject(withUniqueKeyValue: id, inContext: viewContext)
-        XCTAssertNotNil(object, "")
-    }
-    
     func testFetchObject() {
         let id = UUID().uuidString
         TestEntity.insertObject(withUniqueKeyValue: id, inContext: viewContext)
