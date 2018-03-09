@@ -46,7 +46,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changes
                                  inserted: insertedIds,
                                  updated: updatedIds)
             }
-            finishAndSave()
+            saveAndFinish()
         } catch {
             output = Result { throw error }
             finish()

@@ -40,7 +40,7 @@ open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Change
                                  inserted: insertedIds,
                                  updated: updatedIds)
             }
-            finishAndSave()
+            saveAndFinish()
         } catch {
             output = Result { throw error }
             finish()
