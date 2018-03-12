@@ -12,7 +12,7 @@ import CoreData
 import THRCoreData
 import THRResult
 
-class OperationTests: CoreDataTests {
+class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     
     var operationQueue: OperationQueue {
         let queue = OperationQueue()
@@ -150,6 +150,61 @@ class OperationTests: CoreDataTests {
         
         operationQueue.addOperation(operation)
         waitForExpectations(timeout: defaultTimeout)
+    }
+    
+    func testBatchImportTriggersFetchedResultsController() {        
+        let numberOfItems = 1000
+        var intermediateItems: [TestEntityJSON] = []
+        for item in 0..<numberOfItems {
+            let id = UUID().uuidString
+            let title = "Item " + String(item)
+            let intermediate = TestEntityJSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+        }
+        let finishExpectation = expectation(description: #function)
+        
+        let fetchRequest = TestEntity.sortedFetchRequest()
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        let listener = FetchedResultsListener { (count) in
+            XCTAssertEqual(count, numberOfItems)
+            finishExpectation.fulfill()
+        }
+        
+        frc.delegate = listener
+        try! frc.performFetch()
+        
+        // Create import operation with intermediates as input
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
+        operation.input = Result { intermediateItems }
+        
+        operationQueue.addOperation(operation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
+
+}
+
+class FetchedResultsListener: NSObject, NSFetchedResultsControllerDelegate {
+    
+    let completionBlock: (Int) -> Void
+    
+    init(completionBlock: @escaping (Int) -> Void) {
+        self.completionBlock = completionBlock
+        super.init()
+    }
+    
+    var count = 0
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        count = 0
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        count += 1
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        completionBlock(count)
     }
 }
 
