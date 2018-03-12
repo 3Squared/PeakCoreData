@@ -8,11 +8,17 @@
 
 import UIKit
 import CoreData
+import THRResult
 import THRCoreData
 
 class EventsTableViewController: UITableViewController, PersistentContainerSettable {
 
     var persistentContainer: NSPersistentContainer!
+    
+    var operationQueue: OperationQueue {
+        let queue = OperationQueue()
+        return queue
+    }
     
     private var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
     
@@ -37,14 +43,22 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         setupTableView()
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        Event.batchDelete(in: viewContext)
+    }
+    
     @IBAction func addButtonTapped(_ sender: Any) {
-        let newEvent = Event.insertObject(in: viewContext)
-        newEvent.date = Date()
-        do {
-            try viewContext.save()
-        } catch {
-            fatalError()
+        let numberOfItems = 100
+        var intermediateItems: [EventJSON] = []
+        for item in 0..<numberOfItems {
+            let id = UUID().uuidString
+            let date = Date().addingTimeInterval(-Double(item))
+            let intermediate = EventJSON(uniqueID: id, date: date)
+            intermediateItems.append(intermediate)
         }
+        let operation = CoreDataBatchImportOperation<EventJSON>(with: persistentContainer)
+        operation.input = Result { intermediateItems }
+        operationQueue.addOperation(operation)
     }
 
     private func setupTableView() {
