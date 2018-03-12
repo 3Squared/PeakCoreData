@@ -181,6 +181,20 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         operationQueue.addOperation(operation)
         waitForExpectations(timeout: defaultTimeout)
     }
+    
+    func testComplexSaveOperation() {
+        let finishExpectation = expectation(description: #function)
+        let insertCount = 100
+        let deleteCount = 10
+        let operation = InsertThenDeleteOperation(insertCount: insertCount, deleteCount: deleteCount, persistentContainer: persistentContainer)
+        operation.addResultBlock { (result) in
+            let outcome = try! result.resolve()
+            XCTAssertEqual(outcome.inserted.count, insertCount-deleteCount)
+            finishExpectation.fulfill()
+        }
+        operationQueue.addOperation(operation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
 
 }
 
@@ -220,6 +234,33 @@ class AddOneOperation: CoreDataOperation<Void> {
     override func performWork(in context: NSManagedObjectContext) {
         let objectToUpdate = TestEntity.fetchOrInsertObject(with: uniqueKeyValue, in: context)
         objectToUpdate.count += 1
+        saveAndFinish()
+    }
+}
+
+class InsertThenDeleteOperation: CoreDataChangesetOperation {
+    
+    let insertCount: Int
+    let deleteCount: Int
+    
+    init(insertCount: Int, deleteCount: Int, persistentContainer: NSPersistentContainer) {
+        self.insertCount = insertCount
+        self.deleteCount = deleteCount
+        super.init(with: persistentContainer)
+    }
+    
+    override func performWork(in context: NSManagedObjectContext) {
+        var testEntities: [TestEntity] = []
+        for item in 0..<insertCount {
+            let id = UUID().uuidString
+            let newObject = TestEntity.insertObject(with: id, in: context)
+            newObject.title = "Item " + String(item)
+            testEntities.append(newObject)
+        }
+        saveOperationContext()
+        
+        let toDelete = testEntities.prefix(deleteCount)
+        toDelete.forEach { context.delete($0) }
         saveAndFinish()
     }
 }

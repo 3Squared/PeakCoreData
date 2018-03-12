@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
     Intermediate: ManagedObjectUpdatable,
     Intermediate: UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType,
@@ -33,17 +33,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changes
                 intermediate.updateRelationships(on: managedObject, in: context)
             }
             
-            saveOperationContext()
-
-            output = Result {
-                let allIds = inserted.union(updated)
-                
-                return Changeset(all: allIds,
-                                 inserted: inserted,
-                                 updated: updated)
-            }
-            
-            finish()
+            saveAndFinish()
         } catch {
             output = Result { throw error }
             finish()
