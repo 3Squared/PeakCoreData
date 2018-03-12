@@ -17,6 +17,10 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     private let mergePolicyType: NSMergePolicyType
     private var operationContext: NSManagedObjectContext!
     
+    var inserted: Set<NSManagedObjectID> = []
+    var updated: Set<NSManagedObjectID> = []
+    var deleted: Set<NSManagedObjectID> = []
+        
     public var output: Result<Output> = Result { throw ResultError.noResult }
 
     public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
@@ -54,6 +58,12 @@ extension CoreDataOperation {
         guard operationContext.hasChanges else { return }
         
         do {
+            try operationContext.obtainPermanentIDs(for: Array(operationContext.insertedObjects))
+            
+            deleted = deleted.union(operationContext.deletedObjects.map { $0.objectID })
+            inserted = inserted.union(operationContext.insertedObjects.map { $0.objectID }).subtracting(deleted)
+            updated = updated.union(operationContext.updatedObjects.map { $0.objectID }).subtracting(deleted)
+            
             try operationContext.save()
         } catch {
             print("Error saving context \(operationContext.name ?? ""): \(error)")

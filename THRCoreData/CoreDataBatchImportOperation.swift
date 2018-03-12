@@ -18,7 +18,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changes
     Intermediate.ManagedObject: UniqueIdentifiable
 {
     public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
-
+    
     typealias ManagedObject = Intermediate.ManagedObject
 
     open override func performWork(in context: NSManagedObjectContext) {
@@ -33,20 +33,17 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation<Changes
                 intermediate.updateRelationships(on: managedObject, in: context)
             }
             
-            // We must do this in order to pass the IDs as a result, otherwise the objects
-            // will have temporary IDs that cannot be used with another context.
-            try context.obtainPermanentIDs(for: Array(context.insertedObjects))
+            saveOperationContext()
 
             output = Result {
-                let insertedIds = Set(context.insertedObjects.map { $0.objectID })
-                let updatedIds = Set(context.updatedObjects.map { $0.objectID })
-                let allIds = insertedIds.union(updatedIds)
+                let allIds = inserted.union(updated)
                 
                 return Changeset(all: allIds,
-                                 inserted: insertedIds,
-                                 updated: updatedIds)
+                                 inserted: inserted,
+                                 updated: updated)
             }
-            saveAndFinish()
+            
+            finish()
         } catch {
             output = Result { throw error }
             finish()

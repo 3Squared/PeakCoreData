@@ -25,22 +25,20 @@ open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Change
         do {
             let intermediate = try input.resolve()
             let managedObject = ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context)
-            
             intermediate.updateProperties(on: managedObject)
             intermediate.updateRelationships(on: managedObject, in: context)
             
-            try context.obtainPermanentIDs(for: Array(context.insertedObjects))
+            saveOperationContext()
             
             output = Result {
-                let insertedIds = Set(context.insertedObjects.map { $0.objectID })
-                let updatedIds = Set(context.updatedObjects.map { $0.objectID })
-                let allIds = insertedIds.union(updatedIds)
+                let allIds = inserted.union(updated)
                 
                 return Changeset(all: allIds,
-                                 inserted: insertedIds,
-                                 updated: updatedIds)
+                                 inserted: inserted,
+                                 updated: updated)
             }
-            saveAndFinish()
+            
+            finish()
         } catch {
             output = Result { throw error }
             finish()
