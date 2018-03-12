@@ -61,7 +61,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
             
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: viewContext)
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
             try! viewContext.save()
             
             // Create import operation with intermediates as input
@@ -96,7 +96,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: viewContext)
+            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
             try! viewContext.save()
             
             
@@ -126,7 +126,7 @@ class OperationTests: CoreDataTests {
         let numberOfItems = 100
         let finishExpectation = expectation(description: #function)
 
-        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, inContext: persistentContainer.viewContext)
+        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: persistentContainer.viewContext)
         try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
