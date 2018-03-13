@@ -45,8 +45,7 @@ public class TableViewDataSource<Delegate: DataSourceDelegate, Data: DataProvide
                 guard let cell = tableView.cellForRow(at: indexPath as IndexPath) as? Delegate.Cell else { break }
                 delegate.configure(cell: cell, forObject: object)
             case .move(let fromIndexPath, let toIndexPath):
-                tableView.deleteRows(at: [fromIndexPath as IndexPath], with: .fade)
-                tableView.insertRows(at: [toIndexPath as IndexPath], with: .fade)
+                tableView.moveRow(at: fromIndexPath, to: toIndexPath)
             case .delete(let indexPath):
                 tableView.deleteRows(at: [indexPath as IndexPath], with: .fade)
             case .insertSection(let section):
