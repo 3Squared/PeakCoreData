@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 import THRCoreData
 
 extension Event {
@@ -33,5 +34,38 @@ extension Event: UniqueIdentifiable {
     
     public var uniqueIDValue: String {
         return uniqueID!
+    }
+}
+
+public struct EventJSON: Codable {
+    let uniqueID: String
+    let date: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case uniqueID = "id"
+        case date = "date"
+    }
+}
+
+extension EventJSON: ManagedObjectUpdatable {
+    
+    public func updateProperties(on managedObject: Event) {
+        managedObject.uniqueID = uniqueID
+        managedObject.date = date
+    }
+    
+    public func updateRelationships(on managedObject: Event, in context: NSManagedObjectContext) {
+        //
+    }
+}
+
+extension EventJSON: UniqueIdentifiable {
+    
+    public static var uniqueIDKey: String {
+        return "uniqueID"
+    }
+    
+    public var uniqueIDValue: String {
+        return uniqueID
     }
 }

@@ -56,6 +56,11 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Collection View" id="EsW-as-ehV">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="cdA-N6-t6B">
+                            <connections>
+                                <action selector="deleteButtonTapped:" destination="FkI-Vv-Ivw" id="ck7-5Q-SXS"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="cQL-Wc-ynE">
                             <connections>
                                 <action selector="addButtonTapped:" destination="FkI-Vv-Ivw" id="Ivm-iQ-2nc"/>
@@ -100,6 +105,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Table View" id="Aqj-rQ-cRI">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="VBs-Aa-15h">
+                            <connections>
+                                <action selector="deleteButtonTapped:" destination="jZT-M0-XwS" id="2oT-EC-E6U"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="thz-df-Blr">
                             <connections>
                                 <action selector="addButtonTapped:" destination="jZT-M0-XwS" id="G88-T5-0Js"/>

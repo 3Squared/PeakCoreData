@@ -21,6 +21,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         let testBundle = Bundle(for: type(of: self))
         let model = NSManagedObjectModel.mergedModel(from: [testBundle])
         persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         persistentContainer.persistentStoreDescriptions = [description]
@@ -36,7 +37,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         super.tearDown()
     }
     
-    static func createTestIntermediateObjects(number: Int, inContext context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
+    static func createTestIntermediateObjects(number: Int, in context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<number {
             let id = UUID().uuidString
@@ -54,7 +55,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    static func createTestManagedObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
+    static func createTestManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
         for item in 0..<count {
             let id = UUID().uuidString

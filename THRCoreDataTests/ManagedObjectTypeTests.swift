@@ -22,7 +22,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertAndDeleteAll() {
         let count = 100
-        CoreDataTests.createTestManagedObjects(inContext: viewContext, count: count)
+        CoreDataTests.createTestManagedObjects(in: viewContext, count: count)
         
         let preDeleteCount = TestEntity.count(in: viewContext)
         XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
@@ -35,7 +35,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertAndDeleteSingleObject() {
         let count = 2
-        let newObjects = CoreDataTests.createTestManagedObjects(inContext: viewContext, count: count)
+        let newObjects = CoreDataTests.createTestManagedObjects(in: viewContext, count: count)
         let itemToDelete = newObjects.first!
         
         let preDeleteCount = TestEntity.count(in: viewContext)
@@ -57,7 +57,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testBatchInsertOrUpdate() {
         let expectedCount = 100
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, inContext: viewContext)
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
         
         let countBeforeUpdate = TestEntity.count(in: viewContext)
         XCTAssertEqual(countBeforeUpdate, (expectedCount/2), "Count before update should be equal to half expected count")
@@ -73,7 +73,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testBatchInsertCreatesDuplicatesInSomeSituations() {
         let expectedCount = 10
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, inContext: viewContext)
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
         
         TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
             (intermediate, managedObject) in
@@ -91,7 +91,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     }
     
     func testBatchInsertPerformance() {
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, inContext: viewContext)
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
         measure {
             TestEntity.insertOrUpdate(intermediates: intermediateItems, in: self.viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
@@ -100,7 +100,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     }
     
     func testNonBatchInsertPerformance() {
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, inContext: viewContext)
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
         measure {
             for intermediate in intermediateItems {
                 TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: self.viewContext) { entity in
