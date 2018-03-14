@@ -19,7 +19,7 @@ public protocol DataProviderUpdatable {
     /// - Parameters:
     ///   - cell: The cell to configure.
     ///   - object: The managedObject from which to set the cell's views.
-    func configure(cell: Cell, forObject object: ManagedObject)
+    func configure(_ cell: Cell, with object: ManagedObject)
 }
 
 public extension DataProviderUpdatable where Self: UIViewController {
@@ -32,47 +32,47 @@ public extension DataProviderUpdatable where Self: UIViewController {
     ///   - tableView: A tableview.
     ///   - animation: The animation with which to perform the updates.
     public func process(updates: [FetchedUpdate<ManagedObject>]?, for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic) {
-        if let updates = updates {
-            let updateBlock = {
-                for update in updates {
-                    switch update {
-                    case .insert(let indexPath):
-                        tableView.insertRows(at: [indexPath as IndexPath], with: animation)
-                    case .update(let indexPath, let object):
-                        guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { break }
-                        self.configure(cell: cell, forObject: object)
-                    case .move(let fromIndexPath, let toIndexPath):
-                        tableView.deleteRows(at: [fromIndexPath as IndexPath], with: animation)
-                        tableView.insertRows(at: [toIndexPath as IndexPath], with: animation)
-                    case .delete(let indexPath):
-                        tableView.deleteRows(at: [indexPath as IndexPath], with: animation)
-                    case .insertSection(let section):
-                        let indexSet = IndexSet(integer: section)
-                        tableView.insertSections(indexSet, with: animation)
-                    case .deleteSection(let section):
-                        let indexSet = IndexSet(integer: section)
-                        tableView.deleteSections(indexSet, with: animation)
-                    }
+        guard let updates = updates else {
+            tableView.reloadData()
+            return
+        }
+        
+        let updateBlock = {
+            for update in updates {
+                switch update {
+                case .insert(let indexPath):
+                    tableView.insertRows(at: [indexPath as IndexPath], with: animation)
+                case .update(let indexPath, let object):
+                    guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { break }
+                    self.configure(cell, with: object)
+                case .move(let fromIndexPath, let toIndexPath):
+                    tableView.moveRow(at: fromIndexPath, to: toIndexPath)
+                case .delete(let indexPath):
+                    tableView.deleteRows(at: [indexPath as IndexPath], with: animation)
+                case .insertSection(let section):
+                    let indexSet = IndexSet(integer: section)
+                    tableView.insertSections(indexSet, with: animation)
+                case .deleteSection(let section):
+                    let indexSet = IndexSet(integer: section)
+                    tableView.deleteSections(indexSet, with: animation)
                 }
             }
-            
-            if animation == .none {
-                UIView.setAnimationsEnabled(false)
-            }
-            
-            if #available(iOS 11.0, *) {
-                tableView.performBatchUpdates(updateBlock)
-            } else {
-                tableView.beginUpdates()
-                updateBlock()
-                tableView.endUpdates()
-            }
-            
-            if animation == .none {
-                UIView.setAnimationsEnabled(true)
-            }
+        }
+        
+        if animation == .none {
+            UIView.setAnimationsEnabled(false)
+        }
+        
+        if #available(iOS 11.0, *) {
+            tableView.performBatchUpdates(updateBlock)
         } else {
-            tableView.reloadData()
+            tableView.beginUpdates()
+            updateBlock()
+            tableView.endUpdates()
+        }
+        
+        if animation == .none {
+            UIView.setAnimationsEnabled(true)
         }
     }
 }
