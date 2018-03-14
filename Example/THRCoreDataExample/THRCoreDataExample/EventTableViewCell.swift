@@ -10,5 +10,5 @@ import UIKit
 
 class EventTableViewCell: UITableViewCell {
 
-    static let cellIdentifier = "eventTableViewCell"
+    static let cellIdentifier = "EventTableViewCell"
 }

@@ -31,7 +31,7 @@ public extension DataProviderUpdatable where Self: UIViewController {
     ///   - updates: A list of DataProviderUpdates.
     ///   - tableView: A tableview.
     ///   - animation: The animation with which to perform the updates.
-    public func process(updates: [DataProviderUpdate<ManagedObject>]?, for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic) {
+    public func process(updates: [FetchedUpdate<ManagedObject>]?, for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic) {
         if let updates = updates {
             let updateBlock = {
                 for update in updates {
@@ -137,11 +137,6 @@ public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObject
             }
         }
     }
-
-    /// Release the fetchedResultsController's delegate.
-    public func cleanUp() {
-        fetchedCollection.cleanUp()
-    }
 }
 
 public extension ManagedObjectType where Self: NSManagedObject {
@@ -179,17 +174,17 @@ public extension NSManagedObjectID {
 }
 
 /// A wrapper for NSFetchedResultsController.
-public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetchedResultsControllerDelegate {
+public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, FetchedDataProviderDelegate {
     
-    public typealias FetchedCollectionChangeListener = (Result<FetchedCollection<T>>, [DataProviderUpdate<T>]?) -> Void
+    typealias Object = T
+    
+    public typealias FetchedCollectionChangeListener = (Result<FetchedCollection<T>>, [FetchedUpdate<T>]?) -> Void
     
     public var onChange: FetchedCollectionChangeListener!
-    public private(set) var sections: [Section<T>] = []
+
+    private var dataProvider: FetchedDataProvider<FetchedCollection>!
     
-    private let frc: NSFetchedResultsController<T>
-    private var updates: [DataProviderUpdate<T>] = []
-    
-    
+
     /// Create a new FetchedCollection.
     ///
     /// - Parameters:
@@ -203,58 +198,26 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetc
                 sectionNameKeyPath: String? = nil,
                 cacheName: String? = nil,
                 onChange: @escaping FetchedCollectionChangeListener = {_,_ in }) {
-        self.frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                              managedObjectContext: context,
-                                              sectionNameKeyPath: sectionNameKeyPath,
-                                              cacheName: cacheName)
         super.init()
-        
         self.onChange = onChange
-        self.frc.delegate = self
-        performFetch()
+        self.dataProvider = FetchedDataProvider(fetchedResultsController:
+            NSFetchedResultsController(fetchRequest: fetchRequest,
+                                       managedObjectContext: context,
+                                       sectionNameKeyPath: sectionNameKeyPath,
+                                       cacheName: cacheName),
+                                                delegate: self)
+        dataProvider.performFetch()
     }
     
-    
-    private func updateSections() {
-        self.sections = self.frc.sections!.map { info in
-            return Section(name: info.name,
-                           indexTitle: info.indexTitle,
-                           numberOfObjects: info.numberOfObjects)
-        }
-    }
-    
-    private func performFetch() {
-        frc.managedObjectContext.performAndWait {
-            let result = Result { () -> FetchedCollection<T> in
-                try self.frc.performFetch()
-                self.updateSections()
-                return self
-            }
-            self.onChange(result, nil)
-        }
-    }
-    
-    
-    /// Provides a way to modify the backing fetch request.
-    /// A new fetch will be performed.
-    ///
-    /// - Parameter block: A block which allows you to edit the fetchRequest.
-    public func reconfigureFetchRequest(block: (NSFetchRequest<T>) -> ()) {
-        NSFetchedResultsController<T>.deleteCache(withName: frc.cacheName)
-        block(frc.fetchRequest)
-        performFetch()
-    }
-    
-    override public var debugDescription: String {
-        return "CoreDataResults{ size = \(self.count), \(frc) }"
-    }
-    
-    /// Release the fetchedResultsController's delegate.
-    func cleanUp() {
-        frc.delegate = nil
+    func dataProviderDidUpdate(updates: [FetchedUpdate<T>]?) {
+        onChange(Result { self }, updates)
     }
     
     // MARK: Collection
+    
+    public var sections: [NSFetchedResultsSectionInfo] {
+        return dataProvider.sections
+    }
     
     public var startIndex: IndexPath {
         return IndexPath(item: 0, section: 0)
@@ -262,21 +225,20 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetc
     
     public var endIndex: IndexPath {
         // This method expects the "past the end"-end. So, the count.
-        let sections = self.frc.sections!
-        let lastSection = sections.count - 1
-        let lastItemInSection = sections[lastSection].numberOfObjects
+        let lastSection = dataProvider.numberOfSections - 1
+        let lastItemInSection = dataProvider.sectionInfo(forSection: lastSection).numberOfObjects
         return IndexPath(item: lastItemInSection, section: lastSection)
     }
     
     public subscript (position: IndexPath) -> T {
         precondition((startIndex ..< endIndex).contains(position), "out of bounds")
-        return frc.object(at: position)
+        return dataProvider.object(at: position)
     }
     
     subscript (position: (item: Int, section: Int)) -> T {
         let index = IndexPath(item: position.item, section: position.section)
         precondition((startIndex ..< endIndex).contains(index), "out of bounds")
-        return frc.object(at: index)
+        return dataProvider.object(at: index)
     }
     
     
@@ -288,61 +250,21 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetc
         // This should deal with the situation when the next object
         // is in a different section, so we can't just increment `item`
         
-        let currentObject = frc.object(at: i)
-        let index = frc.fetchedObjects!.index(of: currentObject)! as Int
+        let currentObject = dataProvider.object(at: i)
+        let index = dataProvider.fetchedObjects.index(of: currentObject)! as Int
         let nextIndex = index + 1
         
-        if nextIndex < frc.fetchedObjects!.count {
-            let nextObject = frc.fetchedObjects?[nextIndex]
-            return frc.indexPath(forObject: nextObject!)!
+        if nextIndex < dataProvider.fetchedObjectsCount {
+            let nextObject = dataProvider.fetchedObjects[nextIndex]
+            return dataProvider.indexPath(forObject: nextObject)!
         }
         
         return IndexPath(item: i.item + 1, section: i.section)
     }
     
     
-    // MARK: NSFetchedResultsControllerDelegate
-    
-    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        updates = []
-    }
-    
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            updates.append(.insertSection(at: sectionIndex))
-        case .delete:
-            updates.append(.deleteSection(at: sectionIndex))
-        default:
-            break
-        }
-    }
-    
-    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        if let indexPath = indexPath, let newIndexPath = newIndexPath, indexPath != newIndexPath {
-            // To fix bug around moving objects between sections?
-            return updates.append(.move(from: indexPath, to: newIndexPath))
-        }
-        switch type {
-        case .insert:
-            guard let indexPath = newIndexPath else { fatalError("Index path should be not nil") }
-            updates.append(.insert(at: indexPath))
-        case .update:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.update(at: indexPath, with: self[indexPath]))
-        case .move:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
-            updates.append(.move(from: indexPath, to: newIndexPath))
-        case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.delete(at: indexPath))
-        }
-    }
-    
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.updateSections()
-        onChange(Result { self }, updates)
+    func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
+        dataProvider.reconfigureFetchRequest(configure)
     }
     
     /// Create a static array from the currently fetched objects.
@@ -351,13 +273,6 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, NSFetc
     /// - Returns: An array of managedObjects.
     func snapshot() -> [T] {
         return Array(self)
-    }
-    
-    /// Represents a section in the fetched data.
-    public struct Section<T> {
-        var name: String
-        var indexTitle: String?
-        var numberOfObjects: Int
     }
 }
 

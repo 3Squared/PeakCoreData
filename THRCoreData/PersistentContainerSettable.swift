@@ -9,22 +9,10 @@
 import CoreData
 
 public protocol PersistentContainerSettable: class {
-    
-    var persistentContainer: PersistentContainer! { get set }
-}
-
-public extension PersistentContainerSettable {
-    
-    var mainContext: NSManagedObjectContext {
-        return persistentContainer.mainContext
-    }
-}
-
-protocol NSPersistentContainerSettable: class {
     var persistentContainer: NSPersistentContainer! { get set }
 }
 
-extension NSPersistentContainerSettable {
+public extension PersistentContainerSettable {
     
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext

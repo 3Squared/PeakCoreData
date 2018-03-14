@@ -7,22 +7,34 @@
 //
 
 import UIKit
-import THRCoreData
 import CoreData
+import THRResult
+import THRCoreData
 
 class EventsTableViewController: UITableViewController, PersistentContainerSettable {
 
-    var persistentContainer: PersistentContainer!
-
-    fileprivate typealias DataProvider = FetchedResultsDataProvider<EventsTableViewController>
-    fileprivate var dataProvider: DataProvider!
-    fileprivate var dataSource: TableViewDataSource<EventsTableViewController, DataProvider>!
+    var persistentContainer: NSPersistentContainer!
     
-    fileprivate lazy var dateFormatter: DateFormatter = {
+    var operationQueue: OperationQueue {
+        let queue = OperationQueue()
+        return queue
+    }
+    
+    private var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
+    
+    private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .long
         df.timeStyle = .short
         return df
+    }()
+    
+    lazy var emptyView: UIView? = {
+        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
+        let view = nibViews?.first as! EmptyView
+        view.titleLabel.text = "No events in table view"
+        view.subtitleLabel.text = "Not a sausage."
+        return view
     }()
     
     override func viewDidLoad() {
@@ -30,25 +42,32 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         tableView.tableFooterView = UIView()
         setupTableView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        Event.batchDelete(in: viewContext)
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let newEvent = Event.insertObject(inContext: mainContext)
-        newEvent.date = Date()
-        do {
-            try mainContext.save()
-        } catch {
-            fatalError()
+        let numberOfItems = 100
+        var intermediateItems: [EventJSON] = []
+        for item in 0..<numberOfItems {
+            let id = UUID().uuidString
+            let date = Date().addingTimeInterval(-Double(item))
+            let intermediate = EventJSON(uniqueID: id, date: date)
+            intermediateItems.append(intermediate)
         }
+        let operation = CoreDataBatchImportOperation<EventJSON>(with: persistentContainer)
+        operation.input = Result { intermediateItems }
+        operationQueue.addOperation(operation)
     }
 
-    fileprivate func setupTableView() {
-        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: mainContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataProvider = FetchedResultsDataProvider(fetchedResultsController: frc, delegate: self)
-        dataSource = TableViewDataSource(tableView: tableView, dataProvider: dataProvider, delegate: self)
+    private func setupTableView() {
+        let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource.animateUpdates = true
+        dataSource.onDidChangeContent = {
+            print("Table View - Something changed")
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,30 +75,9 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     }
 }
 
-extension EventsTableViewController: DataProviderDelegate {
+extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
     
-    func dataProviderDidUpdate(updates: [DataProviderUpdate<Event>]?) {
-        mainContext.performAndWait {
-            self.dataSource?.processUpdates(updates: updates)
-        }
-    }
-}
-
-extension EventsTableViewController: DataSourceDelegate {
-
-    func emptyView() -> UIView? {
-        let nibViews = Bundle.main.loadNibNamed(EmptyView.nibName, owner: self, options: nil)
-        let view = nibViews?.first as! EmptyView
-        view.titleLabel.text = "No events in table view"
-        view.subtitleLabel.text = "Not a sausage."
-        return view
-    }
-    
-    func cellIdentifier(forObject object: Event) -> String {
-        return EventTableViewCell.cellIdentifier
-    }
-    
-    func configure(cell: EventTableViewCell, forObject object: Event) {
+    func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))
     }
     
@@ -88,14 +86,13 @@ extension EventsTableViewController: DataSourceDelegate {
     }
     
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let objectToDelete = dataProvider.object(at: indexPath)
-            mainContext.delete(objectToDelete)
-            do {
-                try mainContext.save()
-            } catch {
-                fatalError()
-            }
+        switch editingStyle {
+        case .delete:
+            let objectToDelete = dataSource.object(at: indexPath)
+            viewContext.delete(objectToDelete)
+            try! viewContext.save()
+        default:
+            break
         }
     }
 }

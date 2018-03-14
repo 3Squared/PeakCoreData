@@ -14,8 +14,7 @@ import THRResult
 class FetchedCollectionTests: CoreDataTests {
     
     func testSnapshotIsStatic() {
-        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 10)
-        try! mainContext.save()
+        CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
         
         let expect = expectation(description: "")
         let results = allThings { _, update in
@@ -27,8 +26,8 @@ class FetchedCollectionTests: CoreDataTests {
         XCTAssertEqual(results.count, 10)
         XCTAssertEqual(snap.count, 10)
         
-        mainContext.performAndWait {
-            self.mainContext.delete(results[(0, 0)])
+        viewContext.performAndWait {
+            self.viewContext.delete(results[(0, 0)])
         }
         
         waitForExpectations(timeout: defaultTimeout)
@@ -38,8 +37,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
         
     func testSectionedResults() {
-        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 10)
-        try! mainContext.save()
+        CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
         
         let results = sectionedThings() { _, _ in }
         XCTAssertEqual(results.sections.count, 10)
@@ -47,9 +45,7 @@ class FetchedCollectionTests: CoreDataTests {
         results.sections.forEach { section in
             XCTAssertEqual(section.numberOfObjects, 1)
         }
-        
-        results.cleanUp()
-    }
+     }
     
     func testInsertChanges() {
         let expect = expectation(description: "")
@@ -73,25 +69,24 @@ class FetchedCollectionTests: CoreDataTests {
             expect.fulfill()
         }
         
-        mainContext.perform {
-            CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 10)
-            try! self.mainContext.save()
+        viewContext.perform {
+            CoreDataTests.createTestManagedObjects(in: self.viewContext, count: 10)
+            try! self.viewContext.save()
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        results.cleanUp()
     }
     
     func testInsertSectionChanges() {
-        CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1)
-        try! mainContext.save()
+        CoreDataTests.createTestManagedObjects(in: viewContext, count: 1)
+        try! viewContext.save()
         
         let results = sectionedThings() { _, _ in }
         XCTAssertEqual(results.sections.count, 1)
         
-        mainContext.performAndWait {
-            CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 1)
-            try! self.mainContext.save()
+        viewContext.performAndWait {
+            CoreDataTests.createTestManagedObjects(in: viewContext, count: 1)
+            try! self.viewContext.save()
         }
 
         XCTAssertEqual(results.sections.count, 2)
@@ -99,16 +94,14 @@ class FetchedCollectionTests: CoreDataTests {
         results.sections.forEach { section in
             XCTAssertEqual(section.numberOfObjects, 1)
         }
-        
-        results.cleanUp()
     }
 
     
     func testDeletionChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 10)
-        mainContext.perform {
-            try! self.mainContext.save()
+        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        viewContext.perform {
+            try! self.viewContext.save()
         }
         
         let results = allThings() { result, changes in
@@ -132,22 +125,21 @@ class FetchedCollectionTests: CoreDataTests {
         }
         
         let thing = inserted[0]
-        mainContext.perform {
-            self.mainContext.delete(thing)
-            try! self.mainContext.save()
+        viewContext.perform {
+            self.viewContext.delete(thing)
+            try! self.viewContext.save()
         }
         
         
         waitForExpectations(timeout: defaultTimeout)
-        results.cleanUp()
     }
     
     
     func testUpdateChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 10)
-        mainContext.perform {
-            try! self.mainContext.save()
+        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        viewContext.perform {
+            try! self.viewContext.save()
         }
         
         let results = allThings() { result, changes in
@@ -161,8 +153,11 @@ class FetchedCollectionTests: CoreDataTests {
             XCTAssertEqual(changes!.count, 1)
             
             switch changes![0] {
-            case .update(at: _, with: let object):
+            case .update(_, let object):
                 XCTAssertEqual(object.uniqueID!, "what")
+                break
+            case .move(let from, let to):
+                print("move from [\(from.row), \(from.section)] to [\(to.row), \(to.section)]")
                 break
             default:
                 XCTFail()
@@ -172,21 +167,17 @@ class FetchedCollectionTests: CoreDataTests {
         }
         
         let thing = inserted[0]
-        mainContext.perform {
+        viewContext.perform {
             thing.uniqueID = "what"
-            try! self.mainContext.save()
+            try! self.viewContext.save()
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        results.cleanUp()
     }
     
     func testMoveChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 10)
-        mainContext.perform {
-            try! self.mainContext.save()
-        }
+        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
         
         let results = allThings() { result, changes in
             let objects = try! result.resolve()
@@ -199,7 +190,7 @@ class FetchedCollectionTests: CoreDataTests {
             XCTAssertEqual(changes!.count, 1)
             
             switch changes![0] {
-            case .move(from: _, to: _):
+            case .move(_, _):
                 break
             default:
                 XCTFail()
@@ -209,13 +200,12 @@ class FetchedCollectionTests: CoreDataTests {
         }
         
         let thing = inserted[0]
-        mainContext.perform {
+        viewContext.perform {
             thing.title = "Z"
-            try! self.mainContext.save()
+            try! self.viewContext.save()
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        results.cleanUp()
     }
     
     
@@ -223,13 +213,9 @@ class FetchedCollectionTests: CoreDataTests {
         let expect1 = expectation(description: "1")
         let expect2 = expectation(description: "2")
         
-        CoreDataTests.createTestManagedObjects(inContext: self.mainContext, count: 9)
+        CoreDataTests.createTestManagedObjects(in: viewContext, count: 9)
         
-        TestEntity.insertObject(withUniqueKeyValue: "testid", inContext: self.mainContext)
-        
-        mainContext.perform {
-            try! self.mainContext.save()
-        }
+        TestEntity.insertObject(with: "testid", in: viewContext)
         
         let results = allThings() { result, changes in
             let objects = try! result.resolve()
@@ -251,20 +237,19 @@ class FetchedCollectionTests: CoreDataTests {
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        results.cleanUp()
     }
     
 
-    func allThings(_ onChange: @escaping (Result<FetchedCollection<TestEntity>>, [DataProviderUpdate<TestEntity>]?) -> Void) -> FetchedCollection<TestEntity> {
+    func allThings(_ onChange: @escaping (Result<FetchedCollection<TestEntity>>, [FetchedUpdate<TestEntity>]?) -> Void) -> FetchedCollection<TestEntity> {
         return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(),
-                                     managedObjectContext: mainContext,
+                                     managedObjectContext: viewContext,
                                      onChange: onChange)
         
     }
     
-    func sectionedThings(_ onChange: @escaping (Result<FetchedCollection<TestEntity>>, [DataProviderUpdate<TestEntity>]?) -> Void) -> FetchedCollection<TestEntity> {
+    func sectionedThings(_ onChange: @escaping (Result<FetchedCollection<TestEntity>>, [FetchedUpdate<TestEntity>]?) -> Void) -> FetchedCollection<TestEntity> {
         return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(),
-                                     managedObjectContext: mainContext,
+                                     managedObjectContext: viewContext,
                                      sectionNameKeyPath: #keyPath(TestEntity.uniqueID),
                                      onChange: onChange)
     }

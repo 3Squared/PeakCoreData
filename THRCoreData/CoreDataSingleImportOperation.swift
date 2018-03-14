@@ -11,7 +11,7 @@ import CoreData
 import THROperations
 import THRResult
 
-open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Changeset>, ConsumesResult where
+open class CoreDataSingleImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
     Intermediate: ManagedObjectUpdatable,
     Intermediate: UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType,
@@ -21,26 +21,13 @@ open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation<Change
     
     typealias ManagedObject = Intermediate.ManagedObject
 
-    open override func performWork(inContext context: NSManagedObjectContext) {
+    open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediate = try input.resolve()
-            let managedObject = ManagedObject.fetchOrInsertObject(withUniqueKeyValue: intermediate.uniqueIDValue, inContext: context)
-            
+            let managedObject = ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context)
             intermediate.updateProperties(on: managedObject)
-            intermediate.updateRelationships(on: managedObject, withContext: context)
-            
-            try context.obtainPermanentIDs(for: Array(context.insertedObjects))
-            
-            output = Result {
-                let insertedIds = Set(context.insertedObjects.map { $0.objectID })
-                let updatedIds = Set(context.updatedObjects.map { $0.objectID })
-                let allIds = insertedIds.union(updatedIds)
-                
-                return Changeset(all: allIds,
-                                 inserted: insertedIds,
-                                 updated: updatedIds)
-            }
-            finishAndSave()
+            intermediate.updateRelationships(on: managedObject, in: context)
+            saveAndFinish()
         } catch {
             output = Result { throw error }
             finish()

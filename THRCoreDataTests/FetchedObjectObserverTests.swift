@@ -13,83 +13,78 @@ import CoreData
 class FetchedObjectObserverTests: CoreDataTests {
     
     func testEditIsObservedFromID() {
-        let object = CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1).first!
-        try! mainContext.save()
+        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        try! viewContext.save()
         
         let expect = expectation(description: "")
 
-        let observer: FetchedObjectObserver<TestEntity> = object.objectID.observe(in: mainContext) { object in
+        let observer: FetchedObjectObserver<TestEntity> = object.objectID.observe(in: viewContext) { object in
             XCTAssertEqual(object!.title, "testObserveFromID")
             expect.fulfill()
         }
         
-        mainContext.perform {
+        viewContext.perform {
             object.title = "testObserveFromID"
-            try! self.mainContext.save()
+            try! self.viewContext.save()
         }
 
         waitForExpectations(timeout: defaultTimeout)
-        observer.cleanUp()
     }
     
     func testEditIsObservedFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1).first!
-        try! mainContext.save()
+        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        try! viewContext.save()
         
         let expect = expectation(description: "")
         
-        let observer: FetchedObjectObserver<TestEntity> = object.observe(in: mainContext) { object in
+        let observer: FetchedObjectObserver<TestEntity> = object.observe(in: viewContext) { object in
             XCTAssertEqual(object!.title, "testObserveFromID")
             expect.fulfill()
         }
         
-        mainContext.perform {
+        viewContext.perform {
             object.title = "testObserveFromID"
-            try! self.mainContext.save()
+            try! self.viewContext.save()
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        observer.cleanUp()
     }
     
     
     func testDeletionIsObservedFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1).first!
-        try! mainContext.save()
+        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        try! viewContext.save()
         
         let expect = expectation(description: "")
         
-        let observer = object.observe(in: mainContext) { changedObject in
+        let observer = object.observe(in: viewContext) { changedObject in
             XCTAssertNil(changedObject)
             expect.fulfill()
         }
         
-        mainContext.perform {
-            self.mainContext.delete(object)
+        viewContext.perform {
+            self.viewContext.delete(object)
         }
         
         waitForExpectations(timeout: defaultTimeout)
-        observer.cleanUp()
     }
     
     func testObjectIsEqual() {
-        let object = CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1).first!
-        try! mainContext.save()
+        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        try! viewContext.save()
         let observer = object.observe { _ in  }
         XCTAssertEqual(observer.object!, object)
-        observer.cleanUp()
     }
 
     
     func testObjectIsFoundInDifferentContext() {
-        let object = CoreDataTests.createTestManagedObjects(inContext: mainContext, count: 1).first!
-        try! mainContext.save()
+        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        try! viewContext.save()
         let observer = object.observe(in: persistentContainer.newBackgroundContext()) { _ in  }
         
         XCTAssertNotEqual(observer.object!, object)
         XCTAssertNotEqual(observer.object!.managedObjectContext, object.managedObjectContext)
         XCTAssertEqual(observer.object!.objectID, object.objectID)
-        observer.cleanUp()
     }
 
 
