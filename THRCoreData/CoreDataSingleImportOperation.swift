@@ -12,10 +12,8 @@ import THROperations
 import THRResult
 
 open class CoreDataSingleImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
-    Intermediate: ManagedObjectUpdatable,
-    Intermediate: UniqueIdentifiable,
-    Intermediate.ManagedObject: ManagedObjectType,
-    Intermediate.ManagedObject: UniqueIdentifiable
+    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
+    Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
 {
     public var input: Result<Intermediate> = Result { throw ResultError.noResult }
     

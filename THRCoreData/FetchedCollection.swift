@@ -10,7 +10,7 @@ import CoreData
 import THRResult
 
 /// Observe changes made to a managed object. Uses FetchedCollection.
-public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObjectType {
+public class FetchedObjectObserver<T> where T: NSManagedObject & ManagedObjectType {
     
     public typealias FetchedObjectChangeListener = (T?) -> Void
     
@@ -97,7 +97,7 @@ public extension NSManagedObjectID {
     ///   - context: The context that will hold the fetched object.
     ///   - onChange: A callback called when the object is changed.
     /// - Returns: A FetchedObjectObserver initialised with the managed object referred to by the ID.
-    public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping (T?) -> Void) -> FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObjectType {
+    public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping (T?) -> Void) -> FetchedObjectObserver<T> where T: NSManagedObject & ManagedObjectType {
         return FetchedObjectObserver(with: self, in: context, onChange: onChange)
     }
 }

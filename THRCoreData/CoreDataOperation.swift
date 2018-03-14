@@ -11,7 +11,6 @@ import THROperations
 import THRResult
 
 open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
-    
     private let persistentContainer: NSPersistentContainer
     private let mergePolicyType: NSMergePolicyType
     private var operationContext: NSManagedObjectContext!

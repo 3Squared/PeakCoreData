@@ -12,15 +12,13 @@ import THROperations
 import THRResult
 
 open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
-    Intermediate: ManagedObjectUpdatable,
-    Intermediate: UniqueIdentifiable,
-    Intermediate.ManagedObject: ManagedObjectType,
-    Intermediate.ManagedObject: UniqueIdentifiable
+    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
+    Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
 {
     public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
     
     typealias ManagedObject = Intermediate.ManagedObject
-
+    
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()

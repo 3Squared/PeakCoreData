@@ -142,7 +142,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 // MARK: - UniqueIdentifiable
 
-public extension ManagedObjectType where Self: NSManagedObject, Self: UniqueIdentifiable {
+public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifiable {
     
     typealias UniqueKeyValueType = Any
     
