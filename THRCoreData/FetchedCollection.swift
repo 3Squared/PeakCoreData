@@ -201,4 +201,3 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
         return Array(self)
     }
 }
-
