@@ -21,7 +21,6 @@ public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObject
     /// The managed object being observed.
     private(set) public var object: T?
     
-    
     /// Create a new FetchedObjectObserver.
     /// The object will be observed in its original managedObjectContext.
     ///
@@ -32,7 +31,6 @@ public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObject
         self.init(with: managedObject.objectID, in: managedObject.managedObjectContext!, onChange: onChange)
     }
     
-    
     /// Create a new FetchedObjectObserver.
     ///
     /// - Parameters:
@@ -42,7 +40,6 @@ public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObject
     public convenience init(with managedObject: T, in context: NSManagedObjectContext, onChange: @escaping FetchedObjectChangeListener) {
         self.init(with: managedObject.objectID, in: context, onChange: onChange)
     }
-    
     
     /// Create a new FetchedObjectObserver.
     ///
@@ -115,7 +112,6 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
     public var onChange: FetchedCollectionChangeListener!
     
     private var dataProvider: FetchedDataProvider<FetchedCollection>!
-    
     
     /// Create a new FetchedCollection.
     ///
@@ -192,7 +188,6 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
         
         return IndexPath(item: i.item + 1, section: i.section)
     }
-    
     
     func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
         dataProvider.reconfigureFetchRequest(configure)

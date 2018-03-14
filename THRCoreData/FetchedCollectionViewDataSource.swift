@@ -9,9 +9,7 @@
 import UIKit
 import CoreData
 
-public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView {
-
-}
+public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView { }
 
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     public typealias Object = Delegate.Object
