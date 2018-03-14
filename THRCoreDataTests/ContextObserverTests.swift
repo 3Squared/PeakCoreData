@@ -26,22 +26,20 @@ class ContextObserverTests: CoreDataTests {
         let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
-        self.measure {
-            let expect = expectation(description: "")
-            
-            let observer = CoreDataContextObserver<TestEntity>(context: viewContext)
-            observer.observeObject(object: object, state: .updated, completionBlock: { updatedObject, state in
-                XCTAssertEqual(updatedObject.title, "testObserveFromID")
-                XCTAssertEqual(state, .updated)
-                expect.fulfill()
-            })
-            
-            viewContext.perform {
-                object.title = "testObserveFromID"
-            }
-            
-            waitForExpectations(timeout: defaultTimeout)
+        let expect = expectation(description: "")
+        
+        let observer = CoreDataContextObserver<TestEntity>(context: viewContext)
+        observer.observeObject(object: object, state: .updated, completionBlock: { updatedObject, state in
+            XCTAssertEqual(updatedObject.title, "testObserveFromID")
+            XCTAssertEqual(state, .updated)
+            expect.fulfill()
+        })
+        
+        viewContext.perform {
+            object.title = "testObserveFromID"
         }
+        
+        waitForExpectations(timeout: defaultTimeout)
     }
     
     func testDeletion() {
@@ -65,27 +63,24 @@ class ContextObserverTests: CoreDataTests {
     }
     
     func testInsertion() {
+        let expect = expectation(description: "")
         
-        self.measure {
-            let expect = expectation(description: "")
-
-            let observer = CoreDataContextObserver<TestEntity>(context: viewContext)
-            observer.contextChangeBlock = { notification, changes in
-                guard let firstChange = changes.first else { return }
-                switch firstChange {
-                case .inserted(_):
-                    expect.fulfill()
-                default:
-                    XCTFail()
-                }
+        let observer = CoreDataContextObserver<TestEntity>(context: viewContext)
+        observer.contextChangeBlock = { notification, changes in
+            guard let firstChange = changes.first else { return }
+            switch firstChange {
+            case .inserted(_):
+                expect.fulfill()
+            default:
+                XCTFail()
             }
-            
-            viewContext.perform {
-                TestEntity.insertObject(in: self.viewContext)
-            }
-            
-            waitForExpectations(timeout: defaultTimeout)
         }
+        
+        viewContext.perform {
+            TestEntity.insertObject(in: self.viewContext)
+        }
+        
+        waitForExpectations(timeout: defaultTimeout)
     }
     
 }
