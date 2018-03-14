@@ -13,6 +13,8 @@
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
+		8D7D400A2059793F0007C5E5 /* CoreDataContextObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D40092059793F0007C5E5 /* CoreDataContextObserver.swift */; };
+		8D7D400C20597D880007C5E5 /* ContextObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D400B20597D880007C5E5 /* ContextObserverTests.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D97980F1DF815E400DAB75A /* TestEntity.swift */; };
@@ -54,6 +56,8 @@
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
+		8D7D40092059793F0007C5E5 /* CoreDataContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContextObserver.swift; sourceTree = "<group>"; };
+		8D7D400B20597D880007C5E5 /* ContextObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserverTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				8D7D40092059793F0007C5E5 /* CoreDataContextObserver.swift */,
 				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
@@ -194,6 +199,7 @@
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */,
 				CB13D8E020583703008B3678 /* FetchedObjectObserverTests.swift */,
+				8D7D400B20597D880007C5E5 /* ContextObserverTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
 			path = THRCoreDataTests;
@@ -426,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D7D400A2059793F0007C5E5 /* CoreDataContextObserver.swift in Sources */,
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
@@ -450,6 +457,7 @@
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
 				CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */,
+				8D7D400C20597D880007C5E5 /* ContextObserverTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
