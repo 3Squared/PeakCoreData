@@ -9,16 +9,8 @@
 import UIKit
 import CoreData
 
-public protocol FetchedCollectionViewDataSourceDelegate: class {
-    associatedtype Object: NSManagedObject
-    associatedtype Cell: UICollectionViewCell
-    func configure(_ cell: Cell, with object: Object)
-    // Optional
-    var emptyView: UIView? { get }
-}
+public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView {
 
-public extension FetchedCollectionViewDataSourceDelegate {
-    var emptyView: UIView? { return nil }
 }
 
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
@@ -133,27 +125,7 @@ extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
             return
         }
         
-        let batchUpdates: () -> Void = {
-            updates.forEach { (update) in
-                switch update {
-                case .insert(let indexPath):
-                    self.collectionView.insertItems(at: [indexPath])
-                case .update(let indexPath, let object):
-                    guard let cell = self.collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
-                    self.delegate.configure(cell, with: object)
-                case .move(let indexPath, let newIndexPath):
-                    self.collectionView.moveItem(at: indexPath, to: newIndexPath)
-                case .delete(let indexPath):
-                    self.collectionView.deleteItems(at: [indexPath])
-                case .deleteSection(let section):
-                    self.collectionView.deleteSections(IndexSet(integer: section))
-                case .insertSection(let section):
-                    self.collectionView.insertSections(IndexSet(integer: section))
-                }
-            }
-        }
-        
-        collectionView.performBatchUpdates(batchUpdates) { [weak self] (success) in
+        delegate.process(updates: updates, for: collectionView) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.showEmptyViewIfNeeded()
             strongSelf.onDidChangeContent?()

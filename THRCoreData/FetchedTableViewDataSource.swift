@@ -9,12 +9,7 @@
 import UIKit
 import CoreData
 
-public protocol FetchedTableViewDataSourceDelegate: class {
-    associatedtype Object: NSManagedObject
-    associatedtype Cell: UITableViewCell
-    func configure(_ cell: Cell, with object: Object)
-    // Optional
-    var emptyView: UIView? { get }
+public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmptyView {
     func titleForHeader(in section: Int) -> String?
     func titleForFooter(in section: Int) -> String?
     func canEditRow(at indexPath: IndexPath) -> Bool
@@ -24,7 +19,6 @@ public protocol FetchedTableViewDataSourceDelegate: class {
 }
 
 public extension FetchedTableViewDataSourceDelegate {
-    var emptyView: UIView? { return nil }
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
@@ -178,38 +172,10 @@ extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
             return
         }
         
-        let batchUpdates: () -> Void = {
-            updates.forEach { (update) in
-                switch update {
-                case .insert(let indexPath):
-                    self.tableView.insertRows(at: [indexPath], with: .fade)
-                case .update(let indexPath, let object):
-                    guard let cell = self.tableView.cellForRow(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
-                    self.delegate.configure(cell, with: object)
-                case .move(let indexPath, let newIndexPath):
-                    self.tableView.moveRow(at: indexPath, to: newIndexPath)
-                case .delete(let indexPath):
-                    self.tableView.deleteRows(at: [indexPath], with: .fade)
-                case .deleteSection(let section):
-                    self.tableView.deleteSections(IndexSet(integer: section), with: .fade)
-                case .insertSection(let section):
-                    self.tableView.insertSections(IndexSet(integer: section), with: .fade)
-                }
-            }
-        }
-        
-        if #available(iOS 11.0, *) {
-            tableView.performBatchUpdates(batchUpdates) { [weak self] (success) in
-                guard let strongSelf = self else { return }
-                strongSelf.showEmptyViewIfNeeded()
-                strongSelf.onDidChangeContent?()
-            }
-        } else {
-            tableView.beginUpdates()
-            batchUpdates()
-            tableView.endUpdates()
-            showEmptyViewIfNeeded()
-            onDidChangeContent?()
+        delegate.process(updates: updates, for: tableView) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.showEmptyViewIfNeeded()
+            strongSelf.onDidChangeContent?()
         }
     }
 }

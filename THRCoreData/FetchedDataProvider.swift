@@ -19,6 +19,86 @@ public enum FetchedUpdate<Object> {
     case deleteSection(at: Int)
 }
 
+public protocol HasEmptyView: class {
+    var emptyView: UIView? { get }
+}
+
+public extension HasEmptyView {
+    var emptyView: UIView? { return nil }
+}
+
+public protocol TableViewUpdatable: class {
+    associatedtype Object: NSManagedObject
+    associatedtype Cell: UITableViewCell
+    func configure(_ cell: Cell, with object: Object)
+}
+
+public extension TableViewUpdatable {
+    
+    public func process(updates: [FetchedUpdate<Object>], for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic, completion: ((Bool) -> Void)? = nil) {
+        let batchUpdates: () -> Void = {
+            updates.forEach { (update) in
+                switch update {
+                case .insert(let indexPath):
+                    tableView.insertRows(at: [indexPath], with: animation)
+                case .update(let indexPath, let object):
+                    guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
+                    self.configure(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
+                    tableView.moveRow(at: indexPath, to: newIndexPath)
+                case .delete(let indexPath):
+                    tableView.deleteRows(at: [indexPath], with: animation)
+                case .deleteSection(let section):
+                    tableView.deleteSections(IndexSet(integer: section), with: animation)
+                case .insertSection(let section):
+                    tableView.insertSections(IndexSet(integer: section), with: animation)
+                }
+            }
+        }
+        
+        if #available(iOS 11.0, *) {
+            tableView.performBatchUpdates(batchUpdates, completion: completion)
+        } else {
+            tableView.beginUpdates()
+            batchUpdates()
+            tableView.endUpdates()
+            completion?(true)
+        }
+    }
+}
+
+public protocol CollectionViewUpdatable: class {
+    associatedtype Object: NSManagedObject
+    associatedtype Cell: UICollectionViewCell
+    func configure(_ cell: Cell, with object: Object)
+}
+
+extension CollectionViewUpdatable {
+    
+    public func process(updates: [FetchedUpdate<Object>], for collectionView: UICollectionView, completion: ((Bool) -> Void)? = nil) {
+        let batchUpdates: () -> Void = {
+            updates.forEach { (update) in
+                switch update {
+                case .insert(let indexPath):
+                    collectionView.insertItems(at: [indexPath])
+                case .update(let indexPath, let object):
+                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
+                    self.configure(cell, with: object)
+                case .move(let indexPath, let newIndexPath):
+                    collectionView.moveItem(at: indexPath, to: newIndexPath)
+                case .delete(let indexPath):
+                    collectionView.deleteItems(at: [indexPath])
+                case .deleteSection(let section):
+                    collectionView.deleteSections(IndexSet(integer: section))
+                case .insertSection(let section):
+                    collectionView.insertSections(IndexSet(integer: section))
+                }
+            }
+        }
+        collectionView.performBatchUpdates(batchUpdates, completion: completion)
+    }
+}
+
 protocol FetchedDataProviderDelegate: class {
     associatedtype Object: NSManagedObject
     func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?)

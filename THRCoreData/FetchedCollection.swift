@@ -9,79 +9,11 @@ import Foundation
 import CoreData
 import THRResult
 
-/// Implement this protocal to indicate that your viewController's tableview can be updated by DataProviderUpdates
-public protocol DataProviderUpdatable {
-    associatedtype ManagedObject: ManagedObjectType
-    associatedtype Cell: UITableViewCell
-    
-    /// Configure a cell for display based on a given managed object.
-    ///
-    /// - Parameters:
-    ///   - cell: The cell to configure.
-    ///   - object: The managedObject from which to set the cell's views.
-    func configure(_ cell: Cell, with object: ManagedObject)
-}
-
-public extension DataProviderUpdatable where Self: UIViewController {
-    
-    /// Call this method to animate the tableview from the provided changes.
-    /// Ensure that numberOfSections and numberOfRowsInSection return the appropriate values before the updates.
-    ///
-    /// - Parameters:
-    ///   - updates: A list of DataProviderUpdates.
-    ///   - tableView: A tableview.
-    ///   - animation: The animation with which to perform the updates.
-    public func process(updates: [FetchedUpdate<ManagedObject>]?, for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic) {
-        guard let updates = updates else {
-            tableView.reloadData()
-            return
-        }
-        
-        let updateBlock = {
-            for update in updates {
-                switch update {
-                case .insert(let indexPath):
-                    tableView.insertRows(at: [indexPath as IndexPath], with: animation)
-                case .update(let indexPath, let object):
-                    guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { break }
-                    self.configure(cell, with: object)
-                case .move(let fromIndexPath, let toIndexPath):
-                    tableView.moveRow(at: fromIndexPath, to: toIndexPath)
-                case .delete(let indexPath):
-                    tableView.deleteRows(at: [indexPath as IndexPath], with: animation)
-                case .insertSection(let section):
-                    let indexSet = IndexSet(integer: section)
-                    tableView.insertSections(indexSet, with: animation)
-                case .deleteSection(let section):
-                    let indexSet = IndexSet(integer: section)
-                    tableView.deleteSections(indexSet, with: animation)
-                }
-            }
-        }
-        
-        if animation == .none {
-            UIView.setAnimationsEnabled(false)
-        }
-        
-        if #available(iOS 11.0, *) {
-            tableView.performBatchUpdates(updateBlock)
-        } else {
-            tableView.beginUpdates()
-            updateBlock()
-            tableView.endUpdates()
-        }
-        
-        if animation == .none {
-            UIView.setAnimationsEnabled(true)
-        }
-    }
-}
-
 /// Observe changes made to a managed object. Uses FetchedCollection.
 public class FetchedObjectObserver<T> where T: NSManagedObject, T: ManagedObjectType {
     
     public typealias FetchedObjectChangeListener = (T?) -> Void
-
+    
     private var fetchedCollection: FetchedCollection<T>!
     
     public var onChange: FetchedObjectChangeListener!
@@ -181,10 +113,10 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
     public typealias FetchedCollectionChangeListener = (Result<FetchedCollection<T>>, [FetchedUpdate<T>]?) -> Void
     
     public var onChange: FetchedCollectionChangeListener!
-
+    
     private var dataProvider: FetchedDataProvider<FetchedCollection>!
     
-
+    
     /// Create a new FetchedCollection.
     ///
     /// - Parameters:
@@ -240,7 +172,6 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
         precondition((startIndex ..< endIndex).contains(index), "out of bounds")
         return dataProvider.object(at: index)
     }
-    
     
     public func index(after i: IndexPath) -> IndexPath {
         // Get the overall index of the item in all fetched objects
