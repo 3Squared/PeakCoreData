@@ -86,6 +86,4 @@ class FetchedObjectObserverTests: CoreDataTests {
         XCTAssertNotEqual(observer.object!.managedObjectContext, object.managedObjectContext)
         XCTAssertEqual(observer.object!.objectID, object.objectID)
     }
-
-
 }

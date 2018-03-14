@@ -130,7 +130,6 @@ class FetchedCollectionTests: CoreDataTests {
             try! self.viewContext.save()
         }
         
-        
         waitForExpectations(timeout: defaultTimeout)
     }
     
