@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmptyView {
+    var rowAnimation: UITableViewRowAnimation { get }
     func titleForHeader(in section: Int) -> String?
     func titleForFooter(in section: Int) -> String?
     func canEditRow(at indexPath: IndexPath) -> Bool
@@ -19,6 +20,7 @@ public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmpty
 }
 
 public extension FetchedTableViewDataSourceDelegate {
+    var rowAnimation: UITableViewRowAnimation { return .automatic }
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
     func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
@@ -172,7 +174,7 @@ extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
             return
         }
         
-        delegate.process(updates: updates, for: tableView) { [weak self] _ in
+        delegate.process(updates: updates, for: tableView, with: delegate.rowAnimation) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.showEmptyViewIfNeeded()
             strongSelf.onDidChangeContent?()
