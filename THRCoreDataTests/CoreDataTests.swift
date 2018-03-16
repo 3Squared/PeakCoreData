@@ -21,7 +21,6 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         let testBundle = Bundle(for: type(of: self))
         let model = NSManagedObjectModel.mergedModel(from: [testBundle])
         persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
-        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         persistentContainer.persistentStoreDescriptions = [description]
