@@ -145,12 +145,12 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     private let fetchedResultsController: NSFetchedResultsController<Object>
-    private weak var delegate: Delegate!
     private var updates: [FetchedUpdate<Object>] = []
     
-    init(fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    weak var delegate: Delegate!
+
+    init(fetchedResultsController: NSFetchedResultsController<Object>) {
         self.fetchedResultsController = fetchedResultsController
-        self.delegate = delegate
         super.init()
         fetchedResultsController.delegate = self
     }

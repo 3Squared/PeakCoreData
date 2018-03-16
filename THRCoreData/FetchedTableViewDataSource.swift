@@ -35,7 +35,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     
     private let tableView: UITableView
     private let cellIdentifier: String
-    private var dataProvider: FetchedDataProvider<FetchedTableViewDataSource>!
+    private let dataProvider: FetchedDataProvider<FetchedTableViewDataSource>
     private weak var delegate: Delegate!
     
     public var animateUpdates: Bool = true
@@ -70,9 +70,10 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         self.tableView = tableView
         self.cellIdentifier = cellIdentifier
         self.delegate = delegate
+        self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
         super.init()
         tableView.dataSource = self
-        dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController, delegate: self)
+        dataProvider.delegate = self
         dataProvider.performFetch()
         showEmptyViewIfNeeded()
     }

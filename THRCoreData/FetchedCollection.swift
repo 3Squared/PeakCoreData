@@ -7,52 +7,55 @@
 //
 import Foundation
 import CoreData
-import THRResult
 
 /// A wrapper for NSFetchedResultsController.
-public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, FetchedDataProviderDelegate {
+public class FetchedCollection<T: NSManagedObject>: NSObject {
+        
+    public typealias FetchedCollectionChangeListener = (FetchedCollection<T>, [FetchedUpdate<T>]?) -> Void
     
-    typealias Object = T
+    public var onChange: FetchedCollectionChangeListener?
     
-    public typealias FetchedCollectionChangeListener = (Result<FetchedCollection<T>>, [FetchedUpdate<T>]?) -> Void
+    private let dataProvider: FetchedDataProvider<FetchedCollection>
     
-    public var onChange: FetchedCollectionChangeListener!
-    
-    private var dataProvider: FetchedDataProvider<FetchedCollection>!
+    public var sections: [NSFetchedResultsSectionInfo] {
+        return dataProvider.sections
+    }
     
     /// Create a new FetchedCollection.
     ///
     /// - Parameters:
     ///   - fetchRequest: The fetch request used to get the objects. It's expected that the sort descriptor used in the request groups the objects into sections.
-    ///   - managedObjectContext: The context that will hold the fetched objects
+    ///   - managedObjectContext: The context that will hold the fetched objects.
     ///   - sectionNameKeyPath: A keypath on resulting objects that returns the section name. This will be used to pre-compute the section information.
     ///   - cacheName: Section info is cached persistently to a private file under this name. Cached sections are checked to see if the time stamp matches the store, but not if you have illegally mutated the readonly fetch request, predicate, or sort descriptor.
     ///   - onChange: A callback called when the data matching the fetchRequest is changed.
-    public init(fetchRequest: NSFetchRequest<T>,
-                managedObjectContext context: NSManagedObjectContext,
-                sectionNameKeyPath: String? = nil,
-                cacheName: String? = nil,
-                onChange: @escaping FetchedCollectionChangeListener = {_,_ in }) {
+    public init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext, sectionNameKeyPath: String? = nil, cacheName: String? = nil) {
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: sectionNameKeyPath,
+                                             cacheName: cacheName)
+        self.dataProvider = FetchedDataProvider(fetchedResultsController: frc)
         super.init()
-        self.onChange = onChange
-        self.dataProvider = FetchedDataProvider(fetchedResultsController:
-            NSFetchedResultsController(fetchRequest: fetchRequest,
-                                       managedObjectContext: context,
-                                       sectionNameKeyPath: sectionNameKeyPath,
-                                       cacheName: cacheName),
-                                                delegate: self)
+        dataProvider.delegate = self
         dataProvider.performFetch()
     }
     
-    func dataProviderDidUpdate(updates: [FetchedUpdate<T>]?) {
-        onChange(Result { self }, updates)
+    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<T>) -> ()) {
+        dataProvider.reconfigureFetchRequest(configure)
     }
     
-    // MARK: Collection
-    
-    public var sections: [NSFetchedResultsSectionInfo] {
-        return dataProvider.sections
+    /// Create a static array from the currently fetched objects.
+    /// These objects may still set to isDeleted, but the size of the array will not change.
+    ///
+    /// - Returns: An array of managedObjects.
+    public func snapshot() -> [T] {
+        return Array(self)
     }
+}
+
+// MARK: - Collection
+
+extension FetchedCollection: Collection {
     
     public var startIndex: IndexPath {
         return IndexPath(item: 0, section: 0)
@@ -95,16 +98,11 @@ public class FetchedCollection<T: NSManagedObject>: NSObject, Collection, Fetche
         
         return IndexPath(item: i.item + 1, section: i.section)
     }
+}
+
+extension FetchedCollection: FetchedDataProviderDelegate {
     
-    func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
-        dataProvider.reconfigureFetchRequest(configure)
-    }
-    
-    /// Create a static array from the currently fetched objects.
-    /// These objects may still set to isDeleted, but the size of the array will not change.
-    ///
-    /// - Returns: An array of managedObjects.
-    func snapshot() -> [T] {
-        return Array(self)
+    func dataProviderDidUpdate(updates: [FetchedUpdate<T>]?) {
+        onChange?(self, updates)
     }
 }

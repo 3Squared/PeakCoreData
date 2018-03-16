@@ -17,7 +17,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     
     private let collectionView: UICollectionView
     private let cellIdentifier: String
-    private var dataProvider: FetchedDataProvider<FetchedCollectionViewDataSource>!
+    private let dataProvider: FetchedDataProvider<FetchedCollectionViewDataSource>
     private weak var delegate: Delegate!
     
     public var animateUpdates: Bool = true
@@ -51,9 +51,10 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         self.collectionView = collectionView
         self.cellIdentifier = cellIdentifier
         self.delegate = delegate
+        self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
         super.init()
         collectionView.dataSource = self
-        dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController, delegate: self)
+        dataProvider.delegate = self
         dataProvider.performFetch()
         showEmptyViewIfNeeded()
     }
