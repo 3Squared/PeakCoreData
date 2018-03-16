@@ -119,6 +119,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8D159AFC205BDF1B004D693A /* Change Observer */ = {
+			isa = PBXGroup;
+			children = (
+				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
+				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
+			);
+			name = "Change Observer";
+			sourceTree = "<group>";
+		};
 		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,15 +172,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8D82192F205AC7A300732777 /* Change Observer */ = {
-			isa = PBXGroup;
-			children = (
-				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
-				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
-			);
-			path = "Change Observer";
-			sourceTree = "<group>";
-		};
 		8D9797D11DF8138100DAB75A = {
 			isa = PBXGroup;
 			children = (
@@ -195,7 +195,7 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D82192F205AC7A300732777 /* Change Observer */,
+				8D159AFC205BDF1B004D693A /* Change Observer */,
 				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
