@@ -20,8 +20,6 @@ open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObje
     public typealias OnChange = ((T, ManagedObjectChangeType) -> Void)
     
     public var onChange: OnChange?
-
-    /// Use to turn change tracking on and off
     public var enabled: Bool = true
     public let object: T
 

@@ -9,52 +9,45 @@
 import Foundation
 import CoreData
 
-public class FetchedCount<T: NSManagedObject>: NSObject {
+public class FetchedCount<T>: NSObject where T: NSManagedObject & ManagedObjectType {
     
     public typealias FetchedCountChangeListener = (Int) -> Void
     
-    public var count: Int!
+    public var count: Int = 0
     public var onChange: FetchedCountChangeListener?
 
-    private let fetchRequest: NSFetchRequest<T>
+    private let predicate: NSPredicate?
     private let context: NSManagedObjectContext
-    private let dataProvider: FetchedDataProvider<FetchedCount>!
     
     /// Create a new FetchedCount.
     ///
     /// - Parameters:
     ///   - fetchRequest: The fetch request used to count the objects.
     ///   - managedObjectContext: The context that will be used to count the objects.
-    public init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext) {
-        fetchRequest.returnsObjectsAsFaults = true
-        fetchRequest.includesPropertyValues = false
-        fetchRequest.includesSubentities = false
-        self.fetchRequest = fetchRequest
+    public init(predicate: NSPredicate?, managedObjectContext context: NSManagedObjectContext) {
+        self.predicate = predicate
         self.context = context
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                             managedObjectContext: context,
-                                             sectionNameKeyPath: nil,
-                                             cacheName: nil)
-        self.dataProvider = FetchedDataProvider(fetchedResultsController: frc)
         super.init()
+        
         updateCount()
-        dataProvider.delegate = self
-        dataProvider.performFetch()
-    }
-    
-    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<T>) -> ()) {
-        dataProvider.reconfigureFetchRequest(configure)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
+            guard let strongSelf = self else { return }
+            let notification = ObjectsDidChangeNotification(notification: note)
+            guard notification.managedObjectContext == context else { return }
+            let inserted = notification.insertedObjects.flatMap { $0 as? T }
+            let deleted = notification.deletedObjects.flatMap { $0 as? T }
+            guard !inserted.isEmpty || !deleted.isEmpty else { return }
+            strongSelf.updateCount()
+        }
     }
     
     private func updateCount() {
-        count = try! context.count(for: fetchRequest)
-    }
-}
-
-extension FetchedCount: FetchedDataProviderDelegate {
-    
-    func dataProviderDidUpdate(updates: [FetchedUpdate<T>]?) {
-        updateCount()
-        onChange?(count)
+        let newCount = T.count(in: context, matching: predicate)
+        guard newCount != count else { return }
+        if newCount != count {
+            count = newCount
+            onChange?(count)
+        }
     }
 }
