@@ -13,7 +13,11 @@ import THRCoreData
 
 class EventsTableViewController: UITableViewController, PersistentContainerSettable {
 
+    @IBOutlet weak var countLabel: UILabel!
+    
     var persistentContainer: NSPersistentContainer!
+    
+    var countObserver: FetchedCount<Event>!
     
     var operationQueue: OperationQueue {
         let queue = OperationQueue()
@@ -40,6 +44,13 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        
+        countObserver = FetchedCount(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext)
+        countLabel.text = String(countObserver.count)
+        countObserver.onChange = { [weak self] count in
+            guard let strongSelf = self else { return }
+            strongSelf.countLabel.text = String(count)
+        }
         setupTableView()
     }
     
@@ -72,6 +83,18 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            let cell = sender as! EventTableViewCell
+            let indexPath = tableView.indexPath(for: cell)!
+            let object = dataSource.object(at: indexPath)
+            
+            let viewController = segue.destination as! EventDetailViewController
+            viewController.persistentContainer = persistentContainer
+            viewController.event = object
+        }
     }
 }
 
