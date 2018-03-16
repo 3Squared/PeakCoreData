@@ -29,6 +29,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
                 print(error)
             }
         }
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     override func tearDown() {

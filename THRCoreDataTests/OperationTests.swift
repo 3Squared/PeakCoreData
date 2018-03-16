@@ -154,8 +154,6 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     
     func testBatchImportTriggersFetchedResultsController() {
         
-        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-
         let numberOfItems = 1000
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<numberOfItems {
