@@ -21,7 +21,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testRefreshIsObserverFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -39,7 +39,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testRefreshFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -58,7 +58,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testUpdateIsObserverFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -78,7 +78,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testUpdateFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -100,7 +100,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testUpdateIsObserverFromObjectID() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -120,7 +120,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testUpdateFromObjectID() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -141,7 +141,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testDeleteIsObserverFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -160,7 +160,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testDeleteFromObject() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -180,7 +180,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testDeleteIsObserverFromObjectID() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -199,7 +199,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testDeleteFromObjectID() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -219,7 +219,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
     }
     
     func testObjectIsFoundInDifferentContext() {
-        let object = CoreDataTests.createTestManagedObjects(in: viewContext, count: 1).first!
+        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
         try! viewContext.save()
         
         let observer = object.observe(in: persistentContainer.newBackgroundContext()) { _, _ in  }

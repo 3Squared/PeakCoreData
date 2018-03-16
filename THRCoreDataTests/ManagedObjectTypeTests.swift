@@ -22,7 +22,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertAndDeleteAll() {
         let count = 100
-        CoreDataTests.createTestManagedObjects(in: viewContext, count: count)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: count)
         
         let preDeleteCount = TestEntity.count(in: viewContext)
         XCTAssertEqual(preDeleteCount, count, "Count before delete should be same as count")
@@ -35,7 +35,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertAndDeleteSingleObject() {
         let count = 2
-        let newObjects = CoreDataTests.createTestManagedObjects(in: viewContext, count: count)
+        let newObjects = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: count)
         let itemToDelete = newObjects.first!
         
         let preDeleteCount = TestEntity.count(in: viewContext)

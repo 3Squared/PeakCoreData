@@ -55,11 +55,23 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    static func createTestManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
+    static func createTestEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
         for item in 0..<count {
             let id = UUID().uuidString
             let newObject = TestEntity.insertObject(with: id, in: context)
+            newObject.title = "Item " + String(item)
+            items.append(newObject)
+        }
+        return items
+    }
+    
+    @discardableResult
+    static func createAnotherEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [AnotherEntity] {
+        var items: [AnotherEntity] = []
+        for item in 0..<count {
+            let id = UUID().uuidString
+            let newObject = AnotherEntity.insertObject(with: id, in: context)
             newObject.title = "Item " + String(item)
             items.append(newObject)
         }

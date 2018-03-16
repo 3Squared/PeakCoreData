@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
+		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
@@ -54,6 +55,7 @@
 		5731AC9A295C6ABFEDFE1B56 /* Pods-THRCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
+		8D159AFD205C001A004D693A /* AnotherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherEntity.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */,
 				8D97980F1DF815E400DAB75A /* TestEntity.swift */,
+				8D159AFD205C001A004D693A /* AnotherEntity.swift */,
 				8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */,
 			);
 			name = "Test Model";
@@ -477,6 +480,7 @@
 				8D821935205BD76D00732777 /* FetchedCountTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
+				8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

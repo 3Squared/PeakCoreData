@@ -22,7 +22,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
     
     func testSnapshotIsStatic() {
-        CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 10)
 
         let expect = expectation(description: "")
         
@@ -48,7 +48,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
 
     func testSectionedResults() {
-        CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 10)
 
         let sectionedFetchedCollection = createSectionedFetchedCollection()
         
@@ -82,7 +82,7 @@ class FetchedCollectionTests: CoreDataTests {
         }
 
         viewContext.perform {
-            CoreDataTests.createTestManagedObjects(in: self.viewContext, count: 10)
+            CoreDataTests.createTestEntityManagedObjects(in: self.viewContext, count: 10)
             try! self.viewContext.save()
         }
 
@@ -90,7 +90,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
 
     func testInsertSectionChanges() {
-        CoreDataTests.createTestManagedObjects(in: viewContext, count: 1)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1)
         try! viewContext.save()
 
         let sectionedFetchedCollection = createSectionedFetchedCollection()
@@ -98,7 +98,7 @@ class FetchedCollectionTests: CoreDataTests {
         XCTAssertEqual(sectionedFetchedCollection.sections.count, 1)
 
         viewContext.performAndWait {
-            CoreDataTests.createTestManagedObjects(in: viewContext, count: 1)
+            CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1)
             try! self.viewContext.save()
         }
 
@@ -111,7 +111,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testDeletionChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        let inserted = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 10)
         viewContext.perform {
             try! self.viewContext.save()
         }
@@ -148,7 +148,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testUpdateChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        let inserted = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 10)
         viewContext.perform {
             try! self.viewContext.save()
         }
@@ -189,7 +189,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testMoveChanges() {
         let expect = expectation(description: "")
-        let inserted = CoreDataTests.createTestManagedObjects(in: viewContext, count: 10)
+        let inserted = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 10)
         
         let fetchedCollection = createFetchedCollection()
         
@@ -224,7 +224,7 @@ class FetchedCollectionTests: CoreDataTests {
     func testReconfigureFetchRequest() {
         let expect = expectation(description: "")
 
-        CoreDataTests.createTestManagedObjects(in: viewContext, count: 9)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 9)
 
         TestEntity.insertObject(with: "testid", in: viewContext)
         
