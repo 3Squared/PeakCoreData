@@ -10,6 +10,7 @@
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
+		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
@@ -56,6 +57,7 @@
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
 		8D159AFD205C001A004D693A /* AnotherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherEntity.swift; sourceTree = "<group>"; };
+		8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextDidSaveNotification.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
 				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
+				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
 			);
 			name = "Change Observer";
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 			files = (
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
+				8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */,
 				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,

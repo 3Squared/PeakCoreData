@@ -31,10 +31,10 @@ public class FetchedCount<T>: NSObject where T: NSManagedObject & ManagedObjectT
         
         updateCount()
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }
             let date = Date()
-            let notification = ObjectsDidChangeNotification(notification: note)
+            let notification = ContextDidSaveNotification(notification: note)
             guard notification.managedObjectContext == context else { return }
             strongSelf.updateCount()
             print(date.timeIntervalSinceNow)
