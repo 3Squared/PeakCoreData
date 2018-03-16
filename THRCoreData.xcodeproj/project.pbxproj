@@ -123,14 +123,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8D159AFC205BDF1B004D693A /* Change Observer */ = {
+		8D159AFC205BDF1B004D693A /* Context Observers */ = {
 			isa = PBXGroup;
 			children = (
 				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
-				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
+				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 			);
-			name = "Change Observer";
+			name = "Context Observers";
 			sourceTree = "<group>";
 		};
 		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
@@ -200,7 +200,7 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D159AFC205BDF1B004D693A /* Change Observer */,
+				8D159AFC205BDF1B004D693A /* Context Observers */,
 				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
