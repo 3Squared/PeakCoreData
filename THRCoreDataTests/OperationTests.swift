@@ -153,7 +153,6 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     }
     
     func testBatchImportTriggersFetchedResultsController() {
-        
         let numberOfItems = 1000
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<numberOfItems {
