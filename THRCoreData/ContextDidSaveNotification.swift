@@ -38,6 +38,6 @@ public struct ContextDidSaveNotification {
     private let notification: Notification
     
     private func objects(forKey key: String) -> Set<NSManagedObject> {
-        return ((notification as Notification).userInfo?[key] as? Set<NSManagedObject>) ?? []
+        return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? []
     }
 }
