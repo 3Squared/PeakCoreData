@@ -42,6 +42,9 @@ platform :ios do
 		ensure_git_branch
 		ensure_git_status_clean
 		lint
-		pod_push(sources: ["3squared"])
+		pod_push(
+			repo: "3squared",
+			sources: ["3squared"]
+		)
 	end
 end
