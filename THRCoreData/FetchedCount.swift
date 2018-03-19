@@ -13,7 +13,7 @@ public class FetchedCount<T>: NSObject where T: NSManagedObject & ManagedObjectT
     
     public typealias FetchedCountChangeListener = (Int) -> Void
     
-    public var count: Int = 0
+    public private(set) var count: Int = 0
     public var onChange: FetchedCountChangeListener?
 
     private let predicate: NSPredicate?
@@ -31,9 +31,9 @@ public class FetchedCount<T>: NSObject where T: NSManagedObject & ManagedObjectT
         
         updateCount()
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: nil, queue: nil) { [weak self] (note) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }
-            let notification = ContextDidSaveNotification(notification: note)
+            let notification = ObjectsDidChangeNotification(notification: note)
             guard notification.managedObjectContext == context else { return }
             strongSelf.updateCount()
         }
