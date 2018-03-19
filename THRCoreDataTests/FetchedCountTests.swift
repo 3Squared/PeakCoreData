@@ -32,7 +32,6 @@ class FetchedCountTests: CoreDataTests {
         }
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         waitForExpectations(timeout: defaultTimeout)
     }
@@ -48,14 +47,12 @@ class FetchedCountTests: CoreDataTests {
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
         CoreDataTests.createAnotherEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         waitForExpectations(timeout: defaultTimeout)
     }
     
     func testUpdatedFetchedCountOnChangeBlock() {
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         let expect = expectation(description: "")
         
@@ -67,24 +64,28 @@ class FetchedCountTests: CoreDataTests {
         }
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         waitForExpectations(timeout: defaultTimeout)
     }
     
     func testFetchedCountCount() {
+        let expect = expectation(description: "")
+
         let fetchedCount = FetchedCount<TestEntity>(predicate: nil, managedObjectContext: viewContext)
         XCTAssertEqual(fetchedCount.count, 0)
         
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
+        fetchedCount.onChange = { count in
+            XCTAssertEqual(fetchedCount.count, self.insertNumber)
+            expect.fulfill()
+        }
         
-        XCTAssertEqual(fetchedCount.count, insertNumber)
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        
+        waitForExpectations(timeout: defaultTimeout)
     }
     
     func testFetchedCountWithPredicate() {
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         let expect = expectation(description: "")
 
@@ -101,7 +102,6 @@ class FetchedCountTests: CoreDataTests {
         }
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        try! viewContext.save()
         
         let count2 = TestEntity.count(in: viewContext, matching: predicate)
 
