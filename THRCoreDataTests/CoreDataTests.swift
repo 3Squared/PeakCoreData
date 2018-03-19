@@ -11,32 +11,25 @@ import CoreData
 @testable import THRCoreData
 
 let defaultTimeout = TimeInterval(2)
-let modelName = "TestModel"
 
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var persistentContainer: PersistentContainer!
-    var mainContext: NSManagedObjectContext {
-        return persistentContainer.mainContext
-    }
+    var persistentContainer: NSPersistentContainer!
     
     override func setUp() {
         super.setUp()
-        let bundle = Bundle(for: type(of: self))
-        guard let modelURL = bundle.url(forResource: modelName, withExtension: "momd") else {
-            fatalError("*** Error loading model URL for model named \(modelName) in main bundle")
+        let testBundle = Bundle(for: type(of: self))
+        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
+        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { storeDescription, error in
+            if let error = error {
+                print(error)
+            }
         }
-        guard let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("*** Error loading managed object model at url: \(modelURL)")
-        }
-        persistentContainer = PersistentContainer(name: modelName, model: model)
-        let storeURL = PersistentContainer.defaultDirectoryURL().appendingPathComponent(modelName)
-        
-        let storeDescription = PersistentStoreDescription(url: storeURL)
-        storeDescription.type = .inMemory        
-        persistentContainer.persistentStoreDescription = storeDescription
-        
-        persistentContainer.loadPersistentStores()
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     override func tearDown() {
@@ -44,7 +37,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         super.tearDown()
     }
     
-    static func createTestIntermediateObjects(number: Int, inContext context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
+    static func createTestIntermediateObjects(number: Int, in context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<number {
             let id = UUID().uuidString
@@ -55,18 +48,30 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(item) {
-                TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
+                TestEntity.insertObject(with: id, in: context)
             }
         }
         return intermediateItems
     }
     
     @discardableResult
-    static func createTestManagedObjects(inContext context: NSManagedObjectContext, count: Int) -> [TestEntity] {
+    static func createTestEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
         for item in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntity.insertObject(withUniqueKeyValue: id, inContext: context)
+            let newObject = TestEntity.insertObject(with: id, in: context)
+            newObject.title = "Item " + String(item)
+            items.append(newObject)
+        }
+        return items
+    }
+    
+    @discardableResult
+    static func createAnotherEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [AnotherEntity] {
+        var items: [AnotherEntity] = []
+        for item in 0..<count {
+            let id = UUID().uuidString
+            let newObject = AnotherEntity.insertObject(with: id, in: context)
             newObject.title = "Item " + String(item)
             items.append(newObject)
         }

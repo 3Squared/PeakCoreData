@@ -4,6 +4,17 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.0.0
+-----
+
+- Add `ManagedObjectChangeObserver` to track changes to a specific `ManagedObject`
+- Add `FetchedCount` to track counts of a `FetchRequest`
+- Add `FetchedCollection` to wrap a `FetchedResultsController` as a collection
+- Add `CoreDataChangesetOperation` base class, for operations producing a changeset
+- Remove `PersistentContainer` in favour of Apple's implementation
+- Simplify setup of `FetchedTableViewDataSource` and `FetchedCollectionViewDataSource`
+- Modernise naming of parameters throughout
+
 1.0.1
 -----
 

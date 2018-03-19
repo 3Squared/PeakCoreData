@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 @testable import THRCoreData
 
-public struct TestEntityJSON: Decodable {
+public struct TestEntityJSON: Codable {
     let uniqueID: String
     let title: String
     
@@ -27,8 +27,16 @@ extension TestEntityJSON: ManagedObjectUpdatable {
         managedObject.title = title
     }
     
-    public func updateRelationships(on managedObject: TestEntity, withContext context: NSManagedObjectContext) {
+    public func updateRelationships(on managedObject: TestEntity, in context: NSManagedObjectContext) {
         //
+    }
+}
+
+extension TestEntityJSON: ManagedObjectInitialisable {
+    
+    public init(with managedObject: TestEntity) throws {
+        uniqueID = managedObject.uniqueIDValue
+        title = managedObject.title!
     }
 }
 

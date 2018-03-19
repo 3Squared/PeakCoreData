@@ -8,28 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		7BC6F0ADB4AC7F375DD27C71 /* Pods_THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */; };
+		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
+		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
+		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
 		8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D16E53D1E0293F400975597 /* OperationTests.swift */; };
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
-		8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
+		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
+		8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */; };
+		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
+		8D821933205ACEAE00732777 /* FetchedCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* FetchedCount.swift */; };
+		8D821935205BD76D00732777 /* FetchedCountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821934205BD76D00732777 /* FetchedCountTests.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D97980F1DF815E400DAB75A /* TestEntity.swift */; };
 		8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */; };
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
+		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
+		8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
+		8DFD6D66205A82F6008CFD28 /* ManagedObjectChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */; };
+		CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DD2058351C008B3678 /* FetchedCollection.swift */; };
+		CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */; };
 		CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
-		CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */; };
-		CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A71E5DEE7D00F37801 /* DataProvider.swift */; };
-		CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A81E5DEE7D00F37801 /* DataSource.swift */; };
-		CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */; };
-		CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */; };
 		CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */; };
 		CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */; };
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
-		CBF972B81E5DEF0D00F37801 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */; };
-		CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */; };
 		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
 		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
 		E8ADC1A6D96F21719BC9F596 /* Pods_THRCoreDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */; };
@@ -50,10 +55,17 @@
 		27575EA8A69A23344F18882E /* Pods_THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5731AC9A295C6ABFEDFE1B56 /* Pods-THRCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		72A2CB9454F17A1EB38A2E7C /* Pods_THRCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_THRCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
+		8D159AFD205C001A004D693A /* AnotherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherEntity.swift; sourceTree = "<group>"; };
+		8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextDidSaveNotification.swift; sourceTree = "<group>"; };
 		8D16E53D1E0293F400975597 /* OperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationTests.swift; sourceTree = "<group>"; };
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
-		8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
+		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
+		8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserverTests.swift; sourceTree = "<group>"; };
+		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
+		8D821932205ACEAE00732777 /* FetchedCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCount.swift; sourceTree = "<group>"; };
+		8D821934205BD76D00732777 /* FetchedCountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCountTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,20 +74,18 @@
 		8D97980F1DF815E400DAB75A /* TestEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEntity.swift; sourceTree = "<group>"; };
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
+		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataChangesetOperation.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
+		8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserver.swift; sourceTree = "<group>"; };
 		B3CDBB0EF560E3F0BF171C18 /* Pods-THRCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
+		CB13D8DD2058351C008B3678 /* FetchedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollection.swift; sourceTree = "<group>"; };
+		CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollectionTests.swift; sourceTree = "<group>"; };
 		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
-		CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
-		CBF972A71E5DEE7D00F37801 /* DataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
-		CBF972A81E5DEE7D00F37801 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsDataProvider.swift; sourceTree = "<group>"; };
-		CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
-		CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
-		CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreDescription.swift; sourceTree = "<group>"; };
 		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
 		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
 		E4660F831E862B77D4C59B2B /* Pods-THRCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreData/Pods-THRCoreData.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,14 +123,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8D1F2E281F74089500FE6643 /* Stack */ = {
+		8D159AFC205BDF1B004D693A /* Context Observers */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972B61E5DEF0D00F37801 /* PersistentContainer.swift */,
-				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
-				CBF972B71E5DEF0D00F37801 /* PersistentStoreDescription.swift */,
+				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
+				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
+				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 			);
-			name = Stack;
+			name = "Context Observers";
 			sourceTree = "<group>";
 		};
 		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
@@ -128,21 +138,22 @@
 			children = (
 				CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */,
 				CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */,
+				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
 				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
 		};
-		8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */ = {
+		8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972A61E5DEE7D00F37801 /* CollectionViewDataSource.swift */,
-				CBF972A71E5DEE7D00F37801 /* DataProvider.swift */,
-				CBF972A81E5DEE7D00F37801 /* DataSource.swift */,
-				CBF972A91E5DEE7D00F37801 /* FetchedResultsDataProvider.swift */,
-				CBF972AA1E5DEE7D00F37801 /* TableViewDataSource.swift */,
+				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
+				8D821932205ACEAE00732777 /* FetchedCount.swift */,
+				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
+				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
+				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
-			name = "Fetched Results Data Source and Provider";
+			name = "Fetched Data Sources";
 			sourceTree = "<group>";
 		};
 		8D1F2E2B1F7408D600FE6643 /* Operations */ = {
@@ -150,6 +161,7 @@
 			children = (
 				8DFAC1101F79274B0015EDC0 /* Changeset.swift */,
 				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
+				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
 			);
@@ -188,10 +200,10 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D1F2E2A1F7408BB00FE6643 /* Fetched Results Data Source and Provider */,
+				8D159AFC205BDF1B004D693A /* Context Observers */,
+				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
-				8D1F2E281F74089500FE6643 /* Stack */,
 				8D1F2E2C1F7408E000FE6643 /* Supporting Files */,
 			);
 			path = THRCoreData;
@@ -202,7 +214,9 @@
 			children = (
 				8D9798141DF815E800DAB75A /* Test Model */,
 				8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */,
-				8D33AA7C1DFF0E120019F5B6 /* StackTests.swift */,
+				CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */,
+				8D821934205BD76D00732777 /* FetchedCountTests.swift */,
+				8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
@@ -215,6 +229,7 @@
 			children = (
 				8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */,
 				8D97980F1DF815E400DAB75A /* TestEntity.swift */,
+				8D159AFD205C001A004D693A /* AnotherEntity.swift */,
 				8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */,
 			);
 			name = "Test Model";
@@ -439,19 +454,21 @@
 			files = (
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
+				8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */,
+				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
-				CBF972AD1E5DEE7D00F37801 /* DataSource.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
-				CBF972AF1E5DEE7D00F37801 /* TableViewDataSource.swift in Sources */,
-				CBF972AE1E5DEE7D00F37801 /* FetchedResultsDataProvider.swift in Sources */,
-				CBF972B91E5DEF0D00F37801 /* PersistentStoreDescription.swift in Sources */,
-				CBF972AB1E5DEE7D00F37801 /* CollectionViewDataSource.swift in Sources */,
-				CBF972B81E5DEF0D00F37801 /* PersistentContainer.swift in Sources */,
+				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
+				8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */,
+				8D821933205ACEAE00732777 /* FetchedCount.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
+				8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */,
+				CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */,
 				CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */,
-				CBF972AC1E5DEE7D00F37801 /* DataProvider.swift in Sources */,
+				8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */,
+				8DFD6D66205A82F6008CFD28 /* ManagedObjectChangeObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,12 +476,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D33AA7D1DFF0E120019F5B6 /* StackTests.swift in Sources */,
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
+				CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */,
+				8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
+				8D821935205BD76D00732777 /* FetchedCountTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
+				8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,7 +548,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -582,7 +602,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -606,6 +626,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = THRCoreData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.3squared.THRCoreData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -628,6 +649,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = THRCoreData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.3squared.THRCoreData;
 				PRODUCT_NAME = "$(TARGET_NAME)";

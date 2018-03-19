@@ -6,94 +6,69 @@
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
-import UIKit
 import CoreData
 import THROperations
 import THRResult
 
 open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
+    private let persistentContainer: NSPersistentContainer
+    private let mergePolicyType: NSMergePolicyType
+    private var operationContext: NSManagedObjectContext!
     
-    fileprivate let targetContext: NSManagedObjectContext
-    fileprivate let mergePolicyType: NSMergePolicyType
-    fileprivate var childContext: NSManagedObjectContext!
-    
+    var inserted: Set<NSManagedObjectID> = []
+    var updated: Set<NSManagedObjectID> = []
+    var deleted: Set<NSManagedObjectID> = []
+        
     public var output: Result<Output> = Result { throw ResultError.noResult }
 
-    public init(with targetContext: NSManagedObjectContext, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
-        self.targetContext = targetContext
+    public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+        self.persistentContainer = persistentContainer
         self.mergePolicyType = mergePolicyType
     }
     
     // MARK: - ConcurrentOperation Overrides
 
     open override func execute() {
-        childContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        childContext.parent = targetContext
-        if let targetContextName = targetContext.name {
-            childContext.name = targetContextName + ".child"
-        }
-        childContext.mergePolicy = NSMergePolicy(merge: mergePolicyType)
-        childContext.performAndWait {
-            self.performWork(inContext: self.childContext)
+        persistentContainer.performBackgroundTask { (context) in
+            self.operationContext = context
+            self.operationContext.name = "THRCoreData.CoreDataOperation.OperationContext"
+            self.operationContext.mergePolicy = NSMergePolicy(merge: self.mergePolicyType)
+            self.performWork(in: context)
         }
     }
     
     // MARK: - Methods to be overidden
     
-    open func performWork(inContext context: NSManagedObjectContext) {
+    open func performWork(in context: NSManagedObjectContext) {
         print("\(self) must override `performWork()`.")
         finish()
     }
-}
-
-// MARK: - Public Methods
-
-extension CoreDataOperation {
-
-    /// Save the context, and finish the operation.
+    
+    // MARK: - Public Methods
+    
+    /// Saves the operation context
     /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
-    public func finishAndSave() {
-        guard !isCancelled else {
-            finish()
-            return
-        }
+    open func saveOperationContext() {
+        guard !isCancelled else { return finish() }
+        guard operationContext.hasChanges else { return }
         
-        save(context: childContext) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if case .failure(let error) = result {
-                strongSelf.output = Result { throw error }
-            }
-            strongSelf.finish()
+        do {
+            try operationContext.obtainPermanentIDs(for: Array(operationContext.insertedObjects))
+            deleted = deleted.union(operationContext.deletedObjects.map { $0.objectID })
+            inserted = inserted.union(operationContext.insertedObjects.map { $0.objectID }).subtracting(deleted)
+            updated = updated.union(operationContext.updatedObjects.map { $0.objectID }).subtracting(deleted)
+            try operationContext.save()
+        } catch {
+            print("Error saving context \(operationContext.name ?? ""): \(error)")
+            output = Result { throw error }
         }
     }
-}
-
-public enum SaveOutcome {
-    case saved
-    case noChanges
-}
-
-public typealias SaveCompletionType = (Result<SaveOutcome>) -> ()
-
-extension CoreDataOperation {
     
-    fileprivate func save(context: NSManagedObjectContext, withCompletion completion: SaveCompletionType? = nil) {
-        context.perform {
-            guard context.hasChanges else {
-                completion?(.success(.noChanges))
-                return
-            }
-            do {
-                try context.save()
-                if let parentContext = context.parent {
-                    self.save(context: parentContext, withCompletion: completion)
-                } else {
-                    completion?(.success(.saved))
-                }
-            } catch let error as NSError {
-                print("Error saving context: \(error.localizedDescription)")
-                completion?(.failure(error))
-            }
-        }
+    /// Save the context, and finish the operation.
+    /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
+    open func saveAndFinish() {
+        guard !isCancelled else { return finish() }
+        saveOperationContext()
+        finish()
     }
 }

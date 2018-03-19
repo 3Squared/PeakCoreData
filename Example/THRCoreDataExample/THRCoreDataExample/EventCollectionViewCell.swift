@@ -10,7 +10,7 @@ import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
     
-    static let cellIdentifier = "eventCollectionViewCell"
+    static let cellIdentifier = "EventCollectionViewCell"
     
     @IBOutlet var dateLabel: UILabel!
 }

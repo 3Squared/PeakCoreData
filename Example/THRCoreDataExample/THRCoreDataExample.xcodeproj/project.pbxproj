@@ -13,6 +13,7 @@
 		8D6DE8EB1E0ADA5800C515DC /* THRCoreDataExample.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DE8E91E0ADA5800C515DC /* THRCoreDataExample.xcdatamodeld */; };
 		8D6DE8ED1E0ADA5800C515DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D6DE8EC1E0ADA5800C515DC /* Assets.xcassets */; };
 		8D6DE8F01E0ADA5800C515DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D6DE8EE1E0ADA5800C515DC /* LaunchScreen.storyboard */; };
+		8D821937205BDD6700732777 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821936205BDD6700732777 /* EventDetailViewController.swift */; };
 		8D8E95531E0AE077000E83C7 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E95521E0AE077000E83C7 /* Event.swift */; };
 		8D8E95561E0AE0E3000E83C7 /* EventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E95541E0AE0E3000E83C7 /* EventsTableViewController.swift */; };
 		8D8E95571E0AE0E3000E83C7 /* EventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E95551E0AE0E3000E83C7 /* EventsCollectionViewController.swift */; };
@@ -33,6 +34,7 @@
 		8D6DE8EC1E0ADA5800C515DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D6DE8EF1E0ADA5800C515DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D6DE8F11E0ADA5800C515DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D821936205BDD6700732777 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		8D8E95521E0AE077000E83C7 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		8D8E95541E0AE0E3000E83C7 /* EventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsTableViewController.swift; sourceTree = "<group>"; };
 		8D8E95551E0AE0E3000E83C7 /* EventsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsCollectionViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				8D8E95541E0AE0E3000E83C7 /* EventsTableViewController.swift */,
+				8D821936205BDD6700732777 /* EventDetailViewController.swift */,
 				8D8E95551E0AE0E3000E83C7 /* EventsCollectionViewController.swift */,
 			);
 			name = "View Controller";
@@ -280,6 +283,7 @@
 				8D8E95621E0AE382000E83C7 /* EventTableViewCell.swift in Sources */,
 				8D8E95531E0AE077000E83C7 /* Event.swift in Sources */,
 				8D8E955B1E0AE11B000E83C7 /* EventCollectionViewCell.swift in Sources */,
+				8D821937205BDD6700732777 /* EventDetailViewController.swift in Sources */,
 				8D8E95571E0AE0E3000E83C7 /* EventsCollectionViewController.swift in Sources */,
 				8D6DE8EB1E0ADA5800C515DC /* THRCoreDataExample.xcdatamodeld in Sources */,
 				8D8E955D1E0AE11B000E83C7 /* EmptyView.swift in Sources */,

@@ -14,7 +14,9 @@ import CoreData
 //  inserted: newly created objects
 //  updated: objects that existed before the import that may have been modified
 public struct Changeset {
-    public let all: Set<NSManagedObjectID>
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
+    public var all: Set<NSManagedObjectID> {
+        return inserted.union(updated)
+    }
 }
