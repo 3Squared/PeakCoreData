@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.0.3
+-----
+
+- Replace fatal error with return when updating cell.
+
 2.0.2
 -----
 
