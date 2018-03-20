@@ -45,7 +45,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         
-        countObserver = FetchedCount(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext)
+        countObserver = FetchedCount<Event>(predicate: nil, managedObjectContext: viewContext)
         countLabel.text = String(countObserver.count)
         countObserver.onChange = { [weak self] count in
             guard let strongSelf = self else { return }
@@ -79,6 +79,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         dataSource.onDidChangeContent = {
             print("Table View - Something changed")
         }
+        dataSource.performFetch()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

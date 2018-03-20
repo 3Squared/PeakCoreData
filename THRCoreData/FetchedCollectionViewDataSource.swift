@@ -55,8 +55,6 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         super.init()
         collectionView.dataSource = self
         dataProvider.delegate = self
-        dataProvider.performFetch()
-        showEmptyViewIfNeeded()
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
@@ -73,6 +71,10 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     
     public func object(at indexPath: IndexPath) -> Object {
         return dataProvider.object(at: indexPath)
+    }
+    
+    public func performFetch() {
+        dataProvider.performFetch()
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
