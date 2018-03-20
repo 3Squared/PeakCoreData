@@ -67,6 +67,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
         dataSource.onDidChangeContent = {
             print("Collection View - Something changed")
         }
+        dataSource.performFetch()
     }
 }
 
