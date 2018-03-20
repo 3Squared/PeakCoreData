@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.0.2
+-----
+
+- Guard against weak self in process update blocks.
+
 2.0.1
 -----
 
