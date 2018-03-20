@@ -74,8 +74,6 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         super.init()
         tableView.dataSource = self
         dataProvider.delegate = self
-        dataProvider.performFetch()
-        showEmptyViewIfNeeded()
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
@@ -92,6 +90,10 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     
     public func object(at indexPath: IndexPath) -> Object {
         return dataProvider.object(at: indexPath)
+    }
+    
+    public func performFetch() {
+        dataProvider.performFetch()
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
