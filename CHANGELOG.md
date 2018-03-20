@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.0.1
+-----
+
+- Hand responsibility to call performFetch() to user of `FetchedTableViewDataSource` and `FetchedCollectionViewDataSource`.
+
 2.0.0
 -----
 
