@@ -44,7 +44,7 @@ public extension TableViewUpdatable {
                 case .insert(let indexPath):
                     tableView.insertRows(at: [indexPath], with: animation)
                 case .update(let indexPath, let object):
-                    guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
+                    guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { return }
                     strongSelf.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     tableView.moveRow(at: indexPath, to: newIndexPath)
@@ -86,7 +86,7 @@ extension CollectionViewUpdatable {
                 case .insert(let indexPath):
                     collectionView.insertItems(at: [indexPath])
                 case .update(let indexPath, let object):
-                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { fatalError("Wrong cell type") }
+                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
                     strongSelf.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     collectionView.moveItem(at: indexPath, to: newIndexPath)
