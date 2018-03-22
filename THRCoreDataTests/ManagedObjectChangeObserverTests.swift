@@ -44,7 +44,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         
         let expect = expectation(description: "")
         
-        let observer = ManagedObjectChangeObserver(with: object)
+        let observer = ManagedObjectChangeObserver(managedObject: object)
         observer.onChange = { (obj, changeType) in
             XCTAssertEqual(changeType, .refreshed)
             expect.fulfill()
@@ -83,7 +83,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         
         let expect = expectation(description: "")
         
-        let observer = ManagedObjectChangeObserver(with: object)
+        let observer = ManagedObjectChangeObserver(managedObject: object)
         
         observer.onChange = { (obj, changeType) in
             XCTAssertEqual(obj.title, "testObserveFromID")
@@ -125,7 +125,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         
         let expect = expectation(description: "")
         
-        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(with: object.objectID, in: viewContext)
+        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(managedObjectID: object.objectID, managedObjectContext: viewContext)
         observer.onChange = { (obj, changeType) in
             XCTAssertEqual(obj.title, "testObserveFromID")
             XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
@@ -165,7 +165,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         
         let expect = expectation(description: "")
         
-        let observer = ManagedObjectChangeObserver(with: object)
+        let observer = ManagedObjectChangeObserver(managedObject: object)
         observer.onChange = { (obj, changeType) in
             XCTAssertTrue(obj.isDeleted)
             XCTAssertEqual(changeType, .deleted)
@@ -204,7 +204,7 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         
         let expect = expectation(description: "")
 
-        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(with: object.objectID, in: viewContext)
+        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(managedObjectID: object.objectID, managedObjectContext: viewContext)
         observer.onChange = { (obj, changeType) in
             XCTAssertTrue(obj.isDeleted)
             XCTAssertEqual(changeType, .deleted)
