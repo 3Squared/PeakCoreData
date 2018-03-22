@@ -44,7 +44,6 @@ public struct ObjectsDidChangeNotification {
         return context
     }
     
-    
     // MARK: Private
     
     private let notification: Notification

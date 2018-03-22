@@ -28,7 +28,6 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
     ///   - managedObjectContext: The context that will hold the fetched objects.
     ///   - sectionNameKeyPath: A keypath on resulting objects that returns the section name. This will be used to pre-compute the section information.
     ///   - cacheName: Section info is cached persistently to a private file under this name. Cached sections are checked to see if the time stamp matches the store, but not if you have illegally mutated the readonly fetch request, predicate, or sort descriptor.
-    ///   - onChange: A callback called when the data matching the fetchRequest is changed.
     public init(fetchRequest: NSFetchRequest<T>, managedObjectContext context: NSManagedObjectContext, sectionNameKeyPath: String? = nil, cacheName: String? = nil) {
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: context,
