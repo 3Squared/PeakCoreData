@@ -32,7 +32,7 @@ open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObje
     /// - Parameters:
     ///   - managedObject: The object to observe
     public convenience init(managedObject: T) {
-        self.init(managedObjectID: managedObject.objectID, managedObjectContext: managedObject.managedObjectContext!)
+        self.init(managedObjectID: managedObject.objectID, context: managedObject.managedObjectContext!)
     }
     
     /// Create a new ManagedObjectChangeObserver.
@@ -40,8 +40,8 @@ open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObje
     /// - Parameters:
     ///   - managedObject: The object to observe
     ///   - context: The context that will hold the fetched object. It will first be fetched from this context, so it may differ from its original.
-    public convenience init(managedObject: T, managedObjectContext context: NSManagedObjectContext) {
-        self.init(managedObjectID: managedObject.objectID, managedObjectContext: context)
+    public convenience init(managedObject: T, context: NSManagedObjectContext) {
+        self.init(managedObjectID: managedObject.objectID, context: context)
     }
     
     /// Create a new ManagedObjectChangeObserver.
@@ -49,7 +49,7 @@ open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObje
     /// - Parameters:
     ///   - managedObjectID: The object ID of the object to observe
     ///   - context: The context that will hold the fetched object. It will first be fetched from this context, so it may differ from its original.
-    public init(managedObjectID: NSManagedObjectID, managedObjectContext context: NSManagedObjectContext) {
+    public init(managedObjectID: NSManagedObjectID, context: NSManagedObjectContext) {
         self.managedObjectID = managedObjectID
         self.context = context
         self.object = context.object(with: managedObjectID) as! T
@@ -90,7 +90,7 @@ extension ManagedObjectType where Self: NSManagedObject {
     ///   - onChange: A callback called when the object is changed.
     /// - Returns: A ManagedObjectChangeObserver initialised with self as the managed object.
     public func observe(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectChangeObserver<Self>.OnChange) -> ManagedObjectChangeObserver<Self> {
-        let observer = ManagedObjectChangeObserver<Self>(managedObject: self, managedObjectContext: context)
+        let observer = ManagedObjectChangeObserver<Self>(managedObject: self, context: context)
         observer.onChange = onChange
         return observer
     }
@@ -105,7 +105,7 @@ extension NSManagedObjectID {
     ///   - onChange: A callback called when the object is changed.
     /// - Returns: A ManagedObjectChangeObserver initialised with the managed object referred to by the ID.
     public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectChangeObserver<T>.OnChange) -> ManagedObjectChangeObserver<T> {
-        let observer = ManagedObjectChangeObserver<T>(managedObjectID: self, managedObjectContext: context)
+        let observer = ManagedObjectChangeObserver<T>(managedObjectID: self, context: context)
         observer.onChange = onChange
         return observer
     }

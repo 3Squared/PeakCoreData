@@ -25,7 +25,7 @@ class FetchedCountTests: CoreDataTests {
     func testFetchedCountOnChangeBlock() {
         let expect = expectation(description: "")
         
-        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, managedObjectContext: viewContext)
+        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, context: viewContext)
         fetchedCount.onChange = { count in
             XCTAssertEqual(count, self.insertNumber)
             expect.fulfill()
@@ -39,7 +39,7 @@ class FetchedCountTests: CoreDataTests {
     func testFetchedCountOnChangeBlockWithAnother() {
         let expect = expectation(description: "")
         
-        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, managedObjectContext: viewContext)
+        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, context: viewContext)
         fetchedCount.onChange = { count in
             XCTAssertEqual(count, self.insertNumber)
             expect.fulfill()
@@ -56,7 +56,7 @@ class FetchedCountTests: CoreDataTests {
         
         let expect = expectation(description: "")
         
-        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, managedObjectContext: viewContext)
+        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, context: viewContext)
         XCTAssertEqual(fetchedCount.count, insertNumber)
         fetchedCount.onChange = { count in
             XCTAssertEqual(count, self.insertNumber * 2)
@@ -71,7 +71,7 @@ class FetchedCountTests: CoreDataTests {
     func testFetchedCountCount() {
         let expect = expectation(description: "")
 
-        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, managedObjectContext: viewContext)
+        let fetchedCount = FetchedCount<TestEntity>(predicate: nil, context: viewContext)
         XCTAssertEqual(fetchedCount.count, 0)
         
         fetchedCount.onChange = { count in
@@ -92,7 +92,7 @@ class FetchedCountTests: CoreDataTests {
         let predicate = NSPredicate(format: "%K BEGINSWITH %@", argumentArray: [#keyPath(TestEntity.uniqueID), "A"])
         let count1 = TestEntity.count(in: viewContext, matching: predicate)
 
-        let fetchedCount = FetchedCount<TestEntity>(predicate: predicate, managedObjectContext: viewContext)
+        let fetchedCount = FetchedCount<TestEntity>(predicate: predicate, context: viewContext)
         XCTAssertEqual(fetchedCount.count, count1)
         
         var observedCount: Int = 0
