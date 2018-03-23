@@ -45,7 +45,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         
-        countObserver = FetchedCount<Event>(predicate: nil, managedObjectContext: viewContext)
+        countObserver = FetchedCount<Event>(predicate: nil, context: viewContext)
         countLabel.text = String(countObserver.count)
         countObserver.onChange = { [weak self] count in
             guard let strongSelf = self else { return }

@@ -22,7 +22,7 @@ class EventDetailViewController: UIViewController, PersistentContainerSettable {
         super.viewDidLoad()
         
         updateDateLabel()
-        eventObserver = ManagedObjectChangeObserver(with: event)
+        eventObserver = ManagedObjectChangeObserver(managedObject: event)
         eventObserver.onChange = { [weak self] obj, changeType in
             guard let strongSelf = self else { return }
             switch changeType {
