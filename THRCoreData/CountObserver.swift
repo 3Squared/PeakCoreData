@@ -39,7 +39,7 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         super.init()
     }
     
-    public func startNotifier() {
+    public func startObserving() {
         guard !notifierRunning else { return }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in

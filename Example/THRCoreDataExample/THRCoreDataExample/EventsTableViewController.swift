@@ -50,7 +50,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
             guard let strongSelf = self else { return }
             strongSelf.countLabel.text = String(count)
         }
-        countObserver.startNotifier()
+        countObserver.startObserving()
         setupTableView()
     }
     

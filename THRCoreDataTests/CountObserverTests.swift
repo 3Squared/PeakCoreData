@@ -25,7 +25,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         waitForExpectations(timeout: defaultTimeout)
     }
@@ -43,7 +43,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         waitForExpectations(timeout: defaultTimeout)
     }
@@ -71,7 +71,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
 
@@ -93,7 +93,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
@@ -118,7 +118,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         TestEntity.delete(in: viewContext)
         
@@ -145,7 +145,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        observer.startNotifier()
+        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
         let count2 = TestEntity.count(in: viewContext, matching: predicate)
