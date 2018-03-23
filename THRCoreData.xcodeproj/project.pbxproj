@@ -17,7 +17,7 @@
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */; };
 		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
-		8D821933205ACEAE00732777 /* FetchedCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* FetchedCount.swift */; };
+		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
 		8D821935205BD76D00732777 /* FetchedCountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821934205BD76D00732777 /* FetchedCountTests.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
 		8D9797EC1DF8138100DAB75A /* THRCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* THRCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,6 +26,7 @@
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
 		8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */; };
+		8DEE9F6F20650F4D0050DA85 /* CountObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		8DFD6D66205A82F6008CFD28 /* ManagedObjectChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */; };
@@ -64,7 +65,7 @@
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserverTests.swift; sourceTree = "<group>"; };
 		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
-		8D821932205ACEAE00732777 /* FetchedCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCount.swift; sourceTree = "<group>"; };
+		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
 		8D821934205BD76D00732777 /* FetchedCountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCountTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* THRCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THRCoreData.h; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataChangesetOperation.swift; sourceTree = "<group>"; };
+		8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserverTests.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
 		8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserver.swift; sourceTree = "<group>"; };
@@ -123,14 +125,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8D159AFC205BDF1B004D693A /* Context Observers */ = {
+		8D159AFC205BDF1B004D693A /* Observers */ = {
 			isa = PBXGroup;
 			children = (
+				8D821932205ACEAE00732777 /* CountObserver.swift */,
 				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
 				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
 				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 			);
-			name = "Context Observers";
+			name = Observers;
 			sourceTree = "<group>";
 		};
 		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
@@ -148,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
-				8D821932205ACEAE00732777 /* FetchedCount.swift */,
 				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
 				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
 				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
@@ -200,7 +202,7 @@
 		8D9797DD1DF8138100DAB75A /* THRCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D159AFC205BDF1B004D693A /* Context Observers */,
+				8D159AFC205BDF1B004D693A /* Observers */,
 				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
 				8D1F2E2B1F7408D600FE6643 /* Operations */,
 				8D1F2E291F7408AA00FE6643 /* Protocols */,
@@ -214,6 +216,7 @@
 			children = (
 				8D9798141DF815E800DAB75A /* Test Model */,
 				8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */,
+				8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */,
 				CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */,
 				8D821934205BD76D00732777 /* FetchedCountTests.swift */,
 				8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */,
@@ -462,7 +465,7 @@
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
 				8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */,
-				8D821933205ACEAE00732777 /* FetchedCount.swift in Sources */,
+				8D821933205ACEAE00732777 /* CountObserver.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
 				8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */,
 				CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */,
@@ -482,6 +485,7 @@
 				8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
 				8D821935205BD76D00732777 /* FetchedCountTests.swift in Sources */,
+				8DEE9F6F20650F4D0050DA85 /* CountObserverTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
 				8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */,
