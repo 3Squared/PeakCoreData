@@ -128,8 +128,7 @@
 			children = (
 				8D821932205ACEAE00732777 /* CountObserver.swift */,
 				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
-				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
-				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
+				8DDBC63220651A5600B00158 /* Notifications */,
 			);
 			name = Observers;
 			sourceTree = "<group>";
@@ -233,6 +232,15 @@
 				8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */,
 			);
 			name = "Test Model";
+			sourceTree = "<group>";
+		};
+		8DDBC63220651A5600B00158 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
+				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
+			);
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 		D8AA81FDC3FB2037C720EC11 /* Frameworks */ = {
