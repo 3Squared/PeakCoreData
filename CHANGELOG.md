@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.0.4
+-----
+
+- Makes names of parameters more consistent.
+
 2.0.3
 -----
 
