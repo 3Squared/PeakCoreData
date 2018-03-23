@@ -14,11 +14,11 @@ import THRResult
 class FetchedCollectionTests: CoreDataTests {
     
     func createFetchedCollection() -> FetchedCollection<TestEntity> {
-        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), managedObjectContext: viewContext)
+        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), context: viewContext)
     }
     
     func createSectionedFetchedCollection() -> FetchedCollection<TestEntity> {
-        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: #keyPath(TestEntity.uniqueID))
+        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), context: viewContext, sectionNameKeyPath: #keyPath(TestEntity.uniqueID))
     }
     
     func testSnapshotIsStatic() {

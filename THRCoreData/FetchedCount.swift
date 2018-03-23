@@ -22,9 +22,9 @@ public class FetchedCount<T>: NSObject where T: NSManagedObject & ManagedObjectT
     /// Create a new FetchedCount.
     ///
     /// - Parameters:
-    ///   - fetchRequest: The fetch request used to count the objects.
-    ///   - managedObjectContext: The context that will be used to count the objects.
-    public init(predicate: NSPredicate?, managedObjectContext context: NSManagedObjectContext) {
+    ///   - predicate: The predicate used to count the objects.
+    ///   - context: The context that will be used to count the objects.
+    public init(predicate: NSPredicate?, context: NSManagedObjectContext) {
         self.predicate = predicate
         self.context = context
         super.init()
