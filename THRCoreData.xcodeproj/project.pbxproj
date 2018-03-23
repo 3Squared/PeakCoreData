@@ -15,7 +15,7 @@
 		8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */; };
 		8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */; };
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
-		8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */; };
+		8D7D400C20597D880007C5E5 /* ManagedObjectObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7D400B20597D880007C5E5 /* ManagedObjectObserverTests.swift */; };
 		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
 		8D9797E51DF8138100DAB75A /* THRCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* THRCoreData.framework */; };
@@ -28,7 +28,7 @@
 		8DEE9F6F20650F4D0050DA85 /* CountObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
-		8DFD6D66205A82F6008CFD28 /* ManagedObjectChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */; };
+		8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
 		CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DD2058351C008B3678 /* FetchedCollection.swift */; };
 		CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */; };
 		CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
@@ -62,7 +62,7 @@
 		8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 		8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectTypeTests.swift; sourceTree = "<group>"; };
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
-		8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserverTests.swift; sourceTree = "<group>"; };
+		8D7D400B20597D880007C5E5 /* ManagedObjectObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserverTests.swift; sourceTree = "<group>"; };
 		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
 		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* THRCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THRCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +78,7 @@
 		8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserverTests.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
-		8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectChangeObserver.swift; sourceTree = "<group>"; };
+		8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		B3CDBB0EF560E3F0BF171C18 /* Pods-THRCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THRCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-THRCoreDataTests/Pods-THRCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB13D8DD2058351C008B3678 /* FetchedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollection.swift; sourceTree = "<group>"; };
 		CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollectionTests.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				8D821932205ACEAE00732777 /* CountObserver.swift */,
-				8DFD6D65205A82F6008CFD28 /* ManagedObjectChangeObserver.swift */,
+				8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */,
 				8DDBC63220651A5600B00158 /* Notifications */,
 			);
 			name = Observers;
@@ -215,7 +215,7 @@
 				8D33AA7A1DFF0DC80019F5B6 /* CoreDataTests.swift */,
 				8DEE9F6E20650F4D0050DA85 /* CountObserverTests.swift */,
 				CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */,
-				8D7D400B20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift */,
+				8D7D400B20597D880007C5E5 /* ManagedObjectObserverTests.swift */,
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
@@ -476,7 +476,7 @@
 				CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */,
 				CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */,
 				8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */,
-				8DFD6D66205A82F6008CFD28 /* ManagedObjectChangeObserver.swift in Sources */,
+				8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,7 +487,7 @@
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
 				CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */,
-				8D7D400C20597D880007C5E5 /* ManagedObjectChangeObserverTests.swift in Sources */,
+				8D7D400C20597D880007C5E5 /* ManagedObjectObserverTests.swift in Sources */,
 				8D16E53E1E0293F400975597 /* OperationTests.swift in Sources */,
 				8DEE9F6F20650F4D0050DA85 /* CountObserverTests.swift in Sources */,
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,

@@ -15,7 +15,7 @@ public enum ManagedObjectChangeType {
 }
 
 /// Observe changes made to a managed object (refreshed, updated, deleted).
-open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObjectType {
+open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & ManagedObjectType {
     
     public typealias OnChange = ((T, ManagedObjectChangeType) -> Void)
     
@@ -53,6 +53,7 @@ open class ManagedObjectChangeObserver<T> where T: NSManagedObject & ManagedObje
         self.managedObjectID = managedObjectID
         self.context = context
         self.object = context.object(with: managedObjectID) as! T
+        super.init()
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }
@@ -77,8 +78,8 @@ extension ManagedObjectType where Self: NSManagedObject {
     ///
     /// - Parameter onChange: A callback called when the object is changed.
     /// - Returns: A ManagedObjectChangeObserver initialised with self as the managed object.
-    public func observe(onChange: @escaping ManagedObjectChangeObserver<Self>.OnChange) -> ManagedObjectChangeObserver<Self> {
-        let observer = ManagedObjectChangeObserver<Self>(managedObject: self)
+    public func observe(onChange: @escaping ManagedObjectObserver<Self>.OnChange) -> ManagedObjectObserver<Self> {
+        let observer = ManagedObjectObserver<Self>(managedObject: self)
         observer.onChange = onChange
         return observer
     }
@@ -89,8 +90,8 @@ extension ManagedObjectType where Self: NSManagedObject {
     ///   - context: The context that will hold the fetched object. It will first be fetched from this context, so it may differ from its original.
     ///   - onChange: A callback called when the object is changed.
     /// - Returns: A ManagedObjectChangeObserver initialised with self as the managed object.
-    public func observe(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectChangeObserver<Self>.OnChange) -> ManagedObjectChangeObserver<Self> {
-        let observer = ManagedObjectChangeObserver<Self>(managedObject: self, context: context)
+    public func observe(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectObserver<Self>.OnChange) -> ManagedObjectObserver<Self> {
+        let observer = ManagedObjectObserver<Self>(managedObject: self, context: context)
         observer.onChange = onChange
         return observer
     }
@@ -104,8 +105,8 @@ extension NSManagedObjectID {
     ///   - context: The context that will hold the fetched object.
     ///   - onChange: A callback called when the object is changed.
     /// - Returns: A ManagedObjectChangeObserver initialised with the managed object referred to by the ID.
-    public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectChangeObserver<T>.OnChange) -> ManagedObjectChangeObserver<T> {
-        let observer = ManagedObjectChangeObserver<T>(managedObjectID: self, context: context)
+    public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectObserver<T>.OnChange) -> ManagedObjectObserver<T> {
+        let observer = ManagedObjectObserver<T>(managedObjectID: self, context: context)
         observer.onChange = onChange
         return observer
     }
