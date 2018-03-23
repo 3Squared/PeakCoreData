@@ -46,11 +46,10 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         tableView.tableFooterView = UIView()
         
         countObserver = CountObserver<Event>(predicate: nil, context: viewContext)
-        countObserver.onChange = { [weak self] count in
+        countObserver.startObserving() { [weak self] count in
             guard let strongSelf = self else { return }
             strongSelf.countLabel.text = String(count)
         }
-        countObserver.startObserving()
         setupTableView()
     }
     
