@@ -22,12 +22,12 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
     
     public var enabled: Bool = true
     public let object: T
+    public var onChange: OnChange?
 
     private let context: NSManagedObjectContext
     private let managedObjectID: NSManagedObjectID
     
     private var notifierRunning: Bool = false
-    private var onChange: OnChange?
 
     /// Create a new ManagedObjectChangeObserver.
     /// The object will be observed in its original managedObjectContext.
@@ -59,10 +59,16 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
         super.init()
     }
     
-    public func startObserving(_ onChange: OnChange?) {
+    
+    /// Start observing changes to the count. Setting `onChange` will overwrite any previous closures that have been set.
+    ///
+    /// - Parameter onChange: Closure to perform whenever changes are observed
+    public func startObserving(_ onChange: OnChange? = nil) {
         guard !notifierRunning else { return }
 
-        self.onChange = onChange
+        if let onChange = onChange {
+            self.onChange = onChange
+        }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }

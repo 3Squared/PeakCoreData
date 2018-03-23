@@ -14,6 +14,7 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
     public typealias OnChange = (Int) -> Void
     
     public var enabled: Bool = true
+    public var onChange: OnChange?
     public var count: Int {
         var count: Int = 0
         context.performAndWait {
@@ -21,12 +22,12 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         }
         return count
     }
+    
 
     private let context: NSManagedObjectContext
     private let predicate: NSPredicate?
     
     private var notifierRunning: Bool = false
-    private var onChange: OnChange?
     private var previousCount: Int = 0
     
     /// Create a new FetchedCount.
@@ -40,10 +41,15 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         super.init()
     }
     
-    public func startObserving(_ onChange: OnChange?) {
+    /// Start observing changes to the count. Setting `onChange` will overwrite any previous closures that have been set.
+    ///
+    /// - Parameter onChange: Closure to perform whenever changes are observed
+    public func startObserving(_ onChange: OnChange? = nil) {
         guard !notifierRunning else { return }
         
-        self.onChange = onChange
+        if let onChange = onChange {
+            self.onChange = onChange
+        }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }
