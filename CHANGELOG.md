@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.1
+-----
+
+- Allow `OnChange` closure to be set independently of `startObserving()` call.
+
 2.1.0
 -----
 
