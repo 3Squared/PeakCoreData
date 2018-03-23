@@ -9,6 +9,7 @@
 import CoreData
 
 public enum ManagedObjectChangeType {
+    case initialised
     case refreshed
     case updated
     case deleted
@@ -58,7 +59,7 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
         super.init()
     }
     
-    public func startObserving(_ onChange: @escaping OnChange) {
+    public func startObserving(_ onChange: OnChange?) {
         guard !notifierRunning else { return }
 
         self.onChange = onChange
@@ -73,6 +74,7 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
             strongSelf.checkForMatchingObject(in: notification.deletedObjects, changeType: .deleted)
         }
         
+        onChange?(object, .initialised)
         notifierRunning = true
     }
     
