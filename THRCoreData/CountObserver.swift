@@ -20,11 +20,11 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         }
         return count
     }
-    public var onChange: OnChange?
 
     private let predicate: NSPredicate?
     private let context: NSManagedObjectContext
     
+    private var onChange: OnChange?
     private var notifierRunning: Bool = false
     private var previousCount: Int = 0
     
@@ -39,8 +39,10 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         super.init()
     }
     
-    public func startObserving() {
+    public func startObserving(_ onChange: OnChange?) {
         guard !notifierRunning else { return }
+        
+        self.onChange = onChange
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }

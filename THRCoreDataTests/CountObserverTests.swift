@@ -20,12 +20,10 @@ class CountObserverTests: CoreDataTests {
         let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, 0)
         
-        observer.onChange = { count in
+        observer.startObserving() { count in
             XCTAssertEqual(count, 0)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         waitForExpectations(timeout: defaultTimeout)
     }
@@ -38,12 +36,10 @@ class CountObserverTests: CoreDataTests {
         let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, insertNumber)
         
-        observer.onChange = { count in
+        observer.startObserving() { count in
             XCTAssertEqual(count, self.insertNumber)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         waitForExpectations(timeout: defaultTimeout)
     }
@@ -66,12 +62,10 @@ class CountObserverTests: CoreDataTests {
         XCTAssertEqual(observer.count, 0)
         
         var counts: [Int] = []
-        observer.onChange = { count in
+        observer.startObserving() { count in
             counts.append(count)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
 
@@ -88,12 +82,10 @@ class CountObserverTests: CoreDataTests {
         XCTAssertEqual(observer.count, 0)
         
         var counts: [Int] = []
-        observer.onChange = { count in
+        observer.startObserving() { count in
             counts.append(count)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
@@ -113,12 +105,10 @@ class CountObserverTests: CoreDataTests {
         XCTAssertEqual(observer.count, insertNumber)
         
         var counts: [Int] = []
-        observer.onChange = { count in
+        observer.startObserving() { count in
             counts.append(count)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         TestEntity.delete(in: viewContext)
         
@@ -140,12 +130,11 @@ class CountObserverTests: CoreDataTests {
         XCTAssertEqual(observer.count, count1)
         
         var counts: [Int] = []
-        observer.onChange = { count in
+        
+        observer.startObserving() { count in
             counts.append(count)
             expect.fulfill()
         }
-        
-        observer.startObserving()
         
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
         let count2 = TestEntity.count(in: viewContext, matching: predicate)
@@ -154,5 +143,4 @@ class CountObserverTests: CoreDataTests {
         
         XCTAssertEqual(counts, [count1, count2])
     }
-
 }
