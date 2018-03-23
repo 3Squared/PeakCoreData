@@ -16,17 +16,16 @@ class EventDetailViewController: UIViewController, PersistentContainerSettable {
     
     var persistentContainer: NSPersistentContainer!
     var event: Event!
-    var eventObserver: ManagedObjectChangeObserver<Event>!
+    var eventObserver: ManagedObjectObserver<Event>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateDateLabel()
-        eventObserver = ManagedObjectChangeObserver(managedObject: event)
-        eventObserver.onChange = { [weak self] obj, changeType in
+        eventObserver = ManagedObjectObserver(managedObject: event)
+        eventObserver.startObserving() { [weak self] obj, changeType in
             guard let strongSelf = self else { return }
             switch changeType {
-            case .refreshed, .updated:
+            case .initialised, .refreshed, .updated:
                 strongSelf.updateDateLabel()
             case .deleted:
                 strongSelf.navigationController?.popToRootViewController(animated: true)
