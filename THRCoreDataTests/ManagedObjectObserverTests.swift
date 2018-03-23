@@ -10,7 +10,7 @@ import XCTest
 import CoreData
 @testable import THRCoreData
 
-class ManagedObjectChangeObserverTests: CoreDataTests {
+class ManagedObjectObserverTests: CoreDataTests {
     
     override func setUp() {
         super.setUp()
@@ -25,10 +25,17 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
+        expect.expectedFulfillmentCount = 2
+
         let observer = object.observe { (obj, changeType) in
-            XCTAssertEqual(changeType, .refreshed)
-            expect.fulfill()
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .refreshed:
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -43,11 +50,18 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
-        let observer = ManagedObjectChangeObserver(managedObject: object)
-        observer.onChange = { (obj, changeType) in
-            XCTAssertEqual(changeType, .refreshed)
-            expect.fulfill()
+        expect.expectedFulfillmentCount = 2
+
+        let observer = ManagedObjectObserver(managedObject: object)
+        observer.startObserving() { (obj, changeType) in
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .refreshed:
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -62,12 +76,19 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-
+        expect.expectedFulfillmentCount = 2
+        
         let observer = object.observe { (obj, changeType) in
-            XCTAssertEqual(obj.title, "testObserveFromID")
-            XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
-            XCTAssertEqual(changeType, .updated)
-            expect.fulfill()
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .updated:
+                XCTAssertEqual(obj.title, "testObserveFromID")
+                XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -82,14 +103,21 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
+        expect.expectedFulfillmentCount = 2
+
+        let observer = ManagedObjectObserver(managedObject: object)
         
-        let observer = ManagedObjectChangeObserver(managedObject: object)
-        
-        observer.onChange = { (obj, changeType) in
-            XCTAssertEqual(obj.title, "testObserveFromID")
-            XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
-            XCTAssertEqual(changeType, .updated)
-            expect.fulfill()
+        observer.startObserving() { (obj, changeType) in
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .updated:
+                XCTAssertEqual(obj.title, "testObserveFromID")
+                XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -104,12 +132,19 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
+        expect.expectedFulfillmentCount = 2
+
         let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
-            XCTAssertEqual(obj.title, "testObserveFromID")
-            XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
-            XCTAssertEqual(changeType, .updated)
-            expect.fulfill()
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .updated:
+                XCTAssertEqual(obj.title, "testObserveFromID")
+                XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -124,13 +159,20 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
+        expect.expectedFulfillmentCount = 2
         
-        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.onChange = { (obj, changeType) in
-            XCTAssertEqual(obj.title, "testObserveFromID")
-            XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
-            XCTAssertEqual(changeType, .updated)
-            expect.fulfill()
+        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer.startObserving() { (obj, changeType) in
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .updated:
+                XCTAssertEqual(obj.title, "testObserveFromID")
+                XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -145,11 +187,18 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
+        expect.expectedFulfillmentCount = 2
+
         let observer = object.observe { (obj, changeType) in
-            XCTAssertTrue(obj.isDeleted)
-            XCTAssertEqual(changeType, .deleted)
-            expect.fulfill()
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .deleted:
+                XCTAssertTrue(obj.isDeleted)
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -164,12 +213,19 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
-        let observer = ManagedObjectChangeObserver(managedObject: object)
-        observer.onChange = { (obj, changeType) in
-            XCTAssertTrue(obj.isDeleted)
-            XCTAssertEqual(changeType, .deleted)
-            expect.fulfill()
+        expect.expectedFulfillmentCount = 2
+
+        let observer = ManagedObjectObserver(managedObject: object)
+        observer.startObserving() { (obj, changeType) in
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .deleted:
+                XCTAssertTrue(obj.isDeleted)
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -184,11 +240,18 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
-        
+        expect.expectedFulfillmentCount = 2
+
         let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
-            XCTAssertTrue(obj.isDeleted)
-            XCTAssertEqual(changeType, .deleted)
-            expect.fulfill()
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .deleted:
+                XCTAssertTrue(obj.isDeleted)
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {
@@ -203,12 +266,19 @@ class ManagedObjectChangeObserverTests: CoreDataTests {
         try! viewContext.save()
         
         let expect = expectation(description: "")
+        expect.expectedFulfillmentCount = 2
 
-        let observer: ManagedObjectChangeObserver<TestEntity> = ManagedObjectChangeObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.onChange = { (obj, changeType) in
-            XCTAssertTrue(obj.isDeleted)
-            XCTAssertEqual(changeType, .deleted)
-            expect.fulfill()
+        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer.startObserving() { (obj, changeType) in
+            switch changeType {
+            case .initialised:
+                expect.fulfill()
+            case .deleted:
+                XCTAssertTrue(obj.isDeleted)
+                expect.fulfill()
+            default:
+                break
+            }
         }
         
         viewContext.perform {

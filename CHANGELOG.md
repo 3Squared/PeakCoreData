@@ -4,6 +4,13 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.0
+-----
+
+- Change `FetchedChange` to `ChangeObserver`.
+- Change `ManagedObjectChangeObserver` to `ManagedObjectObserver`.
+- Make sure `ChangeObserver` and `ManagedObjectObserver` change blocks are called on initialisation.
+
 2.0.4
 -----
 
