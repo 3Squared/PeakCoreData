@@ -17,7 +17,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     
     var persistentContainer: NSPersistentContainer!
     
-    var countObserver: FetchedCount<Event>!
+    var countObserver: CountObserver<Event>!
     
     var operationQueue: OperationQueue {
         let queue = OperationQueue()
@@ -45,12 +45,12 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         
-        countObserver = FetchedCount<Event>(predicate: nil, context: viewContext)
-        countLabel.text = String(countObserver.count)
+        countObserver = CountObserver<Event>(predicate: nil, context: viewContext)
         countObserver.onChange = { [weak self] count in
             guard let strongSelf = self else { return }
             strongSelf.countLabel.text = String(count)
         }
+        countObserver.startNotifier()
         setupTableView()
     }
     
