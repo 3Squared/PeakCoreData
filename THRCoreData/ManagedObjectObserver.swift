@@ -19,12 +19,14 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
     
     public typealias OnChange = ((T, ManagedObjectChangeType) -> Void)
     
-    public var onChange: OnChange?
     public var enabled: Bool = true
     public let object: T
 
     private let context: NSManagedObjectContext
     private let managedObjectID: NSManagedObjectID
+    
+    private var notifierRunning: Bool = false
+    private var onChange: OnChange?
 
     /// Create a new ManagedObjectChangeObserver.
     /// The object will be observed in its original managedObjectContext.
@@ -54,16 +56,24 @@ open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & Managed
         self.context = context
         self.object = context.object(with: managedObjectID) as! T
         super.init()
+    }
+    
+    public func startObserving(_ onChange: @escaping OnChange) {
+        guard !notifierRunning else { return }
+
+        self.onChange = onChange
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
             guard let strongSelf = self else { return }
             guard strongSelf.enabled else { return }
             let notification = ObjectsDidChangeNotification(notification: note)
-            guard notification.managedObjectContext == context else { return }
+            guard notification.managedObjectContext == strongSelf.context else { return }
             strongSelf.checkForMatchingObject(in: notification.refreshedObjects, changeType: .refreshed)
             strongSelf.checkForMatchingObject(in: notification.updatedObjects, changeType: .updated)
             strongSelf.checkForMatchingObject(in: notification.deletedObjects, changeType: .deleted)
         }
+        
+        notifierRunning = true
     }
     
     private func checkForMatchingObject(in changedObjects: Set<NSManagedObject>, changeType: ManagedObjectChangeType) {
@@ -80,7 +90,7 @@ extension ManagedObjectType where Self: NSManagedObject {
     /// - Returns: A ManagedObjectChangeObserver initialised with self as the managed object.
     public func observe(onChange: @escaping ManagedObjectObserver<Self>.OnChange) -> ManagedObjectObserver<Self> {
         let observer = ManagedObjectObserver<Self>(managedObject: self)
-        observer.onChange = onChange
+        observer.startObserving(onChange)
         return observer
     }
     
@@ -92,7 +102,7 @@ extension ManagedObjectType where Self: NSManagedObject {
     /// - Returns: A ManagedObjectChangeObserver initialised with self as the managed object.
     public func observe(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectObserver<Self>.OnChange) -> ManagedObjectObserver<Self> {
         let observer = ManagedObjectObserver<Self>(managedObject: self, context: context)
-        observer.onChange = onChange
+        observer.startObserving(onChange)
         return observer
     }
 }
@@ -107,7 +117,7 @@ extension NSManagedObjectID {
     /// - Returns: A ManagedObjectChangeObserver initialised with the managed object referred to by the ID.
     public func observe<T>(in context: NSManagedObjectContext, onChange: @escaping ManagedObjectObserver<T>.OnChange) -> ManagedObjectObserver<T> {
         let observer = ManagedObjectObserver<T>(managedObjectID: self, context: context)
-        observer.onChange = onChange
+        observer.startObserving(onChange)
         return observer
     }
 }

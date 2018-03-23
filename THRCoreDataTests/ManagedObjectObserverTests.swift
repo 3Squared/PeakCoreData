@@ -45,7 +45,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         
         let observer = ManagedObjectObserver(managedObject: object)
-        observer.onChange = { (obj, changeType) in
+        observer.startObserving() { (obj, changeType) in
             XCTAssertEqual(changeType, .refreshed)
             expect.fulfill()
         }
@@ -85,7 +85,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         
         let observer = ManagedObjectObserver(managedObject: object)
         
-        observer.onChange = { (obj, changeType) in
+        observer.startObserving() { (obj, changeType) in
             XCTAssertEqual(obj.title, "testObserveFromID")
             XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
             XCTAssertEqual(changeType, .updated)
@@ -126,7 +126,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         
         let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.onChange = { (obj, changeType) in
+        observer.startObserving() { (obj, changeType) in
             XCTAssertEqual(obj.title, "testObserveFromID")
             XCTAssertEqual(Array(obj.changedValues().keys), ["title"])
             XCTAssertEqual(changeType, .updated)
@@ -166,7 +166,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         
         let observer = ManagedObjectObserver(managedObject: object)
-        observer.onChange = { (obj, changeType) in
+        observer.startObserving() { (obj, changeType) in
             XCTAssertTrue(obj.isDeleted)
             XCTAssertEqual(changeType, .deleted)
             expect.fulfill()
@@ -205,7 +205,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
 
         let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.onChange = { (obj, changeType) in
+        observer.startObserving() { (obj, changeType) in
             XCTAssertTrue(obj.isDeleted)
             XCTAssertEqual(changeType, .deleted)
             expect.fulfill()
