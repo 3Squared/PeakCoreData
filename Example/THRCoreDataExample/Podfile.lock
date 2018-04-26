@@ -1,5 +1,5 @@
 PODS:
-  - THRCoreData (2.0.4):
+  - THRCoreData (2.1.1):
     - THROperations
   - THROperations (1.3.0):
     - THRResult (~> 1.0.0)
@@ -8,15 +8,20 @@ PODS:
 DEPENDENCIES:
   - THRCoreData (from `../../`)
 
+SPEC REPOS:
+  "git@gitlab.3squared.com:iOSLibraries/CocoaPodSpecs.git":
+    - THROperations
+    - THRResult
+
 EXTERNAL SOURCES:
   THRCoreData:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  THRCoreData: 2651a51b558f44eb818c585e44e40060ab0e2444
+  THRCoreData: b9753599098580bfba45ea5c3021eef16193a417
   THROperations: bcd3061d6574bf94f87f390ebf350d90f2f7e710
   THRResult: 296480bc05503d1de3329f1dc71e44ace12d9176
 
 PODFILE CHECKSUM: a11b191c97b2927b0033905a2502dbf36c2ff56b
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

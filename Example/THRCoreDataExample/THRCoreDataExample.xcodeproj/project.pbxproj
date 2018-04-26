@@ -156,7 +156,6 @@
 				8D6DE8DC1E0ADA5800C515DC /* Frameworks */,
 				8D6DE8DD1E0ADA5800C515DC /* Resources */,
 				BE26AAF6A12A242796A34AD5 /* [CP] Embed Pods Frameworks */,
-				E7B67686CE33ACFBD38614A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -256,21 +255,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E7B67686CE33ACFBD38614A7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THRCoreDataExample/Pods-THRCoreDataExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
