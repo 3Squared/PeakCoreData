@@ -4,6 +4,12 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.2
+-----
+
+- Bump minimum deployment to 10.0
+- Update `THROperations` and `THRResult`
+
 2.1.1
 -----
 
