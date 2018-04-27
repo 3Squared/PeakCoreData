@@ -1,9 +1,9 @@
 PODS:
-  - THRCoreData (2.1.1):
+  - THRCoreData (2.1.2):
     - THROperations
-  - THROperations (1.3.0):
-    - THRResult (~> 1.0.0)
-  - THRResult (1.0.0)
+  - THROperations (1.4.1):
+    - THRResult
+  - THRResult (1.0.1)
 
 DEPENDENCIES:
   - THRCoreData (from `../../`)
@@ -18,9 +18,9 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  THRCoreData: b9753599098580bfba45ea5c3021eef16193a417
-  THROperations: bcd3061d6574bf94f87f390ebf350d90f2f7e710
-  THRResult: 296480bc05503d1de3329f1dc71e44ace12d9176
+  THRCoreData: 0dc509e6982e59d7105b98d3a14765971b535b78
+  THROperations: d4f583316f131beee4375f2a197740477355b747
+  THRResult: 1e24a2909fa3e56efdd5d5d12108b1d308a9f917
 
 PODFILE CHECKSUM: a11b191c97b2927b0033905a2502dbf36c2ff56b
 
