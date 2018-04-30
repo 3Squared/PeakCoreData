@@ -50,6 +50,10 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
     public func snapshot() -> [T] {
         return Array(self)
     }
+    
+    public func cleanUp() {
+        dataProvider.cleanUp()
+    }
 }
 
 // MARK: - Collection

@@ -243,4 +243,8 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         delegate.dataProviderDidUpdate(updates: updates)
     }
+    
+    public func cleanUp() {
+        fetchedResultsController.delegate = nil
+    }
 }

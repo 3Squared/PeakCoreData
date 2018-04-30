@@ -114,6 +114,10 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         delegate.configure(cell, with: object(at: indexPath))
         return cell
     }
+    
+    public func cleanUp() {
+        dataProvider.cleanUp()
+    }
 }
 
 extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
