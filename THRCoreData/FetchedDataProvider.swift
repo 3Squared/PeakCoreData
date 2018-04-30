@@ -160,9 +160,10 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     func performFetch() {
-        fetchedResultsController.managedObjectContext.performAndWait {
-            do { try fetchedResultsController.performFetch() } catch { fatalError("Fetch request failed") }
-            delegate.dataProviderDidUpdate(updates: nil)
+        fetchedResultsController.managedObjectContext.performAndWait { [weak self] in
+            guard let strongSelf = self else { return }
+            do { try strongSelf.fetchedResultsController.performFetch() } catch { fatalError("Fetch request failed") }
+            strongSelf.delegate.dataProviderDidUpdate(updates: nil)
         }
     }
     
@@ -245,6 +246,7 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     public func cleanUp() {
+        delegate = nil
         fetchedResultsController.delegate = nil
     }
 }
