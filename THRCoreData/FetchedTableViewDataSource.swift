@@ -165,10 +165,6 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return section(forSectionIndexTitle: title, at: index)
     }
-    
-    public func cleanUp() {
-        dataProvider.cleanUp()
-    }
 }
 
 extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
