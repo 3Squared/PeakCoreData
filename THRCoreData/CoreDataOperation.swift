@@ -29,11 +29,12 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     // MARK: - ConcurrentOperation Overrides
 
     open override func execute() {
-        persistentContainer.performBackgroundTask { (context) in
-            self.operationContext = context
-            self.operationContext.name = "THRCoreData.CoreDataOperation.OperationContext"
-            self.operationContext.mergePolicy = NSMergePolicy(merge: self.mergePolicyType)
-            self.performWork(in: context)
+        persistentContainer.performBackgroundTask { [weak self] context in
+            guard let strongSelf = self else { return }
+            strongSelf.operationContext = context
+            strongSelf.operationContext.name = "THRCoreData.CoreDataOperation.OperationContext"
+            strongSelf.operationContext.mergePolicy = NSMergePolicy(merge: strongSelf.mergePolicyType)
+            strongSelf.performWork(in: context)
         }
     }
     

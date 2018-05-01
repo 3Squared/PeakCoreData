@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.3
+-----
+
+- Remove retain cycles.
+
 2.1.2
 -----
 
