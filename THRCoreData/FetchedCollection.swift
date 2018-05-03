@@ -13,7 +13,11 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
         
     public typealias FetchedCollectionChangeListener = (FetchedCollection<T>, [FetchedUpdate<T>]?) -> Void
     
-    public var onChange: FetchedCollectionChangeListener?
+    public var onChange: FetchedCollectionChangeListener? {
+        didSet {
+            onChange!(self, nil)
+        }
+    }
     
     private let dataProvider: FetchedDataProvider<FetchedCollection>
     
