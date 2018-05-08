@@ -51,17 +51,20 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
     open func saveOperationContext() {
         guard !isCancelled else { return finish() }
-        guard operationContext.hasChanges else { return }
         
-        do {
-            try operationContext.obtainPermanentIDs(for: Array(operationContext.insertedObjects))
-            deleted = deleted.union(operationContext.deletedObjects.map { $0.objectID })
-            inserted = inserted.union(operationContext.insertedObjects.map { $0.objectID }).subtracting(deleted)
-            updated = updated.union(operationContext.updatedObjects.map { $0.objectID }).subtracting(deleted)
-            try operationContext.save()
-        } catch {
-            print("Error saving context \(operationContext.name ?? ""): \(error)")
-            output = Result { throw error }
+        operationContext.performAndWait {
+            guard operationContext.hasChanges else { return }
+            
+            do {
+                try operationContext.obtainPermanentIDs(for: Array(operationContext.insertedObjects))
+                deleted = deleted.union(operationContext.deletedObjects.map { $0.objectID })
+                inserted = inserted.union(operationContext.insertedObjects.map { $0.objectID }).subtracting(deleted)
+                updated = updated.union(operationContext.updatedObjects.map { $0.objectID }).subtracting(deleted)
+                try operationContext.save()
+            } catch {
+                print("Error saving context \(operationContext.name ?? ""): \(error)")
+                output = Result { throw error }
+            }
         }
     }
     
@@ -69,6 +72,7 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
     open func saveAndFinish() {
         guard !isCancelled else { return finish() }
+        
         saveOperationContext()
         finish()
     }
