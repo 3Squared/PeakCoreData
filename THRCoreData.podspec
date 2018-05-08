@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "THRCoreData"
-  s.version      = "2.1.3"
+  s.version      = "2.1.4"
   s.summary      = "Lightweight Core Data helper to reduce boilerplate code."
   s.homepage     = "https://gitlab.3squared.com/iOSLibraries/THRCoreData"
   s.license      = { :type => 'Custom', :file => 'LICENCE' }

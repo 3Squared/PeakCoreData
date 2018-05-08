@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.4
+-----
+
+- Make sure save is called on context's thread.
+
 2.1.3
 -----
 
