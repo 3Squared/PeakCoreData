@@ -15,7 +15,7 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
     
     public var onChange: FetchedCollectionChangeListener? {
         didSet {
-            onChange!(self, nil)
+            onChange?(self, nil)
         }
     }
     
