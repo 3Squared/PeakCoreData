@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.1.5
+-----
+
+- Call `onChange` method when set on `FetchedCollection`.
+
 2.1.4
 -----
 
