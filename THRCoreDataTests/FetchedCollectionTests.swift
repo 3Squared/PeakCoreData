@@ -58,7 +58,13 @@ class FetchedCollectionTests: CoreDataTests {
             XCTAssertEqual(section.numberOfObjects, 1)
         }
      }
-
+    
+    func testEmptySectionedResults() {
+        let sectionedFetchedCollection = createSectionedFetchedCollection()
+        XCTAssertEqual(sectionedFetchedCollection.sections.count, 0)
+        XCTAssertEqual(sectionedFetchedCollection.endIndex, IndexPath(row: 0, section: 0))
+    }
+    
     func testInsertChanges() {
         let expect = expectation(description: "")
         
