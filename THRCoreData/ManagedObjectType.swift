@@ -14,7 +14,6 @@ import CoreData
 public protocol ManagedObjectType: class {
     static var entityName: String { get }
     static var defaultSortDescriptors: [NSSortDescriptor] { get }
-    var managedObjectContext: NSManagedObjectContext? { get }
 }
 
 public extension ManagedObjectType {
