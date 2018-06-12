@@ -17,43 +17,14 @@ public protocol ManagedObjectType: class {
 }
 
 public extension ManagedObjectType {
-    
-    static var entityName: String {
-        return String(describing: self)
-    }
-    
-    static var defaultSortDescriptors: [NSSortDescriptor] {
-        return []
-    }
+    static var entityName: String { return String(describing: self) }
+    static var defaultSortDescriptors: [NSSortDescriptor] { return [] }
 }
 
 public extension ManagedObjectType where Self: NSManagedObject {
     
     typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> ()
     typealias ManagedObjectConfigurationBlock = (Self) -> ()
-    
-    /**
-     - parameter predicate:     Optional predicate to be applied to the sorted fetch request.
-     
-     - returns: A fetch request sorted by `defaultSortDescriptors`.
-     */
-    static func sortedFetchRequest(with predicate: NSPredicate? = nil) -> NSFetchRequest<Self> {
-        return fetchRequest() { request in
-            request.sortDescriptors = defaultSortDescriptors
-            request.predicate = predicate
-        }
-    }
-    
-    /**
-     - parameter configure:     Optional configuration block for the fetch request.
-     
-     - returns: A configured fetch request for the entity.
-     */
-    static func fetchRequest(configure: FetchRequestConfigurationBlock? = nil) -> NSFetchRequest<Self> {
-        let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
-        configure?(fetchRequest)
-        return fetchRequest
-    }
     
     /**
      - parameter context:       The context to use.
@@ -69,13 +40,27 @@ public extension ManagedObjectType where Self: NSManagedObject {
     }
     
     /**
+     - parameter configure:     Optional configuration block for the fetch request.
+     
+     - returns: A configured fetch request for the entity, with `defaultSortDescriptors` applied.
+     - note: A `fetchBatchSize` of 20 is applied to improve performance. This can be
+     */
+    static func sortedFetchRequest(configure: FetchRequestConfigurationBlock? = nil) -> NSFetchRequest<Self> {
+        let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
+        fetchRequest.sortDescriptors = defaultSortDescriptors
+        fetchRequest.fetchBatchSize = 20
+        configure?(fetchRequest)
+        return fetchRequest
+    }
+    
+    /**
      - parameter context:       The context to use.
      - parameter configure:     Optional configuration block to be applied to the fetch request.
      
-     - returns: An array of objects matching the configured fetch request.
+     - returns: An array of objects matching the configured fetch request, sorted by `defaultSortDescriptors`.
      */
     static func fetch(in context: NSManagedObjectContext, configure: FetchRequestConfigurationBlock? = nil) -> [Self] {
-        let request = fetchRequest(configure: configure)
+        let request = sortedFetchRequest(configure: configure)
         do {
             return try context.fetch(request)
         } catch {
@@ -90,9 +75,8 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - returns: The count of all objects or all objects matching the predicate.
      */
     static func count(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) -> Int {
-        let countRequest = fetchRequest { request in
-            request.predicate = predicate
-        }
+        let countRequest = NSFetchRequest<Self>(entityName: entityName)
+        countRequest.predicate = predicate
         do {
             return try context.count(for: countRequest)
         } catch {
@@ -107,11 +91,15 @@ public extension ManagedObjectType where Self: NSManagedObject {
      - parameter predicate:     Optional predicate to be applied to the fetch request.
      */
     static func delete(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) {
-        let itemsToDelete = fetch(in: context) { fetchRequest in
-            fetchRequest.predicate = predicate
-            fetchRequest.includesPropertyValues = false
+        let deleteRequest = NSFetchRequest<Self>(entityName: entityName)
+        deleteRequest.predicate = predicate
+        deleteRequest.includesPropertyValues = false
+        do {
+            let itemsToDelete = try context.fetch(deleteRequest)
+            itemsToDelete.forEach { context.delete($0) }
+        } catch {
+            fatalError("Error fetching \(entityName)s: \(error)")
         }
-        itemsToDelete.forEach { context.delete($0) }
     }
     
     /**
@@ -250,7 +238,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
         
         let uniqueIDKey = Self.uniqueIDKey
         
-        let request = fetchRequest { fetchRequest in
+        let request = sortedFetchRequest { fetchRequest in
             fetchRequest.predicate = NSPredicate(format: "(%K IN %@)", argumentArray: [uniqueIDKey, sortedIntermediateIDs])
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: uniqueIDKey, ascending: true)]
         }
