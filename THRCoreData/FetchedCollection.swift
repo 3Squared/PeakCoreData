@@ -66,6 +66,10 @@ extension FetchedCollection: Collection {
     
     public var endIndex: IndexPath {
         // This method expects the "past the end"-end. So, the count.
+        if dataProvider.numberOfSections <= 0 {
+            return IndexPath(item: 0, section: 0)
+        }
+        
         let lastSection = dataProvider.numberOfSections - 1
         let lastItemInSection = dataProvider.sectionInfo(forSection: lastSection).numberOfObjects
         return IndexPath(item: lastItemInSection, section: lastSection)
