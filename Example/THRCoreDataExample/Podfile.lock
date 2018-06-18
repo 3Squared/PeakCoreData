@@ -1,5 +1,5 @@
 PODS:
-  - THRCoreData (2.1.5):
+  - THRCoreData (2.2.0):
     - THROperations
   - THROperations (1.4.1):
     - THRResult
@@ -18,10 +18,10 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  THRCoreData: 73058001ceb90efba4c5e2eda3eda8db073d52cf
+  THRCoreData: 3101bfd661786326f8f1416d980bb458cf8ee86f
   THROperations: d4f583316f131beee4375f2a197740477355b747
   THRResult: 1e24a2909fa3e56efdd5d5d12108b1d308a9f917
 
 PODFILE CHECKSUM: a11b191c97b2927b0033905a2502dbf36c2ff56b
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

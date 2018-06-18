@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.2.0
+-----
+
+- Remove `fetchRequest` and always sort by the `defaultSortDescriptor`.
+
 2.1.5
 -----
 
