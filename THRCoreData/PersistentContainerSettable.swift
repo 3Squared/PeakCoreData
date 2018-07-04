@@ -17,4 +17,14 @@ public extension PersistentContainerSettable {
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+    
+    func saveViewContext() {
+        guard viewContext.hasChanges else { return }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving view context: \(error)")
+        }
+    }
 }
