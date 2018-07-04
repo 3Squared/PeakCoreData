@@ -39,11 +39,11 @@ class EventDetailViewController: UIViewController, PersistentContainerSettable {
 
     @IBAction func refreshButtonTapped(_ sender: Any) {
         event.date = Date()
-        try! viewContext.save()
+        saveViewContext()
     }
     
     @IBAction func trashButtonTapped(_ sender: Any) {
         viewContext.delete(event)
-        try! viewContext.save()
+        saveViewContext()
     }
 }

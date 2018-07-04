@@ -4,6 +4,11 @@ The changelog for `THRCoreData`.
 
 --------------------------------------
 
+2.2.1
+-----
+
+- Add a `saveViewContext` method to `PersistentContainerSettable` protocol.
+
 2.2.0
 -----
 

@@ -113,7 +113,7 @@ extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
         case .delete:
             let objectToDelete = dataSource.object(at: indexPath)
             viewContext.delete(objectToDelete)
-            try! viewContext.save()
+            saveViewContext()
         default:
             break
         }
