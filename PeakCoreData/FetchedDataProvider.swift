@@ -35,7 +35,7 @@ public protocol TableViewUpdatable: class {
 
 public extension TableViewUpdatable {
     
-    public func process(updates: [FetchedUpdate<Object>], for tableView: UITableView, with animation: UITableViewRowAnimation = .automatic, completion: ((Bool) -> Void)? = nil) {
+    public func process(updates: [FetchedUpdate<Object>], for tableView: UITableView, with animation: UITableView.RowAnimation = .automatic, completion: ((Bool) -> Void)? = nil) {
         let batchUpdates: () -> Void = { [weak self] in
             guard let strongSelf = self else { return }
 

@@ -10,19 +10,19 @@ import UIKit
 import CoreData
 
 public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmptyView {
-    var rowAnimation: UITableViewRowAnimation { get }
+    var rowAnimation: UITableView.RowAnimation { get }
     func titleForHeader(in section: Int) -> String?
     func titleForFooter(in section: Int) -> String?
     func canEditRow(at indexPath: IndexPath) -> Bool
-    func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+    func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     func canMoveRow(at indexPath: IndexPath) -> Bool
     func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
 }
 
 public extension FetchedTableViewDataSourceDelegate {
-    var rowAnimation: UITableViewRowAnimation { return .automatic }
+    var rowAnimation: UITableView.RowAnimation { return .automatic }
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
-    func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) { }
+    func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
     func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
     func titleForHeader(in section: Int) -> String? { return nil }
@@ -146,7 +146,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         return delegate.canEditRow(at: indexPath)
     }
     
-    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         delegate.commit(editingStyle: editingStyle, forRowAt: indexPath)
     }
     
