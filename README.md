@@ -1,13 +1,13 @@
-# THRCoreData
+# PeakCoreData
 
 Lightweight Swift Core Data helper to reduce boilerplate code.
 
 ## Installation
 
-THRCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+PeakCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'THRCoreData'
+pod 'PeakCoreData'
 ```
 
 ## Usage
