@@ -1,13 +1,13 @@
-# THRCoreData
+# PeakCoreData
 
 Lightweight Swift Core Data helper to reduce boilerplate code.
 
 ## Installation
 
-THRCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
+PeakCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'THRCoreData'
+pod 'PeakCoreData'
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ pod 'THRCoreData'
 `PersistentContainer` is a container that encapsulates the Core Data stack in your application and works in a similar way to `NSPersistentContainer`. It is recommemded that you initialise the `PersistentContainer`in your `AppDelegate` then pass it on to your initial view controller.
 
 ```Swift
-let persistentContainer = PersistentContainer(name: "THRCoreDataExample")
+let persistentContainer = PersistentContainer(name: "PeakCoreDataExample")
 persistentContainer.loadPersistentStores()
 ```
 
@@ -26,7 +26,7 @@ persistentContainer.loadPersistentStores()
 Similar to `NSPersistentStoreDescription`, a `PersistentStoreDescription` object can be used to customise the way the persistent store is loaded. This includes options to customise the store url, store type (`NSSQLiteStoreType`, `NSInMemoryStoreType`), whether the store should be loaded synchronously or asychronously and whether the store should migrate automatically. This should be initialised and set on a `PersistentContainer` before `loadPersistentStores()` is called. For example:
 
 ```Swift
-let persistentContainer = PersistentContainer(name: "THRCoreDataExample")
+let persistentContainer = PersistentContainer(name: "PeakCoreDataExample")
 var storeDescription = PersistentStoreDescription(url: storeURL)
 storeDescription.type = .inMemory
 persistentContainer.persistentStoreDescription = storeDescription
