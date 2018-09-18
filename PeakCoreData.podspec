@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "PeakCoreData"
-  s.version      = "2.2.1"
+  s.version      = "2.3.0"
   s.summary      = "Lightweight Core Data helper to reduce boilerplate code."
   s.homepage     = "https://gitlab.3squared.com/MobileTeam/PeakCoreData"
   s.license      = { :type => 'Custom', :file => 'LICENCE' }
