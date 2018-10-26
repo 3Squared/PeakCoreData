@@ -108,7 +108,7 @@ extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
         return true
     }
     
-    func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
             let objectToDelete = dataSource.object(at: indexPath)
