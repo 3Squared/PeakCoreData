@@ -205,26 +205,28 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        guard let object = anObject as? Object else { fatalError("Wrong type of object returned") }
         
         if let indexPath = indexPath, let newIndexPath = newIndexPath, indexPath != newIndexPath {
+            updates.append(.update(indexPath, object))
             updates.append(.move(indexPath, newIndexPath))
             return
         }
         
         switch type {
         case .insert:
-            guard let newIndexPath = newIndexPath else { fatalError("Index path should be not nil") }
+            guard let newIndexPath = newIndexPath else { fatalError("Property newIndexPath should not be nil when inserting") }
             updates.append(.insert(newIndexPath))
         case .update:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
+            guard let indexPath = indexPath else { fatalError("Property indexPath should not be nil when updating") }
+            updates.append(.update(indexPath, object))
         case .move:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
-            guard let newIndexPath = newIndexPath else { fatalError("New index path should be not nil") }
-            updates.append(.update(indexPath, object(at: indexPath)))
+            guard let indexPath = indexPath else { fatalError("Property indexPath should not be nil when moving") }
+            guard let newIndexPath = newIndexPath else { fatalError("Property newIndexPath should not be nil when moving") }
+            updates.append(.update(indexPath, object))
             updates.append(.move(indexPath, newIndexPath))
         case .delete:
-            guard let indexPath = indexPath else { fatalError("Index path should be not nil") }
+            guard let indexPath = indexPath else { fatalError("Property indexPath should not be nil when deleting") }
             updates.append(.delete(indexPath))
         }
     }
