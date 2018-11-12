@@ -51,7 +51,9 @@ override func viewDidLoad() {
 
 ### `FetchedCollection`
 
-### `FetchedCollectionViewDataSource` & `FetchedTableViewDataSource`
+TODO
+
+### `FetchedCollectionViewDataSource` and `FetchedTableViewDataSource`
 
 These classes take care of the boiler-plate code needed to use a `NSFetchedResultsController` with a `UITableView` or `UICollectionView`. For example:
 
