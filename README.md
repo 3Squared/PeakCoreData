@@ -9,24 +9,23 @@ PeakCoreData is a Swift microframework providing enhancements and conveniences t
 The `ManagedObjectObserver` class can be used to observe changes made to a single managed object. State changes include when it is refreshed, updated or deleted. For example:
 
 ```Swift
+var event: Event!
+var eventObserver: ManagedObjectObserver<Event>!
 
-    var event: Event!
-    var eventObserver: ManagedObjectObserver<Event>!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        eventObserver = ManagedObjectObserver(managedObject: event)
-        eventObserver.startObserving() { [weak self] obj, changeType in
-            guard let strongSelf = self else { return }
-            switch changeType {
-            case .initialised, .refreshed, .updated:
-                strongSelf.updateView()
-            case .deleted:
-                strongSelf.navigationController?.popToRootViewController(animated: true)
-            }
+override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    eventObserver = ManagedObjectObserver(managedObject: event)
+    eventObserver.startObserving() { [weak self] obj, changeType in
+        guard let strongSelf = self else { return }
+        switch changeType {
+        case .initialised, .refreshed, .updated:
+            strongSelf.updateView()
+        case .deleted:
+            strongSelf.navigationController?.popToRootViewController(animated: true)
         }
     }
+}
 ```
 
 ### `CountObserver`
@@ -34,18 +33,18 @@ The `ManagedObjectObserver` class can be used to observe changes made to a singl
 The `CountObserver` class can be used to observe changes to the number of `NSManagedObject`'s as defined by a generic type and an optional `NSPredicate`. For example:
 
 ```Swift
-    var countObserver: CountObserver<Event>!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+var countObserver: CountObserver<Event>!
 
-        let predicate = NSPredicate(format: "%K == false", argumentArray: [#KeyPath(Event.isHidden)])
-        countObserver = CountObserver<Event>(predicate: predicate, context: viewContext)
-        countObserver.startObserving() { [weak self] count in
-            guard let strongSelf = self else { return }
-            strongSelf.countLabel.text = String(count)
-        }
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let predicate = NSPredicate(format: "%K == false", argumentArray: [#KeyPath(Event.isHidden)])
+    countObserver = CountObserver<Event>(predicate: predicate, context: viewContext)
+    countObserver.startObserving() { [weak self] count in
+        guard let strongSelf = self else { return }
+        strongSelf.countLabel.text = String(count)
     }
+}
 ```
 
 ## Fetched Data Sources
@@ -57,40 +56,39 @@ The `CountObserver` class can be used to observe changes to the number of `NSMan
 These classes take care of the boiler-plate code needed to use a `NSFetchedResultsController` with a `UITableView` or `UICollectionView`. For example:
 
 ```Swift
-    class EventsTableViewController: UITableViewController {
+class EventsTableViewController: UITableViewController {
 
-        var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
+    var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
 
-        override func viewDidLoad() {
-            super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-            let frc = NSFetchedResultsController(
-                fetchRequest: Event.sortedFetchRequest(), 
-                managedObjectContext: viewContext, 
-                sectionNameKeyPath: nil, 
-                cacheName: nil
-            )
-            dataSource = FetchedTableViewDataSource(
-                tableView: tableView, 
-                cellIdentifier: EventTableViewCell.cellIdentifier, 
-                fetchedResultsController: frc, 
-                delegate: self
-            )
-            dataSource.animateUpdates = true
-            dataSource.onDidChangeContent = {
-                print("Something changed")
-            }
-            dataSource.performFetch()
+        let frc = NSFetchedResultsController(
+            fetchRequest: Event.sortedFetchRequest(), 
+            managedObjectContext: viewContext, 
+            sectionNameKeyPath: nil, 
+            cacheName: nil
+        )
+        dataSource = FetchedTableViewDataSource(
+            tableView: tableView, 
+            cellIdentifier: EventTableViewCell.cellIdentifier, 
+            fetchedResultsController: frc, 
+            delegate: self
+        )
+        dataSource.animateUpdates = true
+        dataSource.onDidChangeContent = {
+            print("Something changed")
         }
+        dataSource.performFetch()
     }
+}
 
-    extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
-    
-        func configure(_ cell: EventTableViewCell, with object: Event) {
-            cell.textLabel?.text = object.date?.description
-        }
+extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
+
+    func configure(_ cell: EventTableViewCell, with object: Event) {
+        cell.textLabel?.text = object.date?.description
     }
-
+}
 ```
 
 ## Operations
@@ -128,14 +126,14 @@ To give your `NSManagedObject` subclasses access to a range of helper methods fo
 Each view controller that needs access to the `NSPersistentContainer` should conform to `PersistentContainerSettable`. Conforming to this protocol gives you easy access to the `viewContext` property and a method for saving the `viewContext`. It also allows your `NSPersistentContainer` to be passed around more easily in `prepare(for:sender:)`. For example:
 
 ```Swift
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? PersistentContainerSettable {
-            controller.persistentContainer = persistentContainer
-        }
-        if let navController = segue.destination as? UINavigationController, let controller = navController.topViewController as? PersistentContainerSettable {
-            controller.persistentContainer = persistentContainer
-        }
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let controller = segue.destination as? PersistentContainerSettable {
+        controller.persistentContainer = persistentContainer
     }
+    if let navController = segue.destination as? UINavigationController, let controller = navController.topViewController as? PersistentContainerSettable {
+        controller.persistentContainer = persistentContainer
+    }
+}
 ```
 
 ## Getting Started
