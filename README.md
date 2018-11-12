@@ -30,7 +30,7 @@ override func viewDidLoad() {
 
 ### `CountObserver`
 
-The `CountObserver` class can be used to observe changes to the number of `NSManagedObject`'s as defined by a generic type and an optional `NSPredicate`. For example:
+The `CountObserver` class can be used to observe changes to the number of `NSManagedObject`s as defined by a generic type and an optional `NSPredicate`. For example:
 
 ```Swift
 var countObserver: CountObserver<Event>!
