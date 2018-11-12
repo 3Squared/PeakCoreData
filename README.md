@@ -6,7 +6,47 @@ PeakCoreData is a Swift microframework providing enhancements and conveniences t
 
 ### ManagedObjectObserver
 
+The `ManagedObjectObserver` class can be used to observe changes made to a single managed object. State changes include when it is refreshed, updated or deleted. For example:
+
+```Swift
+
+    var event: Event!
+    var eventObserver: ManagedObjectObserver<Event>!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        eventObserver = ManagedObjectObserver(managedObject: event)
+        eventObserver.startObserving() { [weak self] obj, changeType in
+            guard let strongSelf = self else { return }
+            switch changeType {
+            case .initialised, .refreshed, .updated:
+                strongSelf.updateView()
+            case .deleted:
+                strongSelf.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+```
+
 ### Count Observer
+
+The `CountObserver` class can be used to observe changes to the number of `NSManagedObject`'s as defined by a generic type and an optional `NSPredicate`. For example:
+
+```Swift
+    var countObserver: CountObserver<Event>!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let predicate = NSPredicate(format: "%K == false", argumentArray: [#KeyPath(Event.isHidden)])
+        countObserver = CountObserver<Event>(predicate: predicate, context: viewContext)
+        countObserver.startObserving() { [weak self] count in
+            guard let strongSelf = self else { return }
+            strongSelf.countLabel.text = String(count)
+        }
+    }
+```
 
 ## Fetched Data Sources
 
@@ -14,30 +54,76 @@ PeakCoreData is a Swift microframework providing enhancements and conveniences t
 
 ### FetchedCollectionViewDataSource & FetchedTableViewDataSource
 
-These classes take care of the boiler-plate code needed to use a `NSFetchedResultsController` with a `UITableView` or `UICollectionView`. See the example project for examples of these classes in action.
+These classes take care of the boiler-plate code needed to use a `NSFetchedResultsController` with a `UITableView` or `UICollectionView`. For example:
+
+```Swift
+    class EventsTableViewController: UITableViewController {
+
+        var dataSource: FetchedTableViewDataSource<EventsTableViewController>!
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+
+            let frc = NSFetchedResultsController(
+                fetchRequest: Event.sortedFetchRequest(), 
+                managedObjectContext: viewContext, 
+                sectionNameKeyPath: nil, 
+                cacheName: nil
+            )
+            dataSource = FetchedTableViewDataSource(
+                tableView: tableView, 
+                cellIdentifier: EventTableViewCell.cellIdentifier, 
+                fetchedResultsController: frc, 
+                delegate: self
+            )
+            dataSource.animateUpdates = true
+            dataSource.onDidChangeContent = {
+                print("Something changed")
+            }
+            dataSource.performFetch()
+        }
+    }
+
+    extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
+    
+        func configure(_ cell: EventTableViewCell, with object: Event) {
+            cell.textLabel?.text = object.date?.description
+        }
+    }
+
+```
 
 ## Operations
 
 ### CoreDataOperation
 
-`CoreDataOperation` is a simple concurrent `Operation` subclass that can be used to perform core data tasks on a background thread. To use, simply subclass `CoreDataOperation` then override `performWork(in context: NSManagedObjectContext)`
+`CoreDataOperation` is a simple concurrent `Operation` subclass that can be used to perform core data tasks on a background thread. To use, simply subclass `CoreDataOperation` then override then `performWork(in:)` method.
 
-* To finish the operation you must call `saveAndFinish()`. This will save the child and parent contexts and ensure changes are merged in to the main context.
+* `CoreDataOperation` simply wraps the `performBackgroundTask((NSManagedObjectContext) -> Void)` in a `ConcurrentOperation`.
+* To finish the operation you must call `saveAndFinish()`.
+* Changes will only be merged in to your `viewContext` if you have set the `automaticallyMergesChangesFromParent` on `viewContext` to `true`.
 * `CoreDataOperation` conforms to `ProducesResult` and so can be used to produce a `Result`.
 
 ### CoreDataChangesetOperation
 
+A `CoreDataOperation` subclass that returns a `Changeset` struct containing all the `NSManagedObjectID`'s that were inserted and updated during the operation.
+
 ### CoreDataBatchImportOperation & CoreDataSingleImportOperation
+
+Two `CoreDataChangesetOperation` subclasses that can be used to import an array of intermediate objects or a single intermediate object in to Core Data. They would normally be used to import `Decodable` objects from your web service. These operations work automatically as long as the following requirements are met:
+
+* The intermediate object must conform to  `ManagedObjectUpdatable` and `UniqueIdentifiable`.
+* The `NSManagedObject` type you are converting to must conform to `ManagedObjectType` and `UniqueIdentifiable`.
 
 ## Protocols
 
 ### ManagedObjectType and UniqueIdentifiable
 
-To give your `NSManagedObject` subclasses access to a range of helper methods for inserting, deleting, fetching and counting, simply make them conform to the `ManagedObjectType` and `UniqueIdentifiable` protocols.
+To give your `NSManagedObject` subclasses access to a range of helper methods for inserting, deleting, fetching and counting, simply make them conform to the `ManagedObjectType` and `UniqueIdentifiable` protocols. Doing so will also allow your to use the `CoreDataBatchImportOperation` and `CoreDataSingleImportOperation`.
 
 ### PersistentContainerSettable
 
-Each view controller that needs access to the `NSPersistentContainer` should conform to `PersistentContainerSettable`. Conforming to this protocol gives you easy access to the `viewContext` and a method for saving the `viewContext`. It also your `NSPersistentContainer` to be passed around more easily in `prepare(for:sender:)`. For example:
+Each view controller that needs access to the `NSPersistentContainer` should conform to `PersistentContainerSettable`. Conforming to this protocol gives you easy access to the `viewContext` property and a method for saving the `viewContext`. It also allows your `NSPersistentContainer` to be passed around more easily in `prepare(for:sender:)`. For example:
 
 ```Swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -68,3 +154,17 @@ We use [SemVer](http://semver.org/) for versioning.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* [Core Data by objc.io](https://www.objc.io/books/core-data/)
+
+# Peak Framework
+
+The Peak Framework is a collection of open-source microframeworks created by the team at [3Squared](https://github.com/3squared), named for the [Peak District](https://en.wikipedia.org/wiki/Peak_District). It is made up of:
+
+|Name|Description|
+|:--|:--|
+|[PeakOperation](https://github.com/3squared/PeakOperation)|Provides enhancement and conveniences to `Operation`, making use of the `Result` type.|
+|[PeakResult](https://github.com/3squared/PeakResult)|A simple `Result` type.|
+|[PeakNetwork](https://github.com/3squared/PeakNetwork)|A networking framework built on top of `Session` using PeakOperation, leveraging the power of `Codable`.|
