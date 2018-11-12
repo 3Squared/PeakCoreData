@@ -1,21 +1,12 @@
-# PeakCoreData
+![PeakCoreData](PeakCoreData.png "PeakCoreData")
 
-Lightweight Swift Core Data helper to reduce boilerplate code.
-
-## Installation
-
-PeakCoreData is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
-
-```ruby
-pod 'PeakCoreData'
-```
+PeakCoreData is a Swift microframework providing enhancements and conveniences to [`CoreData`](https://developer.apple.com/documentation/coredata). It is part of the [Peak Framework](#peak-framework).
 
 ## Observers
 
 ### ManagedObjectObserver
 
 ### Count Observer
-
 
 ## Fetched Data Sources
 
@@ -58,3 +49,22 @@ Each view controller that needs access to the `NSPersistentContainer` should con
         }
     }
 ```
+
+## Getting Started
+
+### Installing
+
+- Using Cocoapods, add `pod 'PeakCoreData'` to your Podfile.
+- `import PeakCoreData` where necessary.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
