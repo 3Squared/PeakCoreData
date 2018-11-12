@@ -123,28 +123,35 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		8D159AFC205BDF1B004D693A /* Observers */ = {
+		8D1F2E2C1F7408E000FE6643 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8D9797DE1DF8138100DAB75A /* PeakCoreData.h */,
+				8D9797DF1DF8138100DAB75A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D2DD2B02199916C00468575 /* Observers */ = {
 			isa = PBXGroup;
 			children = (
 				8D821932205ACEAE00732777 /* CountObserver.swift */,
 				8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */,
-				8DDBC63220651A5600B00158 /* Notifications */,
+				8D2DD2B12199917C00468575 /* Notifications */,
 			);
-			name = Observers;
+			path = Observers;
 			sourceTree = "<group>";
 		};
-		8D1F2E291F7408AA00FE6643 /* Protocols */ = {
+		8D2DD2B12199917C00468575 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */,
-				CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */,
-				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
-				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
+				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
+				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 			);
-			name = Protocols;
+			path = Notifications;
 			sourceTree = "<group>";
 		};
-		8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */ = {
+		8D2DD2B22199918B00468575 /* Fetched Data Sources */ = {
 			isa = PBXGroup;
 			children = (
 				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
@@ -152,10 +159,10 @@
 				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
 				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
-			name = "Fetched Data Sources";
+			path = "Fetched Data Sources";
 			sourceTree = "<group>";
 		};
-		8D1F2E2B1F7408D600FE6643 /* Operations */ = {
+		8D2DD2B32199919B00468575 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
 				8DFAC1101F79274B0015EDC0 /* Changeset.swift */,
@@ -164,16 +171,18 @@
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
 			);
-			name = Operations;
+			path = Operations;
 			sourceTree = "<group>";
 		};
-		8D1F2E2C1F7408E000FE6643 /* Supporting Files */ = {
+		8D2DD2B5219991B300468575 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797DE1DF8138100DAB75A /* PeakCoreData.h */,
-				8D9797DF1DF8138100DAB75A /* Info.plist */,
+				CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */,
+				CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */,
+				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
+				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
 			);
-			name = "Supporting Files";
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		8D9797D11DF8138100DAB75A = {
@@ -199,10 +208,10 @@
 		8D9797DD1DF8138100DAB75A /* PeakCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				8D159AFC205BDF1B004D693A /* Observers */,
-				8D1F2E2A1F7408BB00FE6643 /* Fetched Data Sources */,
-				8D1F2E2B1F7408D600FE6643 /* Operations */,
-				8D1F2E291F7408AA00FE6643 /* Protocols */,
+				8D2DD2B22199918B00468575 /* Fetched Data Sources */,
+				8D2DD2B02199916C00468575 /* Observers */,
+				8D2DD2B32199919B00468575 /* Operations */,
+				8D2DD2B5219991B300468575 /* Protocols */,
 				8D1F2E2C1F7408E000FE6643 /* Supporting Files */,
 			);
 			path = PeakCoreData;
@@ -232,15 +241,6 @@
 				8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */,
 			);
 			name = "Test Model";
-			sourceTree = "<group>";
-		};
-		8DDBC63220651A5600B00158 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */,
-				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
-			);
-			name = Notifications;
 			sourceTree = "<group>";
 		};
 		B6BED3CCDC8E0ACD5DB44FA6 /* Frameworks */ = {
