@@ -49,7 +49,6 @@ To give your `NSManagedObject` subclasses access to a range of helper methods fo
 Each view controller that needs access to the `NSPersistentContainer` should conform to `PersistentContainerSettable`. Conforming to this protocol gives you easy access to the `viewContext` and a method for saving the `viewContext`. It also your `NSPersistentContainer` to be passed around more easily in `prepare(for:sender:)`. For example:
 
 ```Swift
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? PersistentContainerSettable {
             controller.persistentContainer = persistentContainer
@@ -58,5 +57,4 @@ Each view controller that needs access to the `NSPersistentContainer` should con
             controller.persistentContainer = persistentContainer
         }
     }
-    
 ```
