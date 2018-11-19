@@ -16,17 +16,17 @@ public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmpty
     func canEditRow(at indexPath: IndexPath) -> Bool
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     func canMoveRow(at indexPath: IndexPath) -> Bool
-    func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+    func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
 }
 
 public extension FetchedTableViewDataSourceDelegate {
     var rowAnimation: UITableView.RowAnimation { return .automatic }
+    func titleForHeader(in section: Int) -> String? { return nil }
+    func titleForFooter(in section: Int) -> String? { return nil }
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
-    func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
-    func titleForHeader(in section: Int) -> String? { return nil }
-    func titleForFooter(in section: Int) -> String? { return nil }
+    func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
 }
 
 public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource {
@@ -153,7 +153,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        delegate.move(rowAt: sourceIndexPath, to: destinationIndexPath)
+        delegate.moveRow(at: sourceIndexPath, to: destinationIndexPath)
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {

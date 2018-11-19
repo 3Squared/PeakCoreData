@@ -16,13 +16,17 @@ public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable
     var footerReuseIdentifier: String? { get }
     func configureHeader(_ header: Header, at indexPath: IndexPath)
     func configureFooter(_ footer: Footer, at indexPath: IndexPath)
+    func canMoveItem(at indexPath: IndexPath) -> Bool
+    func moveItem(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
 }
 
 public extension FetchedCollectionViewDataSourceDelegate {
-    public var headerReuseIdentifier: String? { return nil }
-    public var footerReuseIdentifier: String? { return nil }
-    public func configureHeader(_ header: UICollectionReusableView, at indexPath: IndexPath) { }
-    public func configureFooter(_ footer: UICollectionReusableView, at indexPath: IndexPath) { }
+    var headerReuseIdentifier: String? { return nil }
+    var footerReuseIdentifier: String? { return nil }
+    func configureHeader(_ header: UICollectionReusableView, at indexPath: IndexPath) { }
+    func configureFooter(_ footer: UICollectionReusableView, at indexPath: IndexPath) { }
+    func canMoveItem(at indexPath: IndexPath) -> Bool { return false }
+    func moveItem(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
 }
 
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
@@ -152,6 +156,14 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         default:
             return UICollectionReusableView()
         }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return delegate.canMoveItem(at: indexPath)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        delegate.moveItem(at: sourceIndexPath, to: destinationIndexPath)
     }
 }
 
