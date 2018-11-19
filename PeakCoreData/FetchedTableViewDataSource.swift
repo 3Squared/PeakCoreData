@@ -167,7 +167,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
 
 extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
     
-    func dataProviderDidUpdate(updates: [FetchedUpdate<Delegate.Object>]?) {
+    func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?) {
         guard let updates = updates, animateUpdates, tableView.window != nil else {
             tableView.reloadData()
             showEmptyViewIfNeeded()

@@ -169,7 +169,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
 
 extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
     
-    func dataProviderDidUpdate(updates: [FetchedUpdate<Delegate.Object>]?) {
+    func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?) {
         guard let updates = updates, animateUpdates, collectionView.window != nil else {
             collectionView.reloadData()
             showEmptyViewIfNeeded()
