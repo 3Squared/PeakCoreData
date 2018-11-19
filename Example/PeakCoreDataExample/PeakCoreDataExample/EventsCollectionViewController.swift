@@ -77,7 +77,7 @@ extension EventsCollectionViewController: FetchedCollectionViewDataSourceDelegat
         return EventCollectionViewCell.cellIdentifier
     }
     
-    func configureCell(_ cell: EventCollectionViewCell, with object: Event) {
+    func configure(_ cell: EventCollectionViewCell, with object: Event) {
         cell.dateLabel.text = dateFormatter.string(from: (object.date! as Date))
     }
 }

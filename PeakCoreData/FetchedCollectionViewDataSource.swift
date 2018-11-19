@@ -9,7 +9,21 @@
 import UIKit
 import CoreData
 
-public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView { }
+public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView {
+    associatedtype Header: UICollectionReusableView
+    associatedtype Footer: UICollectionReusableView
+    var headerReuseIdentifier: String? { get }
+    var footerReuseIdentifier: String? { get }
+    func configureHeader(_ header: Header, at indexPath: IndexPath)
+    func configureFooter(_ footer: Footer, at indexPath: IndexPath)
+}
+
+public extension FetchedCollectionViewDataSourceDelegate {
+    public var headerReuseIdentifier: String? { return nil }
+    public var footerReuseIdentifier: String? { return nil }
+    public func configureHeader(_ header: UICollectionReusableView, at indexPath: IndexPath) { }
+    public func configureFooter(_ footer: UICollectionReusableView, at indexPath: IndexPath) { }
+}
 
 public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewDataSourceDelegate>: NSObject, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
     public typealias Object = Delegate.Object
@@ -111,7 +125,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: delegate.cellReuseIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
-        delegate.configureCell(cell, with: object(at: indexPath))
+        delegate.configure(cell, with: object(at: indexPath))
         return cell
     }
     

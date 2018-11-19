@@ -73,21 +73,8 @@ public extension TableViewUpdatable {
 public protocol CollectionViewUpdatable: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UICollectionViewCell
-    associatedtype Header: UICollectionReusableView
-    associatedtype Footer: UICollectionReusableView
     var cellReuseIdentifier: String { get }
-    var headerReuseIdentifier: String? { get }
-    var footerReuseIdentifier: String? { get }
-    func configureCell(_ cell: Cell, with object: Object)
-    func configureHeader(_ header: Header, at indexPath: IndexPath)
-    func configureFooter(_ footer: Footer, at indexPath: IndexPath)
-}
-
-extension CollectionViewUpdatable {
-    public var headerReuseIdentifier: String? { return nil }
-    public var footerReuseIdentifier: String? { return nil }
-    public func configureHeader(_ header: UICollectionReusableView, at indexPath: IndexPath) { }
-    public func configureFooter(_ footer: UICollectionReusableView, at indexPath: IndexPath) { }
+    func configure(_ cell: Cell, with object: Object)
 }
 
 extension CollectionViewUpdatable {
@@ -102,7 +89,7 @@ extension CollectionViewUpdatable {
                     collectionView.insertItems(at: [indexPath])
                 case .update(let indexPath, let object):
                     guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else { return }
-                    strongSelf.configureCell(cell, with: object)
+                    strongSelf.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     collectionView.moveItem(at: indexPath, to: newIndexPath)
                 case .delete(let indexPath):
