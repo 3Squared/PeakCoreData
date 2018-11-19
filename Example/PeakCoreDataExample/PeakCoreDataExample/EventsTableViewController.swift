@@ -73,7 +73,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 
     private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource = FetchedTableViewDataSource(tableView: tableView, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
             print("Table View - Something changed")
@@ -99,6 +99,10 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 }
 
 extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
+    
+    var cellIdentifier: String {
+        return EventTableViewCell.cellIdentifier
+    }
     
     func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))

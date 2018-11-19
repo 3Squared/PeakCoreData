@@ -34,7 +34,6 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public typealias Cell = Delegate.Cell
     
     private let tableView: UITableView
-    private let cellIdentifier: String
     private let dataProvider: FetchedDataProvider<FetchedTableViewDataSource>
     private weak var delegate: Delegate!
     
@@ -66,9 +65,8 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         return dataProvider.sectionNameKeyPath
     }
     
-    public required init(tableView: UITableView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    public required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
         self.tableView = tableView
-        self.cellIdentifier = cellIdentifier
         self.delegate = delegate
         self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
         super.init()
@@ -127,7 +125,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? Cell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: delegate.cellIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
         delegate.configure(cell, with: object(at: indexPath))
