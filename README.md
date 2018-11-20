@@ -86,6 +86,10 @@ class EventsTableViewController: UITableViewController {
 }
 
 extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
+    
+    func identifier(forCellAt indexPath: IndexPath) -> String {
+        return EventTableViewCell.cellIdentifier
+    }
 
     func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = object.date?.description
