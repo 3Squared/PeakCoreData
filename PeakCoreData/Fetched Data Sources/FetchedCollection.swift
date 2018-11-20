@@ -74,8 +74,15 @@ extension FetchedCollection {
     public subscript (position: IndexPath) -> T {
         return dataProvider.object(at: position)
     }
+    
+    public subscript (position: (item: Int, section: Int)) -> T {
+        return dataProvider.object(at: IndexPath(item: position.item, section: position.section))
+    }
+    
+    public subscript (item: Int, section: Int) -> T {
+        return dataProvider.object(at: IndexPath(item: item, section: section))
+    }
 }
-
 
 extension FetchedCollection: FetchedDataProviderDelegate {
     

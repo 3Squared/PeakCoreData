@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "10.0"
   s.requires_arc = true
   s.source       = { :git => "git@gitlab.3squared.com:MobileTeam/PeakCoreData.git", :tag => s.version.to_s }
-  s.source_files = "PeakCoreData/*.{h,m,swift}"
+  s.source_files = "PeakCoreData", "PeakCoreData/**/*.{h,m,swift}"
   s.dependency 'PeakOperation'
   s.swift_version = '4.2'
 

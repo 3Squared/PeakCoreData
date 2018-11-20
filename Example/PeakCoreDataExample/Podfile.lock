@@ -18,7 +18,7 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  PeakCoreData: 3c38a0e9e76d704a8d9ee059b282e71bf49492c7
+  PeakCoreData: 4988af6e5c9d57ab04a5bf7b4d23c23ec46f73e1
   PeakOperation: 1cfae299e91470e62e871bbab8d5e8d51820ea56
   PeakResult: a3bbeaae2485fec1199a09f6991a7b8613a9d6ed
 
