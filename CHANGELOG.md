@@ -3,6 +3,11 @@
 The changelog for `THRCoreData`.
 
 --------------------------------------
+3.0.1
+-----
+
+- Fix source url in podspec.
+
 3.0.0
 -----
 
