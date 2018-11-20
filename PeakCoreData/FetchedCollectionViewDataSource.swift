@@ -155,7 +155,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
             delegate.configureFooter(footer, at: indexPath)
             return footer
         default:
-            return UICollectionReusableView()
+            fatalError("Unexpected supplementary element of kind \(kind)")
         }
     }
     
