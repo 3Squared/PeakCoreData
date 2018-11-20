@@ -51,7 +51,26 @@ override func viewDidLoad() {
 
 ### `FetchedCollection`
 
-TODO
+`FetchedCollection` is a wrapper for `NSFetchedResultsController` which acts as its own delegate and exposes changes though a closure.
+
+```Swift
+let fetchedCollection = FetchedCollection(fetchRequest: Event.sortedFetchRequest(), context: viewContext)
+
+fetchedCollection.onChange = { collection, update in
+	// use collection, or process updates
+}
+
+// subscriptable
+let object = fetchedCollection[0, 0]
+
+// or with a tuple
+let object = fetchedCollection[(0, 0)]
+
+// or with an index path
+let object = fetchedCollection[IndexPath(row: 0, section: 0)]
+
+```
+This allows you to decouple the `NSFetchedResultsController` from your viewcontroller.
 
 ### `FetchedCollectionViewDataSource` and `FetchedTableViewDataSource`
 
