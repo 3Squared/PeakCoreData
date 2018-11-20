@@ -16,17 +16,17 @@ public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmpty
     func canEditRow(at indexPath: IndexPath) -> Bool
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     func canMoveRow(at indexPath: IndexPath) -> Bool
-    func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+    func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
 }
 
 public extension FetchedTableViewDataSourceDelegate {
     var rowAnimation: UITableView.RowAnimation { return .automatic }
+    func titleForHeader(in section: Int) -> String? { return nil }
+    func titleForFooter(in section: Int) -> String? { return nil }
     func canEditRow(at indexPath: IndexPath) -> Bool { return false }
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
-    func move(rowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
-    func titleForHeader(in section: Int) -> String? { return nil }
-    func titleForFooter(in section: Int) -> String? { return nil }
+    func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
 }
 
 public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource {
@@ -34,7 +34,6 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public typealias Cell = Delegate.Cell
     
     private let tableView: UITableView
-    private let cellIdentifier: String
     private let dataProvider: FetchedDataProvider<FetchedTableViewDataSource>
     private weak var delegate: Delegate!
     
@@ -66,9 +65,8 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         return dataProvider.sectionNameKeyPath
     }
     
-    public required init(tableView: UITableView, cellIdentifier: String, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    public required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
         self.tableView = tableView
-        self.cellIdentifier = cellIdentifier
         self.delegate = delegate
         self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
         super.init()
@@ -127,6 +125,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellIdentifier = delegate.identifier(forCellAt: indexPath)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
@@ -155,7 +154,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        delegate.move(rowAt: sourceIndexPath, to: destinationIndexPath)
+        delegate.moveRow(at: sourceIndexPath, to: destinationIndexPath)
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
@@ -169,7 +168,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
 
 extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
     
-    func dataProviderDidUpdate(updates: [FetchedUpdate<Delegate.Object>]?) {
+    func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?) {
         guard let updates = updates, animateUpdates, tableView.window != nil else {
             tableView.reloadData()
             showEmptyViewIfNeeded()
