@@ -38,7 +38,7 @@ class FetchedCollectionTests: CoreDataTests {
         XCTAssertEqual(snap.count, 10)
 
         viewContext.performAndWait {
-            self.viewContext.delete(fetchedCollection[IndexPath(row: 0, section: 0)])
+            self.viewContext.delete(fetchedCollection[0, 0])
         }
 
         waitForExpectations(timeout: defaultTimeout)
