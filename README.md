@@ -1,6 +1,6 @@
 ![PeakCoreData](PeakCoreData.png "PeakCoreData")
 
-PeakCoreData is a Swift microframework providing enhancements and conveniences to [`CoreData`](https://developer.apple.com/documentation/coredata). It is part of the [Peak Framework](#peak-framework).
+PeakCoreData is a Swift microframework providing enhancements and conveniences to [`Core Data`](https://developer.apple.com/documentation/coredata). It is part of the [Peak Framework](#peak-framework).
 
 ## Observers
 
