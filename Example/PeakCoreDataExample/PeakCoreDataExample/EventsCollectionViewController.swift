@@ -73,7 +73,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
 
 extension EventsCollectionViewController: FetchedCollectionViewDataSourceDelegate {
     
-    var cellReuseIdentifier: String {
+    func reuseIdentifier(forCellAt indexPath: IndexPath) -> String {
         return EventCollectionViewCell.cellIdentifier
     }
     

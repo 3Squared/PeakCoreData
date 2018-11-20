@@ -30,7 +30,7 @@ public extension HasEmptyView {
 public protocol TableViewUpdatable: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UITableViewCell
-    var cellIdentifier: String { get }
+    func identifier(forCellAt indexPath: IndexPath) -> String
     func configure(_ cell: Cell, with object: Object)
 }
 
@@ -73,7 +73,7 @@ public extension TableViewUpdatable {
 public protocol CollectionViewUpdatable: class {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UICollectionViewCell
-    var cellReuseIdentifier: String { get }
+    func reuseIdentifier(forCellAt indexPath: IndexPath) -> String
     func configure(_ cell: Cell, with object: Object)
 }
 

@@ -12,8 +12,8 @@ import CoreData
 public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView {
     associatedtype Header: UICollectionReusableView
     associatedtype Footer: UICollectionReusableView
-    var headerReuseIdentifier: String? { get }
-    var footerReuseIdentifier: String? { get }
+    func reuseIdentifier(forHeaderAt indexPath: IndexPath) -> String?
+    func reuseIdentifier(forFooterAt indexPath: IndexPath) -> String?
     func configureHeader(_ header: Header, at indexPath: IndexPath)
     func configureFooter(_ footer: Footer, at indexPath: IndexPath)
     func canMoveItem(at indexPath: IndexPath) -> Bool
@@ -21,8 +21,8 @@ public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable
 }
 
 public extension FetchedCollectionViewDataSourceDelegate {
-    var headerReuseIdentifier: String? { return nil }
-    var footerReuseIdentifier: String? { return nil }
+    func reuseIdentifier(forHeaderAt indexPath: IndexPath) -> String? { return nil }
+    func reuseIdentifier(forFooterAt indexPath: IndexPath) -> String? { return nil }
     func configureHeader(_ header: UICollectionReusableView, at indexPath: IndexPath) { }
     func configureFooter(_ footer: UICollectionReusableView, at indexPath: IndexPath) { }
     func canMoveItem(at indexPath: IndexPath) -> Bool { return false }
@@ -126,7 +126,8 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: delegate.cellReuseIdentifier, for: indexPath) as? Cell else {
+        let reuseIdentifier = delegate.reuseIdentifier(forCellAt: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
         delegate.configure(cell, with: object(at: indexPath))
@@ -136,7 +137,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            guard let reuseIdentifier = delegate.headerReuseIdentifier else {
+            guard let reuseIdentifier = delegate.reuseIdentifier(forHeaderAt: indexPath) else {
                 fatalError("Missing reuse identifier for header at \(indexPath)")
             }
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath) as? Header else {
@@ -145,7 +146,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
             delegate.configureHeader(header, at: indexPath)
             return header
         case UICollectionView.elementKindSectionFooter:
-            guard let reuseIdentifier = delegate.footerReuseIdentifier else {
+            guard let reuseIdentifier = delegate.reuseIdentifier(forFooterAt: indexPath) else {
                 fatalError("Missing reuse identifier for footer at \(indexPath)")
             }
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath) as? Footer else {

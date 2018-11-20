@@ -100,7 +100,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 
 extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
     
-    var cellIdentifier: String {
+    func identifier(forCellAt indexPath: IndexPath) -> String {
         return EventTableViewCell.cellIdentifier
     }
     
