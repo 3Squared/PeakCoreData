@@ -3,6 +3,13 @@
 The changelog for `THRCoreData`.
 
 --------------------------------------
+3.0.0
+-----
+
+- Improvements to `FetchedCollectionViewDataSource` to allow supplementary views and moving of items.
+- Make sure cells are also updated when moved.
+- Remove `Collection` conformance in `FetchedCollection` (this was causing performance issues).
+- Improvements to readme.
 
 2.2.1
 -----
