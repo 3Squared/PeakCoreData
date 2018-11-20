@@ -25,6 +25,26 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
         return dataProvider.sections
     }
     
+    public func object(at indexPath: IndexPath) -> T {
+        return dataProvider.object(at: indexPath)
+    }
+    
+    public func index(of object: T) -> IndexPath? {
+        return dataProvider.indexPath(forObject: object)
+    }
+    
+    public var count: Int {
+        return dataProvider.fetchedObjectsCount
+    }
+    
+    public func snapshot() -> [T] {
+        return dataProvider.fetchedObjects
+    }
+    
+    public var isEmpty: Bool {
+        return dataProvider.fetchedObjectsCount == 0
+    }
+    
     /// Create a new FetchedCollection.
     ///
     /// - Parameters:
@@ -46,64 +66,21 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<T>) -> ()) {
         dataProvider.reconfigureFetchRequest(configure)
     }
-    
-    /// Create a static array from the currently fetched objects.
-    /// These objects may still set to isDeleted, but the size of the array will not change.
-    ///
-    /// - Returns: An array of managedObjects.
-    public func snapshot() -> [T] {
-        return Array(self)
-    }
+
 }
 
-// MARK: - Collection
-
-extension FetchedCollection: Collection {
-    
-    public var startIndex: IndexPath {
-        return IndexPath(item: 0, section: 0)
-    }
-    
-    public var endIndex: IndexPath {
-        // This method expects the "past the end"-end. So, the count.
-        if dataProvider.numberOfSections <= 0 {
-            return IndexPath(item: 0, section: 0)
-        }
-        
-        let lastSection = dataProvider.numberOfSections - 1
-        let lastItemInSection = dataProvider.sectionInfo(forSection: lastSection).numberOfObjects
-        return IndexPath(item: lastItemInSection, section: lastSection)
-    }
+extension FetchedCollection {
     
     public subscript (position: IndexPath) -> T {
-        precondition((startIndex ..< endIndex).contains(position), "out of bounds")
         return dataProvider.object(at: position)
     }
     
-    subscript (position: (item: Int, section: Int)) -> T {
-        let index = IndexPath(item: position.item, section: position.section)
-        precondition((startIndex ..< endIndex).contains(index), "out of bounds")
-        return dataProvider.object(at: index)
+    public subscript (position: (item: Int, section: Int)) -> T {
+        return dataProvider.object(at: IndexPath(item: position.item, section: position.section))
     }
     
-    public func index(after i: IndexPath) -> IndexPath {
-        // Get the overall index of the item in all fetched objects
-        // Then get the item immediately following it
-        // Then get that item's index path
-        
-        // This should deal with the situation when the next object
-        // is in a different section, so we can't just increment `item`
-        
-        let currentObject = dataProvider.object(at: i)
-        let index = dataProvider.fetchedObjects.index(of: currentObject)! as Int
-        let nextIndex = index + 1
-        
-        if nextIndex < dataProvider.fetchedObjectsCount {
-            let nextObject = dataProvider.fetchedObjects[nextIndex]
-            return dataProvider.indexPath(forObject: nextObject)!
-        }
-        
-        return IndexPath(item: i.item + 1, section: i.section)
+    public subscript (item: Int, section: Int) -> T {
+        return dataProvider.object(at: IndexPath(item: item, section: section))
     }
 }
 

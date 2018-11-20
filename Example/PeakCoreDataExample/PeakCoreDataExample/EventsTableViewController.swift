@@ -73,7 +73,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 
     private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataSource = FetchedTableViewDataSource(tableView: tableView, cellIdentifier: EventTableViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource = FetchedTableViewDataSource(tableView: tableView, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
             print("Table View - Something changed")
@@ -100,6 +100,10 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
 
 extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
     
+    func identifier(forCellAt indexPath: IndexPath) -> String {
+        return EventTableViewCell.cellIdentifier
+    }
+    
     func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))
     }
@@ -108,7 +112,7 @@ extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
         return true
     }
     
-    func commit(editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
             let objectToDelete = dataSource.object(at: indexPath)

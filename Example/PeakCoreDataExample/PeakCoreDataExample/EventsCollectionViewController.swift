@@ -62,7 +62,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     
     private func setupTableView() {
         let frc = NSFetchedResultsController(fetchRequest: Event.sortedFetchRequest(), managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        dataSource = FetchedCollectionViewDataSource(collectionView: collectionView!, cellIdentifier: EventCollectionViewCell.cellIdentifier, fetchedResultsController: frc, delegate: self)
+        dataSource = FetchedCollectionViewDataSource(collectionView: collectionView, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
             print("Collection View - Something changed")
@@ -72,6 +72,10 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
 }
 
 extension EventsCollectionViewController: FetchedCollectionViewDataSourceDelegate {
+    
+    func reuseIdentifier(forCellAt indexPath: IndexPath) -> String {
+        return EventCollectionViewCell.cellIdentifier
+    }
     
     func configure(_ cell: EventCollectionViewCell, with object: Event) {
         cell.dateLabel.text = dateFormatter.string(from: (object.date! as Date))

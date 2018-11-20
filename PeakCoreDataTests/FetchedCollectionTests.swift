@@ -38,7 +38,7 @@ class FetchedCollectionTests: CoreDataTests {
         XCTAssertEqual(snap.count, 10)
 
         viewContext.performAndWait {
-            self.viewContext.delete(fetchedCollection[(0, 0)])
+            self.viewContext.delete(fetchedCollection[0, 0])
         }
 
         waitForExpectations(timeout: defaultTimeout)
@@ -62,7 +62,6 @@ class FetchedCollectionTests: CoreDataTests {
     func testEmptySectionedResults() {
         let sectionedFetchedCollection = createSectionedFetchedCollection()
         XCTAssertEqual(sectionedFetchedCollection.sections.count, 0)
-        XCTAssertEqual(sectionedFetchedCollection.endIndex, IndexPath(row: 0, section: 0))
     }
     
     func testInsertChanges() {
@@ -206,14 +205,8 @@ class FetchedCollectionTests: CoreDataTests {
             }
 
             XCTAssertEqual(objects.count, 10)
-            XCTAssertEqual(changes!.count, 1)
-
-            switch changes![0] {
-            case .move(_, _):
-                break
-            default:
-                XCTFail()
-            }
+            // Move also calls update, so we should have two changes here
+            XCTAssertEqual(changes!.count, 2)
 
             expect.fulfill()
         }
@@ -238,7 +231,7 @@ class FetchedCollectionTests: CoreDataTests {
         
         fetchedCollection.onChange = { objects, changes in
             if objects.count == 1 {
-                let obj = objects[(0, 0)]
+                let obj = objects[IndexPath(row: 0, section: 0)]
                 XCTAssertEqual(obj.uniqueID!, "testid")
                 expect.fulfill()
             }
