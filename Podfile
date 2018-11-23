@@ -6,7 +6,7 @@ target 'PeakCoreData-iOS' do
 
   	use_frameworks!
 
-  	pod 'PeakOperation', :path => '../PeakOperation'
+  	pod 'PeakOperation'
 
   	target 'PeakCoreData-iOSTests' do
 
@@ -22,7 +22,7 @@ target 'PeakCoreData-macOS' do
 
   	use_frameworks!
 
-  	pod 'PeakOperation', :path => '../PeakOperation'
+  	pod 'PeakOperation'
 
   	target 'PeakCoreData-macOSTests' do
   
