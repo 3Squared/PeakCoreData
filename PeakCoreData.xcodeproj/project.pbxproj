@@ -36,7 +36,7 @@
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
-		8D9797E51DF8138100DAB75A /* PeakCoreData-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* PeakCoreData-iOS.framework */; };
+		8D9797E51DF8138100DAB75A /* PeakCoreData_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* PeakCoreData_iOS.framework */; };
 		8D9797EC1DF8138100DAB75A /* PeakCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* PeakCoreData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
 		8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */; };
@@ -73,7 +73,7 @@
 
 /* Begin PBXFileReference section */
 		1853FD3821A7020E001B6D45 /* PeakCoreData_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PeakCoreData_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1853FD4021A7020E001B6D45 /* PeakCoreData-macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PeakCoreData-macOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1853FD4021A7020E001B6D45 /* PeakCoreData_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeakCoreData_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1853FD4F21A70279001B6D45 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1853FD6621A70759001B6D45 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1853FD6821A70759001B6D45 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,10 +94,10 @@
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
 		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
-		8D9797DB1DF8138100DAB75A /* PeakCoreData-iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "PeakCoreData-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D9797DB1DF8138100DAB75A /* PeakCoreData_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PeakCoreData_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D9797DE1DF8138100DAB75A /* PeakCoreData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeakCoreData.h; sourceTree = "<group>"; };
 		8D9797DF1DF8138100DAB75A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D9797E41DF8138100DAB75A /* PeakCoreData-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PeakCoreData-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D9797E41DF8138100DAB75A /* PeakCoreData_iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeakCoreData_iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataChangesetOperation.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D9797E51DF8138100DAB75A /* PeakCoreData-iOS.framework in Frameworks */,
+				8D9797E51DF8138100DAB75A /* PeakCoreData_iOS.framework in Frameworks */,
 				F0B99C6E8634D38F3C4FE4F1 /* Pods_PeakCoreDataTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,10 +318,10 @@
 		8D9797DC1DF8138100DAB75A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D9797DB1DF8138100DAB75A /* PeakCoreData-iOS.framework */,
-				8D9797E41DF8138100DAB75A /* PeakCoreData-iOSTests.xctest */,
+				8D9797DB1DF8138100DAB75A /* PeakCoreData_iOS.framework */,
+				8D9797E41DF8138100DAB75A /* PeakCoreData_iOSTests.xctest */,
 				1853FD3821A7020E001B6D45 /* PeakCoreData_macOS.framework */,
-				1853FD4021A7020E001B6D45 /* PeakCoreData-macOSTests.xctest */,
+				1853FD4021A7020E001B6D45 /* PeakCoreData_macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,7 +399,7 @@
 			);
 			name = "PeakCoreData-macOSTests";
 			productName = PeakCoreDataTests;
-			productReference = 1853FD4021A7020E001B6D45 /* PeakCoreData-macOSTests.xctest */;
+			productReference = 1853FD4021A7020E001B6D45 /* PeakCoreData_macOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8D9797DA1DF8138100DAB75A /* PeakCoreData-iOS */ = {
@@ -418,7 +418,7 @@
 			);
 			name = "PeakCoreData-iOS";
 			productName = THRCoreData;
-			productReference = 8D9797DB1DF8138100DAB75A /* PeakCoreData-iOS.framework */;
+			productReference = 8D9797DB1DF8138100DAB75A /* PeakCoreData_iOS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		8D9797E31DF8138100DAB75A /* PeakCoreData-iOSTests */ = {
@@ -438,7 +438,7 @@
 			);
 			name = "PeakCoreData-iOSTests";
 			productName = THRCoreDataTests;
-			productReference = 8D9797E41DF8138100DAB75A /* PeakCoreData-iOSTests.xctest */;
+			productReference = 8D9797E41DF8138100DAB75A /* PeakCoreData_iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -743,7 +743,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.2;
 			};
@@ -765,7 +765,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-macOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.2;
 			};
@@ -904,7 +904,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -927,7 +927,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
@@ -941,7 +941,7 @@
 				INFOPLIST_FILE = "Unit Tests/Platforms/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -954,7 +954,7 @@
 				INFOPLIST_FILE = "Unit Tests/Platforms/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.3squared.PeakCoreData-iOSTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
