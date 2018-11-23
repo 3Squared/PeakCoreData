@@ -1,15 +1,24 @@
 //
-//  AnotherEntity.swift
-//  PeakCoreDataTests
+//  TestEntity.swift
+//  PeakCoreData
 //
-//  Created by David Yates on 16/03/2018.
-//  Copyright © 2018 3Squared Ltd. All rights reserved.
+//  Created by David Yates on 07/12/2016.
+//  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
 import Foundation
-@testable import PeakCoreData
 
-extension AnotherEntity: ManagedObjectType {
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
+
+extension TestEntity: ManagedObjectType {
     
     public static var defaultSortDescriptors: [NSSortDescriptor] {
         let sortByTitle = NSSortDescriptor(key: #keyPath(TestEntity.title), ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
@@ -17,7 +26,7 @@ extension AnotherEntity: ManagedObjectType {
     }
 }
 
-extension AnotherEntity: UniqueIdentifiable {
+extension TestEntity: UniqueIdentifiable {
     
     public static var uniqueIDKey: String {
         return "uniqueID"

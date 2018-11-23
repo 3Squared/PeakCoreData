@@ -8,9 +8,17 @@
 
 import XCTest
 import CoreData
-@testable
-import PeakCoreData
 import PeakResult
+
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
 
 class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     
