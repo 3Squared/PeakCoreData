@@ -182,6 +182,28 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
     
+    func testChunkedBatchImportOperation() {
+        let numberOfItems = 1000
+        
+        let finishExpectation = expectation(description: #function)
+        
+        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
+        try! viewContext.save()
+        
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer, batchSize: 200)
+        operation.input = Result { input }
+        
+        operation.addResultBlock { result in
+            let count = TestEntity.count(in: self.viewContext)
+            XCTAssertEqual(count, numberOfItems)
+            finishExpectation.fulfill()
+        }
+        
+        operationQueue.addOperation(operation)
+        
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
     func testComplexSaveOperation() {
         let finishExpectation = expectation(description: #function)
         let insertCount = 100
