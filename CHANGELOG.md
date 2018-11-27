@@ -3,6 +3,12 @@
 The changelog for `THRCoreData`.
 
 --------------------------------------
+3.0.2
+-----
+
+- Remove unused files.
+- Move method for returning cell identifier to data source delegate.
+
 3.0.1
 -----
 
