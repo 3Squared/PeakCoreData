@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 public protocol FetchedCollectionViewDataSourceDelegate: CollectionViewUpdatable, HasEmptyView {
+    func reuseIdentifier(forCellAt indexPath: IndexPath) -> String
+    //Optional
     associatedtype Header: UICollectionReusableView
     associatedtype Footer: UICollectionReusableView
     func reuseIdentifier(forHeaderAt indexPath: IndexPath) -> String?

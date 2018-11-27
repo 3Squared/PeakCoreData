@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmptyView {
+    func identifier(forCellAt indexPath: IndexPath) -> String
+    // Optional
     var rowAnimation: UITableView.RowAnimation { get }
     func titleForHeader(in section: Int) -> String?
     func titleForFooter(in section: Int) -> String?
