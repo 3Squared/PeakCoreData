@@ -23,38 +23,31 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
     Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
 {
-    public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
-    private var batchSize: Int = 1000
-    
     typealias ManagedObject = Intermediate.ManagedObject
     
-    init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, batchSize: Int? = nil) {
-        
-        if let batchSize = batchSize {
-            self.batchSize = batchSize
-        }
-        
+    public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
+    
+    private let batchSize: Int
+    
+    init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, batchSize: Int = 1000) {
+        self.batchSize = batchSize
         super.init(with: persistentContainer, mergePolicyType: mergePolicyType)
     }
     
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
-            
             let chunked = intermediates.chunked(into: batchSize)
             
             chunked.forEach { (tasks: [Intermediate]) in
                 ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
                     intermediate.updateProperties(on: managedObject)
                 }
-                
                 ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
                     intermediate.updateRelationships(on: managedObject, in: context)
                 }
-                
                 saveOperationContext()
             }
-            
             saveAndFinish()
         } catch {
             output = Result { throw error }
