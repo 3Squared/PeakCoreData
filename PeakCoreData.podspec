@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "PeakCoreData"
-  s.version      = "3.0.1"
+  s.version      = "3.0.2"
   s.summary      = "PeakCoreData is a Swift microframework providing enhancements and conveniences to Core Data. It is part of the Peak Framework."
   s.homepage     = "https://github.com/3squared/PeakCoreData"
   s.license      = { :type => 'Custom', :file => 'LICENCE' }
