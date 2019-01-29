@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-               BuildableName = "PeakCoreData-iOS.framework"
+               BuildableName = "PeakCoreData_iOS.framework"
                BlueprintName = "PeakCoreData-iOS"
                ReferencedContainer = "container:PeakCoreData.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D9797E31DF8138100DAB75A"
-               BuildableName = "PeakCoreData-iOSTests.xctest"
+               BuildableName = "PeakCoreData_iOSTests.xctest"
                BlueprintName = "PeakCoreData-iOSTests"
                ReferencedContainer = "container:PeakCoreData.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData-iOS.framework"
+            BuildableName = "PeakCoreData_iOS.framework"
             BlueprintName = "PeakCoreData-iOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData-iOS.framework"
+            BuildableName = "PeakCoreData_iOS.framework"
             BlueprintName = "PeakCoreData-iOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData-iOS.framework"
+            BuildableName = "PeakCoreData_iOS.framework"
             BlueprintName = "PeakCoreData-iOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
