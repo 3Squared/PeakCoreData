@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1853FD4121A7020E001B6D45 /* PeakCoreData_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1853FD3821A7020E001B6D45 /* PeakCoreData_macOS.framework */; };
 		1853FD5221A70284001B6D45 /* PeakCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* PeakCoreData.h */; };
-		1853FD7621A70759001B6D45 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1853FD6621A70759001B6D45 /* Info.plist */; };
-		1853FD7721A70759001B6D45 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1853FD6821A70759001B6D45 /* Info.plist */; };
 		1853FD8E21A80528001B6D45 /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1853FD7521A70759001B6D45 /* AnotherEntity.swift */; };
 		1853FD8F21A80528001B6D45 /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1853FD7421A70759001B6D45 /* CoreDataTests.swift */; };
 		1853FD9021A80528001B6D45 /* CountObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1853FD7021A70759001B6D45 /* CountObserverTests.swift */; };
@@ -498,8 +496,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1853FD7721A70759001B6D45 /* Info.plist in Resources */,
-				1853FD7621A70759001B6D45 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
