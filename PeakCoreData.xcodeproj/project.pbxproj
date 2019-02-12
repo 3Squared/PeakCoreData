@@ -152,10 +152,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		184FEABC22131E33004F20E4 /* Fetched Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
+				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
+				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
+				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
+			);
+			path = "Fetched Data Sources";
+			sourceTree = "<group>";
+		};
 		1853FD2F21A701AA001B6D45 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				8D2DD2B22199918B00468575 /* Fetched Data Sources */,
 				8D2DD2B02199916C00468575 /* Observers */,
 				8D2DD2B32199919B00468575 /* Operations */,
 				8D9797DE1DF8138100DAB75A /* PeakCoreData.h */,
@@ -176,6 +186,7 @@
 		1853FD3121A701BC001B6D45 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				184FEABC22131E33004F20E4 /* Fetched Data Sources */,
 				8D9797DF1DF8138100DAB75A /* Info.plist */,
 			);
 			path = iOS;
@@ -268,17 +279,6 @@
 				8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */,
 			);
 			path = Notifications;
-			sourceTree = "<group>";
-		};
-		8D2DD2B22199918B00468575 /* Fetched Data Sources */ = {
-			isa = PBXGroup;
-			children = (
-				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
-				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
-				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
-				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
-			);
-			path = "Fetched Data Sources";
 			sourceTree = "<group>";
 		};
 		8D2DD2B32199919B00468575 /* Operations */ = {
