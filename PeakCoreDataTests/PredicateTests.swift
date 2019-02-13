@@ -47,7 +47,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: elephants))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), equals: "Jam")
+        let keyPathPredicate = NSPredicate(equals: "Jam", keyPath: #keyPath(Object.name))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -59,7 +59,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), doesNotEqual: "Jam")
+        let keyPathPredicate = NSPredicate(doesNotEqual: "Jam", keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
@@ -71,7 +71,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: elephants.count))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts.count))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.count), lessThan: 3)
+        let keyPathPredicate = NSPredicate(lessThan: 3, keyPath: #keyPath(Object.count))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
@@ -83,7 +83,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.count))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts.count))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.count), lessThanOrEqualTo: 3)
+        let keyPathPredicate = NSPredicate(lessThanOrEqualTo: 3, keyPath: #keyPath(Object.count))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
@@ -95,7 +95,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: elephants.count))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.count))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.count), greaterThan: 3)
+        let keyPathPredicate = NSPredicate(greaterThan: 3, keyPath: #keyPath(Object.count))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -107,7 +107,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.count))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.count))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.count), greaterThanOrEqualTo: 3)
+        let keyPathPredicate = NSPredicate(greaterThanOrEqualTo: 3, keyPath: #keyPath(Object.count))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -119,7 +119,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: two))
         XCTAssertTrue(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Parent.children), countEquals: 3)
+        let keyPathPredicate = NSPredicate(countEquals: 3, keyPath: #keyPath(Parent.children))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
@@ -131,7 +131,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: two))
         XCTAssertFalse(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Parent.children), countLessThan: 2)
+        let keyPathPredicate = NSPredicate(countLessThan: 2, keyPath: #keyPath(Parent.children))
         XCTAssertTrue(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertFalse(keyPathPredicate.evaluate(with: threeChildren))
@@ -143,7 +143,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: two))
         XCTAssertFalse(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Parent.children), countLessThanOrEqualTo: 2)
+        let keyPathPredicate = NSPredicate(countLessThanOrEqualTo: 2, keyPath: #keyPath(Parent.children))
         XCTAssertTrue(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertFalse(keyPathPredicate.evaluate(with: threeChildren))
@@ -155,7 +155,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: two))
         XCTAssertTrue(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Parent.children), countGreaterThan: 2)
+        let keyPathPredicate = NSPredicate(countGreaterThan: 2, keyPath: #keyPath(Parent.children))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
@@ -167,7 +167,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: two))
         XCTAssertTrue(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Parent.children), countGreaterThanOrEqualTo: 2)
+        let keyPathPredicate = NSPredicate(countGreaterThanOrEqualTo: 2, keyPath: #keyPath(Parent.children))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
@@ -179,7 +179,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), isIncludedIn: two.map { $0.name })
+        let keyPathPredicate = NSPredicate(isIncludedIn: two.map { $0.name }, keyPath: #keyPath(Object.name))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -191,7 +191,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: elephants))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), isNotIncludedIn: two.map { $0.name })
+        let keyPathPredicate = NSPredicate(isNotIncludedIn: two.map { $0.name }, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
@@ -204,7 +204,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), containsString: testString)
+        let keyPathPredicate = NSPredicate(containsString: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -217,7 +217,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), beginsWith: testString)
+        let keyPathPredicate = NSPredicate(beginsWith: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -230,7 +230,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(keyPath: #keyPath(Object.name), endsWith: testString)
+        let keyPathPredicate = NSPredicate(endsWith: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))

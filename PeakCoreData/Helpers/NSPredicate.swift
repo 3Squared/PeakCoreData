@@ -19,7 +19,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, equals value: Any?) {
+    public convenience init(equals value: Any?, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             if let value = value {
                 self.init(format: "%K == %@", argumentArray: [keyPath, value])
@@ -40,7 +40,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, doesNotEqual value: Any?) {
+    public convenience init(doesNotEqual value: Any?, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             if let value = value {
                 self.init(format: "%K != %@", argumentArray: [keyPath, value])
@@ -61,7 +61,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, lessThan value: Any) {
+    public convenience init(lessThan value: Any, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K < %@", argumentArray: [keyPath, value])
         } else {
@@ -74,7 +74,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, lessThanOrEqualTo value: Any) {
+    public convenience init(lessThanOrEqualTo value: Any, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K <= %@", argumentArray: [keyPath, value])
         } else {
@@ -87,7 +87,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, greaterThan value: Any) {
+    public convenience init(greaterThan value: Any, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K > %@", argumentArray: [keyPath, value])
         } else {
@@ -100,7 +100,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, greaterThanOrEqualTo value: Any) {
+    public convenience init(greaterThanOrEqualTo value: Any, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K >= %@", argumentArray: [keyPath, value])
         } else {
@@ -118,7 +118,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the entity relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countEquals count: Int) {
+    public convenience init(countEquals count: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count == %@", argumentArray: [keyPath, count])
         } else {
@@ -131,7 +131,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countDoesNotEqual count: Int) {
+    public convenience init(countDoesNotEqual count: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count != %@", argumentArray: [keyPath, count])
         } else {
@@ -144,7 +144,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countLessThan value: Int) {
+    public convenience init(countLessThan value: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count < %@", argumentArray: [keyPath, value])
         } else {
@@ -157,7 +157,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countLessThanOrEqualTo value: Int) {
+    public convenience init(countLessThanOrEqualTo value: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count <= %@", argumentArray: [keyPath, value])
         } else {
@@ -170,7 +170,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countGreaterThan value: Int) {
+    public convenience init(countGreaterThan value: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count > %@", argumentArray: [keyPath, value])
         } else {
@@ -183,7 +183,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(keyPath: KeyPath? = nil, countGreaterThanOrEqualTo value: Int) {
+    public convenience init(countGreaterThanOrEqualTo value: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count >= %@", argumentArray: [keyPath, value])
         } else {
@@ -201,7 +201,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the property. Pass in `nil` to use SELF.
     ///   - array: The array to check the value against.
-    public convenience init(keyPath: KeyPath? = nil, isIncludedIn array: [Any]) {
+    public convenience init(isIncludedIn array: [Any], keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K IN %@", argumentArray: [keyPath, array])
         } else {
@@ -214,7 +214,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the property. Pass in `nil` to use SELF.
     ///   - array: The array to check the value against.
-    public convenience init(keyPath: KeyPath? = nil, isNotIncludedIn array: [Any]) {
+    public convenience init(isNotIncludedIn array: [Any], keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "NOT (%K IN %@)", argumentArray: [keyPath, array])
         } else {
@@ -232,7 +232,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(keyPath: KeyPath? = nil, beginsWith string: String) {
+    public convenience init(beginsWith string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K BEGINSWITH[cd] %@", argumentArray: [keyPath, string])
         } else {
@@ -245,7 +245,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(keyPath: KeyPath? = nil, containsString string: String) {
+    public convenience init(containsString string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K CONTAINS[cd] %@", argumentArray: [keyPath, string])
         } else {
@@ -258,7 +258,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(keyPath: KeyPath? = nil, endsWith string: String) {
+    public convenience init(endsWith string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K ENDSWITH[cd] %@", argumentArray: [keyPath, string])
         } else {
