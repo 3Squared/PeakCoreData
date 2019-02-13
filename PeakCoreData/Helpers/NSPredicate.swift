@@ -19,7 +19,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(equals value: Any?, keyPath: KeyPath? = nil) {
+    public convenience init(equalTo value: Any?, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             if let value = value {
                 self.init(format: "%K == %@", argumentArray: [keyPath, value])
@@ -40,7 +40,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath to the property. Pass in `nil` to use SELF.
     ///   - value: The value to use in the comparison.
-    public convenience init(doesNotEqual value: Any?, keyPath: KeyPath? = nil) {
+    public convenience init(notEqualTo value: Any?, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             if let value = value {
                 self.init(format: "%K != %@", argumentArray: [keyPath, value])
@@ -118,7 +118,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the entity relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(countEquals count: Int, keyPath: KeyPath? = nil) {
+    public convenience init(countEqualTo count: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count == %@", argumentArray: [keyPath, count])
         } else {
@@ -131,7 +131,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the relationship. Pass in `nil` to use SELF.
     ///   - count: The count to use in the comparison.
-    public convenience init(countDoesNotEqual count: Int, keyPath: KeyPath? = nil) {
+    public convenience init(countNotEqualTo count: Int, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K.@count != %@", argumentArray: [keyPath, count])
         } else {

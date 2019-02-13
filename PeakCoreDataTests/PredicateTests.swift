@@ -42,24 +42,24 @@ class PredicateTests: XCTestCase {
     lazy var threeChildren = Parent(children: three)
     
     func testEquals() {
-        let selfPredicate = NSPredicate(equals: jam)
+        let selfPredicate = NSPredicate(equalTo: jam)
         XCTAssertTrue(selfPredicate.evaluate(with: jam))
         XCTAssertFalse(selfPredicate.evaluate(with: elephants))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(equals: "Jam", keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(equalTo: "Jam", keyPath: #keyPath(Object.name))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
     }
     
     func testNotEquals() {
-        let selfPredicate = NSPredicate(doesNotEqual: jam)
+        let selfPredicate = NSPredicate(notEqualTo: jam)
         XCTAssertFalse(selfPredicate.evaluate(with: jam))
         XCTAssertTrue(selfPredicate.evaluate(with: elephants))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(doesNotEqual: "Jam", keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(notEqualTo: "Jam", keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
@@ -114,12 +114,12 @@ class PredicateTests: XCTestCase {
     }
     
     func testCountEquals() {
-        let selfPredicate = NSPredicate(countEquals: 3)
+        let selfPredicate = NSPredicate(countEqualTo: 3)
         XCTAssertFalse(selfPredicate.evaluate(with: one))
         XCTAssertFalse(selfPredicate.evaluate(with: two))
         XCTAssertTrue(selfPredicate.evaluate(with: three))
         
-        let keyPathPredicate = NSPredicate(countEquals: 3, keyPath: #keyPath(Parent.children))
+        let keyPathPredicate = NSPredicate(countEqualTo: 3, keyPath: #keyPath(Parent.children))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
