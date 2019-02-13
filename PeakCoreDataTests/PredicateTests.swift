@@ -41,7 +41,7 @@ class PredicateTests: XCTestCase {
     lazy var twoChildren = Parent(children: two)
     lazy var threeChildren = Parent(children: three)
     
-    func testEquals() {
+    func testEqualTo() {
         let selfPredicate = NSPredicate(equalTo: jam)
         XCTAssertTrue(selfPredicate.evaluate(with: jam))
         XCTAssertFalse(selfPredicate.evaluate(with: elephants))
@@ -53,7 +53,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
     }
     
-    func testNotEquals() {
+    func testNotEqualTo() {
         let selfPredicate = NSPredicate(notEqualTo: jam)
         XCTAssertFalse(selfPredicate.evaluate(with: jam))
         XCTAssertTrue(selfPredicate.evaluate(with: elephants))
@@ -113,7 +113,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
     }
     
-    func testCountEquals() {
+    func testCountEqualTo() {
         let selfPredicate = NSPredicate(countEqualTo: 3)
         XCTAssertFalse(selfPredicate.evaluate(with: one))
         XCTAssertFalse(selfPredicate.evaluate(with: two))
@@ -123,6 +123,18 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
+    }
+    
+    func testCountNotEqualTo() {
+        let selfPredicate = NSPredicate(countNotEqualTo: 3)
+        XCTAssertTrue(selfPredicate.evaluate(with: one))
+        XCTAssertTrue(selfPredicate.evaluate(with: two))
+        XCTAssertFalse(selfPredicate.evaluate(with: three))
+        
+        let keyPathPredicate = NSPredicate(countNotEqualTo: 3, keyPath: #keyPath(Parent.children))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: oneChild))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: threeChildren))
     }
     
     func testCountLessThan() {
