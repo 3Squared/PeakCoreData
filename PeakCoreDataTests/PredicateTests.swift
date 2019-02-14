@@ -209,7 +209,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
     }
     
-    func testContainsString() {
+    func testStringContains() {
         let testString = "eph"
         let selfPredicate = NSPredicate(stringContains: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
@@ -222,7 +222,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
     }
     
-    func testBeginsWith() {
+    func testStringBeginsWith() {
         let testString = "ele"
         let selfPredicate = NSPredicate(stringBeginsWith: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
@@ -235,7 +235,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
     }
     
-    func testEndsWith() {
+    func testStringEndsWith() {
         let testString = "nts"
         let selfPredicate = NSPredicate(stringEndsWith: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
