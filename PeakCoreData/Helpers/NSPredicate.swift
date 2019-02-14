@@ -232,7 +232,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(beginsWith string: String, keyPath: KeyPath? = nil) {
+    public convenience init(stringBeginsWith string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K BEGINSWITH[cd] %@", argumentArray: [keyPath, string])
         } else {
@@ -245,7 +245,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(containsString string: String, keyPath: KeyPath? = nil) {
+    public convenience init(stringContains string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K CONTAINS[cd] %@", argumentArray: [keyPath, string])
         } else {
@@ -258,7 +258,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The keypath of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
-    public convenience init(endsWith string: String, keyPath: KeyPath? = nil) {
+    public convenience init(stringEndsWith string: String, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "%K ENDSWITH[cd] %@", argumentArray: [keyPath, string])
         } else {

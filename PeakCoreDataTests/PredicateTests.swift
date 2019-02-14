@@ -211,12 +211,12 @@ class PredicateTests: XCTestCase {
     
     func testContainsString() {
         let testString = "eph"
-        let selfPredicate = NSPredicate(containsString: testString)
+        let selfPredicate = NSPredicate(stringContains: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(containsString: testString, keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(stringContains: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -224,12 +224,12 @@ class PredicateTests: XCTestCase {
     
     func testBeginsWith() {
         let testString = "ele"
-        let selfPredicate = NSPredicate(beginsWith: testString)
+        let selfPredicate = NSPredicate(stringBeginsWith: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(beginsWith: testString, keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(stringBeginsWith: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -237,12 +237,12 @@ class PredicateTests: XCTestCase {
     
     func testEndsWith() {
         let testString = "nts"
-        let selfPredicate = NSPredicate(endsWith: testString)
+        let selfPredicate = NSPredicate(stringEndsWith: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: jam.name))
         XCTAssertTrue(selfPredicate.evaluate(with: elephants.name))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts.name))
         
-        let keyPathPredicate = NSPredicate(endsWith: testString, keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(stringEndsWith: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
