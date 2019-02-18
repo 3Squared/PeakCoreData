@@ -29,7 +29,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
     
     private let batchSize: Int
     
-    init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, batchSize: Int = 1000) {
+    public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, batchSize: Int = 1000) {
         self.batchSize = batchSize
         super.init(with: persistentContainer, mergePolicyType: mergePolicyType)
     }
