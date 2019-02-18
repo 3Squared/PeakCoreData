@@ -182,6 +182,30 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
     
+    func testChunkedBatchImportOperation() {
+        let numberOfItems = 1000
+        
+        let finishExpectation = expectation(description: #function)
+        
+        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
+        try! viewContext.save()
+        
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer, batchSize: 200)
+        operation.input = Result { input }
+        
+        operation.addResultBlock { result in
+            let outcome = try! result.resolve()
+            XCTAssertEqual(outcome.inserted.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.updated.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.all.count, numberOfItems)
+            finishExpectation.fulfill()
+        }
+        
+        operationQueue.addOperation(operation)
+        
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
     func testComplexSaveOperation() {
         let finishExpectation = expectation(description: #function)
         let insertCount = 100
@@ -196,6 +220,45 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
 
+    
+    func testChunkedBatchImportPerformance_BatchSizeMax() {
+        let input = CoreDataTests.createTestIntermediateObjects(number: 10000, in: viewContext)
+        try! viewContext.save()
+
+        measure {
+            batchImport(items: input, batchSize: Int.max)
+        }
+    }
+    
+    func testChunkedBatchImportPerformance_BatchSize1000() {
+        let input = CoreDataTests.createTestIntermediateObjects(number: 10000, in: viewContext)
+        try! viewContext.save()
+        
+        measure {
+            batchImport(items: input, batchSize: 1000)
+        }
+    }
+    
+    func testChunkedBatchImportPerformance_BatchSize200() {
+        let input = CoreDataTests.createTestIntermediateObjects(number: 10000, in: viewContext)
+        try! viewContext.save()
+        
+        measure {
+            batchImport(items: input, batchSize: 200)
+        }
+    }
+    
+    func batchImport(items: [TestEntityJSON], batchSize: Int) {
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer, batchSize: batchSize)
+        operation.input = Result { items }
+        
+        let finishExpectation = expectation(description: #function)
+        operation.addResultBlock { result in
+            finishExpectation.fulfill()
+        }
+        operation.enqueue(on: operationQueue)
+        waitForExpectations(timeout: 60)
+    }
 }
 
 class FetchedResultsListener: NSObject, NSFetchedResultsControllerDelegate {

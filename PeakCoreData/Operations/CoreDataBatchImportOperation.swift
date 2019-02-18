@@ -11,26 +11,44 @@ import CoreData
 import PeakOperation
 import PeakResult
 
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}
+
 open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
     Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
 {
+    typealias ManagedObject = Intermediate.ManagedObject
+    
     public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
     
-    typealias ManagedObject = Intermediate.ManagedObject
+    private let batchSize: Int
+    
+    public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType, batchSize: Int = 1000) {
+        self.batchSize = batchSize
+        super.init(with: persistentContainer, mergePolicyType: mergePolicyType)
+    }
     
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediates = try input.resolve()
+            let chunked = intermediates.chunked(into: batchSize)
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
-                intermediate.updateProperties(on: managedObject)
+            chunked.forEach { tasks in
+                ManagedObject.insertOrUpdate(intermediates: tasks, in: context) { intermediate, managedObject in
+                    intermediate.updateProperties(on: managedObject)
+                }
+                ManagedObject.insertOrUpdate(intermediates: tasks, in: context) { intermediate, managedObject in
+                    intermediate.updateRelationships(on: managedObject, in: context)
+                }
+                
+                saveOperationContext()
             }
-            
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
-                intermediate.updateRelationships(on: managedObject, in: context)
-            }
-            
             saveAndFinish()
         } catch {
             output = Result { throw error }

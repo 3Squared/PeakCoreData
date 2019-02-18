@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>classNames</key>
+	<dict>
+		<key>OperationTests</key>
+		<dict>
+			<key>testChunkedBatchImportPerformance_BatchSize1000()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>2.7685</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18 Feb 2019 at 13:35:54</string>
+				</dict>
+			</dict>
+			<key>testChunkedBatchImportPerformance_BatchSize200()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>3.6737</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18 Feb 2019 at 13:35:54</string>
+				</dict>
+			</dict>
+			<key>testChunkedBatchImportPerformance_BatchSizeMax()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>2.438</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18 Feb 2019 at 13:35:54</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>
