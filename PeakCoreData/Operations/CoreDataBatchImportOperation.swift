@@ -39,13 +39,14 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
             let intermediates = try input.resolve()
             let chunked = intermediates.chunked(into: batchSize)
             
-            chunked.forEach { (tasks: [Intermediate]) in
-                ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
+            chunked.forEach { tasks in
+                ManagedObject.insertOrUpdate(intermediates: tasks, in: context) { intermediate, managedObject in
                     intermediate.updateProperties(on: managedObject)
                 }
-                ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
+                ManagedObject.insertOrUpdate(intermediates: tasks, in: context) { intermediate, managedObject in
                     intermediate.updateRelationships(on: managedObject, in: context)
                 }
+                
                 saveOperationContext()
             }
             saveAndFinish()

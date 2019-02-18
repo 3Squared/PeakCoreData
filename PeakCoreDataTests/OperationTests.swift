@@ -194,8 +194,10 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         operation.input = Result { input }
         
         operation.addResultBlock { result in
-            let count = TestEntity.count(in: self.viewContext)
-            XCTAssertEqual(count, numberOfItems)
+            let outcome = try! result.resolve()
+            XCTAssertEqual(outcome.inserted.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.updated.count, numberOfItems / 2)
+            XCTAssertEqual(outcome.all.count, numberOfItems)
             finishExpectation.fulfill()
         }
         
