@@ -223,7 +223,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataExample/Pods-PeakCoreDataExample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PeakCoreDataExample/Pods-PeakCoreDataExample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PeakCoreData/PeakCoreData.framework",
 				"${BUILT_PRODUCTS_DIR}/PeakOperation/PeakOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/PeakResult/PeakResult.framework",
@@ -236,7 +236,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataExample/Pods-PeakCoreDataExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PeakCoreDataExample/Pods-PeakCoreDataExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B77B1CAF06BDB6B7C32C1F78 /* [CP] Check Pods Manifest.lock */ = {
