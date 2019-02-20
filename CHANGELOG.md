@@ -1,8 +1,13 @@
 # CHANGELOG
 
-The changelog for `THRCoreData`.
+The changelog for `PeakCoreData`.
 
 --------------------------------------
+3.1.0
+-----
+
+- Add helper `NSPredicate` initialisers.
+
 3.0.2
 -----
 
