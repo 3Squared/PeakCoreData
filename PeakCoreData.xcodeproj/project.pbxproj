@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B3A1D0C222028C0005A8852 /* FetchAndEncodeManagedObjectOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3A1D0B222028C0005A8852 /* FetchAndEncodeManagedObjectOperation.swift */; };
 		3BD3360FB6241F169C01E187 /* libPods-PeakCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D45F53F4E8A217CCE4FCD93 /* libPods-PeakCoreData.a */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B3A1D0B222028C0005A8852 /* FetchAndEncodeManagedObjectOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAndEncodeManagedObjectOperation.swift; sourceTree = "<group>"; };
 		257C447970A25CFB0D44652F /* libPods-PeakCoreDataTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PeakCoreDataTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2922F3C57EE33341E8C70A53 /* Pods-PeakCoreDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreDataTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5D45F53F4E8A217CCE4FCD93 /* libPods-PeakCoreData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PeakCoreData.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +176,7 @@
 				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
+				1B3A1D0B222028C0005A8852 /* FetchAndEncodeManagedObjectOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */,
 				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
+				1B3A1D0C222028C0005A8852 /* FetchAndEncodeManagedObjectOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
