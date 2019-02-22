@@ -196,6 +196,27 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
 
+    func testFetchAndEncodeOperation() {
+        let finishExpectation = expectation(description: #function)
+        
+        let insertCount = 20
+        let trueTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        let falseTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        trueTestEntities.forEach { $0.edited = true }
+        falseTestEntities.forEach { $0.edited = false }
+        try! persistentContainer.viewContext.save()
+        
+        let predicate = NSPredicate(equalTo: true, keyPath: #keyPath(TestEntity.edited))
+        let fetchAndEncodeOperation = FetchAndEncodeManagedObjectsOperation<TestEntity, TestEntityJSON>(matching: predicate, with: persistentContainer)
+        fetchAndEncodeOperation.addResultBlock { (result) in
+            let outcome = try! result.resolve()
+            XCTAssertEqual(outcome.count, insertCount)
+            finishExpectation.fulfill()
+        }
+        
+        operationQueue.addOperation(fetchAndEncodeOperation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
 }
 
 class FetchedResultsListener: NSObject, NSFetchedResultsControllerDelegate {
