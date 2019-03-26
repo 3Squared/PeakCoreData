@@ -3,6 +3,11 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+3.2.0
+-----
+
+- Update to Swift 5.
+
 3.1.0
 -----
 
