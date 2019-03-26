@@ -127,7 +127,7 @@ Things to note about this operation:
 * `CoreDataOperation` simply wraps the `performBackgroundTask((NSManagedObjectContext) -> Void)` method on `NSPersistentContainer` in a operation.
 * To finish the operation you must call `saveAndFinish()`.
 * Changes will only be merged in to your `viewContext` if you have set the `automaticallyMergesChangesFromParent` on `viewContext` to `true`.
-* `CoreDataOperation` conforms to `ProducesResult` and so can be used to produce a [`Result`](https://github.com/3squared/PeakResult).
+* `CoreDataOperation` conforms to `ProducesResult` and so can be used to produce a `Result`.
 
 ### `CoreDataChangesetOperation`
 
@@ -191,5 +191,4 @@ The Peak Framework is a collection of open-source microframeworks created by the
 |Name|Description|
 |:--|:--|
 |[PeakOperation](https://github.com/3squared/PeakOperation)|Provides enhancement and conveniences to `Operation`, making use of the `Result` type.|
-|[PeakResult](https://github.com/3squared/PeakResult)|A simple `Result` type.|
 |[PeakNetwork](https://github.com/3squared/PeakNetwork)|A networking framework built on top of `Session` using PeakOperation, leveraging the power of `Codable`.|
