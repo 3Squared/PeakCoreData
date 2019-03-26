@@ -228,6 +228,8 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
         case .delete:
             guard let indexPath = indexPath else { fatalError("Property indexPath should not be nil when deleting") }
             updates.append(.delete(indexPath))
+        @unknown default:
+            break
         }
     }
     
