@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import PeakResult
 import PeakCoreData
 
 class EventsCollectionViewController: UICollectionViewController, PersistentContainerSettable {
