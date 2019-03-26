@@ -307,7 +307,6 @@
 				8D9797E01DF8138100DAB75A /* Sources */,
 				8D9797E11DF8138100DAB75A /* Frameworks */,
 				8D9797E21DF8138100DAB75A /* Resources */,
-				D2E8D86DAD84747A65F17DFF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -395,26 +394,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D2E8D86DAD84747A65F17DFF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/PeakOperation/PeakOperation.framework",
-				"${BUILT_PRODUCTS_DIR}/PeakResult/PeakResult.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PeakOperation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PeakResult.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F47EEA9569966FF7DEE02C6D /* [CP] Check Pods Manifest.lock */ = {
