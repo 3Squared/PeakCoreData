@@ -8,7 +8,6 @@
 
 import XCTest
 import CoreData
-import PeakResult
 @testable import PeakCoreData
 
 class FetchedCollectionTests: CoreDataTests {
@@ -224,22 +223,23 @@ class FetchedCollectionTests: CoreDataTests {
         let expect = expectation(description: "")
 
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 9)
-
-        TestEntity.insertObject(with: "testid", in: viewContext)
+        
+        let uniqueID = "testid"
+        TestEntity.insertObject(with: uniqueID, in: viewContext)
         
         let fetchedCollection = createFetchedCollection()
         
         fetchedCollection.onChange = { objects, changes in
             if objects.count == 1 {
                 let obj = objects[IndexPath(row: 0, section: 0)]
-                XCTAssertEqual(obj.uniqueID!, "testid")
+                XCTAssertEqual(obj.uniqueID!, uniqueID)
                 expect.fulfill()
             }
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             fetchedCollection.reconfigureFetchRequest { fr in
-                fr.predicate = NSPredicate(format: "uniqueID == %@", "testid")
+                fr.predicate = NSPredicate(equalTo: uniqueID, keyPath: #keyPath(TestEntity.uniqueID))
             }
         }
 

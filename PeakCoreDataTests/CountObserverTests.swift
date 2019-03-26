@@ -123,7 +123,7 @@ class CountObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let predicate = NSPredicate(format: "%K BEGINSWITH %@", argumentArray: [#keyPath(TestEntity.uniqueID), "A"])
+        let predicate = NSPredicate(stringBeginsWith: "A", keyPath: #keyPath(TestEntity.uniqueID))
         let count1 = TestEntity.count(in: viewContext, matching: predicate)
         
         let observer = CountObserver<TestEntity>(predicate: predicate, context: viewContext)

@@ -141,7 +141,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
      - returns: A predicate that can be used to fetch a single object with the specified unique id.
      */
     static func uniqueObjectPredicate(with uniqueKeyValue: UniqueKeyValueType) -> NSPredicate {
-        return NSPredicate(format: "%K == %@", argumentArray: [Self.uniqueIDKey, uniqueKeyValue])
+        return NSPredicate(equalTo: uniqueKeyValue, keyPath: uniqueIDKey)
     }
     
     /**
@@ -239,7 +239,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
         let uniqueIDKey = Self.uniqueIDKey
         
         let request = sortedFetchRequest { fetchRequest in
-            fetchRequest.predicate = NSPredicate(format: "(%K IN %@)", argumentArray: [uniqueIDKey, sortedIntermediateIDs])
+            fetchRequest.predicate = NSPredicate(isIncludedIn: sortedIntermediateIDs, keyPath: uniqueIDKey)
             fetchRequest.sortDescriptors = [NSSortDescriptor(key: uniqueIDKey, ascending: true)]
         }
         

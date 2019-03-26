@@ -9,19 +9,18 @@
 import Foundation
 import CoreData
 import PeakOperation
-import PeakResult
 
 open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
     Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
     Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
 {
-    public var input: Result<[Intermediate]> = Result { throw ResultError.noResult }
+    public var input: Result<[Intermediate], Error> = Result { throw ResultError.noResult }
     
     typealias ManagedObject = Intermediate.ManagedObject
     
     open override func performWork(in context: NSManagedObjectContext) {
         do {
-            let intermediates = try input.resolve()
+            let intermediates = try input.get()
             
             ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
                 intermediate.updateProperties(on: managedObject)
