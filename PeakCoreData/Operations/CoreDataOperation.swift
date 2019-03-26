@@ -8,7 +8,6 @@
 
 import CoreData
 import PeakOperation
-import PeakResult
 
 open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     private let persistentContainer: NSPersistentContainer
@@ -19,7 +18,7 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     var updated: Set<NSManagedObjectID> = []
     var deleted: Set<NSManagedObjectID> = []
         
-    public var output: Result<Output> = Result { throw ResultError.noResult }
+    public var output: Result<Output, Error> = Result { throw ResultError.noResult }
 
     public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.persistentContainer = persistentContainer
