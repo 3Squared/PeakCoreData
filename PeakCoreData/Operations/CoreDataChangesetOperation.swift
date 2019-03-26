@@ -7,7 +7,6 @@
 //
 
 import CoreData
-import PeakResult
 import PeakOperation
 
 open class CoreDataChangesetOperation: CoreDataOperation<Changeset> {

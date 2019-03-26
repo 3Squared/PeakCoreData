@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0158453823070BF6D7F6E841 /* libPods-PeakCoreData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66605BF2A1418F27DAD05044 /* libPods-PeakCoreData.a */; };
+		8AE49DF008653A29B497787E /* libPods-PeakCoreDataTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F22DE42FB1C344FF4A1399C /* libPods-PeakCoreDataTests.a */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
 		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
@@ -30,7 +32,6 @@
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
-		97AA2B667908946878294909 /* Pods_PeakCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBEEAD29A8BB44890968C40B /* Pods_PeakCoreData.framework */; };
 		CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DD2058351C008B3678 /* FetchedCollection.swift */; };
 		CB13D8E120583703008B3678 /* FetchedCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */; };
 		CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
@@ -39,7 +40,6 @@
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
 		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
 		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
-		F0B99C6E8634D38F3C4FE4F1 /* Pods_PeakCoreDataTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72B09366538DEA59EAFFC84 /* Pods_PeakCoreDataTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,9 @@
 
 /* Begin PBXFileReference section */
 		2922F3C57EE33341E8C70A53 /* Pods-PeakCoreDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreDataTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests.debug.xcconfig"; sourceTree = "<group>"; };
+		66605BF2A1418F27DAD05044 /* libPods-PeakCoreData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PeakCoreData.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		694BDD5F23B0917B776ABDE8 /* Pods-PeakCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData/Pods-PeakCoreData.release.xcconfig"; sourceTree = "<group>"; };
+		7F22DE42FB1C344FF4A1399C /* libPods-PeakCoreDataTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PeakCoreDataTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
 		8D159AFD205C001A004D693A /* AnotherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherEntity.swift; sourceTree = "<group>"; };
 		8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextDidSaveNotification.swift; sourceTree = "<group>"; };
@@ -84,7 +86,6 @@
 		C0A3AEC430E4B051590F505B /* Pods-PeakCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		CB13D8DD2058351C008B3678 /* FetchedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollection.swift; sourceTree = "<group>"; };
 		CB13D8DF20583703008B3678 /* FetchedCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedCollectionTests.swift; sourceTree = "<group>"; };
-		CBEEAD29A8BB44890968C40B /* Pods_PeakCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeakCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataOperation.swift; sourceTree = "<group>"; };
 		CBF972B01E5DEE8700F37801 /* ManagedObjectType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectType.swift; sourceTree = "<group>"; };
 		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
 		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
 		DAC0D3C03C9FDAFE479F57F3 /* Pods-PeakCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData/Pods-PeakCoreData.debug.xcconfig"; sourceTree = "<group>"; };
-		E72B09366538DEA59EAFFC84 /* Pods_PeakCoreDataTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PeakCoreDataTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97AA2B667908946878294909 /* Pods_PeakCoreData.framework in Frameworks */,
+				0158453823070BF6D7F6E841 /* libPods-PeakCoreData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D9797E51DF8138100DAB75A /* PeakCoreData.framework in Frameworks */,
-				F0B99C6E8634D38F3C4FE4F1 /* Pods_PeakCoreDataTests.framework in Frameworks */,
+				8AE49DF008653A29B497787E /* libPods-PeakCoreDataTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,8 +260,8 @@
 		B6BED3CCDC8E0ACD5DB44FA6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CBEEAD29A8BB44890968C40B /* Pods_PeakCoreData.framework */,
-				E72B09366538DEA59EAFFC84 /* Pods_PeakCoreDataTests.framework */,
+				66605BF2A1418F27DAD05044 /* libPods-PeakCoreData.a */,
+				7F22DE42FB1C344FF4A1399C /* libPods-PeakCoreDataTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -307,7 +307,6 @@
 				8D9797E01DF8138100DAB75A /* Sources */,
 				8D9797E11DF8138100DAB75A /* Frameworks */,
 				8D9797E21DF8138100DAB75A /* Resources */,
-				D2E8D86DAD84747A65F17DFF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -332,23 +331,24 @@
 					8D9797DA1DF8138100DAB75A = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = VPQ4FHFFW8;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					8D9797E31DF8138100DAB75A = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = VPQ4FHFFW8;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 8D9797D51DF8138100DAB75A /* Build configuration list for PBXProject "PeakCoreData" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 8D9797D11DF8138100DAB75A;
 			productRefGroup = 8D9797DC1DF8138100DAB75A /* Products */;
@@ -395,26 +395,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D2E8D86DAD84747A65F17DFF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/PeakOperation/PeakOperation.framework",
-				"${BUILT_PRODUCTS_DIR}/PeakResult/PeakResult.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PeakOperation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PeakResult.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F47EEA9569966FF7DEE02C6D /* [CP] Check Pods Manifest.lock */ = {
@@ -628,7 +608,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -650,7 +630,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.3squared.PeakCoreData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -663,7 +643,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.3squared.PeakCoreDataTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -676,7 +656,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.3squared.PeakCoreDataTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
