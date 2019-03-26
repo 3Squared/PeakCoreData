@@ -8,7 +8,6 @@
 
 import XCTest
 import CoreData
-import PeakResult
 @testable import PeakCoreData
 
 class FetchedCollectionTests: CoreDataTests {

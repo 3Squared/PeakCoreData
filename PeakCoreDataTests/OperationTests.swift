@@ -10,7 +10,6 @@ import XCTest
 import CoreData
 @testable
 import PeakCoreData
-import PeakResult
 
 class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     
@@ -134,7 +133,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         operation.input = Result { input }
         
         operation.addResultBlock { result in
-            let outcome = try! result.resolve()
+            let outcome = try! result.get()
             outcome.inserted.forEach {
                 XCTAssertFalse($0.isTemporaryID)
             }
@@ -188,7 +187,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         let deleteCount = 10
         let operation = InsertThenDeleteOperation(insertCount: insertCount, deleteCount: deleteCount, persistentContainer: persistentContainer)
         operation.addResultBlock { (result) in
-            let outcome = try! result.resolve()
+            let outcome = try! result.get()
             XCTAssertEqual(outcome.inserted.count, insertCount-deleteCount)
             finishExpectation.fulfill()
         }
