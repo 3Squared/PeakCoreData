@@ -70,6 +70,23 @@ public extension ManagedObjectType where Self: NSManagedObject {
     
     /**
      - parameter context:       The context to use.
+     - parameter configure:     Optional configuration block to be applied to the fetch request.
+     
+     - returns: The first object matching the configured fetch request.
+     */
+    static func first(in context: NSManagedObjectContext, configure: FetchRequestConfigurationBlock? = nil) -> Self? {
+        let request = sortedFetchRequest(configure: configure)
+        request.fetchLimit = 1
+        do {
+            let items = try context.fetch(request)
+            return items.first
+        } catch {
+            fatalError("Error fetching \(entityName)s: \(error)")
+        }
+    }
+    
+    /**
+     - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the count fetch request.
      
      - returns: The count of all objects or all objects matching the predicate.
