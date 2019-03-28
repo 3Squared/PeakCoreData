@@ -6,7 +6,6 @@
 //  Copyright © 2017 3Squared Ltd. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
 /// A struct containing the NSManagedObjectIDs of the objects affected by the import.

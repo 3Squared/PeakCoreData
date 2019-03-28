@@ -87,6 +87,24 @@ public extension ManagedObjectType where Self: NSManagedObject {
     
     /**
      - parameter context:       The context to use.
+     - parameter predicate:     Optional predicate to be applied to the fetch request.
+
+     - returns: The first object matching the provided predicate.
+     */
+    static func first(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) -> Self? {
+        let request = NSFetchRequest<Self>(entityName: entityName)
+        request.predicate = predicate
+        request.fetchLimit = 1
+        do {
+            let items = try context.fetch(request)
+            return items.first
+        } catch {
+            fatalError("Error fetching \(entityName)s: \(error)")
+        }
+    }
+    
+    /**
+     - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the count fetch request.
      
      - returns: The count of all objects or all objects matching the predicate.
