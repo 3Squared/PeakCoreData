@@ -13,15 +13,17 @@ class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation<[Intermed
     Intermediate: ManagedObjectInitialisable,
     Intermediate.ManagedObject: ManagedObjectType
 {
-    let configureFetchRequest: ((NSFetchRequest<Intermediate.ManagedObject>) -> Void)?
+    let predicate: NSPredicate?
     
-    init(with persistentContainer: NSPersistentContainer, configureFetchRequest: ((NSFetchRequest<Intermediate.ManagedObject>) -> Void)? = nil) {
-        self.configureFetchRequest = configureFetchRequest
+    init(with persistentContainer: NSPersistentContainer, matching predicate: NSPredicate? = nil) {
+        self.predicate = predicate
         super.init(with: persistentContainer)
     }
     
     override func performWork(in context: NSManagedObjectContext) {
-        let objects = Intermediate.ManagedObject.fetch(in: context, configure: configureFetchRequest)
+        let objects = Intermediate.ManagedObject.fetch(in: context) { (request) in
+            request.predicate = self.predicate
+        }
         output = Result {
             try objects.map(Intermediate.init)
         }
