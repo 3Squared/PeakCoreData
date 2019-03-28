@@ -6,7 +6,6 @@
 //  Copyright © 2017 3Squared Ltd. All rights reserved.
 //
 
-import UIKit
 import CoreData
 import PeakOperation
 

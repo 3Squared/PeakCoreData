@@ -194,7 +194,56 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         operationQueue.addOperation(operation)
         waitForExpectations(timeout: defaultTimeout)
     }
-
+    
+    func testCoreDataToIntermediateOperation() {
+        let finishExpectation = expectation(description: #function)
+        let insertCount = 100
+        let inserted = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertCount)
+        let insertedIDs = inserted.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
+        let insertedTitles = inserted.compactMap({ $0.title }).sorted(by: { $0 < $1 })
+        try! viewContext.save()
+        
+        let operation = CoreDataToIntermediateOperation<TestEntityJSON>(with: persistentContainer)
+        operation.addResultBlock { (result) in
+            let outcome = try! result.get()
+            XCTAssertEqual(outcome.count, insertCount)
+            let outcomeIDs = outcome.map({ $0.uniqueID }).sorted(by: { $0 < $1 })
+            let outcomeTitles = outcome.map({ $0.title }).sorted(by: { $0 < $1 })
+            XCTAssertEqual(insertedIDs, outcomeIDs)
+            XCTAssertEqual(insertedTitles, outcomeTitles)
+            finishExpectation.fulfill()
+        }
+        operationQueue.addOperation(operation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
+    func testCoreDataToIntermediateOperationWithPredicate() {
+        let finishExpectation = expectation(description: #function)
+        
+        let insertCount = 20
+        let trueTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        let insertedIDs = trueTestEntities.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
+        let insertedTitles = trueTestEntities.compactMap({ $0.title }).sorted(by: { $0 < $1 })
+        let falseTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        trueTestEntities.forEach { $0.edited = true }
+        falseTestEntities.forEach { $0.edited = false }
+        try! persistentContainer.viewContext.save()
+        
+        let predicate = NSPredicate(equalTo: true, keyPath: #keyPath(TestEntity.edited))
+        let fetchAndEncodeOperation = CoreDataToIntermediateOperation<TestEntityJSON>(with: persistentContainer, matching: predicate)
+        fetchAndEncodeOperation.addResultBlock { (result) in
+            let outcome = try! result.get()
+            XCTAssertEqual(outcome.count, insertCount)
+            let outcomeIDs = outcome.map({ $0.uniqueID }).sorted(by: { $0 < $1 })
+            let outcomeTitles = outcome.map({ $0.title }).sorted(by: { $0 < $1 })
+            XCTAssertEqual(insertedIDs, outcomeIDs)
+            XCTAssertEqual(insertedTitles, outcomeTitles)
+            finishExpectation.fulfill()
+        }
+        
+        operationQueue.addOperation(fetchAndEncodeOperation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
 }
 
 class FetchedResultsListener: NSObject, NSFetchedResultsControllerDelegate {
@@ -263,4 +312,3 @@ class InsertThenDeleteOperation: CoreDataChangesetOperation {
         saveAndFinish()
     }
 }
-

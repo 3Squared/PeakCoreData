@@ -20,6 +20,22 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertNotNil(object, "")
     }
     
+    func testFirstMatchingPredicate() {
+        let id = UUID().uuidString
+        TestEntity.insertObject(with: id, in: viewContext)
+        let object = TestEntity.first(in: viewContext, matching: NSPredicate(equalTo: id, keyPath: #keyPath(TestEntity.uniqueID)))
+        XCTAssertNotNil(object, "")
+    }
+    
+    func testFirstConfigured() {
+        let count = 100
+        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: count)
+        let object = TestEntity.first(in: viewContext) { request in
+            request.predicate = NSPredicate(equalTo: "Item " + String(45), keyPath: #keyPath(TestEntity.title))
+        }
+        XCTAssertNotNil(object, "")
+    }
+    
     func testInsertAndDeleteAll() {
         let count = 100
         CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: count)
