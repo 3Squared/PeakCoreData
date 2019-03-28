@@ -9,19 +9,21 @@
 import CoreData
 import PeakOperation
 
-class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation<[Intermediate]> where
+open class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation<[Intermediate]> where
     Intermediate: ManagedObjectInitialisable,
     Intermediate.ManagedObject: ManagedObjectType
 {
-    let predicate: NSPredicate?
+    typealias ManagedObject = Intermediate.ManagedObject
     
-    init(with persistentContainer: NSPersistentContainer, matching predicate: NSPredicate? = nil) {
+    private let predicate: NSPredicate?
+    
+    public init(with persistentContainer: NSPersistentContainer, matching predicate: NSPredicate? = nil) {
         self.predicate = predicate
         super.init(with: persistentContainer)
     }
     
-    override func performWork(in context: NSManagedObjectContext) {
-        let objects = Intermediate.ManagedObject.fetch(in: context) { (request) in
+    open override func performWork(in context: NSManagedObjectContext) {
+        let objects = ManagedObject.fetch(in: context) { (request) in
             request.predicate = self.predicate
         }
         output = Result {
