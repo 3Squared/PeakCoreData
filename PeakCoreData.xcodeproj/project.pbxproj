@@ -21,6 +21,7 @@
 		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
 		8D84C25F224CCF9C008C35D7 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C25E224CCF9C008C35D7 /* NSManagedObjectContext.swift */; };
 		8D84C261224CD6C8008C35D7 /* ManagedObjectContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C260224CD6C8008C35D7 /* ManagedObjectContextTests.swift */; };
+		8D84C263224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */; };
 		8D94662022146BF500B2197D /* NSPredicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D94661F22146BF500B2197D /* NSPredicate.swift */; };
 		8D94662322146C3C00B2197D /* PredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D94662222146C3C00B2197D /* PredicateTests.swift */; };
 		8D9797E51DF8138100DAB75A /* PeakCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9797DB1DF8138100DAB75A /* PeakCoreData.framework */; };
@@ -71,6 +72,7 @@
 		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
 		8D84C25E224CCF9C008C35D7 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		8D84C260224CD6C8008C35D7 /* ManagedObjectContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectContextTests.swift; sourceTree = "<group>"; };
+		8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataToIntermediateOperation.swift; sourceTree = "<group>"; };
 		8D94661F22146BF500B2197D /* NSPredicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicate.swift; sourceTree = "<group>"; };
 		8D94662222146C3C00B2197D /* PredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateTests.swift; sourceTree = "<group>"; };
 		8D9797DB1DF8138100DAB75A /* PeakCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PeakCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +180,7 @@
 				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
+				8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				8D94662022146BF500B2197D /* NSPredicate.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
 				8D84C25F224CCF9C008C35D7 /* NSManagedObjectContext.swift in Sources */,
+				8D84C263224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift in Sources */,
 				8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */,
 				8D821933205ACEAE00732777 /* CountObserver.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,

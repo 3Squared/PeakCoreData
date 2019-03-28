@@ -37,6 +37,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         super.tearDown()
     }
     
+    @discardableResult
     static func createTestIntermediateObjects(number: Int, in context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<number {
