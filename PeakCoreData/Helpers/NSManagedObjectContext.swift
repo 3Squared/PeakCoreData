@@ -18,6 +18,7 @@ extension NSManagedObjectContext {
     ///
     /// - Source: https://github.com/apple/swift/blob/bb157a070ec6534e4b534456d208b03adc07704b/stdlib/public/SDK/Dispatch/Queue.swift#L228-L249
     /// - Source: https://oleb.net/blog/2018/02/performandwait/
+    @discardableResult
     public func performAndWait<T>(_ block: () throws -> T) rethrows -> T {
         
         func _helper<T>(fn: VoidBlockBlock, execute work: () throws -> T, rescue: ((Error) throws -> (T))) rethrows -> T {
