@@ -3,6 +3,13 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+3.3.0
+-----
+
+- Add methods for returning the first objects matching a predicate.
+- Add a `performAndWait` block that allows a return type.
+- Add operation for converting `NSManagedObject` to an intermediate type.
+
 3.2.0
 -----
 
