@@ -25,7 +25,6 @@ class ProgressTests: CoreDataTests {
         let progress = operation.chainProgress()
         
         keyValueObservingExpectation(for: progress, keyPath: "fractionCompleted") {  observedObject, change in
-            print("Change: \(progress.localizedDescription!)")
             return progress.completedUnitCount == progress.totalUnitCount
         }
 
