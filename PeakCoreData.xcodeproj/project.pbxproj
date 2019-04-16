@@ -43,6 +43,7 @@
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
 		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
 		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
+		CBF99AD62264D9B900FE8519 /* ProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF99AD52264D9B900FE8519 /* ProgressTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
 		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
 		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
+		CBF99AD52264D9B900FE8519 /* ProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTests.swift; sourceTree = "<group>"; };
 		DAC0D3C03C9FDAFE479F57F3 /* Pods-PeakCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData/Pods-PeakCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -250,6 +252,7 @@
 				8D33AA7E1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift */,
 				8D16E53D1E0293F400975597 /* OperationTests.swift */,
 				8D94662222146C3C00B2197D /* PredicateTests.swift */,
+				CBF99AD52264D9B900FE8519 /* ProgressTests.swift */,
 				8D9797EB1DF8138100DAB75A /* Info.plist */,
 			);
 			path = PeakCoreDataTests;
@@ -458,6 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBF99AD62264D9B900FE8519 /* ProgressTests.swift in Sources */,
 				8D33AA7F1DFF0ED10019F5B6 /* ManagedObjectTypeTests.swift in Sources */,
 				8D94662322146C3C00B2197D /* PredicateTests.swift in Sources */,
 				8D33AA7B1DFF0DC80019F5B6 /* CoreDataTests.swift in Sources */,
