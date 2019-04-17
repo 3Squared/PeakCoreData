@@ -3,6 +3,12 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+
+3.4.0
+-----
+
+- Add detailed progress to batch imports.
+
 3.3.0
 -----
 
