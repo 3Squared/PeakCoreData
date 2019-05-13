@@ -19,9 +19,8 @@ public protocol ModelVersion: Equatable, CaseIterable {
 }
 
 extension ModelVersion {
-    static var bundle: Bundle { return .main }
-
-    var nextVersion: Self? { return nil }
+    public static var bundle: Bundle { return .main }
+    public var nextVersion: Self? { return nil }
     
     var managedObjectModel: NSManagedObjectModel {
         let omoURL: URL?

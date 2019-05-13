@@ -10,6 +10,8 @@ import CoreData
 
 public class ProgressiveMigrator {
     
+    public init() {}
+    
     public func storeRequiresMigration<Version: ModelVersion>(at storeURL: URL, toVersion version: Version) -> Bool {
         guard let metadata = NSPersistentStoreCoordinator.metadata(at: storeURL) else { return false }
         return Version.compatibleVersion(for: metadata) != version
