@@ -68,7 +68,6 @@ class CoreDataManager {
         guard let storeURL = persistentContainer.persistentStoreDescriptions.first?.url else {
             fatalError("PersistentContainer was not set up properly")
         }
-        print(storeURL)
         if migrator.storeRequiresMigration(at: storeURL, toVersion: ExampleModelVersion.current) {
             DispatchQueue.global(qos: .userInitiated).async {
                 self.migrator.migrateStore(at: storeURL, toVersion: ExampleModelVersion.current)
