@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         CoreDataManager.shared.setup { persistentContainer in
+            persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let rootViewController = storyboard.instantiateViewController(withIdentifier: "RootViewController") as? UITabBarController else { fatalError("Wrong view controller type") }
             
