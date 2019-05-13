@@ -20,17 +20,15 @@ public final class MigrationStep {
     }
     
     func performMigration(from url: URL) -> URL {
-        guard let mappingModel = mappingModel() else {
-            fatalError("Failed to find a custom or inferred mapping model from \(sourceModel) to \(destinationModel)")
-        }
         let manager = NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
+        let mapping = createMappingModel()
         let tempDestinationURL = URL.temporary
         
         do {
             try manager.migrateStore(from: url,
                                      sourceType: NSSQLiteStoreType,
                                      options: nil,
-                                     with: mappingModel,
+                                     with: mapping,
                                      toDestinationURL: tempDestinationURL,
                                      destinationType: NSSQLiteStoreType,
                                      destinationOptions: nil)
@@ -41,11 +39,16 @@ public final class MigrationStep {
         return tempDestinationURL
     }
     
-    private func mappingModel() -> NSMappingModel? {
+    private func createMappingModel() -> NSMappingModel {
         if let customMapping = NSMappingModel(from: [bundle], forSourceModel: sourceModel, destinationModel: destinationModel) {
             return customMapping
         }
-        return try? NSMappingModel.inferredMappingModel(forSourceModel: sourceModel, destinationModel: destinationModel)
+        do {
+            let inferredMapping = try NSMappingModel.inferredMappingModel(forSourceModel: sourceModel, destinationModel: destinationModel)
+            return inferredMapping
+        } catch {
+            fatalError("Failed to create mapping model from \(sourceModel) to \(destinationModel), error: \(error)")
+        }
     }
 }
 
