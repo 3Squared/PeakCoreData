@@ -21,6 +21,7 @@
 		8D8E95621E0AE382000E83C7 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8E95611E0AE382000E83C7 /* EventTableViewCell.swift */; };
 		8D9B9C1022897FD400411690 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B9C0F22897FD400411690 /* CoreDataManager.swift */; };
 		8D9B9C14228983FF00411690 /* PeakCoreDataExample.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9B9C12228983FF00411690 /* PeakCoreDataExample.xcdatamodeld */; };
+		8DF582822289A91F00897277 /* Model 1 to Model 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8DF582812289A91F00897277 /* Model 1 to Model 2.xcmappingmodel */; };
 		EE0BB722A88BD3AFC0D7002C /* Pods_PeakCoreDataExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3493C5A4290E3B0D9A617E5A /* Pods_PeakCoreDataExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		8D9B9C0F22897FD400411690 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		8D9B9C13228983FF00411690 /* PeakCoreDataExample.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PeakCoreDataExample.xcdatamodel; sourceTree = "<group>"; };
 		8D9B9C15228984D000411690 /* PeakCoreDataExample 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PeakCoreDataExample 2.xcdatamodel"; sourceTree = "<group>"; };
+		8DF582812289A91F00897277 /* Model 1 to Model 2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "Model 1 to Model 2.xcmappingmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				8D9B9C12228983FF00411690 /* PeakCoreDataExample.xcdatamodeld */,
+				8DF582812289A91F00897277 /* Model 1 to Model 2.xcmappingmodel */,
 				8D8E95521E0AE077000E83C7 /* Event.swift */,
 			);
 			name = Model;
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DF582822289A91F00897277 /* Model 1 to Model 2.xcmappingmodel in Sources */,
 				8D9B9C14228983FF00411690 /* PeakCoreDataExample.xcdatamodeld in Sources */,
 				8D8E95621E0AE382000E83C7 /* EventTableViewCell.swift in Sources */,
 				8D8E95531E0AE077000E83C7 /* Event.swift in Sources */,

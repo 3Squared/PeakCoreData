@@ -105,6 +105,7 @@ extension EventsTableViewController: FetchedTableViewDataSourceDelegate {
     
     func configure(_ cell: EventTableViewCell, with object: Event) {
         cell.textLabel?.text = dateFormatter.string(from: (object.date! as Date))
+        cell.detailTextLabel?.text = object.title
     }
     
     func canEditRow(at indexPath: IndexPath) -> Bool {
