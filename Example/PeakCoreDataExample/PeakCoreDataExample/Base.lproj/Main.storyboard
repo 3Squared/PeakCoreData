@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Y6u-Kx-v01">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yFu-gF-63V">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Collection View-->
         <scene sceneID="xiR-8y-BIO">
             <objects>
-                <collectionViewController id="FkI-Vv-Ivw" customClass="EventsCollectionViewController" customModule="THRCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="FkI-Vv-Ivw" customClass="EventsCollectionViewController" customModule="PeakCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Zlg-DO-ZBL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,7 +24,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCollectionViewCell" id="h7Z-fH-nnr" customClass="EventCollectionViewCell" customModule="THRCoreDataExample" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCollectionViewCell" id="h7Z-fH-nnr" customClass="EventCollectionViewCell" customModule="PeakCoreDataExample" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -34,7 +32,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTb-ef-qsh">
-                                            <rect key="frame" x="8" y="40" width="84" height="21"/>
+                                            <rect key="frame" x="8" y="40" width="84" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -76,7 +74,7 @@
         <!--Table View-->
         <scene sceneID="YdH-qc-sBg">
             <objects>
-                <tableViewController id="jZT-M0-XwS" customClass="EventsTableViewController" customModule="THRCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="jZT-M0-XwS" customClass="EventsTableViewController" customModule="PeakCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z7k-DM-Psq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +84,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="X24-pp-EuZ">
-                                    <rect key="frame" x="116" y="8" width="142" height="28"/>
+                                    <rect key="frame" x="116.5" y="8" width="142" height="28"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Object Count: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDP-m0-sB1">
                                             <rect key="frame" x="0.0" y="0.0" width="111" height="28"/>
@@ -111,7 +109,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventTableViewCell" textLabel="NI1-Xm-wjh" style="IBUITableViewCellStyleDefault" id="vcE-iA-xUX" customClass="EventTableViewCell" customModule="THRCoreDataExample" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EventTableViewCell" textLabel="NI1-Xm-wjh" style="IBUITableViewCellStyleDefault" id="vcE-iA-xUX" customClass="EventTableViewCell" customModule="PeakCoreDataExample" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vcE-iA-xUX" id="0ND-mt-Bmv">
@@ -160,7 +158,7 @@
         <!--Detail-->
         <scene sceneID="5XI-NE-YF1">
             <objects>
-                <viewController id="ffF-eW-PfK" customClass="EventDetailViewController" customModule="THRCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ffF-eW-PfK" customClass="EventDetailViewController" customModule="PeakCoreDataExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="c9Y-Bc-bcH"/>
                         <viewControllerLayoutGuide type="bottom" id="5mq-YM-NIg"/>
@@ -170,7 +168,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noK-Bc-3Vq">
-                                <rect key="frame" x="166" y="323" width="42" height="21"/>
+                                <rect key="frame" x="166.5" y="323" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -208,7 +206,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="F9S-v0-GWK">
             <objects>
-                <tabBarController id="Y6u-Kx-v01" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="RootViewController" id="Y6u-Kx-v01" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Zph-BG-WG4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -241,6 +239,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xHS-YF-tZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="469.60000000000002" y="332.38380809595208"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="PnB-kI-U0I">
+            <objects>
+                <viewController id="yFu-gF-63V" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5mB-ct-0e0"/>
+                        <viewControllerLayoutGuide type="bottom" id="c0h-Jp-APd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9P3-v7-2uT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yOQ-ly-kfA">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yOQ-ly-kfA" firstAttribute="centerX" secondItem="9P3-v7-2uT" secondAttribute="centerX" id="k3N-Ug-24h"/>
+                            <constraint firstItem="yOQ-ly-kfA" firstAttribute="centerY" secondItem="9P3-v7-2uT" secondAttribute="centerY" id="yzY-fh-9KV"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZB1-QX-2pJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-482" y="-933"/>
         </scene>
         <!--Table View-->
         <scene sceneID="U4E-gl-weB">
