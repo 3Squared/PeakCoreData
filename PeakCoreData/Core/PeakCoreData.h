@@ -6,7 +6,15 @@
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
+#if TARGET_OS_IPHONE
+
 #import <UIKit/UIKit.h>
+
+#elif TARGET_OS_MAC
+
+#import <Cocoa/Cocoa.h>
+
+#endif
 
 //! Project version number for PeakCoreData.
 FOUNDATION_EXPORT double PeakCoreDataVersionNumber;
