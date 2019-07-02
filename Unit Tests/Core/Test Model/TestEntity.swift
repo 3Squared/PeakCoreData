@@ -6,8 +6,17 @@
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
-import Foundation
-@testable import PeakCoreData
+import CoreData
+
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
 
 extension TestEntity: ManagedObjectType {
     

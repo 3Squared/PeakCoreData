@@ -7,7 +7,16 @@
 //
 
 import XCTest
-@testable import PeakCoreData
+
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
 
 class PredicateTests: XCTestCase {
     

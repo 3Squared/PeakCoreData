@@ -7,7 +7,16 @@
 //
 
 import Foundation
-@testable import PeakCoreData
+
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
 
 extension AnotherEntity: ManagedObjectType {
     

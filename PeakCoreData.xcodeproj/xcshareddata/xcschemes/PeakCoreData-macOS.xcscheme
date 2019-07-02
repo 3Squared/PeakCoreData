@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "186D30EE22CB602E003A5A8F"
+               BuildableName = "PeakCoreData-macOSTests.xctest"
+               BlueprintName = "PeakCoreData-macOSTests"
+               ReferencedContainer = "container:PeakCoreData.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "186D30E222CB5F18003A5A8F"
+            BuildableName = "PeakCoreData_macOS.framework"
+            BlueprintName = "PeakCoreData-macOS"
+            ReferencedContainer = "container:PeakCoreData.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
