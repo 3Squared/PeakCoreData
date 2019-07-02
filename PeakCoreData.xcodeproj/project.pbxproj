@@ -230,6 +230,10 @@
 		186D30DC22CB5E63003A5A8F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
+				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
+				186D313622CB8452003A5A8F /* TableViewUpdatable.swift */,
+				186D313822CB847F003A5A8F /* CollectionViewUpdatable.swift */,
 				8D9797DF1DF8138100DAB75A /* Info.plist */,
 			);
 			path = iOS;
@@ -355,8 +359,6 @@
 			children = (
 				CB13D8DD2058351C008B3678 /* FetchedCollection.swift */,
 				8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */,
-				8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */,
-				8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */,
 			);
 			path = "Fetched Data Sources";
 			sourceTree = "<group>";
@@ -381,8 +383,6 @@
 				CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */,
 				CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */,
 				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
-				186D313622CB8452003A5A8F /* TableViewUpdatable.swift */,
-				186D313822CB847F003A5A8F /* CollectionViewUpdatable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
