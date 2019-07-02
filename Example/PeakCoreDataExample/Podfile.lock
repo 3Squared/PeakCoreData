@@ -1,7 +1,7 @@
 PODS:
-  - PeakCoreData (3.3.0):
+  - PeakCoreData (3.4.0):
     - PeakOperation
-  - PeakOperation (3.2.0)
+  - PeakOperation (4.0.0)
 
 DEPENDENCIES:
   - PeakCoreData (from `../../`)
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  PeakCoreData: 3ffe539ea7ef25082063369f56448cb2ec1c241e
-  PeakOperation: 59ee044652b7bd2f12a3ae0118aa0d02bb6f70cf
+  PeakCoreData: be0b7da1b5b50ffb1e34f5f26680ad3d5e31c48c
+  PeakOperation: 68825bedc2199bacba9d0fff14fd183078e16b59
 
 PODFILE CHECKSUM: f7fd9b25a91b9894cd0351becc914f15dc8c8c55
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.3
