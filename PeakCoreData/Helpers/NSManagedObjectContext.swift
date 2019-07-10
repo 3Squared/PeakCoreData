@@ -44,4 +44,29 @@ extension NSManagedObjectContext {
         
         return try _helper(fn: performAndWait(_:), execute: block, rescue: { throw $0 } )
     }
+    
+    /**
+     Batch deletes all objects for all entities.
+     
+     - Note: This method cannot be unit tested because it is incompatible with `NSInMemoryStoreType`.
+     
+     - parameter context:   The context to use.
+     */
+    static func batchDeleteAllEntities() {
+        if let entities = persistentStoreCoordinator?.managedObjectModel.entities {
+            for entity in entities {
+                let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+                deleteRequest.resultType = .resultTypeObjectIDs
+                do {
+                    let deleteResult = try execute(deleteRequest) as! NSBatchDeleteResult
+                    let objectIDArray = deleteResult.result as! [NSManagedObjectID]
+                    let changes = [NSDeletedObjectsKey: objectIDArray]
+                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
+                } catch {
+                    fatalError("Failed to batch delete all entities: \(error)")
+                }
+            }
+        }
+    }
 }
