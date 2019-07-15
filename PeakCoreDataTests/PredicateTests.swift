@@ -191,7 +191,8 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: elephants))
         XCTAssertFalse(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(isIncludedIn: twoItems.map { $0.name }, keyPath: #keyPath(Object.name))
+        let array = twoItems.map { $0.name }
+        let keyPathPredicate = NSPredicate(isIncludedIn: array, keyPath: #keyPath(Object.name))
         XCTAssertTrue(keyPathPredicate.evaluate(with: jam))
         XCTAssertTrue(keyPathPredicate.evaluate(with: elephants))
         XCTAssertFalse(keyPathPredicate.evaluate(with: peanuts))
@@ -203,7 +204,8 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: elephants))
         XCTAssertTrue(selfPredicate.evaluate(with: peanuts))
         
-        let keyPathPredicate = NSPredicate(isNotIncludedIn: twoItems.map { $0.name }, keyPath: #keyPath(Object.name))
+        let array = twoItems.map { $0.name }
+        let keyPathPredicate = NSPredicate(isNotIncludedIn: array, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: jam))
         XCTAssertFalse(keyPathPredicate.evaluate(with: elephants))
         XCTAssertTrue(keyPathPredicate.evaluate(with: peanuts))
