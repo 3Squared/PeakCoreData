@@ -52,20 +52,10 @@ extension NSManagedObjectContext {
      
      - parameter context:   The context to use.
      */
-    static func batchDeleteAllEntities() {
+    func batchDeleteAllEntities() {
         if let entities = persistentStoreCoordinator?.managedObjectModel.entities {
             for entity in entities {
-                let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
-                deleteRequest.resultType = .resultTypeObjectIDs
-                do {
-                    let deleteResult = try execute(deleteRequest) as! NSBatchDeleteResult
-                    let objectIDArray = deleteResult.result as! [NSManagedObjectID]
-                    let changes = [NSDeletedObjectsKey: objectIDArray]
-                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
-                } catch {
-                    fatalError("Failed to batch delete all entities: \(error)")
-                }
+                entity.batchDelete(in: self)
             }
         }
     }
