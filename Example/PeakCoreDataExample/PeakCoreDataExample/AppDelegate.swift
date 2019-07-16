@@ -15,30 +15,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "PeakCoreDataExample")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        return container
-    }()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        guard let tbc = window?.rootViewController as? UITabBarController else { fatalError("Wrong initial view controller") }
+        CoreDataManager.shared.setup { persistentContainer in
+            persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let rootViewController = storyboard.instantiateViewController(withIdentifier: "RootViewController") as? UITabBarController else { fatalError("Wrong view controller type") }
+            
+            for vc in rootViewController.viewControllers! {
+                if let nc = vc as? UINavigationController, let vc = nc.topViewController as? PersistentContainerSettable {
+                    vc.persistentContainer = persistentContainer
+                }
+                if let vc = vc as? PersistentContainerSettable {
+                    vc.persistentContainer = persistentContainer
+                }
+            }
 
-        for vc in tbc.viewControllers! {
-            if let nc = vc as? UINavigationController, let vc = nc.topViewController as? PersistentContainerSettable {
-                vc.persistentContainer = persistentContainer
-            }
-            if let vc = vc as? PersistentContainerSettable {
-                vc.persistentContainer = persistentContainer
-            }
+            self.window?.rootViewController = rootViewController
         }
-        
         return true
     }
 }
+
