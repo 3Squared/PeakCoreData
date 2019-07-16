@@ -46,16 +46,8 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let numberOfItems = 100
-        var intermediateItems: [EventJSON] = []
-        for item in 0..<numberOfItems {
-            let id = UUID().uuidString
-            let date = Date().addingTimeInterval(-Double(item))
-            let intermediate = EventJSON(uniqueID: id, date: date)
-            intermediateItems.append(intermediate)
-        }
         let operation = CoreDataBatchImportOperation<EventJSON>(with: persistentContainer)
-        operation.input = Result { intermediateItems }
+        operation.input = Result { EventJSON.generate(25) }
         operationQueue.addOperation(operation)
     }
     
