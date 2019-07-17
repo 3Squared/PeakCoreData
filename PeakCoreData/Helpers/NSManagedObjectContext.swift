@@ -52,7 +52,7 @@ extension NSManagedObjectContext {
      
      - parameter context:   The context to use.
      */
-    func batchDeleteAllEntities() {
+    public func batchDeleteAllEntities() {
         if let entities = persistentStoreCoordinator?.managedObjectModel.entities {
             for entity in entities {
                 entity.batchDelete(in: self)
