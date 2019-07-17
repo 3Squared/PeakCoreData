@@ -53,7 +53,12 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        Event.batchDelete(in: viewContext)
+        print("\nEntity Counts Before Batch Delete\n-----")
+        printEntityCounts()
+        viewContext.batchDeleteAllEntities()
+        print("\nEntity Counts After Batch Delete\n-----")
+        printEntityCounts()
+        print("")
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
@@ -85,6 +90,20 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
             let viewController = segue.destination as! EventDetailViewController
             viewController.persistentContainer = persistentContainer
             viewController.event = object
+        }
+    }
+    
+    private func printEntityCounts() {
+        if let entities = viewContext.persistentStoreCoordinator?.managedObjectModel.entities {
+            for entity in entities {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
+                do {
+                    let fetchedObjects = try viewContext.fetch(fetchRequest)
+                    print("\(entity.name!): \(fetchedObjects.count)")
+                } catch {
+                    fatalError("Failed to fetch objects: \(error)")
+                }
+            }
         }
     }
 }
