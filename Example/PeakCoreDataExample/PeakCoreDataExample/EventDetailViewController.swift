@@ -10,13 +10,21 @@ import UIKit
 import CoreData
 import PeakCoreData
 
-class EventDetailViewController: UIViewController, PersistentContainerSettable {
+class EventDetailViewController: UITableViewController, PersistentContainerSettable {
 
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var attendeeCountLabel: UILabel!
     
     var persistentContainer: NSPersistentContainer!
     var event: Event!
     var eventObserver: ManagedObjectObserver<Event>!
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .long
+        df.timeStyle = .short
+        return df
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,15 +34,11 @@ class EventDetailViewController: UIViewController, PersistentContainerSettable {
             guard let strongSelf = self else { return }
             switch changeType {
             case .initialised, .refreshed, .updated:
-                strongSelf.updateDateLabel()
+                strongSelf.updateLabels()
             case .deleted:
                 strongSelf.navigationController?.popToRootViewController(animated: true)
             }
         }
-    }
-    
-    func updateDateLabel() {
-        dateLabel.text = event.date?.description ?? "No Date"
     }
 
     @IBAction func refreshButtonTapped(_ sender: Any) {
@@ -45,5 +49,21 @@ class EventDetailViewController: UIViewController, PersistentContainerSettable {
     @IBAction func trashButtonTapped(_ sender: Any) {
         viewContext.delete(event)
         saveViewContext()
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return event.attendees?.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: AttendeeTableViewCell.cellIdentifier, for: indexPath) as! AttendeeTableViewCell
+        let attendee = event.attendees?.allObjects[indexPath.row] as! Person
+        cell.textLabel?.text = attendee.name
+        return cell
+    }
+    
+    private func updateLabels() {
+        dateLabel.text = event.date != nil ? dateFormatter.string(from: event.date!) : "No Date"
+        attendeeCountLabel.text = "\(event.attendees?.count ?? 0)"
     }
 }
