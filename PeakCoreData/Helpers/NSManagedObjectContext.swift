@@ -48,7 +48,8 @@ extension NSManagedObjectContext {
     /**
      Batch deletes all objects for all entities.
      
-     - Note: This method cannot be unit tested because it is incompatible with `NSInMemoryStoreType`.
+     - This method cannot be unit tested because it is incompatible with `NSInMemoryStoreType`.
+     - This is a convenience function for calling `batchDelete(in:matching:)` on `NSEntityDescription` across all entities in the data model.
      
      - parameter context:   The context to use.
      */

@@ -141,7 +141,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
      Batch deletes all objects or all objects matching a predicate.
      
      - This should be significantly faster than `delete(in:matching)` for large datasets.
-     - This is a convenience function for calling `batchDelete(in:matching:)` on NSEntityDescription.
+     - This is a convenience function for calling `batchDelete(in:matching:)` on `NSEntityDescription`.
      
      - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the fetch request.
