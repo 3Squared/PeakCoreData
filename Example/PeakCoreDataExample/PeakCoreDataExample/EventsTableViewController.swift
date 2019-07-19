@@ -55,13 +55,10 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     @IBAction func deleteButtonTapped(_ sender: Any) {
         print("\nEntity Counts Before Batch Delete\n-----")
         printEntityCounts()
-        let operation = CoreDataBatchDeleteAllEntitiesOperation(with: persistentContainer)
-        operation.addResultBlock { _ in
-            print("\nEntity Counts After Batch Delete\n-----")
-            self.printEntityCounts()
-            print("")
-        }
-        operationQueue.addOperation(operation)
+        viewContext.batchDeleteAllEntities()
+        print("\nEntity Counts After Batch Delete\n-----")
+        printEntityCounts()
+        print("")
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
