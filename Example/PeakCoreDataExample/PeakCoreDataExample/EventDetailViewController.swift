@@ -18,6 +18,8 @@ class EventDetailViewController: UITableViewController, PersistentContainerSetta
     var persistentContainer: NSPersistentContainer!
     var event: Event!
     var eventObserver: ManagedObjectObserver<Event>!
+
+    private var dataSource: FetchedTableViewDataSource<EventDetailViewController>!
     
     private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -39,6 +41,7 @@ class EventDetailViewController: UITableViewController, PersistentContainerSetta
                 strongSelf.navigationController?.popToRootViewController(animated: true)
             }
         }
+        setupTableView()
     }
 
     @IBAction func refreshButtonTapped(_ sender: Any) {
@@ -51,19 +54,32 @@ class EventDetailViewController: UITableViewController, PersistentContainerSetta
         saveViewContext()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return event.attendees?.count ?? 0
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AttendeeTableViewCell.cellIdentifier, for: indexPath) as! AttendeeTableViewCell
-        let attendee = event.attendees?.allObjects[indexPath.row] as! Person
-        cell.textLabel?.text = attendee.name
-        return cell
+    private func setupTableView() {
+        let fetchRequest = Person.sortedFetchRequest {
+            $0.predicate = Person.predicate(forEventID: self.event.uniqueID!)
+        }
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        dataSource = FetchedTableViewDataSource(tableView: tableView, fetchedResultsController: frc, delegate: self)
+        dataSource.animateUpdates = true
+        dataSource.onDidChangeContent = {
+            print("Event Detail Table View - Something changed")
+        }
+        dataSource.performFetch()
     }
     
     private func updateLabels() {
         dateLabel.text = event.date != nil ? dateFormatter.string(from: event.date!) : "No Date"
         attendeeCountLabel.text = "\(event.attendees?.count ?? 0)"
+    }
+}
+
+extension EventDetailViewController: FetchedTableViewDataSourceDelegate {
+    func identifier(forCellAt indexPath: IndexPath) -> String {
+        return AttendeeTableViewCell.cellIdentifier
+    }
+    
+    func configure(_ cell: AttendeeTableViewCell, with object: Person) {
+        cell.textLabel?.text = object.name
     }
 }

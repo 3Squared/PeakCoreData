@@ -16,12 +16,16 @@ extension Person {
         super.awakeFromInsert()
         uniqueID = UUID().uuidString
     }
+    
+    static func predicate(forEventID eventID: String) -> NSPredicate {
+        return NSPredicate(equalTo: eventID, keyPath: #keyPath(Person.event.uniqueID))
+    }
 }
 
 extension Person: ManagedObjectType {
     
     public static var defaultSortDescriptors: [NSSortDescriptor] {
-        let sort1 = NSSortDescriptor(key: #keyPath(Person.name), ascending: false)
+        let sort1 = NSSortDescriptor(key: #keyPath(Person.name), ascending: true)
         return [sort1]
     }
 }

@@ -74,7 +74,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         dataSource = FetchedTableViewDataSource(tableView: tableView, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
-            print("Table View - Something changed")
+            print("Event Table View - Something changed")
         }
         dataSource.performFetch()
     }

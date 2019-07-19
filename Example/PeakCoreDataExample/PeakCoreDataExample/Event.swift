@@ -59,7 +59,7 @@ extension EventJSON: ManagedObjectUpdatable {
     public func updateRelationships(on managedObject: Event, in context: NSManagedObjectContext) {
         Person.insertOrUpdate(intermediates: attendees, in: context) { (json, person) in
             json.updateProperties(on: person)
-            person.addToEvents(managedObject)
+            person.event = managedObject
         }
     }
 }
@@ -82,7 +82,8 @@ extension EventJSON {
             let date = Date().addingTimeInterval(-Double(eventItem))
             let attendees = (1...Int.random(in: 1...50)).map { personItem -> PersonJSON in
                 let id = UUID().uuidString
-                let name = "Attendee \(personItem)"
+                let personString = personItem < 10 ? "0\(personItem)" : "\(personItem)"
+                let name = "Attendee \(personString)"
                 return PersonJSON(uniqueID: id, name: name)
             }
             return EventJSON(uniqueID: id, date: date, attendees: attendees)
