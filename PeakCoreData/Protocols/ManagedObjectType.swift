@@ -138,16 +138,21 @@ public extension ManagedObjectType where Self: NSManagedObject {
     }
     
     /**
-     Batch deletes all objects or all objects matching a predicate.
+     Batch deletes all objects or all objects matching a predicate. An optional array of
+     `NSManagedObjectContext` can be provided into which the deletions can be merged using the
+     `mergeChanges(fromRemoteContextSave:into:)` function on `NSManagedObjectContext`.
      
      - This should be significantly faster than `delete(in:matching)` for large datasets.
      - This is a convenience function for calling `batchDelete(in:matching:)` on `NSEntityDescription`.
      
      - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the fetch request.
+     - parameter mergeContexts: Optional contexts into which changes can be merged.
      */
-    static func batchDelete(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) {
-        entity().batchDelete(in: context, matching: predicate)
+    static func batchDelete(in context: NSManagedObjectContext,
+                            matching predicate: NSPredicate? = nil,
+                            mergingInto mergeContexts: [NSManagedObjectContext]? = nil) {
+        entity().batchDelete(in: context, matching: predicate, mergingInto: mergeContexts)
     }
 }
 
