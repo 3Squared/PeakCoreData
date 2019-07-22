@@ -47,10 +47,15 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: object2))
         XCTAssertFalse(selfPredicate.evaluate(with: object3))
         
-        let keyPathPredicate = NSPredicate(equalTo: "ABC Object 1", keyPath: #keyPath(Object.name))
-        XCTAssertTrue(keyPathPredicate.evaluate(with: object1))
-        XCTAssertFalse(keyPathPredicate.evaluate(with: object2))
-        XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
+        let stringPredicate = NSPredicate(equalTo: "ABC Object 1", keyPath: #keyPath(Object.name))
+        XCTAssertTrue(stringPredicate.evaluate(with: object1))
+        XCTAssertFalse(stringPredicate.evaluate(with: object2))
+        XCTAssertFalse(stringPredicate.evaluate(with: object3))
+        
+        let countPredicate = NSPredicate(equalTo: 3, keyPath: #keyPath(Object.count))
+        XCTAssertFalse(countPredicate.evaluate(with: object1))
+        XCTAssertTrue(countPredicate.evaluate(with: object2))
+        XCTAssertFalse(countPredicate.evaluate(with: object3))
     }
     
     func testNotEqualTo() {
@@ -59,10 +64,15 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: object2))
         XCTAssertTrue(selfPredicate.evaluate(with: object3))
         
-        let keyPathPredicate = NSPredicate(notEqualTo: "ABC Object 1", keyPath: #keyPath(Object.name))
-        XCTAssertFalse(keyPathPredicate.evaluate(with: object1))
-        XCTAssertTrue(keyPathPredicate.evaluate(with: object2))
-        XCTAssertTrue(keyPathPredicate.evaluate(with: object3))
+        let stringPredicate = NSPredicate(notEqualTo: "ABC Object 1", keyPath: #keyPath(Object.name))
+        XCTAssertFalse(stringPredicate.evaluate(with: object1))
+        XCTAssertTrue(stringPredicate.evaluate(with: object2))
+        XCTAssertTrue(stringPredicate.evaluate(with: object3))
+        
+        let countPredicate = NSPredicate(notEqualTo: 3, keyPath: #keyPath(Object.count))
+        XCTAssertTrue(countPredicate.evaluate(with: object1))
+        XCTAssertFalse(countPredicate.evaluate(with: object2))
+        XCTAssertTrue(countPredicate.evaluate(with: object3))
     }
     
     func testLessThan() {
@@ -217,10 +227,10 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(selfPredicate.evaluate(with: twoObjects))
         XCTAssertTrue(selfPredicate.evaluate(with: threeObjects))
         
-        let predicate = NSPredicate(anyEquals: object3, keyPath: #keyPath(Parent.children))
-        XCTAssertFalse(predicate.evaluate(with: oneChild))
-        XCTAssertFalse(predicate.evaluate(with: twoChildren))
-        XCTAssertTrue(predicate.evaluate(with: threeChildren))
+        let keyPathPredicate = NSPredicate(anyEquals: object3, keyPath: #keyPath(Parent.children))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: twoChildren))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
         
         let subquery = NSPredicate(format: "SUBQUERY(%K, $child, ($child == %@)).@count > 0", argumentArray: [#keyPath(Parent.children), object3])
         XCTAssertFalse(subquery.evaluate(with: oneChild))
@@ -229,10 +239,10 @@ class PredicateTests: XCTestCase {
     }
     
     func testAnyEqualsNested() {
-        let predicate = NSPredicate(anyEquals: 3, keyPath: #keyPath(Parent.children.count))
-        XCTAssertFalse(predicate.evaluate(with: oneChild))
-        XCTAssertTrue(predicate.evaluate(with: twoChildren))
-        XCTAssertTrue(predicate.evaluate(with: threeChildren))
+        let keyPathPredicate = NSPredicate(anyEquals: 3, keyPath: #keyPath(Parent.children.count))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
         
         let subquery = NSPredicate(format: "SUBQUERY(%K, $child, ($child.%K == %@)).@count > 0", argumentArray: [#keyPath(Parent.children), #keyPath(Object.count), 3])
         XCTAssertFalse(subquery.evaluate(with: oneChild))
@@ -246,10 +256,10 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(selfPredicate.evaluate(with: twoObjects))
         XCTAssertTrue(selfPredicate.evaluate(with: threeObjects))
         
-        let predicate = NSPredicate(anyIn: [object2, object3], keyPath: #keyPath(Parent.children))
-        XCTAssertFalse(predicate.evaluate(with: oneChild))
-        XCTAssertTrue(predicate.evaluate(with: twoChildren))
-        XCTAssertTrue(predicate.evaluate(with: threeChildren))
+        let keyPathPredicate = NSPredicate(anyIn: [object2, object3], keyPath: #keyPath(Parent.children))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
         
         let subquery = NSPredicate(format: "SUBQUERY(%K, $child, ($child IN %@)).@count > 0", argumentArray: [#keyPath(Parent.children), [object2, object3]])
         XCTAssertFalse(subquery.evaluate(with: oneChild))
@@ -258,10 +268,10 @@ class PredicateTests: XCTestCase {
     }
     
     func testAnyInNested() {
-        let predicate = NSPredicate(anyIn: [3, 2], keyPath: #keyPath(Parent.children.count))
-        XCTAssertFalse(predicate.evaluate(with: oneChild))
-        XCTAssertTrue(predicate.evaluate(with: twoChildren))
-        XCTAssertTrue(predicate.evaluate(with: threeChildren))
+        let keyPathPredicate = NSPredicate(anyIn: [3, 2], keyPath: #keyPath(Parent.children.count))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
         
         let subquery = NSPredicate(format: "SUBQUERY(%K, $child, ($child.%K IN %@)).@count > 0", argumentArray: [#keyPath(Parent.children), #keyPath(Object.count), [3, 2]])
         XCTAssertFalse(subquery.evaluate(with: oneChild))
