@@ -318,7 +318,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
     }
     
-    func testStringBeginsWithCaseSsensitive() {
+    func testStringBeginsWithCaseSensitive() {
         let testString = "def"
         let selfPredicate = NSPredicate(stringBeginsWith: testString, caseInsensitive: false)
         XCTAssertFalse(selfPredicate.evaluate(with: object1.name))
@@ -344,7 +344,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
     }
     
-    func testStringEqualsCaseSsensitive() {
+    func testStringEqualsCaseSensitive() {
         let testString = "def object 2"
         let selfPredicate = NSPredicate(stringEquals: testString, caseInsensitive: false)
         XCTAssertFalse(selfPredicate.evaluate(with: object1.name))
@@ -370,7 +370,7 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
     }
     
-    func testStringEndsWithCaseSsensitive() {
+    func testStringEndsWithCaseSensitive() {
         let testString = "ECT 2"
         let selfPredicate = NSPredicate(stringEndsWith: testString, caseInsensitive: false)
         XCTAssertFalse(selfPredicate.evaluate(with: object1.name))
