@@ -250,7 +250,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(subquery.evaluate(with: threeChildren))
     }
     
-    func testAnyIn() {
+    func testAnyIncludedIn() {
         let selfPredicate = NSPredicate(anyIncludedIn: [object2, object3])
         XCTAssertFalse(selfPredicate.evaluate(with: oneObject))
         XCTAssertTrue(selfPredicate.evaluate(with: twoObjects))
@@ -267,7 +267,7 @@ class PredicateTests: XCTestCase {
         XCTAssertTrue(subquery.evaluate(with: threeChildren))
     }
     
-    func testAnyInNested() {
+    func testAnyIncludedInNested() {
         let keyPathPredicate = NSPredicate(anyIncludedIn: [3, 2], keyPath: #keyPath(Parent.children.count))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
