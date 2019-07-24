@@ -8,7 +8,16 @@
 
 import XCTest
 import CoreData
-@testable import PeakCoreData
+
+#if os(iOS)
+
+@testable import PeakCoreData_iOS
+
+#else
+
+@testable import PeakCoreData_macOS
+
+#endif
 
 class FetchedCollectionTests: CoreDataTests {
     
@@ -172,9 +181,7 @@ class FetchedCollectionTests: CoreDataTests {
             case .update(_, let object):
                 XCTAssertEqual(object.uniqueID!, "what")
                 break
-            case .move(let from, let to):
-                print("move from [\(from.row), \(from.section)] to [\(to.row), \(to.section)]")
-                break
+            case .move(let from, let to): break
             default:
                 XCTFail()
             }
@@ -231,7 +238,7 @@ class FetchedCollectionTests: CoreDataTests {
         
         fetchedCollection.onChange = { objects, changes in
             if objects.count == 1 {
-                let obj = objects[IndexPath(row: 0, section: 0)]
+                let obj = objects[IndexPath(item: 0, section: 0)]
                 XCTAssertEqual(obj.uniqueID!, uniqueID)
                 expect.fulfill()
             }

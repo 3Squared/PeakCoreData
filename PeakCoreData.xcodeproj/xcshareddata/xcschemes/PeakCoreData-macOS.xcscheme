@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-               BuildableName = "PeakCoreData.framework"
-               BlueprintName = "PeakCoreData"
+               BlueprintIdentifier = "186D30E222CB5F18003A5A8F"
+               BuildableName = "PeakCoreData_macOS.framework"
+               BlueprintName = "PeakCoreData-macOS"
                ReferencedContainer = "container:PeakCoreData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D9797E31DF8138100DAB75A"
-               BuildableName = "PeakCoreDataTests.xctest"
-               BlueprintName = "PeakCoreDataTests"
+               BlueprintIdentifier = "186D30EE22CB602E003A5A8F"
+               BuildableName = "PeakCoreData_macOSTests.xctest"
+               BlueprintName = "PeakCoreData-macOSTests"
                ReferencedContainer = "container:PeakCoreData.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData.framework"
-            BlueprintName = "PeakCoreData"
+            BlueprintIdentifier = "186D30E222CB5F18003A5A8F"
+            BuildableName = "PeakCoreData_macOS.framework"
+            BlueprintName = "PeakCoreData-macOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData.framework"
-            BlueprintName = "PeakCoreData"
+            BlueprintIdentifier = "186D30E222CB5F18003A5A8F"
+            BuildableName = "PeakCoreData_macOS.framework"
+            BlueprintName = "PeakCoreData-macOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D9797DA1DF8138100DAB75A"
-            BuildableName = "PeakCoreData.framework"
-            BlueprintName = "PeakCoreData"
+            BlueprintIdentifier = "186D30E222CB5F18003A5A8F"
+            BuildableName = "PeakCoreData_macOS.framework"
+            BlueprintName = "PeakCoreData-macOS"
             ReferencedContainer = "container:PeakCoreData.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
