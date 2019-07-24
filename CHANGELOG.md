@@ -4,6 +4,13 @@ The changelog for `PeakCoreData`.
 
 --------------------------------------
 
+4.0.0
+-----
+
+- Add macOS support.
+- Add method on `NSManagedObjectContext` that batch deletes all objects in all entities. Note: changes from the batch delete will no longer be automatically merged in to passed in context. There is now a new property on all batch delete methods `mergeContexts` that lets you pass in an array of contexts you want the changes merged in to.
+- Add more `NSPredicate` initialisers and unit tests.
+
 3.4.0
 -----
 

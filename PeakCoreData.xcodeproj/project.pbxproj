@@ -214,8 +214,8 @@
 				8D94662122146BF900B2197D /* Helpers */,
 				8D2DD2B02199916C00468575 /* Observers */,
 				8D2DD2B32199919B00468575 /* Operations */,
-				8D9797DE1DF8138100DAB75A /* PeakCoreData.h */,
 				8D2DD2B5219991B300468575 /* Protocols */,
+				8D9797DE1DF8138100DAB75A /* PeakCoreData.h */,
 				186D313022CB6567003A5A8F /* PeakCoreData+Aliases.swift */,
 			);
 			path = Core;
