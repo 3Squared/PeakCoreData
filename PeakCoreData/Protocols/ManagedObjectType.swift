@@ -138,27 +138,21 @@ public extension ManagedObjectType where Self: NSManagedObject {
     }
     
     /**
-     Batch deletes all objects or all objects matching a predicate.
+     Batch deletes all objects or all objects matching a predicate. An optional array of
+     `NSManagedObjectContext` can be provided into which the deletions can be merged using the
+     `mergeChanges(fromRemoteContextSave:into:)` function on `NSManagedObjectContext`.
      
-     - Note: This should be significantly faster than the `delete(in:matching)` method for large datasets.
-     - Note: This method cannot be unit tested because it is incompatible with `NSInMemoryStoreType`.
+     - This should be significantly faster than `delete(in:matching)` for large datasets.
+     - This is a convenience function for calling `batchDelete(in:matching:)` on `NSEntityDescription`.
      
      - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the fetch request.
+     - parameter mergeContexts: Optional contexts into which changes can be merged.
      */
-    static func batchDelete(in context: NSManagedObjectContext, matching predicate: NSPredicate? = nil) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        request.predicate = predicate
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
-        deleteRequest.resultType = .resultTypeObjectIDs
-        do {
-            let result = try context.execute(deleteRequest) as! NSBatchDeleteResult
-            let objectIDArray = result.result as! [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey: objectIDArray]
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
-        } catch {
-            fatalError("Failed to perform batch update: \(error)")
-        }
+    static func batchDelete(in context: NSManagedObjectContext,
+                            matching predicate: NSPredicate? = nil,
+                            mergingInto mergeContexts: [NSManagedObjectContext]? = nil) {
+        entity().batchDelete(in: context, matching: predicate, mergingInto: mergeContexts)
     }
 }
 

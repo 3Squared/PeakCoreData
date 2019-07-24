@@ -53,20 +53,19 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        Event.batchDelete(in: viewContext)
+        persistentContainer.performBackgroundTask { backgroundContext in
+            print("\nEntity Counts Before Batch Delete\n-----")
+            self.printEntityCounts()
+            backgroundContext.batchDeleteAllEntities(mergingInto: [backgroundContext, self.viewContext])
+            print("\nEntity Counts After Batch Delete\n-----")
+            self.printEntityCounts()
+            print("")
+        }
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let numberOfItems = 100
-        var intermediateItems: [EventJSON] = []
-        for item in 0..<numberOfItems {
-            let id = UUID().uuidString
-            let date = Date().addingTimeInterval(-Double(item))
-            let intermediate = EventJSON(uniqueID: id, date: date)
-            intermediateItems.append(intermediate)
-        }
         let operation = CoreDataBatchImportOperation<EventJSON>(with: persistentContainer)
-        operation.input = Result { intermediateItems }
+        operation.input = Result { EventJSON.generate(25) }
         operationQueue.addOperation(operation)
     }
 
@@ -75,7 +74,7 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
         dataSource = FetchedTableViewDataSource(tableView: tableView, fetchedResultsController: frc, delegate: self)
         dataSource.animateUpdates = true
         dataSource.onDidChangeContent = {
-            print("Table View - Something changed")
+            print("Event Table View - Something changed")
         }
         dataSource.performFetch()
     }
@@ -93,6 +92,20 @@ class EventsTableViewController: UITableViewController, PersistentContainerSetta
             let viewController = segue.destination as! EventDetailViewController
             viewController.persistentContainer = persistentContainer
             viewController.event = object
+        }
+    }
+    
+    private func printEntityCounts() {
+        if let entities = viewContext.persistentStoreCoordinator?.managedObjectModel.entities {
+            for entity in entities {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity.name!)
+                do {
+                    let fetchedObjects = try viewContext.fetch(fetchRequest)
+                    print("\(entity.name!): \(fetchedObjects.count)")
+                } catch {
+                    fatalError("Failed to fetch objects: \(error)")
+                }
+            }
         }
     }
 }
