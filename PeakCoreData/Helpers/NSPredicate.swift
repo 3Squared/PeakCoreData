@@ -214,11 +214,11 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The key path of the relationship. Pass in `nil` to use SELF.
     ///   - array: The array to check the relationship against.
-    public convenience init(anyIn value: [Any], keyPath: KeyPath? = nil) {
+    public convenience init(anyIncludedIn array: [Any], keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
-            self.init(format: "ANY %K IN %@", argumentArray: [keyPath, value])
+            self.init(format: "ANY %K IN %@", argumentArray: [keyPath, array])
         } else {
-            self.init(format: "ANY SELF IN %@", argumentArray: [value])
+            self.init(format: "ANY SELF IN %@", argumentArray: [array])
         }
     }
 }
@@ -227,7 +227,7 @@ extension NSPredicate {
 
 extension NSPredicate {
     
-    /// Returns a predicate that checks if a property is included in an array.
+    /// Returns a predicate that checks if a property is included in the passed in array.
     ///
     /// - Parameters:
     ///   - keyPath: The key path of the property. Pass in `nil` to use SELF.
@@ -240,7 +240,7 @@ extension NSPredicate {
         }
     }
     
-    /// Returns a predicate that checks if a property is not included in an array.
+    /// Returns a predicate that checks if a property is not included in the passed in array.
     ///
     /// - Parameters:
     ///   - keyPath: The key path of the property. Pass in `nil` to use SELF.

@@ -251,12 +251,12 @@ class PredicateTests: XCTestCase {
     }
     
     func testAnyIn() {
-        let selfPredicate = NSPredicate(anyIn: [object2, object3])
+        let selfPredicate = NSPredicate(anyIncludedIn: [object2, object3])
         XCTAssertFalse(selfPredicate.evaluate(with: oneObject))
         XCTAssertTrue(selfPredicate.evaluate(with: twoObjects))
         XCTAssertTrue(selfPredicate.evaluate(with: threeObjects))
         
-        let keyPathPredicate = NSPredicate(anyIn: [object2, object3], keyPath: #keyPath(Parent.children))
+        let keyPathPredicate = NSPredicate(anyIncludedIn: [object2, object3], keyPath: #keyPath(Parent.children))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
@@ -268,7 +268,7 @@ class PredicateTests: XCTestCase {
     }
     
     func testAnyInNested() {
-        let keyPathPredicate = NSPredicate(anyIn: [3, 2], keyPath: #keyPath(Parent.children.count))
+        let keyPathPredicate = NSPredicate(anyIncludedIn: [3, 2], keyPath: #keyPath(Parent.children.count))
         XCTAssertFalse(keyPathPredicate.evaluate(with: oneChild))
         XCTAssertTrue(keyPathPredicate.evaluate(with: twoChildren))
         XCTAssertTrue(keyPathPredicate.evaluate(with: threeChildren))
