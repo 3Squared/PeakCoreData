@@ -53,6 +53,8 @@
 		186D313922CB847F003A5A8F /* CollectionViewUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D313822CB847F003A5A8F /* CollectionViewUpdatable.swift */; };
 		186D313A22CB849E003A5A8F /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		186D313B22CB84B7003A5A8F /* PeakCoreData+Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D313022CB6567003A5A8F /* PeakCoreData+Aliases.swift */; };
+		18CD62B922E8A327004F3E93 /* NSEntityDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CD62B822E8A326004F3E93 /* NSEntityDescription.swift */; };
+		18CD62BA22E8A327004F3E93 /* NSEntityDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CD62B822E8A326004F3E93 /* NSEntityDescription.swift */; };
 		3EBFD2956BCE7BDC8568770A /* libPods-PeakCoreData-macOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E68F014EC32D41FDF68ED4C6 /* libPods-PeakCoreData-macOSTests.a */; };
 		577B4A13250AA19FE91129C6 /* libPods-PeakCoreData-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 888E0D806D358915253663A0 /* libPods-PeakCoreData-iOS.a */; };
 		6EBBCC723D19A9B58BFBFE0C /* libPods-PeakCoreData-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 892EBE3DDCF65ABA220C1CCE /* libPods-PeakCoreData-macOS.a */; };
@@ -120,6 +122,7 @@
 		186D313022CB6567003A5A8F /* PeakCoreData+Aliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PeakCoreData+Aliases.swift"; sourceTree = "<group>"; };
 		186D313622CB8452003A5A8F /* TableViewUpdatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewUpdatable.swift; sourceTree = "<group>"; };
 		186D313822CB847F003A5A8F /* CollectionViewUpdatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewUpdatable.swift; sourceTree = "<group>"; };
+		18CD62B822E8A326004F3E93 /* NSEntityDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSEntityDescription.swift; sourceTree = "<group>"; };
 		2922F3C57EE33341E8C70A53 /* Pods-PeakCoreDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreDataTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3567BA97913F962196D4752B /* Pods-PeakCoreData-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData-macOS/Pods-PeakCoreData-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		617B2676E1BAB7EF06938283 /* Pods-PeakCoreData-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData-iOS/Pods-PeakCoreData-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -391,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				8D84C25E224CCF9C008C35D7 /* NSManagedObjectContext.swift */,
+				18CD62B822E8A326004F3E93 /* NSEntityDescription.swift */,
 				8D94661F22146BF500B2197D /* NSPredicate.swift */,
 			);
 			path = Helpers;
@@ -723,6 +727,7 @@
 				186D312422CB6510003A5A8F /* NSPredicate.swift in Sources */,
 				186D311F22CB650B003A5A8F /* FetchedCollection.swift in Sources */,
 				186D312322CB6510003A5A8F /* NSManagedObjectContext.swift in Sources */,
+				18CD62BA22E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
 				186D313422CB669E003A5A8F /* PersistentContainerSettable.swift in Sources */,
 				186D313B22CB84B7003A5A8F /* PeakCoreData+Aliases.swift in Sources */,
 				186D312A22CB6521003A5A8F /* CoreDataOperation.swift in Sources */,
@@ -761,6 +766,7 @@
 				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
+				18CD62B922E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				8D94662022146BF500B2197D /* NSPredicate.swift in Sources */,
