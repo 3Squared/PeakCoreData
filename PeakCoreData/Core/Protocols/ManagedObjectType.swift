@@ -246,7 +246,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
      b) a newly inserted managed object for you to set the fields.
      In both cases the unique identifier will already be set
      */
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> ()) {
+    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, uniqueIDComparisonBlock: ((String, String) -> (Bool)) = { $0 == $1 }, configure: (IntermediateType, Self) -> ()) {
         
         // Nothing to insert, exit immediately.
         
@@ -286,7 +286,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
         
         while intermediate != nil {
             let intermediateID = intermediate!.uniqueIDValue
-            if let existingObject = managedObject, existingObject.uniqueIDValue == intermediate!.uniqueIDValue {
+            if let existingObject = managedObject, uniqueIDComparisonBlock(existingObject.uniqueIDValue, intermediate!.uniqueIDValue) {
                 configure(intermediate!, existingObject)
                 managedObject = managedObjectIterator.next()
             } else {

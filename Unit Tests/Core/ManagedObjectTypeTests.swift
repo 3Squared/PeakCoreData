@@ -114,6 +114,28 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertTrue(countAfterUpdate > expectedCount, "Count after update should be greater than the expected count")
     }
     
+    func testBatchInsertCreatesDuplicatesWithComparisonBlock() {
+        let expectedCount = 10
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
+        
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+            (intermediate, managedObject) in
+            managedObject.title = intermediate.title
+        }
+        
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, uniqueIDComparisonBlock: { firstID, secondID in
+            firstID.uppercased() == secondID.lowercased()
+        }) {
+            (intermediate, managedObject) in
+            managedObject.title = intermediate.title
+        }
+
+
+        let countAfterUpdate = TestEntity.count(in: viewContext)
+        // All objects should have been duplicated due to the case difference in the comparison block.
+        XCTAssertTrue(countAfterUpdate == expectedCount * 2, "Count after update should be double the expected count")
+    }
+    
     func testBatchInsertPerformance() {
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
         measure {
