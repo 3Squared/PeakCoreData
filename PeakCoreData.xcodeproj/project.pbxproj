@@ -39,7 +39,6 @@
 		186D312822CB651C003A5A8F /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		186D312922CB6521003A5A8F /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		186D312A22CB6521003A5A8F /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
-		186D312B22CB6521003A5A8F /* CoreDataChangesetOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */; };
 		186D312C22CB6521003A5A8F /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
 		186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		186D312E22CB6521003A5A8F /* CoreDataToIntermediateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */; };
@@ -64,6 +63,10 @@
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
+		8D82F7AB23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */; };
+		8D82F7AD23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */; };
+		8D82F7B023EADEA40089C9B6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AF23EADEA40089C9B6 /* Cache.swift */; };
+		8D82F7B223EADEEE0089C9B6 /* ManagedObjectCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7B123EADEEE0089C9B6 /* ManagedObjectCache.swift */; };
 		8D84C25F224CCF9C008C35D7 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C25E224CCF9C008C35D7 /* NSManagedObjectContext.swift */; };
 		8D84C263224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */; };
 		8D94662022146BF500B2197D /* NSPredicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D94661F22146BF500B2197D /* NSPredicate.swift */; };
@@ -73,7 +76,6 @@
 		8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */; };
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
-		8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
@@ -139,6 +141,10 @@
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
 		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
+		8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBatchDeleteOperation.swift; sourceTree = "<group>"; };
+		8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBatchUpdateOperation.swift; sourceTree = "<group>"; };
+		8D82F7AF23EADEA40089C9B6 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		8D82F7B123EADEEE0089C9B6 /* ManagedObjectCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectCache.swift; sourceTree = "<group>"; };
 		8D84C25E224CCF9C008C35D7 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataToIntermediateOperation.swift; sourceTree = "<group>"; };
 		8D94661F22146BF500B2197D /* NSPredicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPredicate.swift; sourceTree = "<group>"; };
@@ -151,7 +157,6 @@
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
-		8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataChangesetOperation.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
 		8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
@@ -210,6 +215,7 @@
 		186D30D622CB5E14003A5A8F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8D82F7AE23EADE970089C9B6 /* Cache */,
 				8D2DD2B22199918B00468575 /* Fetched Data Sources */,
 				8D94662122146BF900B2197D /* Helpers */,
 				8D2DD2B02199916C00468575 /* Observers */,
@@ -370,9 +376,10 @@
 			isa = PBXGroup;
 			children = (
 				8DFAC1101F79274B0015EDC0 /* Changeset.swift */,
-				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
-				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
+				8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
+				8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */,
+				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
 				8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */,
 			);
@@ -388,6 +395,15 @@
 				CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		8D82F7AE23EADE970089C9B6 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				8D82F7AF23EADEA40089C9B6 /* Cache.swift */,
+				8D82F7B123EADEEE0089C9B6 /* ManagedObjectCache.swift */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		8D94662122146BF900B2197D /* Helpers */ = {
@@ -718,7 +734,6 @@
 				186D313522CB669E003A5A8F /* UniqueIdentifiable.swift in Sources */,
 				186D312E22CB6521003A5A8F /* CoreDataToIntermediateOperation.swift in Sources */,
 				186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */,
-				186D312B22CB6521003A5A8F /* CoreDataChangesetOperation.swift in Sources */,
 				186D312922CB6521003A5A8F /* Changeset.swift in Sources */,
 				186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */,
 				186D313222CB669E003A5A8F /* ManagedObjectType.swift in Sources */,
@@ -763,10 +778,10 @@
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
 				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */,
-				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
 				18CD62B922E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
+				8D82F7B023EADEA40089C9B6 /* Cache.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				8D94662022146BF500B2197D /* NSPredicate.swift in Sources */,
@@ -777,12 +792,15 @@
 				8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */,
 				8D821933205ACEAE00732777 /* CountObserver.swift in Sources */,
 				186D313722CB8452003A5A8F /* TableViewUpdatable.swift in Sources */,
+				8D82F7B223EADEEE0089C9B6 /* ManagedObjectCache.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
 				8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */,
 				CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */,
 				CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */,
 				8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */,
 				186D313122CB6567003A5A8F /* PeakCoreData+Aliases.swift in Sources */,
+				8D82F7AB23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift in Sources */,
+				8D82F7AD23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift in Sources */,
 				8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
