@@ -16,7 +16,7 @@ public enum ManagedObjectChangeType {
 }
 
 /// Observe changes made to a managed object (refreshed, updated, deleted).
-open class ManagedObjectObserver<T>: NSObject where T: NSManagedObject & ManagedObjectType {
+open class ManagedObjectObserver<T: ManagedObjectType>: NSObject {
     
     public typealias OnChange = ((T, ManagedObjectChangeType) -> Void)
     

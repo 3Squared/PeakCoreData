@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObjectType {
+public class CountObserver<T: ManagedObjectType>: NSObject {
     
     public typealias OnChange = (Int) -> Void
     
@@ -23,7 +23,6 @@ public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObject
         return count
     }
     
-
     private let context: NSManagedObjectContext
     private let predicate: NSPredicate?
     
