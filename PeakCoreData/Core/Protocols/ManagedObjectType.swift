@@ -156,10 +156,8 @@ public extension ManagedObjectType {
 
 // MARK: - UniqueIdentifiable
 
-public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifiable {
-    
-    typealias UniqueKeyValueType = Any
-    
+public extension ManagedObjectType where Self: UniqueIdentifiable {
+        
     /**
      - Note: The managed object must conform to UniqueIdentifiable.
      
