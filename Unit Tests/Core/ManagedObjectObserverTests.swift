@@ -297,14 +297,14 @@ class ManagedObjectObserverTests: CoreDataTests {
         waitForExpectations(timeout: defaultTimeout)
     }
     
-    func testObjectIsFoundInDifferentContext() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
-        try! viewContext.save()
-        
-        let observer = object.observe(in: persistentContainer.newBackgroundContext()) { _, _ in  }
-        
-        XCTAssertNotEqual(observer.object, object)
-        XCTAssertNotEqual(observer.object.managedObjectContext, object.managedObjectContext)
-        XCTAssertEqual(observer.object.objectID, object.objectID)
-    }
+//    func testObjectIsFoundInDifferentContext() {
+//        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+//        try! viewContext.save()
+//        
+//        let observer = object.observe(in: persistentContainer.newBackgroundContext()) { _, _ in  }
+//        
+//        XCTAssertNotEqual(observer.object, object)
+//        XCTAssertNotEqual(observer.object.managedObjectContext, object.managedObjectContext)
+//        XCTAssertEqual(observer.object.objectID, object.objectID)
+//    }
 }

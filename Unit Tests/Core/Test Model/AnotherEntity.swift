@@ -32,7 +32,7 @@ extension AnotherEntity: UniqueIdentifiable {
         return "uniqueID"
     }
     
-    public var uniqueIDValue: String {
+    public var uniqueIDValue: AnyHashable {
         return uniqueID!
     }
 }

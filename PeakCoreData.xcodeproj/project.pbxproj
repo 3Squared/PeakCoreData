@@ -37,7 +37,6 @@
 		186D312622CB6519003A5A8F /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
 		186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
 		186D312822CB651C003A5A8F /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
-		186D312922CB6521003A5A8F /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		186D312A22CB6521003A5A8F /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
 		186D312C22CB6521003A5A8F /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
 		186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
@@ -60,6 +59,12 @@
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
 		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
+		8D46B5F523ED660200E3B73B /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46B5F423ED660100E3B73B /* Changeset.swift */; };
+		8D46B5F623ED661600E3B73B /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46B5F423ED660100E3B73B /* Changeset.swift */; };
+		8D46B5F723ED662500E3B73B /* CoreDataBatchUpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */; };
+		8D46B5F823ED662800E3B73B /* CoreDataBatchDeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */; };
+		8D46B5F923ED664E00E3B73B /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7AF23EADEA40089C9B6 /* Cache.swift */; };
+		8D46B5FA23ED665200E3B73B /* ManagedObjectCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D82F7B123EADEEE0089C9B6 /* ManagedObjectCache.swift */; };
 		8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */; };
 		8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		8D821933205ACEAE00732777 /* CountObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821932205ACEAE00732777 /* CountObserver.swift */; };
@@ -77,7 +82,6 @@
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
-		8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC1101F79274B0015EDC0 /* Changeset.swift */; };
 		8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
 		CA46814A8F9BA2405A5D2691 /* libPods-PeakCoreData-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6DB53AC656E1B4319546D4 /* libPods-PeakCoreData-iOSTests.a */; };
 		CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB13D8DD2058351C008B3678 /* FetchedCollection.swift */; };
@@ -138,6 +142,7 @@
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
 		8D159AFD205C001A004D693A /* AnotherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherEntity.swift; sourceTree = "<group>"; };
 		8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextDidSaveNotification.swift; sourceTree = "<group>"; };
+		8D46B5F423ED660100E3B73B /* Changeset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
 		8D6B966E20501D86003D20C0 /* FetchedTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDidChangeNotification.swift; sourceTree = "<group>"; };
 		8D821932205ACEAE00732777 /* CountObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountObserver.swift; sourceTree = "<group>"; };
@@ -158,7 +163,6 @@
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
-		8DFAC1101F79274B0015EDC0 /* Changeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changeset.swift; sourceTree = "<group>"; };
 		8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		A39768996CC80266557761F4 /* Pods-PeakCoreData-macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData-macOSTests/Pods-PeakCoreData-macOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		C0A3AEC430E4B051590F505B /* Pods-PeakCoreDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreDataTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreDataTests/Pods-PeakCoreDataTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -375,7 +379,7 @@
 		8D2DD2B32199919B00468575 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				8DFAC1101F79274B0015EDC0 /* Changeset.swift */,
+				8D46B5F423ED660100E3B73B /* Changeset.swift */,
 				8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */,
@@ -732,9 +736,11 @@
 				186D313A22CB849E003A5A8F /* FetchedDataProvider.swift in Sources */,
 				186D312822CB651C003A5A8F /* ObjectDidChangeNotification.swift in Sources */,
 				186D313522CB669E003A5A8F /* UniqueIdentifiable.swift in Sources */,
+				8D46B5F623ED661600E3B73B /* Changeset.swift in Sources */,
+				8D46B5FA23ED665200E3B73B /* ManagedObjectCache.swift in Sources */,
+				8D46B5F923ED664E00E3B73B /* Cache.swift in Sources */,
 				186D312E22CB6521003A5A8F /* CoreDataToIntermediateOperation.swift in Sources */,
 				186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */,
-				186D312922CB6521003A5A8F /* Changeset.swift in Sources */,
 				186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */,
 				186D313222CB669E003A5A8F /* ManagedObjectType.swift in Sources */,
 				186D312C22CB6521003A5A8F /* CoreDataBatchImportOperation.swift in Sources */,
@@ -742,11 +748,13 @@
 				186D312422CB6510003A5A8F /* NSPredicate.swift in Sources */,
 				186D311F22CB650B003A5A8F /* FetchedCollection.swift in Sources */,
 				186D312322CB6510003A5A8F /* NSManagedObjectContext.swift in Sources */,
+				8D46B5F823ED662800E3B73B /* CoreDataBatchDeleteOperation.swift in Sources */,
 				18CD62BA22E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
 				186D313422CB669E003A5A8F /* PersistentContainerSettable.swift in Sources */,
 				186D313B22CB84B7003A5A8F /* PeakCoreData+Aliases.swift in Sources */,
 				186D312A22CB6521003A5A8F /* CoreDataOperation.swift in Sources */,
 				186D313322CB669E003A5A8F /* ManagedObjectUpdatable.swift in Sources */,
+				8D46B5F723ED662500E3B73B /* CoreDataBatchUpdateOperation.swift in Sources */,
 				186D312522CB6519003A5A8F /* CountObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -776,7 +784,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */,
-				8DFAC1111F79274B0015EDC0 /* Changeset.swift in Sources */,
 				8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
@@ -793,6 +800,7 @@
 				8D821933205ACEAE00732777 /* CountObserver.swift in Sources */,
 				186D313722CB8452003A5A8F /* TableViewUpdatable.swift in Sources */,
 				8D82F7B223EADEEE0089C9B6 /* ManagedObjectCache.swift in Sources */,
+				8D46B5F523ED660200E3B73B /* Changeset.swift in Sources */,
 				CBF972A51E5DEE6D00F37801 /* CoreDataOperation.swift in Sources */,
 				8D821931205AC7CA00732777 /* ObjectDidChangeNotification.swift in Sources */,
 				CB13D8DE2058351C008B3678 /* FetchedCollection.swift in Sources */,

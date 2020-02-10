@@ -9,18 +9,18 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
+open class CoreDataOperation: ConcurrentOperation, HasContext {
+    
+    public var context: NSManagedObjectContext? { operationContext }
+    
+    private var operationContext: NSManagedObjectContext?
+    private var willSaveContext: (NSManagedObjectContext) -> Void = { _ in }
+    private var didSaveContext: (NSManagedObjectContext, Error?) -> Void = { (_, _) in }
+    
     private let persistentContainer: NSPersistentContainer
     private let mergePolicyType: NSMergePolicyType
-    private var operationContext: NSManagedObjectContext!
     
-    var inserted: Set<NSManagedObjectID> = []
-    var updated: Set<NSManagedObjectID> = []
-    var deleted: Set<NSManagedObjectID> = []
-        
-    public var output: Result<Output, Error> = Result { throw ResultError.noResult }
-
-    public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    public init(persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.persistentContainer = persistentContainer
         self.mergePolicyType = mergePolicyType
     }
@@ -29,50 +29,55 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
 
     open override func execute() {
         persistentContainer.performBackgroundTask { [weak self] context in
-            guard let strongSelf = self else { return }
-            strongSelf.operationContext = context
-            strongSelf.operationContext.name = "PeakCoreData.CoreDataOperation.OperationContext"
-            strongSelf.operationContext.mergePolicy = NSMergePolicy(merge: strongSelf.mergePolicyType)
-            strongSelf.performWork(in: context)
+            guard let self = self else { return }
+            context.name = "PeakCoreData.CoreDataOperation.OperationContext"
+            context.mergePolicy = NSMergePolicy(merge: self.mergePolicyType)
+            
+            self.operationContext = context
+            self.performWork(in: context)
         }
     }
     
     // MARK: - Methods to be overidden
     
     open func performWork(in context: NSManagedObjectContext) {
-        print("\(self) must override `performWork()`.")
-        finish()
+        fatalError("Subclasses must implement \(#function)")
     }
     
     // MARK: - Public Methods
     
-    /// Saves the operation context
-    /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
-    open func saveOperationContext() {
+    /// Saves the operation context if needed.
+    /// - Note: This must be called on the operation context's thread.
+    open func saveOperationContext() throws {
         guard !isCancelled else { return finish() }
-        
-        operationContext.performAndWait {
-            guard operationContext.hasChanges else { return }
-            
-            do {
-                try operationContext.obtainPermanentIDs(for: Array(operationContext.insertedObjects))
-                deleted = deleted.union(operationContext.deletedObjects.map { $0.objectID })
-                inserted = inserted.union(operationContext.insertedObjects.map { $0.objectID }).subtracting(deleted)
-                updated = updated.union(operationContext.updatedObjects.map { $0.objectID }).subtracting(deleted)
-                try operationContext.save()
-            } catch {
-                print("Error saving context \(operationContext.name ?? ""): \(error)")
-                output = Result { throw error }
-            }
+        try saveContext()
+    }
+    
+    public func willSave(context: NSManagedObjectContext) {
+        willSaveContext(context)
+    }
+    
+    public func didSave(context: NSManagedObjectContext, saveError: Error?) {
+        didSaveContext(context, saveError)
+    }
+    
+    /// Add a block to be called just before a save begins executing.
+    /// - Parameter block: Contains the operation context.
+    public func addWillSaveContextBlock(block: @escaping (NSManagedObjectContext) -> Void) {
+        let existing = willSaveContext
+        willSaveContext = { context in
+            existing(context)
+            block(context)
         }
     }
     
-    /// Save the context, and finish the operation.
-    /// This will only set the output on failure; otherwise, subclasses are expected to set their own results.
-    open func saveAndFinish() {
-        guard !isCancelled else { return finish() }
-        
-        saveOperationContext()
-        finish()
+    /// Add a block to be called just after a save has executed
+    /// - Parameter block: Contains the operation context and any error returned from the save.
+    public func addDidSaveContextBlock(block: @escaping (NSManagedObjectContext, Error?) -> Void) {
+        let existing = didSaveContext
+        didSaveContext = { context, error in
+            existing(context, error)
+            block(context, error)
+        }
     }
 }

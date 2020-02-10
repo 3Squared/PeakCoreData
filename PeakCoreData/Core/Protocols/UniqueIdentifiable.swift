@@ -10,5 +10,5 @@ import Foundation
 
 public protocol UniqueIdentifiable {
     static var uniqueIDKey: String { get }
-    var uniqueIDValue: String { get }
+    var uniqueIDValue: AnyHashable { get }
 }

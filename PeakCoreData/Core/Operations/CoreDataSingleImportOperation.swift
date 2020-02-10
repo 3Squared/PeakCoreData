@@ -1,5 +1,5 @@
 //
-//  CoreDataImportObjectOperation.swift
+//  CoreDataSingleImportOperation.swift
 //  PeakCoreData
 //
 //  Created by David Yates on 25/09/2017.
@@ -9,21 +9,37 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataSingleImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
-    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
-    Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
-{
-    public var input: Result<Intermediate, Error> = Result { throw ResultError.noResult }
+open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation, ConsumesResult, ProducesResult where Intermediate: ManagedObjectUpdatable & UniqueIdentifiable {
     
     typealias ManagedObject = Intermediate.ManagedObject
-
+    
+    public var input: Result<Intermediate, Error> = Result { throw ResultError.noResult }
+    public var output: Result<Void, Error> = Result { throw ResultError.noResult }
+    
+    private let cache: ManagedObjectCache?
+    
+    public init(cache: ManagedObjectCache? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+        self.cache = cache
+        super.init(persistentContainer: persistentContainer, mergePolicyType: mergePolicyType)
+    }
+    
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediate = try input.get()
-            let managedObject = ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context)
-            intermediate.updateProperties(on: managedObject)
-            intermediate.updateRelationships(on: managedObject, in: context)
-            saveAndFinish()
+            
+            ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context, with: cache) { managedObject in
+                Intermediate.updateProperties?(intermediate, managedObject)
+                Intermediate.updateRelationships?(intermediate, managedObject, context, self.cache)
+            }
+            
+            do {
+                try saveOperationContext()
+                output = .success(())
+            } catch {
+                output = .failure(error)
+            }
+            
+            finish()
         } catch {
             output = Result { throw error }
             finish()

@@ -31,20 +31,20 @@ public struct TestEntityJSON: Codable {
 
 extension TestEntityJSON: ManagedObjectUpdatable {
     
-    public func updateProperties(on managedObject: TestEntity) {
-        managedObject.uniqueID = uniqueID
-        managedObject.title = title
+    public typealias ManagedObject = TestEntity
+    
+    public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
+        managedObject.uniqueID = intermediate.uniqueID
+        managedObject.title = intermediate.title
     }
     
-    public func updateRelationships(on managedObject: TestEntity, in context: NSManagedObjectContext) {
-        //
-    }
+    public static var updateRelationships: UpdateRelationshipsBlock? = nil
 }
 
 extension TestEntityJSON: ManagedObjectInitialisable {
     
     public init(with managedObject: TestEntity) throws {
-        uniqueID = managedObject.uniqueIDValue
+        uniqueID = managedObject.uniqueID!
         title = managedObject.title!
     }
 }
@@ -55,7 +55,7 @@ extension TestEntityJSON: UniqueIdentifiable {
         return "uniqueID"
     }
     
-    public var uniqueIDValue: String {
+    public var uniqueIDValue: AnyHashable {
         return uniqueID
     }
 }

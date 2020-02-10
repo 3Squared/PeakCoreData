@@ -21,28 +21,115 @@ import CoreData
 
 let defaultTimeout = TimeInterval(2)
 
-class CoreDataTests: XCTestCase, PersistentContainerSettable {
+public protocol ModelVersion: Equatable {
+    static var all: [Self] { get }
+    static var current: Self { get }
+    var name: String { get }
+    var successor: Self? { get }
+    var modelBundle: Bundle { get }
+    var modelDirectoryName: String { get }
+}
+
+
+extension ModelVersion {
+
+    public var successor: Self? { return nil }
+
+    public init?(storeURL: URL) {
+        guard let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil) else { return nil }
+        let version = Self.all.first {
+            $0.managedObjectModel().isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata)
+        }
+        guard let result = version else { return nil }
+        self = result
+    }
+
+    public func managedObjectModel() -> NSManagedObjectModel {
+        let omoURL = modelBundle.url(forResource: name, withExtension: "omo", subdirectory: modelDirectoryName)
+        let momURL = modelBundle.url(forResource: name, withExtension: "mom", subdirectory: modelDirectoryName)
+        guard let url = omoURL ?? momURL else { fatalError("model version \(self) not found") }
+        guard let model = NSManagedObjectModel(contentsOf: url) else { fatalError("cannot open model at \(url)") }
+        return model
+    }
+}
+
+enum TestModelVersion: String {
+    case Version1 = "TestModel"
+}
+
+
+extension TestModelVersion: ModelVersion {
+    static var all: [TestModelVersion] { return [.Version1] }
+    static var current: TestModelVersion { return .Version1 }
+
+    var name: String { return rawValue }
+    var modelBundle: Bundle { return Bundle(for: CoreDataTests.self) }
+    var modelDirectoryName: String { return "TestModel.momd" }
+}
+
+extension NSManagedObjectContext {
     
-    var persistentContainer: NSPersistentContainer!
+    static func testingInMemoryContext() -> NSManagedObjectContext {
+        return testContext { $0.addInMemoryTestStore() }
+    }
     
+    static func testingSQLiteContext() -> NSManagedObjectContext {
+        return testContext { $0.addSQLiteTestStore() }
+    }
+    
+    static func testContext(_ addStore: (NSPersistentStoreCoordinator) -> ()) -> NSManagedObjectContext {
+        let model = TestModelVersion.current.managedObjectModel()
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+        addStore(coordinator)
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.persistentStoreCoordinator = coordinator
+        return context
+    }
+}
+
+extension NSPersistentStoreCoordinator {
+    
+    func addInMemoryTestStore() {
+        try! addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
+    }
+    
+    func addSQLiteTestStore() {
+        let storeURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent("PeakCoreData-tests")
+        if FileManager.default.fileExists(atPath: storeURL.path) {
+            try! destroyPersistentStore(at: storeURL, ofType: NSSQLiteStoreType, options: nil)
+        }
+        try! addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+    }
+}
+
+class CoreDataTests: XCTestCase {
+    
+    var viewContext: NSManagedObjectContext!
+
     override func setUp() {
         super.setUp()
-        let testBundle = Bundle(for: type(of: self))
-        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
-        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
-        let description = NSPersistentStoreDescription()
-        description.type = NSInMemoryStoreType
-        persistentContainer.persistentStoreDescriptions = [description]
-        persistentContainer.loadPersistentStores { storeDescription, error in
-            if let error = error {
-                print(error)
-            }
-        }
-        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        
+        viewContext = NSManagedObjectContext.testingInMemoryContext()
+        viewContext.automaticallyMergesChangesFromParent = true
+        
+        
+        
+//        let testBundle = Bundle(for: type(of: self))
+//        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
+//        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
+//        let description = NSPersistentStoreDescription()
+//        description.type = NSInMemoryStoreType
+//        persistentContainer.persistentStoreDescriptions = [description]
+//        persistentContainer.loadPersistentStores { storeDescription, error in
+//            if let error = error {
+//                print(error)
+//            }
+//        }
+//        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     override func tearDown() {
-        persistentContainer = nil
+        viewContext = nil
         super.tearDown()
     }
     

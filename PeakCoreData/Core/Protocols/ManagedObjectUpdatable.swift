@@ -6,21 +6,31 @@
 //  Copyright © 2016 3Squared Ltd. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
-public protocol ManagedObjectUpdatable {
-    associatedtype ManagedObject: NSManagedObject
-    func updateProperties(on managedObject: ManagedObject)
-    func updateRelationships(on managedObject: ManagedObject, in context: NSManagedObjectContext)
+public protocol ManagedObjectUpdatable: UniqueIdentifiable {
+    associatedtype ManagedObject: ManagedObjectType & UniqueIdentifiable
+    
+    typealias UpdatePropertiesBlock = ((Self, ManagedObject) -> Void)
+    typealias UpdateRelationshipsBlock = ((Self, ManagedObject, NSManagedObjectContext, ManagedObjectCache?) -> Void)
+    
+    static var updateProperties: UpdatePropertiesBlock? { get }
+    static var updateRelationships: UpdateRelationshipsBlock? { get }
+}
+
+public extension ManagedObjectUpdatable {
+    static var hasProperties: Bool { updateProperties != nil }
+    static var hasRelationships: Bool { updateRelationships != nil }
 }
 
 public protocol ManagedObjectInitialisable {
-    associatedtype ManagedObject: NSManagedObject
+    associatedtype ManagedObject: ManagedObjectType
+    
     init(with managedObject: ManagedObject) throws
 }
 
 public extension ManagedObjectType where Self: NSManagedObject {
+    
     func encode<T>(to type: T.Type, encoder: JSONEncoder) throws -> Data where T: ManagedObjectInitialisable & Codable, T.ManagedObject == Self {
         return try encoder.encode(T(with: self))
     }

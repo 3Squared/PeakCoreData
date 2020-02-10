@@ -9,26 +9,26 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation<[Intermediate]> where
-    Intermediate: ManagedObjectInitialisable,
-    Intermediate.ManagedObject: ManagedObjectType
-{
+open class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation, ProducesResult where Intermediate: ManagedObjectInitialisable {
+    
     typealias ManagedObject = Intermediate.ManagedObject
+    
+    public var output: Result<[Intermediate], Error> = Result { throw ResultError.noResult }
     
     private let predicate: NSPredicate?
     
-    public init(with persistentContainer: NSPersistentContainer, matching predicate: NSPredicate? = nil) {
+    public init(predicate: NSPredicate? = nil, persistentContainer: NSPersistentContainer) {
         self.predicate = predicate
-        super.init(with: persistentContainer)
+        super.init(persistentContainer: persistentContainer)
     }
     
     open override func performWork(in context: NSManagedObjectContext) {
-        let objects = ManagedObject.fetch(in: context) { (request) in
-            request.predicate = self.predicate
-        }
+        let objects = ManagedObject.fetch(in: context) { $0.predicate = self.predicate }
+        
         output = Result {
             try objects.map(Intermediate.init)
         }
+        
         finish()
     }
 }

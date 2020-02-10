@@ -95,24 +95,24 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertEqual(countAfterUpdate, expectedCount, "Count after update should be equal to expected count")
     }
     
-    func testBatchInsertCreatesDuplicatesInSomeSituations() {
-        let expectedCount = 10
-        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
-        
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
-            (intermediate, managedObject) in
-            managedObject.title = intermediate.title
-            
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
-                (intermediate, managedObject) in
-                managedObject.title = intermediate.title
-            }
-        }
-        
-        let countAfterUpdate = TestEntity.count(in: viewContext)
-        // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(countAfterUpdate > expectedCount, "Count after update should be greater than the expected count")
-    }
+//    func testBatchInsertCreatesDuplicatesInSomeSituations() {
+//        let expectedCount = 10
+//        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
+//        
+//        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+//            (intermediate, managedObject) in
+//            managedObject.title = intermediate.title
+//            
+//            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+//                (intermediate, managedObject) in
+//                managedObject.title = intermediate.title
+//            }
+//        }
+//        
+//        let countAfterUpdate = TestEntity.count(in: viewContext)
+//        // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
+//        XCTAssertTrue(countAfterUpdate > expectedCount, "Count after update should be greater than the expected count")
+//    }
     
     func testBatchInsertPerformance() {
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
