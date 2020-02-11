@@ -7,7 +7,6 @@
 //
 
 import CoreData
-import PeakOperation
 
 public protocol PersistentContainerSettable: class {
     var persistentContainer: NSPersistentContainer! { get set }
