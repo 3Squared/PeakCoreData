@@ -15,15 +15,30 @@ import CoreData
 //  deleted: objects that will be deleted on save
 public struct Changeset {
     
+    public static var empty: Changeset {
+        return Changeset(inserted: [], updated: [], deleted: [])
+    }
+    
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
     public let deleted: Set<NSManagedObjectID>
     
-    public var all: Set<NSManagedObjectID> {
+    public var insertedAndUpdated: Set<NSManagedObjectID> {
         return inserted.union(updated)
     }
     
-    public static var emptyChangeset: Changeset {
-        return Changeset(inserted: [], updated: [], deleted: [])
+    public func inserted<Entity: ManagedObjectType>(of entityType: Entity.Type) -> Set<NSManagedObjectID> {
+        let entityName = entityType.entityName
+        return inserted.filter { $0.entity.name == entityName }
+    }
+    
+    public func updated<Entity: ManagedObjectType>(of entityType: Entity.Type) -> Set<NSManagedObjectID> {
+        let entityName = entityType.entityName
+        return updated.filter { $0.entity.name == entityName }
+    }
+    
+    public func deleted<Entity: ManagedObjectType>(of entityType: Entity.Type) -> Set<NSManagedObjectID> {
+        let entityName = entityType.entityName
+        return deleted.filter { $0.entity.name == entityName }
     }
 }

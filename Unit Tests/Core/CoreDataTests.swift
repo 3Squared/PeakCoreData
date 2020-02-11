@@ -102,34 +102,29 @@ extension NSPersistentStoreCoordinator {
     }
 }
 
-class CoreDataTests: XCTestCase {
+class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var viewContext: NSManagedObjectContext!
+    var persistentContainer: NSPersistentContainer!
 
     override func setUp() {
         super.setUp()
         
-        viewContext = NSManagedObjectContext.testingInMemoryContext()
-        viewContext.automaticallyMergesChangesFromParent = true
-        
-        
-        
-//        let testBundle = Bundle(for: type(of: self))
-//        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
-//        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
-//        let description = NSPersistentStoreDescription()
-//        description.type = NSInMemoryStoreType
-//        persistentContainer.persistentStoreDescriptions = [description]
-//        persistentContainer.loadPersistentStores { storeDescription, error in
-//            if let error = error {
-//                print(error)
-//            }
-//        }
-//        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        let testBundle = Bundle(for: type(of: self))
+        let model = NSManagedObjectModel.mergedModel(from: [testBundle])
+        persistentContainer = NSPersistentContainer(name: "TestModel", managedObjectModel: model!)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        persistentContainer.persistentStoreDescriptions = [description]
+        persistentContainer.loadPersistentStores { storeDescription, error in
+            if let error = error {
+                print(error)
+            }
+        }
+        persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     override func tearDown() {
-        viewContext = nil
+        persistentContainer = nil
         super.tearDown()
     }
     

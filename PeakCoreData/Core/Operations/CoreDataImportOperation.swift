@@ -9,17 +9,17 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation, ConsumesResult, ProducesResult where Intermediate: ManagedObjectUpdatable & UniqueIdentifiable {
+open class CoreDataImportOperation<Intermediate>: CoreDataOperation, ConsumesResult, ProducesResult where Intermediate: ManagedObjectUpdatable & UniqueIdentifiable {
     
     typealias ManagedObject = Intermediate.ManagedObject
     
     public var input: Result<[Intermediate], Error> = Result { throw ResultError.noResult }
-    public var output: Result<Int, Error> = Result { throw ResultError.noResult }
+    public var output: Result<Changeset, Error> = Result { throw ResultError.noResult }
     
     private let batchSize: Int
     private let cache: ManagedObjectCache?
     private var batches: [[Intermediate]] = []
-    private var importedCount: Int = 0
+    private var changeset: Changeset = Changeset.empty
     
     public init(batchSize: Int = 50_000, cache: ManagedObjectCache? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.batchSize = batchSize
@@ -46,7 +46,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation, Consum
     func importNextBatch(in context: NSManagedObjectContext, importProgress: Progress) {
         guard !isCancelled else { return finish() }
         guard let intermediates = batches.first else {
-            output = .success(importedCount)
+            output = .success(changeset)
             return finish()
         }
         
@@ -67,8 +67,8 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataOperation, Consum
         }
         
         do {
+            changeset = try calculateChangeset(with: changeset)
             try saveOperationContext()
-            importedCount += intermediates.count
             importNextBatch(in: context, importProgress: importProgress)
         } catch {
             // If a single batch fails, we end the import.

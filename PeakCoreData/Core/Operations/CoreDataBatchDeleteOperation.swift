@@ -11,7 +11,7 @@ import PeakOperation
 
 open class CoreDataBatchDeleteEntityOperation<Entity: ManagedObjectType>: CoreDataOperation, ProducesResult {
     
-    public var output: Result<Int, Error> = Result { throw ResultError.noResult }
+    public var output: Result<Changeset, Error> = Result { throw ResultError.noResult }
     
     private let predicate: NSPredicate?
     
@@ -27,11 +27,12 @@ open class CoreDataBatchDeleteEntityOperation<Entity: ManagedObjectType>: CoreDa
         deleteRequest.resultType = .resultTypeObjectIDs
         do {
             let result = try context.execute(deleteRequest) as! NSBatchDeleteResult
-            let objectIDArray = result.result as! [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey: objectIDArray]
+            let objectIDs = result.result as! [NSManagedObjectID]
+            let changes = [NSDeletedObjectsKey: objectIDs]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
+            let changeset = Changeset(inserted: [], updated: [], deleted: Set(objectIDs))
             try saveOperationContext()
-            output = .success(objectIDArray.count)
+            output = .success(changeset)
         } catch {
             output = .failure(error)
         }

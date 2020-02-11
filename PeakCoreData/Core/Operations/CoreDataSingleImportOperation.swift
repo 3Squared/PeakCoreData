@@ -14,7 +14,7 @@ open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation, Consu
     typealias ManagedObject = Intermediate.ManagedObject
     
     public var input: Result<Intermediate, Error> = Result { throw ResultError.noResult }
-    public var output: Result<Void, Error> = Result { throw ResultError.noResult }
+    public var output: Result<Changeset, Error> = Result { throw ResultError.noResult }
     
     private let cache: ManagedObjectCache?
     
@@ -33,8 +33,9 @@ open class CoreDataSingleImportOperation<Intermediate>: CoreDataOperation, Consu
             }
             
             do {
+                let changeset = try calculateChangeset()
                 try saveOperationContext()
-                output = .success(())
+                output = .success(changeset)
             } catch {
                 output = .failure(error)
             }

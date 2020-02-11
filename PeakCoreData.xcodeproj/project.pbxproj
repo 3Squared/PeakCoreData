@@ -38,7 +38,7 @@
 		186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
 		186D312822CB651C003A5A8F /* ObjectDidChangeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D821930205AC7CA00732777 /* ObjectDidChangeNotification.swift */; };
 		186D312A22CB6521003A5A8F /* CoreDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */; };
-		186D312C22CB6521003A5A8F /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
+		186D312C22CB6521003A5A8F /* CoreDataImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */; };
 		186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		186D312E22CB6521003A5A8F /* CoreDataToIntermediateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */; };
 		186D312F22CB652B003A5A8F /* PeakCoreData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D9797DE1DF8138100DAB75A /* PeakCoreData.h */; };
@@ -90,7 +90,7 @@
 		CBF972B31E5DEE8700F37801 /* UniqueIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */; };
 		CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */; };
 		CBF972BB1E5DEF2100F37801 /* ManagedObjectUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */; };
-		CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */; };
+		CBF972BE1E5DEF2900F37801 /* CoreDataImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,7 +173,7 @@
 		CBF972B11E5DEE8700F37801 /* UniqueIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniqueIdentifiable.swift; sourceTree = "<group>"; };
 		CBF972B41E5DEEFC00F37801 /* PersistentContainerSettable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentContainerSettable.swift; sourceTree = "<group>"; };
 		CBF972BA1E5DEF2100F37801 /* ManagedObjectUpdatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectUpdatable.swift; sourceTree = "<group>"; };
-		CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataBatchImportOperation.swift; sourceTree = "<group>"; };
+		CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataImportOperation.swift; sourceTree = "<group>"; };
 		DAC0D3C03C9FDAFE479F57F3 /* Pods-PeakCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData/Pods-PeakCoreData.debug.xcconfig"; sourceTree = "<group>"; };
 		E68F014EC32D41FDF68ED4C6 /* libPods-PeakCoreData-macOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PeakCoreData-macOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -381,8 +381,8 @@
 			children = (
 				8D46B5F423ED660100E3B73B /* Changeset.swift */,
 				8D82F7AA23E9D7480089C9B6 /* CoreDataBatchDeleteOperation.swift */,
-				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
 				8D82F7AC23E9D7A70089C9B6 /* CoreDataBatchUpdateOperation.swift */,
+				CBF972BC1E5DEF2900F37801 /* CoreDataImportOperation.swift */,
 				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
 				8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */,
@@ -743,7 +743,7 @@
 				186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */,
 				186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */,
 				186D313222CB669E003A5A8F /* ManagedObjectType.swift in Sources */,
-				186D312C22CB6521003A5A8F /* CoreDataBatchImportOperation.swift in Sources */,
+				186D312C22CB6521003A5A8F /* CoreDataImportOperation.swift in Sources */,
 				186D312622CB6519003A5A8F /* ManagedObjectObserver.swift in Sources */,
 				186D312422CB6510003A5A8F /* NSPredicate.swift in Sources */,
 				186D311F22CB650B003A5A8F /* FetchedCollection.swift in Sources */,
@@ -792,7 +792,7 @@
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
 				8D94662022146BF500B2197D /* NSPredicate.swift in Sources */,
-				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
+				CBF972BE1E5DEF2900F37801 /* CoreDataImportOperation.swift in Sources */,
 				186D313922CB847F003A5A8F /* CollectionViewUpdatable.swift in Sources */,
 				8D84C25F224CCF9C008C35D7 /* NSManagedObjectContext.swift in Sources */,
 				8D84C263224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift in Sources */,

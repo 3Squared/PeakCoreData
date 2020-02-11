@@ -11,7 +11,7 @@ import PeakOperation
 
 class CoreDataBatchUpdateEntityOperation<Entity: ManagedObjectType>: CoreDataOperation, ProducesResult {
     
-    var output: Result<[NSManagedObjectID], Error> = Result { throw ResultError.noResult }
+    var output: Result<Changeset, Error> = Result { throw ResultError.noResult }
     
     private let predicate: NSPredicate?
     private let propertiesToUpdate: [AnyHashable: Any]
@@ -29,11 +29,12 @@ class CoreDataBatchUpdateEntityOperation<Entity: ManagedObjectType>: CoreDataOpe
         request.resultType = .updatedObjectIDsResultType
         do {
             let result = try context.execute(request) as! NSBatchUpdateResult
-            let objectIDArray = result.result as! [NSManagedObjectID]
-            let changes = [NSUpdatedObjectsKey: objectIDArray]
+            let objectIDs = result.result as! [NSManagedObjectID]
+            let changes = [NSUpdatedObjectsKey: objectIDs]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
+            let changeset = Changeset(inserted: [], updated: Set(objectIDs), deleted: [])
             try saveOperationContext()
-            output = .success(objectIDArray)
+            output = .success(changeset)
         } catch {
             output = .failure(error)
         }

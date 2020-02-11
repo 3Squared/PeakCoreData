@@ -65,3 +65,26 @@ extension NSManagedObjectContext {
         }
     }
 }
+
+extension NSManagedObjectContext {
+    
+    public var deletedObjectIDs: Set<NSManagedObjectID> { Set(deletedObjects.map { $0.objectID }) }
+    public var updatedObbjectIDs: Set<NSManagedObjectID> { Set(updatedObjects.map { $0.objectID }) }
+    public var insertedObjectIDs: Set<NSManagedObjectID> { Set(insertedObjects.map { $0.objectID }) }
+    
+    public func calculateChangeset(with existingChangeset: Changeset? = nil) throws -> Changeset {
+        guard hasChanges else { return existingChangeset ?? Changeset.empty }
+        
+        try obtainPermanentIDs(for: Array(insertedObjects))
+        
+        let existingDeleted: Set<NSManagedObjectID> = existingChangeset?.deleted ?? []
+        let existingUpdated: Set<NSManagedObjectID> = existingChangeset?.updated ?? []
+        let existingInserted: Set<NSManagedObjectID> = existingChangeset?.inserted ?? []
+        
+        let deleted = existingDeleted.union(deletedObjectIDs)
+        let inserted = existingInserted.union(insertedObjectIDs).subtracting(deleted)
+        let updated = existingUpdated.union(updatedObbjectIDs).subtracting(deleted)
+        
+        return Changeset(inserted: inserted, updated: updated, deleted: deleted)
+    }
+}

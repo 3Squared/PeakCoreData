@@ -9,11 +9,9 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataOperation: ConcurrentOperation, HasContext {
-    
-    public var context: NSManagedObjectContext? { operationContext }
-    
-    private var operationContext: NSManagedObjectContext?
+open class CoreDataOperation: ConcurrentOperation {
+        
+    private var operationContext: NSManagedObjectContext!
     private var willSaveContext: (NSManagedObjectContext) -> Void = { _ in }
     private var didSaveContext: (NSManagedObjectContext, Error?) -> Void = { (_, _) in }
     
@@ -30,6 +28,7 @@ open class CoreDataOperation: ConcurrentOperation, HasContext {
     open override func execute() {
         persistentContainer.performBackgroundTask { [weak self] context in
             guard let self = self else { return }
+            
             context.name = "PeakCoreData.CoreDataOperation.OperationContext"
             context.mergePolicy = NSMergePolicy(merge: self.mergePolicyType)
             
@@ -50,7 +49,22 @@ open class CoreDataOperation: ConcurrentOperation, HasContext {
     /// - Note: This must be called on the operation context's thread.
     open func saveOperationContext() throws {
         guard !isCancelled else { return finish() }
-        try saveContext()
+        guard operationContext.hasChanges else { return }
+        
+        willSave(context: operationContext)
+        
+        do {
+            try operationContext.save()
+            didSave(context: operationContext, saveError: nil)
+        } catch {
+            didSave(context: operationContext, saveError: error)
+            throw error
+        }
+    }
+    
+    @discardableResult
+    public func calculateChangeset(with existingChangeset: Changeset? = nil) throws -> Changeset {
+        return try operationContext.calculateChangeset(with: existingChangeset)
     }
     
     public func willSave(context: NSManagedObjectContext) {
