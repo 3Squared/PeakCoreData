@@ -55,22 +55,22 @@ class ProgressTests: CoreDataTests {
         XCTAssertEqual(filtered.count, count / 2)
     }
 
-//    func testBatchImportOperation() {
-//        // Create intermediate objects
-//        let input = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
-//        try! viewContext.save()
-//        
-//        // Create import operation with intermediates as input
-//        let operation = CoreDataBatchImportOperation<TestEntityJSON>(batchSize: 10_000, persistentContainer: persistentContainer)
-//        operation.input = Result { input }
-//        
-//        let progress = operation.chainProgress()
-//        
-//        keyValueObservingExpectation(for: progress, keyPath: "fractionCompleted") {  observedObject, change in
-//            return progress.completedUnitCount == progress.totalUnitCount
-//        }
-//
-//        operation.enqueue()
-//        waitForExpectations(timeout: defaultTimeout)
-//    }
+    func testBatchImportOperation() {
+        // Create intermediate objects
+        let input = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
+        try! viewContext.save()
+        
+        // Create import operation with intermediates as input
+        let operation = CoreDataImportOperation<TestEntityJSON>(batchSize: 10_000, persistentContainer: persistentContainer)
+        operation.input = Result { input }
+        
+        let progress = operation.chainProgress()
+        
+        keyValueObservingExpectation(for: progress, keyPath: "fractionCompleted") {  observedObject, change in
+            return progress.completedUnitCount == progress.totalUnitCount
+        }
+
+        operation.enqueue()
+        waitForExpectations(timeout: defaultTimeout)
+    }
 }
