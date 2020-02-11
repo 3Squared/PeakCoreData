@@ -205,17 +205,11 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
     static func fetchObject(with uniqueKeyValue: AnyHashable, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil) -> Self? {
         if let cachedObject: Self = cache?.object(withUniqueID: uniqueKeyValue, in: context) {
             return cachedObject
+        } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueKeyValue)) {
+            cache?.register(object, in: context)
+            return object
         }
-        let object = fetch(in: context) { request in
-            request.predicate = self.uniqueObjectPredicate(with: uniqueKeyValue)
-            request.fetchLimit = 1
-        }.first
-        
-        if let cache = cache, let object = object {
-            cache.register(object, in: context)
-        }
-        
-        return object
+        return nil
     }
     
     /**
@@ -231,11 +225,11 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      */
     @discardableResult
     static func fetchOrInsertObject(with uniqueKeyValue: AnyHashable, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        guard let existingObject = fetchObject(with: uniqueKeyValue, in: context, with: cache) else {
-            return insertObject(with: uniqueKeyValue, in: context, with: cache, configure: configure)
+        if let existingObject = fetchObject(with: uniqueKeyValue, in: context, with: cache) {
+            configure?(existingObject)
+            return existingObject
         }
-        configure?(existingObject)
-        return existingObject
+        return insertObject(with: uniqueKeyValue, in: context, with: cache, configure: configure)
     }
     
     /**
