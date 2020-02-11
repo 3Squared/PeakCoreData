@@ -15,9 +15,7 @@ import CoreData
 //  deleted: objects that will be deleted on save
 public struct Changeset {
     
-    public static var empty: Changeset {
-        return Changeset(inserted: [], updated: [], deleted: [])
-    }
+    public static var empty: Changeset { Changeset(inserted: [], updated: [], deleted: []) }
     
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
