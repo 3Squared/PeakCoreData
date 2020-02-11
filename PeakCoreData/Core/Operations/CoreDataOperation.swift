@@ -10,21 +10,21 @@ import CoreData
 import PeakOperation
 
 open class CoreDataOperation: ConcurrentOperation {
-        
+    
+    private let persistentContainer: NSPersistentContainer
+    private let mergePolicyType: NSMergePolicyType
     private var operationContext: NSManagedObjectContext!
     private var willSaveContext: (NSManagedObjectContext) -> Void = { _ in }
     private var didSaveContext: (NSManagedObjectContext, Error?) -> Void = { (_, _) in }
     
-    private let persistentContainer: NSPersistentContainer
-    private let mergePolicyType: NSMergePolicyType
-    
     public init(persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.persistentContainer = persistentContainer
         self.mergePolicyType = mergePolicyType
+        super.init()
     }
     
     // MARK: - ConcurrentOperation Overrides
-
+    
     open override func execute() {
         persistentContainer.performBackgroundTask { [weak self] context in
             guard let self = self else { return }
@@ -46,19 +46,20 @@ open class CoreDataOperation: ConcurrentOperation {
     // MARK: - Public Methods
     
     /// Saves the operation context if needed.
-    /// - Note: This must be called on the operation context's thread.
     open func saveOperationContext() throws {
         guard !isCancelled else { return finish() }
         guard operationContext.hasChanges else { return }
         
         willSave(context: operationContext)
         
-        do {
-            try operationContext.save()
-            didSave(context: operationContext, saveError: nil)
-        } catch {
-            didSave(context: operationContext, saveError: error)
-            throw error
+        try operationContext.performAndWait {
+            do {
+                try operationContext.save()
+                didSave(context: operationContext, saveError: nil)
+            } catch {
+                didSave(context: operationContext, saveError: error)
+                throw error
+            }
         }
     }
     
