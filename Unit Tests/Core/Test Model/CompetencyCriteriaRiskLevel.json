@@ -1,0 +1,23 @@
+[
+  {
+    "CompetencyCriteriaRiskLevelId" : "1648e146-50c8-4019-b9f3-329e89346eef",
+    "Name" : "High",
+    "IsDeleted" : false,
+    "OrderIndex" : 0,
+    "Colour" : "#e52c39"
+  },
+  {
+    "CompetencyCriteriaRiskLevelId" : "fcbea471-6cc7-48b9-9e18-468d612629a5",
+    "Name" : "Medium",
+    "IsDeleted" : false,
+    "OrderIndex" : 1,
+    "Colour" : "#ed754a"
+  },
+  {
+    "CompetencyCriteriaRiskLevelId" : "b9045034-7be7-4666-ae96-c6caae06fddb",
+    "Name" : "Low",
+    "IsDeleted" : false,
+    "OrderIndex" : 2,
+    "Colour" : "#31a66c"
+  }
+]

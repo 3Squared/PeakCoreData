@@ -81,6 +81,31 @@
 		8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */; };
 		8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */; };
 		8DB3C03F2050208400AE66DD /* FetchedCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */; };
+		8DC9E96723F6ABFC008AC7C6 /* CompetencyElement.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96323F6ABFC008AC7C6 /* CompetencyElement.json */; };
+		8DC9E96823F6ABFC008AC7C6 /* CompetencyElement.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96323F6ABFC008AC7C6 /* CompetencyElement.json */; };
+		8DC9E96923F6ABFC008AC7C6 /* CompetencyCycle.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96423F6ABFC008AC7C6 /* CompetencyCycle.json */; };
+		8DC9E96A23F6ABFC008AC7C6 /* CompetencyCycle.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96423F6ABFC008AC7C6 /* CompetencyCycle.json */; };
+		8DC9E96B23F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96523F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json */; };
+		8DC9E96C23F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96523F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json */; };
+		8DC9E96D23F6ABFC008AC7C6 /* CompetencyCriteria.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96623F6ABFC008AC7C6 /* CompetencyCriteria.json */; };
+		8DC9E96E23F6ABFC008AC7C6 /* CompetencyCriteria.json in Resources */ = {isa = PBXBuildFile; fileRef = 8DC9E96623F6ABFC008AC7C6 /* CompetencyCriteria.json */; };
+		8DC9E97023F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E96F23F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift */; };
+		8DC9E97123F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E96F23F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift */; };
+		8DC9E97323F6AE44008AC7C6 /* CompetencyCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97223F6AE44008AC7C6 /* CompetencyCriteria.swift */; };
+		8DC9E97423F6AE44008AC7C6 /* CompetencyCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97223F6AE44008AC7C6 /* CompetencyCriteria.swift */; };
+		8DC9E97623F6AF9D008AC7C6 /* CompetencyCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97523F6AF9D008AC7C6 /* CompetencyCycle.swift */; };
+		8DC9E97723F6AF9D008AC7C6 /* CompetencyCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97523F6AF9D008AC7C6 /* CompetencyCycle.swift */; };
+		8DC9E97923F6AFA6008AC7C6 /* CompetencyCycleJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97823F6AFA6008AC7C6 /* CompetencyCycleJSON.swift */; };
+		8DC9E97A23F6AFA6008AC7C6 /* CompetencyCycleJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97823F6AFA6008AC7C6 /* CompetencyCycleJSON.swift */; };
+		8DC9E97C23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97B23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift */; };
+		8DC9E97D23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97B23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift */; };
+		8DC9E97F23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97E23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift */; };
+		8DC9E98023F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E97E23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift */; };
+		8DC9E98223F6B22F008AC7C6 /* CompetencyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E98123F6B22F008AC7C6 /* CompetencyElement.swift */; };
+		8DC9E98323F6B22F008AC7C6 /* CompetencyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E98123F6B22F008AC7C6 /* CompetencyElement.swift */; };
+		8DC9E98523F6B237008AC7C6 /* CompetencyElementJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E98423F6B237008AC7C6 /* CompetencyElementJSON.swift */; };
+		8DC9E98623F6B237008AC7C6 /* CompetencyElementJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E98423F6B237008AC7C6 /* CompetencyElementJSON.swift */; };
+		8DC9E98B23F6B47C008AC7C6 /* ImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC9E98A23F6B47C008AC7C6 /* ImportTests.swift */; };
 		8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */; };
 		8DFD6D66205A82F6008CFD28 /* ManagedObjectObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */; };
 		CA46814A8F9BA2405A5D2691 /* libPods-PeakCoreData-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D6DB53AC656E1B4319546D4 /* libPods-PeakCoreData-iOSTests.a */; };
@@ -162,6 +187,19 @@
 		8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestEntity+JSON.swift"; sourceTree = "<group>"; };
 		8D9798161DF817CC00DAB75A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		8DB3C03E2050208400AE66DD /* FetchedCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		8DC9E96323F6ABFC008AC7C6 /* CompetencyElement.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CompetencyElement.json; sourceTree = "<group>"; };
+		8DC9E96423F6ABFC008AC7C6 /* CompetencyCycle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CompetencyCycle.json; sourceTree = "<group>"; };
+		8DC9E96523F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CompetencyCriteriaRiskLevel.json; sourceTree = "<group>"; };
+		8DC9E96623F6ABFC008AC7C6 /* CompetencyCriteria.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CompetencyCriteria.json; sourceTree = "<group>"; };
+		8DC9E96F23F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCriteriaJSON.swift; sourceTree = "<group>"; };
+		8DC9E97223F6AE44008AC7C6 /* CompetencyCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCriteria.swift; sourceTree = "<group>"; };
+		8DC9E97523F6AF9D008AC7C6 /* CompetencyCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCycle.swift; sourceTree = "<group>"; };
+		8DC9E97823F6AFA6008AC7C6 /* CompetencyCycleJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCycleJSON.swift; sourceTree = "<group>"; };
+		8DC9E97B23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCriteriaRiskLevel.swift; sourceTree = "<group>"; };
+		8DC9E97E23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyCriteriaRiskLevelJSON.swift; sourceTree = "<group>"; };
+		8DC9E98123F6B22F008AC7C6 /* CompetencyElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyElement.swift; sourceTree = "<group>"; };
+		8DC9E98423F6B237008AC7C6 /* CompetencyElementJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyElementJSON.swift; sourceTree = "<group>"; };
+		8DC9E98A23F6B47C008AC7C6 /* ImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTests.swift; sourceTree = "<group>"; };
 		8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSingleImportOperation.swift; sourceTree = "<group>"; };
 		8DFD6D65205A82F6008CFD28 /* ManagedObjectObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectObserver.swift; sourceTree = "<group>"; };
 		A39768996CC80266557761F4 /* Pods-PeakCoreData-macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PeakCoreData-macOSTests/Pods-PeakCoreData-macOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -300,6 +338,7 @@
 				186D310822CB6154003A5A8F /* CoreDataTests.swift */,
 				186D310722CB6154003A5A8F /* CountObserverTests.swift */,
 				186D310622CB6154003A5A8F /* FetchedCollectionTests.swift */,
+				8DC9E98A23F6B47C008AC7C6 /* ImportTests.swift */,
 				186D310322CB6154003A5A8F /* ManagedObjectContextTests.swift */,
 				186D310222CB6154003A5A8F /* ManagedObjectObserverTests.swift */,
 				186D310022CB6154003A5A8F /* ManagedObjectTypeTests.swift */,
@@ -314,10 +353,22 @@
 		186D30FF22CB60F4003A5A8F /* Test Model */ = {
 			isa = PBXGroup;
 			children = (
-				8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */,
-				8D97980F1DF815E400DAB75A /* TestEntity.swift */,
 				8D159AFD205C001A004D693A /* AnotherEntity.swift */,
+				8DC9E96623F6ABFC008AC7C6 /* CompetencyCriteria.json */,
+				8DC9E97223F6AE44008AC7C6 /* CompetencyCriteria.swift */,
+				8DC9E96F23F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift */,
+				8DC9E96523F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json */,
+				8DC9E97B23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift */,
+				8DC9E97E23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift */,
+				8DC9E96423F6ABFC008AC7C6 /* CompetencyCycle.json */,
+				8DC9E97523F6AF9D008AC7C6 /* CompetencyCycle.swift */,
+				8DC9E97823F6AFA6008AC7C6 /* CompetencyCycleJSON.swift */,
+				8DC9E96323F6ABFC008AC7C6 /* CompetencyElement.json */,
+				8DC9E98123F6B22F008AC7C6 /* CompetencyElement.swift */,
+				8DC9E98423F6B237008AC7C6 /* CompetencyElementJSON.swift */,
+				8D97980F1DF815E400DAB75A /* TestEntity.swift */,
 				8D9798101DF815E400DAB75A /* TestEntity+JSON.swift */,
+				8D9798151DF817CC00DAB75A /* TestModel.xcdatamodeld */,
 			);
 			path = "Test Model";
 			sourceTree = "<group>";
@@ -626,6 +677,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DC9E96823F6ABFC008AC7C6 /* CompetencyElement.json in Resources */,
+				8DC9E96E23F6ABFC008AC7C6 /* CompetencyCriteria.json in Resources */,
+				8DC9E96A23F6ABFC008AC7C6 /* CompetencyCycle.json in Resources */,
+				8DC9E96C23F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +695,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DC9E96723F6ABFC008AC7C6 /* CompetencyElement.json in Resources */,
+				8DC9E96D23F6ABFC008AC7C6 /* CompetencyCriteria.json in Resources */,
+				8DC9E96923F6ABFC008AC7C6 /* CompetencyCycle.json in Resources */,
+				8DC9E96B23F6ABFC008AC7C6 /* CompetencyCriteriaRiskLevel.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,15 +826,23 @@
 				186D311722CB64F6003A5A8F /* ManagedObjectTypeTests.swift in Sources */,
 				186D311222CB64F6003A5A8F /* CoreDataTests.swift in Sources */,
 				186D311322CB64F6003A5A8F /* CountObserverTests.swift in Sources */,
+				8DC9E97423F6AE44008AC7C6 /* CompetencyCriteria.swift in Sources */,
+				8DC9E98623F6B237008AC7C6 /* CompetencyElementJSON.swift in Sources */,
 				186D311A22CB64F6003A5A8F /* ProgressTests.swift in Sources */,
 				186D311922CB64F6003A5A8F /* PredicateTests.swift in Sources */,
+				8DC9E97723F6AF9D008AC7C6 /* CompetencyCycle.swift in Sources */,
 				186D311C22CB64FE003A5A8F /* AnotherEntity.swift in Sources */,
 				186D311E22CB6500003A5A8F /* TestModel.xcdatamodeld in Sources */,
 				186D311522CB64F6003A5A8F /* ManagedObjectContextTests.swift in Sources */,
+				8DC9E98323F6B22F008AC7C6 /* CompetencyElement.swift in Sources */,
 				186D311422CB64F6003A5A8F /* FetchedCollectionTests.swift in Sources */,
+				8DC9E98023F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift in Sources */,
 				186D311622CB64F6003A5A8F /* ManagedObjectObserverTests.swift in Sources */,
 				186D311D22CB64FE003A5A8F /* TestEntity+JSON.swift in Sources */,
+				8DC9E97A23F6AFA6008AC7C6 /* CompetencyCycleJSON.swift in Sources */,
+				8DC9E97D23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift in Sources */,
 				186D311822CB64F6003A5A8F /* OperationTests.swift in Sources */,
+				8DC9E97123F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,15 +888,24 @@
 				8D9798131DF815E400DAB75A /* TestEntity+JSON.swift in Sources */,
 				8D9798121DF815E400DAB75A /* TestEntity.swift in Sources */,
 				186D310B22CB64F5003A5A8F /* FetchedCollectionTests.swift in Sources */,
+				8DC9E98B23F6B47C008AC7C6 /* ImportTests.swift in Sources */,
+				8DC9E97323F6AE44008AC7C6 /* CompetencyCriteria.swift in Sources */,
+				8DC9E98523F6B237008AC7C6 /* CompetencyElementJSON.swift in Sources */,
 				8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */,
 				8D9798171DF817CC00DAB75A /* TestModel.xcdatamodeld in Sources */,
+				8DC9E97623F6AF9D008AC7C6 /* CompetencyCycle.swift in Sources */,
 				186D310D22CB64F5003A5A8F /* ManagedObjectObserverTests.swift in Sources */,
 				186D310922CB64F5003A5A8F /* CoreDataTests.swift in Sources */,
 				186D310C22CB64F5003A5A8F /* ManagedObjectContextTests.swift in Sources */,
+				8DC9E98223F6B22F008AC7C6 /* CompetencyElement.swift in Sources */,
 				186D310E22CB64F5003A5A8F /* ManagedObjectTypeTests.swift in Sources */,
+				8DC9E97F23F6B224008AC7C6 /* CompetencyCriteriaRiskLevelJSON.swift in Sources */,
 				186D310A22CB64F5003A5A8F /* CountObserverTests.swift in Sources */,
 				186D310F22CB64F5003A5A8F /* OperationTests.swift in Sources */,
+				8DC9E97923F6AFA6008AC7C6 /* CompetencyCycleJSON.swift in Sources */,
+				8DC9E97C23F6B21B008AC7C6 /* CompetencyCriteriaRiskLevel.swift in Sources */,
 				186D311022CB64F5003A5A8F /* PredicateTests.swift in Sources */,
+				8DC9E97023F6ADD8008AC7C6 /* CompetencyCriteriaJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

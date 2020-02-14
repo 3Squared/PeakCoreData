@@ -5,6 +5,84 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniqueID" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="BaseCompetencyCriteria" representedClassName="BaseCompetencyCriteria" syncable="YES" codeGenerationType="class">
+        <attribute name="baseCompetencyCriteriaID" optional="YES" attributeType="String"/>
+        <relationship name="competencyCriteria" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompetencyCriteria" inverseName="baseCompetencyCriteria" inverseEntity="CompetencyCriteria"/>
+        <fetchIndex name="byUniqueID">
+            <fetchIndexElement property="baseCompetencyCriteriaID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="baseCompetencyCriteriaID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CompetencyCriteria" representedClassName="CompetencyCriteria" syncable="YES" codeGenerationType="class">
+        <attribute name="competencyCriteriaID" optional="YES" attributeType="String"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="version" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="baseCompetencyCriteria" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaseCompetencyCriteria" inverseName="competencyCriteria" inverseEntity="BaseCompetencyCriteria"/>
+        <relationship name="competencyCriteriaRiskLevel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompetencyCriteriaRiskLevel" inverseName="competencyCriteria" inverseEntity="CompetencyCriteriaRiskLevel"/>
+        <relationship name="competencyCycles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompetencyCycle" inverseName="competencyCriteria" inverseEntity="CompetencyCycle"/>
+        <relationship name="competencyElement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompetencyElement" inverseName="competencyCriteria" inverseEntity="CompetencyElement"/>
+        <fetchIndex name="byUniqueID">
+            <fetchIndexElement property="competencyCriteriaID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="competencyCriteriaID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CompetencyCriteriaRiskLevel" representedClassName="CompetencyCriteriaRiskLevel" syncable="YES" codeGenerationType="class">
+        <attribute name="colorHEX" optional="YES" attributeType="String"/>
+        <attribute name="competencyCriteriaRiskLevelID" optional="YES" attributeType="String"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="competencyCriteria" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompetencyCriteria" inverseName="competencyCriteriaRiskLevel" inverseEntity="CompetencyCriteria"/>
+        <fetchIndex name="ByUniqueID">
+            <fetchIndexElement property="competencyCriteriaRiskLevelID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="competencyCriteriaRiskLevelID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CompetencyCycle" representedClassName="CompetencyCycle" syncable="YES" codeGenerationType="class">
+        <attribute name="competencyCycleID" optional="YES" attributeType="String"/>
+        <attribute name="isArchived" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="competencyCriteria" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompetencyCriteria" inverseName="competencyCycles" inverseEntity="CompetencyCriteria"/>
+        <fetchIndex name="byUniqueID">
+            <fetchIndexElement property="competencyCycleID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="competencyCycleID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CompetencyElement" representedClassName="CompetencyElement" syncable="YES" codeGenerationType="class">
+        <attribute name="competencyElementID" optional="YES" attributeType="String"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="version" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="competencyCriteria" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompetencyCriteria" inverseName="competencyElement" inverseEntity="CompetencyCriteria"/>
+        <fetchIndex name="byUniqueID">
+            <fetchIndexElement property="competencyElementID" type="Binary" order="ascending"/>
+        </fetchIndex>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="competencyElementID"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="TestEntity" representedClassName="TestEntity" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="edited" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -14,5 +92,10 @@
     <elements>
         <element name="AnotherEntity" positionX="-63" positionY="9" width="128" height="88"/>
         <element name="TestEntity" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="CompetencyCriteria" positionX="-36" positionY="45" width="128" height="178"/>
+        <element name="CompetencyCriteriaRiskLevel" positionX="-9" positionY="54" width="128" height="133"/>
+        <element name="BaseCompetencyCriteria" positionX="9" positionY="63" width="128" height="73"/>
+        <element name="CompetencyCycle" positionX="27" positionY="81" width="128" height="118"/>
+        <element name="CompetencyElement" positionX="-18" positionY="36" width="128" height="133"/>
     </elements>
 </model>
