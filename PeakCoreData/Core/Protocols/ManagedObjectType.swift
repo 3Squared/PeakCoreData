@@ -232,6 +232,53 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
         return insertObject(with: uniqueKeyValue, in: context, with: cache, configure: configure)
     }
     
+    @discardableResult
+    static func fetchOrInsertObjects(with ids: Set<AnyHashable>, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil) -> [Self] {
+        guard !ids.isEmpty else { return [] }
+        
+        var objects: [Self] = []
+        var uncached: Set<AnyHashable> = []
+        
+        if let cache = cache {
+            ids.forEach { id in
+                if let cachedObject: Self = cache.object(withUniqueID: id, in: context) {
+                    objects.append(cachedObject)
+                } else {
+                    uncached.insert(id)
+                }
+            }
+        } else {
+            uncached = ids
+        }
+        
+        guard !uncached.isEmpty else { return objects }
+        
+        let predicate = NSPredicate(isIncludedIn: Array(uncached), keyPath: Self.uniqueIDKey)
+        let existingObjects = fetch(in: context) { $0.predicate = predicate }
+        let existingObjectsByID = Dictionary(uniqueKeysWithValues: existingObjects.map { ($0.uniqueIDValue, $0) })
+        
+        var managedObjectsToCache: [Self] = []
+        
+        ids.forEach { id in
+            let managedObject: Self
+            
+            if let existing = existingObjectsByID[id] {
+                managedObject = existing
+            } else {
+                let new = insertObject(with: id, in: context)
+                managedObject = new
+            }
+            
+            objects.append(managedObject)
+            
+            if cache != nil { managedObjectsToCache.append(managedObject) }
+        }
+        
+        cache?.register(managedObjectsToCache, in: context)
+        
+        return objects
+    }
+    
     /**
      Efficient batch insert or update adapted from Apple's Core Data Programming Guide (no longer available).
      
@@ -296,7 +343,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
             
             if cache != nil { managedObjectsToCache.append(managedObject) }
         }
-        
+                
         cache?.register(managedObjectsToCache, in: context)
     }
 }
