@@ -33,7 +33,7 @@ class ImportTests: CoreDataTests {
         measure {
             let context = NSManagedObjectContext.testingInMemoryContext()
             context.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
-            let cache: ManagedObjectCache = ManagedObjectCache()
+            let cache: ManagedObjectCache? = ManagedObjectCache()
             
             // Risk Levels
             
@@ -61,14 +61,14 @@ class ImportTests: CoreDataTests {
                 
                 CompetencyCriteriaJSON.updateProperties?(intermediate, managedObject)
                 
-                managedObject.baseCompetencyCriteria = cache.object(withUniqueID: intermediate.referenceId, in: context)
+                managedObject.baseCompetencyCriteria = BaseCompetencyCriteria.fetchOrInsertObject(with: intermediate.referenceId, in: context, with: cache)
                 
-                managedObject.competencyElement = cache.object(withUniqueID: intermediate.competencyElementId, in: context)
+                managedObject.competencyElement = CompetencyElement.fetchOrInsertObject(with: intermediate.competencyElementId, in: context, with: cache)
                 
-                managedObject.competencyCriteriaRiskLevel = cache.object(withUniqueID: intermediate.competencyCriteriaRiskLevelId, in: context)
+                managedObject.competencyCriteriaRiskLevel = CompetencyCriteriaRiskLevel.fetchOrInsertObject(with: intermediate.competencyCriteriaRiskLevelId, in: context, with: cache)
                 
                 if let competencyCycles = intermediate.competencyCycles {
-                    let mos: [CompetencyCycle] = competencyCycles.compactMap { cache.object(withUniqueID: $0.uniqueIDValue, in: context) }
+                    let mos: [CompetencyCycle] = competencyCycles.compactMap { CompetencyCycle.fetchOrInsertObject(with: $0.competencyCycleId, in: context, with: cache) }
                     managedObject.addToCompetencyCycles(NSSet(array: mos))
                 }
             }
