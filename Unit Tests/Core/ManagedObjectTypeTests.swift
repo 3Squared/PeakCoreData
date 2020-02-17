@@ -65,7 +65,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         let preDeleteCount = TestEntity.count(in: viewContext)
         XCTAssertEqual(preDeleteCount, count, "\(preDeleteCount)")
         
-        let predicate = TestEntity.uniqueObjectPredicate(with: itemToDelete.uniqueID!)
+        let predicate = TestEntity.uniqueID(equalTo: itemToDelete.uniqueID!)
         TestEntity.delete(in: viewContext, matching: predicate)
         
         let postDeleteCount = TestEntity.count(in: viewContext)

@@ -160,17 +160,6 @@ public extension ManagedObjectType {
 // MARK: - UniqueIdentifiable
 
 public extension ManagedObjectType where Self: UniqueIdentifiable {
-        
-    /**
-     - Note: The managed object must conform to UniqueIdentifiable.
-     
-     - parameter uniqueKeyValue:    The unique id of the object you want to fetch.
-     
-     - returns: A predicate that can be used to fetch a single object with the specified unique id.
-     */
-    static func uniqueObjectPredicate(with uniqueKeyValue: AnyHashable) -> NSPredicate {
-        return NSPredicate(equalTo: uniqueKeyValue, keyPath: uniqueIDKey)
-    }
     
     /**
      Inserts an object in to the context, applies the unique id and then configures the object (optional).
@@ -205,7 +194,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
     static func fetchObject(with uniqueKeyValue: AnyHashable, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil) -> Self? {
         if let cachedObject: Self = cache?.object(withUniqueID: uniqueKeyValue, in: context) {
             return cachedObject
-        } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueKeyValue)) {
+        } else if let object = first(in: context, matching: uniqueID(equalTo: uniqueKeyValue)) {
             cache?.register(object, in: context)
             return object
         }
@@ -253,7 +242,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
         
         guard !uncached.isEmpty else { return objects }
         
-        let predicate = NSPredicate(isIncludedIn: Array(uncached), keyPath: Self.uniqueIDKey)
+        let predicate = uniqueIDIncludedIn(ids: Array(uncached))
         let existingObjects = fetch(in: context) { $0.predicate = predicate }
         let existingObjectsByID = Dictionary(uniqueKeysWithValues: existingObjects.map { ($0.uniqueIDValue, $0) })
         
@@ -322,7 +311,8 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
         // Create a fetch request for all objects whose IDs are the same as the intermediate objects.
         // These are our existing object we want to update.
         
-        let predicate = NSPredicate(isIncludedIn: uncached.map { $0.uniqueIDValue }, keyPath: Self.uniqueIDKey)
+        let ids = uncached.map { $0.uniqueIDValue}
+        let predicate = uniqueIDIncludedIn(ids: ids)
         let existingObjects = fetch(in: context) { $0.predicate = predicate }
         let existingObjectsByID = Dictionary(uniqueKeysWithValues: existingObjects.map { ($0.uniqueIDValue, $0) })
         
