@@ -23,8 +23,8 @@ public extension ManagedObjectType {
 
 public extension ManagedObjectType where Self: NSManagedObject {
     
-    typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> ()
-    typealias ManagedObjectConfigurationBlock = (Self) -> ()
+    typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> Void
+    typealias ManagedObjectConfigurationBlock = (Self) -> Void
     
     /**
      - parameter context:       The context to use.
@@ -246,7 +246,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
      b) a newly inserted managed object for you to set the fields.
      In both cases the unique identifier will already be set
      */
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> ()) {
+    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> Void) {
         
         // Nothing to insert, exit immediately.
         

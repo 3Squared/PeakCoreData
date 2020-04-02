@@ -63,7 +63,7 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
         dataProvider.performFetch()
     }
     
-    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<T>) -> ()) {
+    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<T>) -> Void) {
         dataProvider.reconfigureFetchRequest(configure)
     }
 

@@ -115,7 +115,7 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
         return fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
     }
     
-    func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
+    func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
         NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
         configure(fetchedResultsController.fetchRequest)
         performFetch()
