@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public class CountObserver<T>: NSObject where T: NSManagedObject & ManagedObjectType {
+public class CountObserver<T>: NSObject where T: ManagedObjectType {
     
     public typealias OnChange = (Int) -> Void
     

@@ -11,20 +11,18 @@
 import Foundation
 import CoreData
 
-public protocol ManagedObjectType: class {
+public protocol ManagedObjectType: NSManagedObject {
     static var entityName: String { get }
     static var defaultSortDescriptors: [NSSortDescriptor] { get }
 }
 
 public extension ManagedObjectType {
-    static var entityName: String { return String(describing: self) }
-    static var defaultSortDescriptors: [NSSortDescriptor] { return [] }
-}
-
-public extension ManagedObjectType where Self: NSManagedObject {
     
     typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> Void
     typealias ManagedObjectConfigurationBlock = (Self) -> Void
+    
+    static var entityName: String { return String(describing: self) }
+    static var defaultSortDescriptors: [NSSortDescriptor] { return [] }
     
     /**
      - parameter context:       The context to use.
@@ -158,7 +156,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 // MARK: - UniqueIdentifiable
 
-public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifiable {
+public extension ManagedObjectType where Self: UniqueIdentifiable {
     
     typealias UniqueKeyValueType = Any
     
