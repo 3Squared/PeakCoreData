@@ -11,20 +11,18 @@
 import Foundation
 import CoreData
 
-public protocol ManagedObjectType: class {
+public protocol ManagedObjectType: NSManagedObject {
     static var entityName: String { get }
     static var defaultSortDescriptors: [NSSortDescriptor] { get }
 }
 
 public extension ManagedObjectType {
+    
+    typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> Void
+    typealias ManagedObjectConfigurationBlock = (Self) -> Void
+    
     static var entityName: String { return String(describing: self) }
     static var defaultSortDescriptors: [NSSortDescriptor] { return [] }
-}
-
-public extension ManagedObjectType where Self: NSManagedObject {
-    
-    typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> ()
-    typealias ManagedObjectConfigurationBlock = (Self) -> ()
     
     /**
      - parameter context:       The context to use.
@@ -158,7 +156,7 @@ public extension ManagedObjectType where Self: NSManagedObject {
 
 // MARK: - UniqueIdentifiable
 
-public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifiable {
+public extension ManagedObjectType where Self: UniqueIdentifiable {
     
     typealias UniqueKeyValueType = Any
     
@@ -246,7 +244,7 @@ public extension ManagedObjectType where Self: NSManagedObject & UniqueIdentifia
      b) a newly inserted managed object for you to set the fields.
      In both cases the unique identifier will already be set
      */
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> ()) {
+    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, configure: (IntermediateType, Self) -> Void) {
         
         // Nothing to insert, exit immediately.
         
