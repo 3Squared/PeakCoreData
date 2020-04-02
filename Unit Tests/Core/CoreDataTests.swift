@@ -24,6 +24,7 @@ let defaultTimeout = TimeInterval(2)
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
     var persistentContainer: NSPersistentContainer!
+    var managedObjectCache: ManagedObjectCache!
     
     override func setUp() {
         super.setUp()
@@ -39,10 +40,12 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             }
         }
         persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
+        managedObjectCache = ManagedObjectCache()
     }
     
     override func tearDown() {
         persistentContainer = nil
+        managedObjectCache = nil
         super.tearDown()
     }
     

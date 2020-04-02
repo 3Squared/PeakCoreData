@@ -74,8 +74,8 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testInsertOrFetchObjectMethod() {
         let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(with: id, in: viewContext)
-        let item2 = TestEntity.fetchOrInsertObject(with: id, in: viewContext)
+        let item1 = TestEntity.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
+        let item2 = TestEntity.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
         XCTAssertEqual(item1, item2)
     }
     
@@ -86,7 +86,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         let countBeforeUpdate = TestEntity.count(in: viewContext)
         XCTAssertEqual(countBeforeUpdate, (expectedCount/2), "Count before update should be equal to half expected count")
 
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
@@ -99,11 +99,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let expectedCount = 10
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: expectedCount, in: viewContext)
         
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) {
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
@@ -117,7 +117,24 @@ class ManagedObjectTypeTests: CoreDataTests {
     func testBatchInsertPerformance() {
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
         measure {
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: self.viewContext) { (intermediate, managedObject) in
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+                managedObject.title = intermediate.title
+            }
+            
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+                managedObject.title = intermediate.title
+            }
+        }
+    }
+    
+    func testBatchInsertPerformanceWithCache() {
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
+        measure {
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+                managedObject.title = intermediate.title
+            }
+            
+            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
         }
@@ -127,7 +144,30 @@ class ManagedObjectTypeTests: CoreDataTests {
         let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
         measure {
             for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: self.viewContext) { entity in
+                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                    entity.title = intermediate.title
+                }
+            }
+            
+            for intermediate in intermediateItems {
+                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                    entity.title = intermediate.title
+                }
+            }
+        }
+    }
+    
+    func testNonBatchInsertPerformanceWithCache() {
+        let intermediateItems = CoreDataTests.createTestIntermediateObjects(number: 100, in: viewContext)
+        measure {
+            for intermediate in intermediateItems {
+                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
+                    entity.title = intermediate.title
+                }
+            }
+            
+            for intermediate in intermediateItems {
+                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
                     entity.title = intermediate.title
                 }
             }
@@ -136,7 +176,7 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testEncodingToData() {
         let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(with: id, in: viewContext)
+        let item1 = TestEntity.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
         item1.title = "Hello"
         
         let data = try! item1.encode(to: TestEntityJSON.self, encoder: JSONEncoder())
