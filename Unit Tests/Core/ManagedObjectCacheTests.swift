@@ -63,6 +63,7 @@ class ManagedObjectCacheTests: CoreDataTests {
         XCTAssertEqual(evictedNumbers, [])
         
         cache.removeValue(forKey: "One")
+        XCTAssertEqual(cache.value(forKey: "One"), nil)
         XCTAssertEqual(evictedNumbers, [1])
     }
     
@@ -77,6 +78,7 @@ class ManagedObjectCacheTests: CoreDataTests {
         XCTAssertEqual(evictedNumbers, [])
         
         cache.clearCache()
+        XCTAssertEqual(cache.value(forKey: "One"), nil)
         XCTAssertEqual(evictedNumbers, [1])
     }
     
