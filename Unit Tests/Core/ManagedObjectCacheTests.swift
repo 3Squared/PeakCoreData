@@ -47,7 +47,7 @@ class ManagedObjectCacheTests: CoreDataTests {
         
         cache.onObjectEviction = nil
         
-        cache.insert(5, forKey: "Five", cost: 10)
+        cache.insert(5, forKey: "Five")
         XCTAssertEqual(cache.value(forKey: "Five"), 5)
         XCTAssertEqual(evictedNumbers, [1, 2])
     }
