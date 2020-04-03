@@ -4,6 +4,11 @@ The changelog for `PeakCoreData`.
 
 --------------------------------------
 
+4.1.0
+-----
+
+- Adds a `Cache` and `ManagedObjectCache` for improved performance on batch insert / update.
+
 4.0.0
 -----
 
