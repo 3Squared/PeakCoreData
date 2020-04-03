@@ -16,6 +16,31 @@ public class ManagedObjectCache {
     
     private let cache = Cache<AnyHashable, NSManagedObjectID>()
     
+    /// The name of the cache. Default value is an empty string.
+    public var name: String {
+        set { cache.name = newValue }
+        get { return cache.name }
+    }
+    
+    /// The maximum number of objects the cache should hold. Default value is 0 (no limit).
+    public var countLimit: Int {
+        set { cache.countLimit = newValue }
+        get { return cache.countLimit }
+    }
+    
+    /// The maximum total cost that the cache can hold before it starts evicting objects.
+    public var totalCostLimit: Int {
+        set { cache.totalCostLimit = newValue }
+        get { return cache.totalCostLimit }
+    }
+    
+    /// Called when an NSManagedObjectID is about to be evicted or removed from the cache.
+    public var onObjectEviction: ((NSManagedObjectID) -> Void)? {
+        didSet {
+            cache.onObjectEviction = onObjectEviction
+        }
+    }
+    
     public init() {}
     
     /// Returns the cached object and casts it to the specified type.
@@ -62,8 +87,14 @@ public class ManagedObjectCache {
         }
     }
     
-    public func removeAllObjects() {
-        cache.removeAllObjects()
+    /// Removes the value of the specified key in the cache.
+    public func removeValue(forKey key: AnyHashable) {
+        cache.removeValue(forKey: key)
+    }
+    
+    /// Empties the cache.
+    public func clearCache() {
+        cache.clearCache()
     }
 }
 
