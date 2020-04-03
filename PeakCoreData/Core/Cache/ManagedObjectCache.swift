@@ -28,7 +28,7 @@ public class ManagedObjectCache {
         get { return cache.countLimit }
     }
     
-    /// The maximum total cost that the cache can hold before it starts evicting objects.
+    /// The maximum total cost that the cache can hold before it starts evicting objects. Default value is 0 (no limit).
     public var totalCostLimit: Int {
         set { cache.totalCostLimit = newValue }
         get { return cache.totalCostLimit }

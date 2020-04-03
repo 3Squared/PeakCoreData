@@ -29,7 +29,7 @@ public final class Cache<Key: Hashable, Value>: NSObject, NSCacheDelegate {
         get { return wrapped.countLimit }
     }
     
-    /// The maximum total cost that the cache can hold before it starts evicting objects.
+    /// The maximum total cost that the cache can hold before it starts evicting objects. Default value is 0 (no limit).
     public var totalCostLimit: Int {
         set { wrapped.totalCostLimit = newValue }
         get { return wrapped.totalCostLimit }
