@@ -105,7 +105,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
         return dataProvider.sectionInfo(forSection: section)
     }
     
-    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> ()) {
+    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
         dataProvider.reconfigureFetchRequest(configure)
     }
     

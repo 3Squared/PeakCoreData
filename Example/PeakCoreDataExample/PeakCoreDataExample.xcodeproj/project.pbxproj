@@ -192,10 +192,9 @@
 			};
 			buildConfigurationList = 8D6DE8DA1E0ADA5800C515DC /* Build configuration list for PBXProject "PeakCoreDataExample" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
