@@ -27,7 +27,7 @@ class ProgressTests: CoreDataTests {
         try! viewContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
         operation.input = Result { input }
         
         let progress = operation.chainProgress()

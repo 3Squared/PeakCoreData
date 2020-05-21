@@ -13,6 +13,7 @@ open class CoreDataChangesetOperation: CoreDataOperation<Changeset> {
     
     open override func saveAndFinish() {
         guard !isCancelled else { return finish() }
+        
         saveOperationContext()
         output = Result { return Changeset(inserted: inserted, updated: updated) }
         finish()

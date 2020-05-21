@@ -24,12 +24,12 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
             let importProgress = Progress(totalUnitCount: Int64(intermediates.count) * 2)
             progress.addChild(importProgress, withPendingUnitCount: progress.totalUnitCount)
 
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
+            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
                 intermediate.updateProperties(on: managedObject)
                 importProgress.completedUnitCount += 1
             }
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context) { intermediate, managedObject in
+            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
                 intermediate.updateRelationships(on: managedObject, in: context)
                 importProgress.completedUnitCount += 1
             }
