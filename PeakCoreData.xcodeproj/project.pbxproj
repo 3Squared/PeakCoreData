@@ -60,6 +60,10 @@
 		6346D9F224360C8400521E6C /* ManagedObjectCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346D9F124360C8400521E6C /* ManagedObjectCache.swift */; };
 		6346D9F72436246D00521E6C /* ManagedObjectCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346D9F62436246D00521E6C /* ManagedObjectCacheTests.swift */; };
 		6346D9F82436246D00521E6C /* ManagedObjectCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346D9F62436246D00521E6C /* ManagedObjectCacheTests.swift */; };
+		636619A32476B361008E573D /* CoreDataBatchUpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636619A22476B361008E573D /* CoreDataBatchUpdateOperation.swift */; };
+		636619A52476B36D008E573D /* CoreDataBatchDeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636619A42476B36D008E573D /* CoreDataBatchDeleteOperation.swift */; };
+		636619A62476B38F008E573D /* CoreDataBatchDeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636619A42476B36D008E573D /* CoreDataBatchDeleteOperation.swift */; };
+		636619A72476B395008E573D /* CoreDataBatchUpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636619A22476B361008E573D /* CoreDataBatchUpdateOperation.swift */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
 		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
@@ -132,6 +136,8 @@
 		6346D9EF24360C4700521E6C /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		6346D9F124360C8400521E6C /* ManagedObjectCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectCache.swift; sourceTree = "<group>"; };
 		6346D9F62436246D00521E6C /* ManagedObjectCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectCacheTests.swift; sourceTree = "<group>"; };
+		636619A22476B361008E573D /* CoreDataBatchUpdateOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBatchUpdateOperation.swift; sourceTree = "<group>"; };
+		636619A42476B36D008E573D /* CoreDataBatchDeleteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBatchDeleteOperation.swift; sourceTree = "<group>"; };
 		6F1222CBE402AC7FD0C7226D /* Pods-PeakCoreData-macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-macOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PeakCoreData-macOSTests/Pods-PeakCoreData-macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		700FD15F5FA7E5B1E735EE88 /* Pods-PeakCoreData-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PeakCoreData-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-PeakCoreData-iOSTests/Pods-PeakCoreData-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedDataProvider.swift; sourceTree = "<group>"; };
@@ -365,9 +371,11 @@
 			isa = PBXGroup;
 			children = (
 				8DFAC1101F79274B0015EDC0 /* Changeset.swift */,
-				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
-				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
+				636619A42476B36D008E573D /* CoreDataBatchDeleteOperation.swift */,
 				CBF972BC1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift */,
+				636619A22476B361008E573D /* CoreDataBatchUpdateOperation.swift */,
+				8DDAE2982056E113001D7521 /* CoreDataChangesetOperation.swift */,
+				CBF972A41E5DEE6D00F37801 /* CoreDataOperation.swift */,
 				8DFAC10E1F7918420015EDC0 /* CoreDataSingleImportOperation.swift */,
 				8D84C262224CD83C008C35D7 /* CoreDataToIntermediateOperation.swift */,
 			);
@@ -731,6 +739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636619A72476B395008E573D /* CoreDataBatchUpdateOperation.swift in Sources */,
 				186D313A22CB849E003A5A8F /* FetchedDataProvider.swift in Sources */,
 				186D312822CB651C003A5A8F /* ObjectDidChangeNotification.swift in Sources */,
 				186D313522CB669E003A5A8F /* UniqueIdentifiable.swift in Sources */,
@@ -744,6 +753,7 @@
 				186D312622CB6519003A5A8F /* ManagedObjectObserver.swift in Sources */,
 				186D312422CB6510003A5A8F /* NSPredicate.swift in Sources */,
 				186D311F22CB650B003A5A8F /* FetchedCollection.swift in Sources */,
+				636619A62476B38F008E573D /* CoreDataBatchDeleteOperation.swift in Sources */,
 				186D312322CB6510003A5A8F /* NSManagedObjectContext.swift in Sources */,
 				18CD62BA22E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
 				186D313422CB669E003A5A8F /* PersistentContainerSettable.swift in Sources */,
@@ -785,9 +795,11 @@
 				8DDAE2992056E113001D7521 /* CoreDataChangesetOperation.swift in Sources */,
 				CBF972B51E5DEEFC00F37801 /* PersistentContainerSettable.swift in Sources */,
 				CBF972B21E5DEE8700F37801 /* ManagedObjectType.swift in Sources */,
+				636619A52476B36D008E573D /* CoreDataBatchDeleteOperation.swift in Sources */,
 				18CD62B922E8A327004F3E93 /* NSEntityDescription.swift in Sources */,
 				8DFAC10F1F7918420015EDC0 /* CoreDataSingleImportOperation.swift in Sources */,
 				8D6B966F20501D87003D20C0 /* FetchedTableViewDataSource.swift in Sources */,
+				636619A32476B361008E573D /* CoreDataBatchUpdateOperation.swift in Sources */,
 				8D94662022146BF500B2197D /* NSPredicate.swift in Sources */,
 				CBF972BE1E5DEF2900F37801 /* CoreDataBatchImportOperation.swift in Sources */,
 				186D313922CB847F003A5A8F /* CollectionViewUpdatable.swift in Sources */,
