@@ -32,11 +32,13 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
 
     open override func execute() {
         persistentContainer.performBackgroundTask { [weak self] context in
-            guard let strongSelf = self else { return }
-            strongSelf.operationContext = context
-            strongSelf.operationContext.name = "PeakCoreData.CoreDataOperation.OperationContext"
-            strongSelf.operationContext.mergePolicy = NSMergePolicy(merge: strongSelf.mergePolicyType)
-            strongSelf.performWork(in: context)
+            guard let self = self else { return }
+            
+            context.name = "PeakCoreData.CoreDataOperation.OperationContext"
+            context.mergePolicy = NSMergePolicy(merge: self.mergePolicyType)
+            
+            self.operationContext = context
+            self.performWork(in: context)
         }
     }
     
