@@ -23,12 +23,12 @@ open class CoreDataToIntermediateOperation<Intermediate>: CoreDataOperation<[Int
     }
     
     open override func performWork(in context: NSManagedObjectContext) {
-        let objects = ManagedObject.fetch(in: context) { (request) in
-            request.predicate = self.predicate
-        }
+        let objects = ManagedObject.fetch(in: context) { $0.predicate = self.predicate }
+        
         output = Result {
             try objects.map(Intermediate.init)
         }
+        
         finish()
     }
 }
