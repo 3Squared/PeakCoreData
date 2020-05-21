@@ -12,9 +12,11 @@ import CoreData
 open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOperation<[NSManagedObjectID]> {
     
     private let predicate: NSPredicate?
-    
-    public init(predicate: NSPredicate? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    private let mergeContexts: [NSManagedObjectContext]?
+
+    public init(predicate: NSPredicate? = nil, mergeContexts: [NSManagedObjectContext]? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.predicate = predicate
+        self.mergeContexts = mergeContexts
         super.init(persistentContainer: persistentContainer, mergePolicyType: mergePolicyType)
     }
     
@@ -26,12 +28,14 @@ open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOper
         do {
             let result = try context.execute(deleteRequest) as! NSBatchDeleteResult
             let objectIDArray = result.result as! [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey: objectIDArray]
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
+            if let mergeContexts = mergeContexts, !mergeContexts.isEmpty {
+                let changes = [NSDeletedObjectsKey: objectIDArray]
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: mergeContexts)
+            }
             output = .success(objectIDArray)
         } catch {
             output = .failure(error)
         }
-        saveAndFinish()
+        finish()
     }
 }

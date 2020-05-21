@@ -13,10 +13,12 @@ class CoreDataBatchUpdateOperation<Entity: ManagedObjectType>: CoreDataOperation
         
     private let propertiesToUpdate: [AnyHashable: Any]
     private let predicate: NSPredicate?
+    private let mergeContexts: [NSManagedObjectContext]?
     
-    init(propertiesToUpdate: [AnyHashable: Any], predicate: NSPredicate? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    init(propertiesToUpdate: [AnyHashable: Any], predicate: NSPredicate? = nil, mergeContexts: [NSManagedObjectContext]? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.propertiesToUpdate = propertiesToUpdate
         self.predicate = predicate
+        self.mergeContexts = mergeContexts
         super.init(persistentContainer: persistentContainer, mergePolicyType: mergePolicyType)
     }
     
@@ -28,12 +30,14 @@ class CoreDataBatchUpdateOperation<Entity: ManagedObjectType>: CoreDataOperation
         do {
             let result = try context.execute(request) as! NSBatchUpdateResult
             let objectIDArray = result.result as! [NSManagedObjectID]
-            let changes = [NSUpdatedObjectsKey: objectIDArray]
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
+            if let mergeContexts = mergeContexts, !mergeContexts.isEmpty {
+                let changes = [NSUpdatedObjectsKey: objectIDArray]
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: mergeContexts)
+            }
             output = .success(objectIDArray)
         } catch {
             output = .failure(error)
         }
-        saveAndFinish()
+        finish()
     }
 }
