@@ -10,19 +10,22 @@ import CoreData
 import PeakOperation
 
 open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
-    private let persistentContainer: NSPersistentContainer
-    private let mergePolicyType: NSMergePolicyType
-    private var operationContext: NSManagedObjectContext!
+        
+    public var output: Result<Output, Error> = Result { throw ResultError.noResult }
     
     var inserted: Set<NSManagedObjectID> = []
     var updated: Set<NSManagedObjectID> = []
     var deleted: Set<NSManagedObjectID> = []
-        
-    public var output: Result<Output, Error> = Result { throw ResultError.noResult }
+    var cache: ManagedObjectCache?
+    
+    private let persistentContainer: NSPersistentContainer
+    private let mergePolicyType: NSMergePolicyType
+    private var operationContext: NSManagedObjectContext!
 
-    public init(with persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    public init(persistentContainer: NSPersistentContainer, cache: ManagedObjectCache? = nil, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.persistentContainer = persistentContainer
         self.mergePolicyType = mergePolicyType
+        self.cache = cache
     }
     
     // MARK: - ConcurrentOperation Overrides
