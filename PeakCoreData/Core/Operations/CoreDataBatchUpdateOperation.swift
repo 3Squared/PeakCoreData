@@ -8,6 +8,7 @@
 
 import CoreData
 
+/// Performs an `NSBatchUpdateRequest` and returns an array of updated `NSManagedObjectID`s.
 class CoreDataBatchUpdateOperation<Entity: ManagedObjectType>: CoreDataOperation<[NSManagedObjectID]> {
         
     private let propertiesToUpdate: [AnyHashable: Any]

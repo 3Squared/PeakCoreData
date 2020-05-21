@@ -8,7 +8,8 @@
 
 import CoreData
 
-open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOperation<Int> {
+/// Performs an `NSBatchDeleteRequest` and returns an array of deleted `NSManagedObjectID`s.
+open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOperation<[NSManagedObjectID]> {
     
     private let predicate: NSPredicate?
     
@@ -27,7 +28,7 @@ open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOper
             let objectIDArray = result.result as! [NSManagedObjectID]
             let changes = [NSDeletedObjectsKey: objectIDArray]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
-            output = .success(objectIDArray.count)
+            output = .success(objectIDArray)
         } catch {
             output = .failure(error)
         }
