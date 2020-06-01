@@ -9,11 +9,11 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where Intermediate: ManagedObjectUpdatable & UniqueIdentifiable {
+open class CoreDataBatchImportOperation<Intermediate: ManagedObjectUpdatable>: CoreDataChangesetOperation, ConsumesResult {
     
     typealias ManagedObject = Intermediate.ManagedObject
     
-    public var input: Result<[Intermediate], Error> = Result { throw ResultError.noResult }
+    public var input: Result<[Intermediate], Error> = .failure(ResultError.noResult)
     
     private let batchSize: Int
     private var batches: [[Intermediate]] = []
@@ -41,9 +41,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
     
     func importNextBatch(in context: NSManagedObjectContext, importProgress: Progress) {
         guard !isCancelled else { return finish() }
-        guard let intermediates = batches.first else {
-            return saveAndFinish()
-        }
+        guard let intermediates = batches.first else { return saveAndFinish() }
         
         batches.removeFirst()
         
@@ -62,6 +60,7 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
         }
         
         saveOperationContext()
+        
         importNextBatch(in: context, importProgress: importProgress)
     }
 }
