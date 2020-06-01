@@ -10,8 +10,7 @@ import CoreData
 import PeakOperation
 
 open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
-    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
-    Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
+    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable
 {
     public var input: Result<[Intermediate], Error> = Result { throw ResultError.noResult }
     
@@ -23,15 +22,19 @@ open class CoreDataBatchImportOperation<Intermediate>: CoreDataChangesetOperatio
             
             let importProgress = Progress(totalUnitCount: Int64(intermediates.count) * 2)
             progress.addChild(importProgress, withPendingUnitCount: progress.totalUnitCount)
-
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
-                intermediate.updateProperties(on: managedObject)
-                importProgress.completedUnitCount += 1
+            
+            if Intermediate.hasProperties {
+                ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
+                    Intermediate.updateProperties?(intermediate, managedObject)
+                    importProgress.completedUnitCount += 1
+                }
             }
             
-            ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
-                intermediate.updateRelationships(on: managedObject, in: context)
-                importProgress.completedUnitCount += 1
+            if Intermediate.hasRelationships {
+                ManagedObject.insertOrUpdate(intermediates: intermediates, in: context, with: cache) { intermediate, managedObject in
+                    Intermediate.updateRelationships?(intermediate, managedObject, context, cache)
+                    importProgress.completedUnitCount += 1
+                }
             }
             
             saveAndFinish()
