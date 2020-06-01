@@ -67,6 +67,7 @@
 		636619A82476B9BA008E573D /* ManagedObjectCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346D9F124360C8400521E6C /* ManagedObjectCache.swift */; };
 		636619A92476B9C5008E573D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346D9EF24360C4700521E6C /* Cache.swift */; };
 		6392C3F52484EF210069BC3C /* ManagedObjectInitialisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6392C3F42484EF210069BC3C /* ManagedObjectInitialisable.swift */; };
+		6392C3F62484F4C10069BC3C /* ManagedObjectInitialisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6392C3F42484EF210069BC3C /* ManagedObjectInitialisable.swift */; };
 		8D05BE6D2051518B00DE93AC /* FetchedDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D05BE6C2051518B00DE93AC /* FetchedDataProvider.swift */; };
 		8D159AFE205C001A004D693A /* AnotherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFD205C001A004D693A /* AnotherEntity.swift */; };
 		8D159B00205C01EE004D693A /* ContextDidSaveNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D159AFF205C01EE004D693A /* ContextDidSaveNotification.swift */; };
@@ -751,6 +752,7 @@
 				636619A82476B9BA008E573D /* ManagedObjectCache.swift in Sources */,
 				186D312E22CB6521003A5A8F /* CoreDataToIntermediateOperation.swift in Sources */,
 				186D312D22CB6521003A5A8F /* CoreDataSingleImportOperation.swift in Sources */,
+				6392C3F62484F4C10069BC3C /* ManagedObjectInitialisable.swift in Sources */,
 				186D312B22CB6521003A5A8F /* CoreDataChangesetOperation.swift in Sources */,
 				186D312922CB6521003A5A8F /* Changeset.swift in Sources */,
 				186D312722CB651C003A5A8F /* ContextDidSaveNotification.swift in Sources */,
