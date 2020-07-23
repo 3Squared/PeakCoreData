@@ -1,5 +1,5 @@
 //
-//  CoreDataImportObjectOperation.swift
+//  CoreDataSingleImportOperation.swift
 //  PeakCoreData
 //
 //  Created by David Yates on 25/09/2017.
@@ -9,23 +9,21 @@
 import CoreData
 import PeakOperation
 
-open class CoreDataSingleImportOperation<Intermediate>: CoreDataChangesetOperation, ConsumesResult where
-    Intermediate: ManagedObjectUpdatable & UniqueIdentifiable,
-    Intermediate.ManagedObject: ManagedObjectType & UniqueIdentifiable
-{
-    public var input: Result<Intermediate, Error> = Result { throw ResultError.noResult }
+open class CoreDataSingleImportOperation<Intermediate: ManagedObjectUpdatable>: CoreDataChangesetOperation, ConsumesResult {
     
     typealias ManagedObject = Intermediate.ManagedObject
-
+    
+    public var input: Result<Intermediate, Error> = .failure(ResultError.noResult)
+    
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediate = try input.get()
             let managedObject = ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context, with: cache)
-            intermediate.updateProperties(on: managedObject)
-            intermediate.updateRelationships(on: managedObject, in: context)
+            Intermediate.updateProperties?(intermediate, managedObject)
+            Intermediate.updateRelationships?(intermediate, managedObject, context, cache)
             saveAndFinish()
         } catch {
-            output = Result { throw error }
+            output = .failure(error)
             finish()
         }
     }

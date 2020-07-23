@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'PeakCoreData-iOS' do
 
-    platform :ios, '10.0'
+    platform :ios, '11.0'
     
     pod 'PeakOperation'
 
