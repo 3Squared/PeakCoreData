@@ -4,6 +4,15 @@ The changelog for `PeakCoreData`.
 
 --------------------------------------
 
+5.0.0
+-----
+
+- Drops support for iOS 10.
+- Adds operations for performing `NSBatchUpdateRequest` and `NSBatchDeleteRequest`.
+- The Import operations can now be initialised with a `ManagedObjectCache`.
+- Some initialisers have been updated to follow Swift guidelines for parameter naming, which means this release has breaking changes.
+
+
 4.1.0
 -----
 

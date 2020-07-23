@@ -1,5 +1,5 @@
 PODS:
-  - PeakOperation (4.0.1)
+  - PeakOperation (4.2.0)
 
 DEPENDENCIES:
   - PeakOperation
@@ -9,8 +9,8 @@ SPEC REPOS:
     - PeakOperation
 
 SPEC CHECKSUMS:
-  PeakOperation: 2daa37ac7f2beffaa9f0e847d5cee35247e6c29b
+  PeakOperation: 5095cc28b746418af8dd703772331d5ea03d8da8
 
-PODFILE CHECKSUM: 7a204c5b1dcaface5a576ce19c4a6cef2cf85df8
+PODFILE CHECKSUM: 76e50342aa2f895d1c07bdb597d8759d9c6a9b6a
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

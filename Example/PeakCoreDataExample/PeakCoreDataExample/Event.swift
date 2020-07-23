@@ -28,13 +28,9 @@ extension Event: ManagedObjectType {
 
 extension Event: UniqueIdentifiable {
     
-    public static var uniqueIDKey: String {
-        return #keyPath(Event.uniqueID)
-    }
+    public static var uniqueIDKey: String { #keyPath(Event.uniqueID) }
     
-    public var uniqueIDValue: String {
-        return uniqueID!
-    }
+    public var uniqueIDValue: String { uniqueID! }
 }
 
 public struct EventJSON: Codable {
@@ -51,28 +47,26 @@ public struct EventJSON: Codable {
 
 extension EventJSON: ManagedObjectUpdatable {
     
-    public func updateProperties(on managedObject: Event) {
-        managedObject.uniqueID = uniqueID
-        managedObject.date = date
+    public typealias ManagedObject = Event
+    
+    public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
+        managedObject.uniqueID = intermediate.uniqueID
+        managedObject.date = intermediate.date
     }
     
-    public func updateRelationships(on managedObject: Event, in context: NSManagedObjectContext) {
-        Person.insertOrUpdate(intermediates: attendees, in: context) { (json, person) in
-            json.updateProperties(on: person)
-            person.event = managedObject
+    public static var updateRelationships: UpdateRelationshipsBlock? = { intermediate, managedObject, context, cache in
+        
+        Person.insertOrUpdate(intermediates: intermediate.attendees, in: context) { (json, person) in
+            PersonJSON.updateProperties?(json, person)
+            managedObject.addToAttendees(person)
         }
     }
 }
 
 extension EventJSON: UniqueIdentifiable {
     
-    public static var uniqueIDKey: String {
-        return "uniqueID"
-    }
-    
-    public var uniqueIDValue: String {
-        return uniqueID
-    }
+    public static var uniqueIDKey: String { "uniqueID" }
+    public var uniqueIDValue: String { uniqueID }
 }
 
 extension EventJSON {

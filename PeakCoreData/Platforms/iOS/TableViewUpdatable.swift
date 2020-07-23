@@ -40,13 +40,6 @@ extension TableViewUpdatable {
             }
         }
         
-        if #available(iOS 11.0, tvOS 11.0, *) {
-            tableView.performBatchUpdates(batchUpdates, completion: completion)
-        } else {
-            tableView.beginUpdates()
-            batchUpdates()
-            tableView.endUpdates()
-            completion?(true)
-        }
+        tableView.performBatchUpdates(batchUpdates, completion: completion)
     }
 }

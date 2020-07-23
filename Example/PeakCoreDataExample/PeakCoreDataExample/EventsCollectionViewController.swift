@@ -53,7 +53,7 @@ class EventsCollectionViewController: UICollectionViewController, PersistentCont
     }
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        let operation = CoreDataBatchImportOperation<EventJSON>(with: persistentContainer)
+        let operation = CoreDataBatchImportOperation<EventJSON>(persistentContainer: persistentContainer)
         operation.input = Result { EventJSON.generate(25) }
         operationQueue.addOperation(operation)
     }

@@ -72,7 +72,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
             try! viewContext.save()
             
             // Create import operation with intermediates as input
-            let operation = CoreDataSingleImportOperation<TestEntityJSON>(with: persistentContainer)
+            let operation = CoreDataSingleImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
             operation.input = Result { input.first! }
             
             if let previousOperation = previousOperation {
@@ -108,7 +108,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
             
             
             // Create import operation with intermediates as input
-            let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
+            let operation = CoreDataBatchImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
             operation.input = Result { input }
             
             if let previousOperation = previousOperation {
@@ -137,7 +137,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
         operation.input = Result { input }
         
         operation.addResultBlock { result in
@@ -182,7 +182,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         try! frc.performFetch()
         
         // Create import operation with intermediates as input
-        let operation = CoreDataBatchImportOperation<TestEntityJSON>(with: persistentContainer)
+        let operation = CoreDataBatchImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
         operation.input = Result { intermediateItems }
         
         operationQueue.addOperation(operation)
@@ -211,7 +211,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         let insertedTitles = inserted.compactMap({ $0.title }).sorted(by: { $0 < $1 })
         try! viewContext.save()
         
-        let operation = CoreDataToIntermediateOperation<TestEntityJSON>(with: persistentContainer)
+        let operation = CoreDataToIntermediateOperation<TestEntityJSON>(persistentContainer: persistentContainer)
         operation.addResultBlock { (result) in
             let outcome = try! result.get()
             XCTAssertEqual(outcome.count, insertCount)
@@ -238,7 +238,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         try! persistentContainer.viewContext.save()
         
         let predicate = NSPredicate(equalTo: true, keyPath: #keyPath(TestEntity.edited))
-        let fetchAndEncodeOperation = CoreDataToIntermediateOperation<TestEntityJSON>(with: persistentContainer, matching: predicate)
+        let fetchAndEncodeOperation = CoreDataToIntermediateOperation<TestEntityJSON>(predicate: predicate, persistentContainer: persistentContainer)
         fetchAndEncodeOperation.addResultBlock { (result) in
             let outcome = try! result.get()
             XCTAssertEqual(outcome.count, insertCount)
@@ -284,7 +284,7 @@ class AddOneOperation: CoreDataOperation<Void> {
 
     init(uniqueKeyValue: String, persistentContainer: NSPersistentContainer) {
         self.uniqueKeyValue = uniqueKeyValue
-        super.init(with: persistentContainer)
+        super.init(persistentContainer: persistentContainer)
     }
     
     override func performWork(in context: NSManagedObjectContext) {
@@ -302,7 +302,7 @@ class InsertThenDeleteOperation: CoreDataChangesetOperation {
     init(insertCount: Int, deleteCount: Int, persistentContainer: NSPersistentContainer) {
         self.insertCount = insertCount
         self.deleteCount = deleteCount
-        super.init(with: persistentContainer)
+        super.init(persistentContainer: persistentContainer)
     }
     
     override func performWork(in context: NSManagedObjectContext) {

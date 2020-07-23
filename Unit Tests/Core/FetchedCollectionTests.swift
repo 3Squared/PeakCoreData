@@ -181,7 +181,7 @@ class FetchedCollectionTests: CoreDataTests {
             case .update(_, let object):
                 XCTAssertEqual(object.uniqueID!, "what")
                 break
-            case .move(let from, let to): break
+            case .move(_, _): break
             default:
                 XCTFail()
             }
