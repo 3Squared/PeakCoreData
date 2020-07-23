@@ -32,13 +32,8 @@ extension Person: ManagedObjectType {
 
 extension Person: UniqueIdentifiable {
     
-    public static var uniqueIDKey: String {
-        return #keyPath(Person.uniqueID)
-    }
-    
-    public var uniqueIDValue: String {
-        return uniqueID!
-    }
+    public static var uniqueIDKey: String { #keyPath(Person.uniqueID) }
+    public var uniqueIDValue: String { uniqueID! }
 }
 
 public struct PersonJSON: Codable {
@@ -53,23 +48,18 @@ public struct PersonJSON: Codable {
 
 extension PersonJSON: ManagedObjectUpdatable {
     
-    public func updateProperties(on managedObject: Person) {
-        managedObject.uniqueID = uniqueID
-        managedObject.name = name
+    public typealias ManagedObject = Person
+    
+    public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
+        managedObject.uniqueID = intermediate.uniqueID
+        managedObject.name = intermediate.name
     }
     
-    public func updateRelationships(on managedObject: Person, in context: NSManagedObjectContext) {
-        //
-    }
+    public static var updateRelationships: UpdateRelationshipsBlock? = nil
 }
 
 extension PersonJSON: UniqueIdentifiable {
     
-    public static var uniqueIDKey: String {
-        return "uniqueID"
-    }
-    
-    public var uniqueIDValue: String {
-        return uniqueID
-    }
+    public static var uniqueIDKey: String { "uniqueID" }
+    public var uniqueIDValue: String { uniqueID }
 }
