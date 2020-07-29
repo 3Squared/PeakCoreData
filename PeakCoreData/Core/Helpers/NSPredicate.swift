@@ -302,13 +302,13 @@ extension NSPredicate {
         }
     }
     
-    /// Returns a predicate that checks if a string property equals the passed in string.
+    /// Returns a predicate that checks if a string property is equal to the passed in string.
     ///
     /// - Parameters:
     ///   - keyPath: The key path of the string property. Pass in `nil` to use SELF.
     ///   - string: The string to compare the property to.
     ///   - caseSensitive: If true, applies CaseInsensitive and DiacriticInsensitive flags ([cd]) to comparison. Default is true.
-    public convenience init(stringEquals string: String, keyPath: KeyPath? = nil, caseInsensitive: Bool = true) {
+    public convenience init(stringEqualTo string: String, keyPath: KeyPath? = nil, caseInsensitive: Bool = true) {
         if let keyPath = keyPath {
             if caseInsensitive {
                 self.init(format: "%K ==[cd] %@", argumentArray: [keyPath, string])
@@ -320,6 +320,28 @@ extension NSPredicate {
                 self.init(format: "SELF ==[cd] %@", argumentArray: [string])
             } else {
                 self.init(format: "SELF == %@", argumentArray: [string])
+            }
+        }
+    }
+    
+    /// Returns a predicate that checks if a string property is not equal to the passed in string.
+    ///
+    /// - Parameters:
+    ///   - keyPath: The key path of the string property. Pass in `nil` to use SELF.
+    ///   - string: The string to compare the property to.
+    ///   - caseSensitive: If true, applies CaseInsensitive and DiacriticInsensitive flags ([cd]) to comparison. Default is true.
+    public convenience init(stringNotEqualTo string: String, keyPath: KeyPath? = nil, caseInsensitive: Bool = true) {
+        if let keyPath = keyPath {
+            if caseInsensitive {
+                self.init(format: "%K !=[cd] %@", argumentArray: [keyPath, string])
+            } else {
+                self.init(format: "%K != %@", argumentArray: [keyPath, string])
+            }
+        } else {
+            if caseInsensitive {
+                self.init(format: "SELF !=[cd] %@", argumentArray: [string])
+            } else {
+                self.init(format: "SELF != %@", argumentArray: [string])
             }
         }
     }

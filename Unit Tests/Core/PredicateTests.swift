@@ -340,27 +340,40 @@ class PredicateTests: XCTestCase {
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
     }
     
-    func testStringEquals() {
+    func testStringEqualTo() {
         let testString = "def object 2"
-        let selfPredicate = NSPredicate(stringEquals: testString)
+        let selfPredicate = NSPredicate(stringEqualTo: testString)
         XCTAssertFalse(selfPredicate.evaluate(with: object1.name))
         XCTAssertTrue(selfPredicate.evaluate(with: object2.name))
         XCTAssertFalse(selfPredicate.evaluate(with: object3.name))
         
-        let keyPathPredicate = NSPredicate(stringEquals: testString, keyPath: #keyPath(Object.name))
+        let keyPathPredicate = NSPredicate(stringEqualTo: testString, keyPath: #keyPath(Object.name))
         XCTAssertFalse(keyPathPredicate.evaluate(with: object1))
         XCTAssertTrue(keyPathPredicate.evaluate(with: object2))
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
     }
     
-    func testStringEqualsCaseSensitive() {
+    func testStringNotEqualTo() {
         let testString = "def object 2"
-        let selfPredicate = NSPredicate(stringEquals: testString, caseInsensitive: false)
+        let selfPredicate = NSPredicate(stringNotEqualTo: testString)
+        XCTAssertTrue(selfPredicate.evaluate(with: object1.name))
+        XCTAssertFalse(selfPredicate.evaluate(with: object2.name))
+        XCTAssertTrue(selfPredicate.evaluate(with: object3.name))
+        
+        let keyPathPredicate = NSPredicate(stringNotEqualTo: testString, keyPath: #keyPath(Object.name))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: object1))
+        XCTAssertFalse(keyPathPredicate.evaluate(with: object2))
+        XCTAssertTrue(keyPathPredicate.evaluate(with: object3))
+    }
+    
+    func testStringEqualToCaseSensitive() {
+        let testString = "def object 2"
+        let selfPredicate = NSPredicate(stringEqualTo: testString, caseInsensitive: false)
         XCTAssertFalse(selfPredicate.evaluate(with: object1.name))
         XCTAssertFalse(selfPredicate.evaluate(with: object2.name))
         XCTAssertFalse(selfPredicate.evaluate(with: object3.name))
         
-        let keyPathPredicate = NSPredicate(stringEquals: testString, keyPath: #keyPath(Object.name), caseInsensitive: false)
+        let keyPathPredicate = NSPredicate(stringEqualTo: testString, keyPath: #keyPath(Object.name), caseInsensitive: false)
         XCTAssertFalse(keyPathPredicate.evaluate(with: object1))
         XCTAssertFalse(keyPathPredicate.evaluate(with: object2))
         XCTAssertFalse(keyPathPredicate.evaluate(with: object3))
