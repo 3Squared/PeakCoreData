@@ -201,7 +201,7 @@ extension NSPredicate {
     /// - Parameters:
     ///   - keyPath: The key path of the relationship. Pass in `nil` to use SELF.
     ///   - value: The value to check the relationship against.
-    public convenience init(anyEquals value: Any, keyPath: KeyPath? = nil) {
+    public convenience init(anyEqualTo value: Any, keyPath: KeyPath? = nil) {
         if let keyPath = keyPath {
             self.init(format: "ANY %K == %@", argumentArray: [keyPath, value])
         } else {
