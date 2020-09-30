@@ -161,13 +161,6 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 }
 ```
 
-## Getting Started
-
-### Installing
-
-- Using Cocoapods, add `pod 'PeakCoreData'` to your Podfile.
-- `import PeakCoreData` where necessary.
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
