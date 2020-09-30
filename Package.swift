@@ -22,9 +22,6 @@ let package = Package(
             dependencies: ["PeakOperation"]),
         .testTarget(
             name: "PeakCoreDataTests",
-            dependencies: ["PeakCoreData"],
-            resources: [
-                .process("TestModel")
-            ])
+            dependencies: ["PeakCoreData"])
     ]
 )
