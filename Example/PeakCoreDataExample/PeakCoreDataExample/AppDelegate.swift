@@ -2,43 +2,26 @@
 //  AppDelegate.swift
 //  PeakCoreDataExample
 //
-//  Created by David Yates on 21/12/2016.
-//  Copyright © 2016 3Squared Ltd. All rights reserved.
+//  Created by David Yates on 29/09/2020.
 //
 
 import UIKit
-import CoreData
-import PeakCoreData
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "PeakCoreDataExample")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        return container
-    }()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        guard let tbc = window?.rootViewController as? UITabBarController else { fatalError("Wrong initial view controller") }
-
-        for vc in tbc.viewControllers! {
-            if let nc = vc as? UINavigationController, let vc = nc.topViewController as? PersistentContainerSettable {
-                vc.persistentContainer = persistentContainer
-            }
-            if let vc = vc as? PersistentContainerSettable {
-                vc.persistentContainer = persistentContainer
-            }
-        }
-        
         return true
     }
+
+    // MARK: UISceneSession Lifecycle
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        
+    }
 }
+

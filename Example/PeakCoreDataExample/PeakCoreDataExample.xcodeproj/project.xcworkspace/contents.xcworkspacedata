@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/samoakley/Developer/iOS/PeakCoreData/Example/THRCoreDataExample/PeakCoreDataExample.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PeakOperation",
+        "repositoryURL": "https://github.com/3squared/PeakOperation.git",
+        "state": {
+          "branch": null,
+          "revision": "d63423d75e80970f9e8dcc043af3429a79f828a8",
+          "version": "4.3.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

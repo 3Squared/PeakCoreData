@@ -57,7 +57,7 @@ override func viewDidLoad() {
 let fetchedCollection = FetchedCollection(fetchRequest: Event.sortedFetchRequest(), context: viewContext)
 
 fetchedCollection.onChange = { collection, update in
-	// use collection, or process updates
+    // use collection, or process updates
 }
 
 // subscriptable
