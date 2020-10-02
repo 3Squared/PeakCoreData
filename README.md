@@ -57,7 +57,7 @@ override func viewDidLoad() {
 let fetchedCollection = FetchedCollection(fetchRequest: Event.sortedFetchRequest(), context: viewContext)
 
 fetchedCollection.onChange = { collection, update in
-	// use collection, or process updates
+    // use collection, or process updates
 }
 
 // subscriptable
@@ -160,13 +160,6 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     }
 }
 ```
-
-## Getting Started
-
-### Installing
-
-- Using Cocoapods, add `pod 'PeakCoreData'` to your Podfile.
-- `import PeakCoreData` where necessary.
 
 ## Contributing
 
