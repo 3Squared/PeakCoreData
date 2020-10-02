@@ -4,6 +4,13 @@ The changelog for `PeakCoreData`.
 
 --------------------------------------
 
+5.1.0
+-----
+
+- Replaces Cocoapods with Swift Package Manager.
+- Makes names of some predicates clearer.
+- Adds a `stringNotEqualTo` predicate.
+
 5.0.0
 -----
 
