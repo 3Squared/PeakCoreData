@@ -4,6 +4,11 @@ The changelog for `PeakCoreData`.
 
 --------------------------------------
 
+5.1.1
+-----
+
+- Makes persistent container public on `CoreDataOperation`.
+
 5.1.0
 -----
 
