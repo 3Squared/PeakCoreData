@@ -90,7 +90,7 @@ open class ManagedObjectObserver<T>: NSObject where T: ManagedObjectType {
     }
 }
 
-extension ManagedObjectType where Self: NSManagedObject {
+extension ManagedObjectType {
     
     /// Observe changes to the managed object.
     ///
