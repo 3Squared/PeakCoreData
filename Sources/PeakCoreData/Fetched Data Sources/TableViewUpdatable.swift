@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-public protocol TableViewUpdatable: class {
+public protocol TableViewUpdatable: AnyObject {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UITableViewCell
     func configure(_ cell: Cell, with object: Object)

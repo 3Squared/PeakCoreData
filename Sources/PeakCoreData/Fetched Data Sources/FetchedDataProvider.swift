@@ -19,7 +19,7 @@ public enum FetchedUpdate<Object> {
     case deleteSection(at: Int)
 }
 
-public protocol HasEmptyView: class {
+public protocol HasEmptyView: AnyObject {
     var emptyView: UIView? { get }
 }
 
@@ -27,7 +27,7 @@ public extension HasEmptyView {
     var emptyView: UIView? { return nil }
 }
 
-protocol FetchedDataProviderDelegate: class {
+protocol FetchedDataProviderDelegate: AnyObject {
     associatedtype Object: NSManagedObject
     func dataProviderDidUpdate(updates: [FetchedUpdate<Object>]?)
 }
