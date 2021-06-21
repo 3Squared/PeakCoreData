@@ -12,6 +12,8 @@ import CoreData
 
 class ManagedObjectObserverTests: CoreDataTests {
     
+    private var observer: ManagedObjectObserver<TestEntity>?
+    
     override func setUp() {
         super.setUp()
     }
@@ -27,7 +29,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -52,8 +54,8 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = ManagedObjectObserver(managedObject: object)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObject: object)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -78,7 +80,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -105,9 +107,8 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = ManagedObjectObserver(managedObject: object)
-        
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObject: object)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -134,7 +135,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
+        observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -161,8 +162,8 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -189,7 +190,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -242,7 +243,7 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
+        observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -268,8 +269,8 @@ class ManagedObjectObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
