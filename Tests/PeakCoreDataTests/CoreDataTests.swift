@@ -16,6 +16,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
     var managedObjectCache: ManagedObjectCache!
     var persistentContainer: NSPersistentContainer!
+    var lastIndex: Int32 = 0
     
     override func setUp() {
         super.setUp()
@@ -33,51 +34,77 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         }
         persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
         managedObjectCache = ManagedObjectCache()
+        lastIndex = 0
     }
     
     override func tearDown() {
+        lastIndex = 0
         persistentContainer = nil
         managedObjectCache = nil
         super.tearDown()
     }
     
     @discardableResult
-    static func createTestIntermediateObjects(number: Int, in context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
+    func createTestEntityJSONObjects(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
-        for item in 0..<number {
+        for index in 1...count {
             let id = UUID().uuidString
-            let title = "Item " + String(item)
+            let title = "Item \(index)"
             let intermediate = TestEntityJSON(uniqueID: id, title: title)
             intermediateItems.append(intermediate)
             
             // Create a managed object for half the items, to check that they are correctly updated
             
-            if test(item) {
-                TestEntity.insertObject(with: id, in: context)
+            if test(index) {
+                TestEntity.insertObject(with: id, in: viewContext)
             }
         }
         return intermediateItems
     }
     
     @discardableResult
-    static func createTestEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
+    func createAnotherEntityJSONObjects(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [AnotherEntityJSON] {
+        var intermediateItems: [AnotherEntityJSON] = []
+        let toAdd = lastIndex + 1
+        for index in 0..<count {
+            let id = Int32(index) + toAdd
+            lastIndex = id
+            let title = "Item \(id)"
+            let intermediate = AnotherEntityJSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+            
+            // Create a managed object for half the items, to check that they are correctly updated
+            
+            if test(index) {
+                AnotherEntity.insertObject(with: id, in: viewContext)
+            }
+        }
+        return intermediateItems
+    }
+    
+    @discardableResult
+    func createTestEntityManagedObjects(count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
-        for item in 0..<count {
+        for index in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntity.insertObject(with: id, in: context)
-            newObject.title = "Item " + String(item)
+            let newObject = TestEntity.insertObject(with: id, in: viewContext) {
+                $0.title = "Item \(index)"
+            }
             items.append(newObject)
         }
         return items
     }
     
     @discardableResult
-    static func createAnotherEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [AnotherEntity] {
+    func createAnotherEntityManagedObjects(count: Int) -> [AnotherEntity] {
         var items: [AnotherEntity] = []
-        for item in 0..<count {
-            let id = UUID().uuidString
-            let newObject = AnotherEntity.insertObject(with: id, in: context)
-            newObject.title = "Item " + String(item)
+        let toAdd = lastIndex + 1
+        for index in 0..<count {
+            let id = Int32(index) + toAdd
+            lastIndex = id
+            let newObject = AnotherEntity.insertObject(with: id, in: viewContext) {
+                $0.title = "Item \(index)"
+            }
             items.append(newObject)
         }
         return items

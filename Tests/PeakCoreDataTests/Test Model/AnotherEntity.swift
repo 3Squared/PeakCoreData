@@ -12,18 +12,13 @@ import CoreData
 extension AnotherEntity: ManagedObjectType {
     
     public static var defaultSortDescriptors: [NSSortDescriptor] {
-        let sortByTitle = NSSortDescriptor(key: #keyPath(TestEntity.title), ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
-        return [sortByTitle]
+        let sortByIndex = NSSortDescriptor(key: uniqueIDKey,
+                                           ascending: true)
+        return [sortByIndex]
     }
 }
 
 extension AnotherEntity: UniqueIdentifiable {
-    
-    public static var uniqueIDKey: String {
-        return "uniqueID"
-    }
-    
-    public var uniqueIDValue: String {
-        return uniqueID!
-    }
+    public static var uniqueIDKey: String { #keyPath(AnotherEntity.uniqueID) }
+    public var uniqueIDValue: Int32 { uniqueID }
 }

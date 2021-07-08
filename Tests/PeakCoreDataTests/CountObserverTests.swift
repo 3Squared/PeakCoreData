@@ -29,7 +29,7 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testExistingData() {
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         
@@ -45,10 +45,10 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testCountChanges() {
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, insertNumber)
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         XCTAssertEqual(observer.count, insertNumber*2)
         TestEntity.delete(in: viewContext)
         XCTAssertEqual(observer.count, 0)
@@ -67,7 +67,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
 
         waitForExpectations(timeout: defaultTimeout)
         
@@ -87,8 +87,8 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
 
         waitForExpectations(timeout: defaultTimeout)
         
@@ -96,7 +96,7 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testDeleteCallsNotifier() {
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
@@ -118,7 +118,7 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testFetchedCountWithPredicate() {
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
@@ -136,7 +136,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
+        createTestEntityManagedObjects(count: insertNumber)
         let count2 = TestEntity.count(in: viewContext, matching: predicate)
         
         waitForExpectations(timeout: defaultTimeout)

@@ -106,22 +106,33 @@ class ManagedObjectCacheTests: CoreDataTests {
     
     func testRegisterCreatesPermanentIDs() throws {
         let insertNumber = 10
-        let objects = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        XCTAssertEqual((objects.filter { $0.objectID.isTemporaryID }).count, insertNumber)
+        let testEntities = createTestEntityManagedObjects(count: insertNumber)
+        XCTAssertEqual((testEntities.filter { $0.objectID.isTemporaryID }).count, insertNumber)
+        let anotherEntities = createAnotherEntityManagedObjects(count: insertNumber)
+        XCTAssertEqual((anotherEntities.filter { $0.objectID.isTemporaryID }).count, insertNumber)
         
-        managedObjectCache.register(objects, in: viewContext)
-        
-        XCTAssertEqual((objects.filter { $0.objectID.isTemporaryID }).count, 0)
+        managedObjectCache.register(testEntities, in: viewContext)
+        managedObjectCache.register(anotherEntities, in: viewContext)
+
+        XCTAssertEqual((testEntities.filter { $0.objectID.isTemporaryID }).count, 0)
+        XCTAssertEqual((anotherEntities.filter { $0.objectID.isTemporaryID }).count, 0)
     }
     
     func testRegister() throws {
         let insertNumber = 10
-        let objects = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertNumber)
-        
-        managedObjectCache.register(objects, in: viewContext)
-                
-        objects.forEach { obj in
+        let testEntities = createTestEntityManagedObjects(count: insertNumber)
+        let anotherEntities = createAnotherEntityManagedObjects(count: insertNumber)
+
+        managedObjectCache.register(testEntities, in: viewContext)
+        managedObjectCache.register(anotherEntities, in: viewContext)
+
+        testEntities.forEach { obj in
             let cached: TestEntity? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
+            XCTAssertNotNil(cached)
+        }
+        
+        anotherEntities.forEach { obj in
+            let cached: AnotherEntity? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
             XCTAssertNotNil(cached)
         }
     }

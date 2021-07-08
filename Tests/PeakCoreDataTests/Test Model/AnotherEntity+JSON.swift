@@ -1,17 +1,17 @@
 //
-//  TestEntity+JSON.swift
+//  AnotherEntity+JSON.swift
 //  PeakCoreData
 //
-//  Created by David Yates on 07/12/2016.
-//  Copyright © 2016 3Squared Ltd. All rights reserved.
+//  Created by David Yates on 08/07/2021.
+//  Copyright © 2021 3Squared Ltd. All rights reserved.
 //
 
 import Foundation
 import CoreData
 @testable import PeakCoreData
 
-public struct TestEntityJSON: Codable {
-    let uniqueID: String
+public struct AnotherEntityJSON: Codable {
+    let uniqueID: Int32
     let title: String
     
     enum CodingKeys: String, CodingKey {
@@ -20,9 +20,9 @@ public struct TestEntityJSON: Codable {
     }
 }
 
-extension TestEntityJSON: ManagedObjectUpdatable {
+extension AnotherEntityJSON: ManagedObjectUpdatable {
     
-    public typealias ManagedObject = TestEntity
+    public typealias ManagedObject = AnotherEntity
     
     public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
         managedObject.title = intermediate.title
@@ -31,15 +31,16 @@ extension TestEntityJSON: ManagedObjectUpdatable {
     public static var updateRelationships: UpdateRelationshipsBlock? = nil
 }
 
-extension TestEntityJSON: ManagedObjectInitialisable {
+extension AnotherEntityJSON: ManagedObjectInitialisable {
     
-    public init(with managedObject: TestEntity) throws {
+    public init(with managedObject: AnotherEntity) throws {
         uniqueID = managedObject.uniqueIDValue
         title = managedObject.title!
     }
 }
 
-extension TestEntityJSON: UniqueIdentifiable {
+extension AnotherEntityJSON: UniqueIdentifiable {
     public static var uniqueIDKey: String { "uniqueID" }
-    public var uniqueIDValue: String { uniqueID }
+    public var uniqueIDValue: Int32 { uniqueID }
 }
+

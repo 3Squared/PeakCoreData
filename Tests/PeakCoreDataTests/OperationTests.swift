@@ -10,7 +10,7 @@ import XCTest
 import CoreData
 @testable import PeakCoreData
 
-class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
+class OperationTests: CoreDataTests {
     
     var operationQueue: OperationQueue {
         let queue = OperationQueue()
@@ -50,7 +50,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         })
     }
     
-    func testSingleImportOperation() {
+    func testSingleTestEntityImportOperation() {
         let numberOfInserts = 5
         let numberOfItems = 1
         var previousOperation: CoreDataSingleImportOperation<TestEntityJSON>? = nil
@@ -59,7 +59,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         for _ in 0..<numberOfInserts {
             
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
+            let input = createTestEntityJSONObjects(count: numberOfItems)
             try! viewContext.save()
             
             // Create import operation with intermediates as input
@@ -84,7 +84,41 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
     
-    func testBatchImportOperation() {
+    func testSingleAnotherEntityImportOperation() {
+        let numberOfInserts = 5
+        let numberOfItems = 1
+        var previousOperation: CoreDataSingleImportOperation<AnotherEntityJSON>? = nil
+        let finishExpectation = expectation(description: #function)
+        
+        for _ in 0..<numberOfInserts {
+            
+            // Create intermediate objects
+            let input = createAnotherEntityJSONObjects(count: numberOfItems)
+            try! viewContext.save()
+            
+            // Create import operation with intermediates as input
+            let operation = CoreDataSingleImportOperation<AnotherEntityJSON>(persistentContainer: persistentContainer)
+            operation.input = Result { input.first! }
+            
+            if let previousOperation = previousOperation {
+                operation.addDependency(previousOperation)
+            }
+            
+            operationQueue.addOperation(operation)
+            previousOperation = operation
+        }
+        
+        previousOperation?.addResultBlock { result in
+            let count = AnotherEntity.count(in: self.viewContext)
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
+            finishExpectation.fulfill()
+        }
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
+    func testBatchImportTestEntitiesOperation() {
         let numberOfInserts = 5
         let numberOfItems = 100
         var previousOperation: CoreDataBatchImportOperation<TestEntityJSON>? = nil
@@ -94,7 +128,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: viewContext)
+            let input = createTestEntityJSONObjects(count: numberOfItems)
             try! viewContext.save()
             
             
@@ -120,11 +154,46 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
     
+    func testBatchImportAnotherEntitiesOperation() {
+        let numberOfInserts = 5
+        let numberOfItems = 100
+        var previousOperation: CoreDataBatchImportOperation<AnotherEntityJSON>? = nil
+
+        let finishExpectation = expectation(description: #function)
+
+        for _ in 0..<numberOfInserts {
+        
+            // Create intermediate objects
+            let input = createAnotherEntityJSONObjects(count: numberOfItems)
+            try! viewContext.save()
+            
+            // Create import operation with intermediates as input
+            let operation = CoreDataBatchImportOperation<AnotherEntityJSON>(persistentContainer: persistentContainer)
+            operation.input = Result { input }
+            
+            if let previousOperation = previousOperation {
+                operation.addDependency(previousOperation)
+            }
+            
+            operationQueue.addOperation(operation)
+            previousOperation = operation
+        }
+        
+        previousOperation?.addResultBlock { result in
+            let count = AnotherEntity.count(in: self.viewContext)
+            XCTAssertEqual(count, (numberOfInserts * numberOfItems))
+            finishExpectation.fulfill()
+        }
+        
+        // THEN: then the main and background contexts are saved and the completion handler is called
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
     func testBatchImportOutcomeNumbersAreCorrect() {
         let numberOfItems = 100
         let finishExpectation = expectation(description: #function)
 
-        let input = CoreDataTests.createTestIntermediateObjects(number: numberOfItems, in: persistentContainer.viewContext)
+        let input = createTestEntityJSONObjects(count: numberOfItems)
         try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
@@ -150,7 +219,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         waitForExpectations(timeout: defaultTimeout)
     }
     
-    func testBatchImportTriggersFetchedResultsController() {
+    func testBatchImportOfTestEntityTriggersFetchedResultsController() {
         let numberOfItems = 1000
         var intermediateItems: [TestEntityJSON] = []
         for item in 0..<numberOfItems {
@@ -162,7 +231,10 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         let finishExpectation = expectation(description: #function)
         
         let fetchRequest = TestEntity.sortedFetchRequest()
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: viewContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
         
         let listener = FetchedResultsListener { (count) in
             XCTAssertEqual(count, numberOfItems)
@@ -174,6 +246,39 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         
         // Create import operation with intermediates as input
         let operation = CoreDataBatchImportOperation<TestEntityJSON>(persistentContainer: persistentContainer)
+        operation.input = Result { intermediateItems }
+        
+        operationQueue.addOperation(operation)
+        waitForExpectations(timeout: defaultTimeout)
+    }
+    
+    func testBatchImportOfAnotherEntityTriggersFetchedResultsController() {
+        let numberOfItems = 1000
+        var intermediateItems: [AnotherEntityJSON] = []
+        for item in 0..<numberOfItems {
+            let id = Int32.random(in: 0..<Int32.max)
+            let title = "Item " + String(item)
+            let intermediate = AnotherEntityJSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+        }
+        let finishExpectation = expectation(description: #function)
+        
+        let fetchRequest = AnotherEntity.sortedFetchRequest()
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: viewContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+        
+        let listener = FetchedResultsListener { (count) in
+            XCTAssertEqual(count, numberOfItems)
+            finishExpectation.fulfill()
+        }
+        
+        frc.delegate = listener
+        try! frc.performFetch()
+        
+        // Create import operation with intermediates as input
+        let operation = CoreDataBatchImportOperation<AnotherEntityJSON>(persistentContainer: persistentContainer)
         operation.input = Result { intermediateItems }
         
         operationQueue.addOperation(operation)
@@ -197,7 +302,7 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
     func testCoreDataToIntermediateOperation() {
         let finishExpectation = expectation(description: #function)
         let insertCount = 100
-        let inserted = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: insertCount)
+        let inserted = createTestEntityManagedObjects(count: insertCount)
         let insertedIDs = inserted.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
         let insertedTitles = inserted.compactMap({ $0.title }).sorted(by: { $0 < $1 })
         try! viewContext.save()
@@ -220,10 +325,10 @@ class OperationTests: CoreDataTests, NSFetchedResultsControllerDelegate {
         let finishExpectation = expectation(description: #function)
         
         let insertCount = 20
-        let trueTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        let trueTestEntities = createTestEntityManagedObjects(count: insertCount)
         let insertedIDs = trueTestEntities.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
         let insertedTitles = trueTestEntities.compactMap({ $0.title }).sorted(by: { $0 < $1 })
-        let falseTestEntities = CoreDataTests.createTestEntityManagedObjects(in: persistentContainer.viewContext, count: insertCount)
+        let falseTestEntities = createTestEntityManagedObjects(count: insertCount)
         trueTestEntities.forEach { $0.edited = true }
         falseTestEntities.forEach { $0.edited = false }
         try! persistentContainer.viewContext.save()
