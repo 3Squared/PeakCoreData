@@ -59,7 +59,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
             
             // Create intermediate objects
-            let input = createTestEntityJSONObjects(count: numberOfItems)
+            let input = createTestEntityIntermediates(count: numberOfItems)
             try! viewContext.save()
             
             // Create import operation with intermediates as input
@@ -93,7 +93,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
             
             // Create intermediate objects
-            let input = createAnotherEntityJSONObjects(count: numberOfItems)
+            let input = createAnotherEntityIntermediates(count: numberOfItems)
             try! viewContext.save()
             
             // Create import operation with intermediates as input
@@ -128,7 +128,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = createTestEntityJSONObjects(count: numberOfItems)
+            let input = createTestEntityIntermediates(count: numberOfItems)
             try! viewContext.save()
             
             
@@ -164,7 +164,7 @@ class OperationTests: CoreDataTests {
         for _ in 0..<numberOfInserts {
         
             // Create intermediate objects
-            let input = createAnotherEntityJSONObjects(count: numberOfItems)
+            let input = createAnotherEntityIntermediates(count: numberOfItems)
             try! viewContext.save()
             
             // Create import operation with intermediates as input
@@ -193,7 +193,7 @@ class OperationTests: CoreDataTests {
         let numberOfItems = 100
         let finishExpectation = expectation(description: #function)
 
-        let input = createTestEntityJSONObjects(count: numberOfItems)
+        let input = createTestEntityIntermediates(count: numberOfItems)
         try! persistentContainer.viewContext.save()
         
         // Create import operation with intermediates as input
@@ -302,7 +302,7 @@ class OperationTests: CoreDataTests {
     func testCoreDataToIntermediateOperation() {
         let finishExpectation = expectation(description: #function)
         let insertCount = 100
-        let inserted = createTestEntityManagedObjects(count: insertCount)
+        let inserted = createTestEntityObjects(count: insertCount)
         let insertedIDs = inserted.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
         let insertedTitles = inserted.compactMap({ $0.title }).sorted(by: { $0 < $1 })
         try! viewContext.save()
@@ -325,10 +325,10 @@ class OperationTests: CoreDataTests {
         let finishExpectation = expectation(description: #function)
         
         let insertCount = 20
-        let trueTestEntities = createTestEntityManagedObjects(count: insertCount)
+        let trueTestEntities = createTestEntityObjects(count: insertCount)
         let insertedIDs = trueTestEntities.compactMap({ $0.uniqueID }).sorted(by: { $0 < $1 })
         let insertedTitles = trueTestEntities.compactMap({ $0.title }).sorted(by: { $0 < $1 })
-        let falseTestEntities = createTestEntityManagedObjects(count: insertCount)
+        let falseTestEntities = createTestEntityObjects(count: insertCount)
         trueTestEntities.forEach { $0.edited = true }
         falseTestEntities.forEach { $0.edited = false }
         try! persistentContainer.viewContext.save()

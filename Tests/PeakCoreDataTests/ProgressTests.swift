@@ -14,7 +14,7 @@ class ProgressTests: CoreDataTests {
 
     func testBatchImportOperation() {
         // Create intermediate objects
-        let input = createTestEntityJSONObjects(count: 100)
+        let input = createTestEntityIntermediates(count: 100)
         try! viewContext.save()
         
         // Create import operation with intermediates as input

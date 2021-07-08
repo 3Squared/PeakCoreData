@@ -45,7 +45,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createTestEntityJSONObjects(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
+    func createTestEntityIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
         for index in 0..<count {
             let id = UUID().uuidString
@@ -63,7 +63,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createAnotherEntityJSONObjects(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [AnotherEntityJSON] {
+    func createAnotherEntityIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [AnotherEntityJSON] {
         var intermediateItems: [AnotherEntityJSON] = []
         let toAdd = lastIndex + 1
         for index in 0..<count {
@@ -83,7 +83,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createTestEntityManagedObjects(count: Int) -> [TestEntity] {
+    func createTestEntityObjects(count: Int) -> [TestEntity] {
         var items: [TestEntity] = []
         for index in 0..<count {
             let id = UUID().uuidString
@@ -96,7 +96,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createAnotherEntityManagedObjects(count: Int) -> [AnotherEntity] {
+    func createAnotherEntityObjects(count: Int) -> [AnotherEntity] {
         var items: [AnotherEntity] = []
         let toAdd = lastIndex + 1
         for index in 0..<count {

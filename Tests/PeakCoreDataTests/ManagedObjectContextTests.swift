@@ -14,7 +14,7 @@ class ManagedObjectContextTests: CoreDataTests {
 
     func testPerformAndWait() {
         let insertCount = 100
-        createTestEntityManagedObjects(count: insertCount)
+        createTestEntityObjects(count: insertCount)
         let count = viewContext.performAndWait {
             return TestEntity.count(in: viewContext)
         }
@@ -23,7 +23,7 @@ class ManagedObjectContextTests: CoreDataTests {
     
     func testPerformAndWaitThrows() {
         let insertCount = 100
-        createTestEntityManagedObjects(count: insertCount)
+        createTestEntityObjects(count: insertCount)
         let count: Int
         do {
             count = try viewContext.performAndWait {
