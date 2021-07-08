@@ -47,7 +47,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     @discardableResult
     func createTestEntityJSONObjects(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
         var intermediateItems: [TestEntityJSON] = []
-        for index in 1...count {
+        for index in 0..<count {
             let id = UUID().uuidString
             let title = "Item \(index)"
             let intermediate = TestEntityJSON(uniqueID: id, title: title)
