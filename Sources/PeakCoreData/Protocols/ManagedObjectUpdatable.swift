@@ -8,7 +8,7 @@
 
 import CoreData
 
-public protocol ManagedObjectUpdatable: UniqueIdentifiable {
+public protocol ManagedObjectUpdatable: UniqueIdentifiable where UniqueIDType == ManagedObject.UniqueIDType {
     associatedtype ManagedObject: ManagedObjectType & UniqueIdentifiable
     
     typealias UpdatePropertiesBlock = ((Self, ManagedObject) -> Void)

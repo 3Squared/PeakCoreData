@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol UniqueIdentifiable {
+    associatedtype UniqueIDType: Hashable
     static var uniqueIDKey: String { get }
-    var uniqueIDValue: String { get }
+    var uniqueIDValue: UniqueIDType { get }
 }
