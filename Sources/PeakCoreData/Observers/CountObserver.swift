@@ -18,7 +18,7 @@ public class CountObserver<T>: NSObject where T: ManagedObjectType {
     public var count: Int {
         var count: Int = 0
         context.performAndWait {
-            count = T.count(in: context, matching: predicate)
+            count = T.count(in: context, predicate: predicate)
         }
         return count
     }

@@ -26,12 +26,12 @@ class ManagedObjectTypeTests: CoreDataTests {
         let id1 = UUID().uuidString
         TestEntityString.insert(withID: id1, context: viewContext)
         let predicate1 = TestEntityString.uniqueIDValue(equalTo: id1)
-        XCTAssertNotNil(TestEntityString.first(in: viewContext, matching: predicate1))
+        XCTAssertNotNil(TestEntityString.first(in: viewContext, predicate: predicate1))
         
         let id2 = Int32.random(in: 0..<Int32.max)
         TestEntityInt.insert(withID: id2, context: viewContext)
         let predicate2 = TestEntityInt.uniqueIDValue(equalTo: id2)
-        XCTAssertNotNil(TestEntityInt.first(in: viewContext, matching: predicate2))
+        XCTAssertNotNil(TestEntityInt.first(in: viewContext, predicate: predicate2))
     }
     
     func testFirstConfigured() {
@@ -78,7 +78,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertEqual(TestEntityString.count(in: viewContext), count)
         
         let predicate1 = TestEntityString.uniqueIDValue(equalTo: itemToDelete1.uniqueIDValue)
-        TestEntityString.delete(in: viewContext, matching: predicate1)
+        TestEntityString.delete(in: viewContext, predicate: predicate1)
         
         XCTAssertEqual(TestEntityString.count(in: viewContext), count-1)
         
@@ -88,7 +88,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertEqual(TestEntityInt.count(in: viewContext), count)
         
         let predicate2 = TestEntityInt.uniqueIDValue(equalTo: itemToDelete2.uniqueIDValue)
-        TestEntityInt.delete(in: viewContext, matching: predicate2)
+        TestEntityInt.delete(in: viewContext, predicate: predicate2)
         
         XCTAssertEqual(TestEntityInt.count(in: viewContext), count-1)
     }

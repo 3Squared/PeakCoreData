@@ -51,17 +51,15 @@ extension NSManagedObjectContext {
      `mergeChanges(fromRemoteContextSave:into:)` function.
      
      - This method cannot be unit tested because it is incompatible with `NSInMemoryStoreType`.
-     - This is a convenience function for calling `batchDelete(in:matching:)` on `NSEntityDescription`
+     - This is a convenience function for calling `batchDelete(in:predicate:mergeContexts:)` on `NSEntityDescription`
      across all entities in the data model.
      
      - parameter context:       The context to use.
      - parameter mergeContexts: Optional contexts into which changes can be merged.
      */
     public func batchDeleteAllEntities(mergingInto mergeContexts: [NSManagedObjectContext]? = nil) {
-        if let entities = persistentStoreCoordinator?.managedObjectModel.entities {
-            for entity in entities {
-                entity.batchDelete(in: self, mergingInto: mergeContexts)
-            }
+        persistentStoreCoordinator?.managedObjectModel.entities.forEach {
+            $0.batchDelete(in: self, mergeContexts: mergeContexts)
         }
     }
 }

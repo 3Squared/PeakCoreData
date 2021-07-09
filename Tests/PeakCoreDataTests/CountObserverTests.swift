@@ -124,7 +124,7 @@ class CountObserverTests: CoreDataTests {
         expect.expectedFulfillmentCount = 2
         
         let predicate = NSPredicate(stringBeginsWith: "A", keyPath: #keyPath(TestEntityString.uniqueID))
-        let count1 = TestEntityString.count(in: viewContext, matching: predicate)
+        let count1 = TestEntityString.count(in: viewContext, predicate: predicate)
         
         let observer = CountObserver<TestEntityString>(predicate: predicate, context: viewContext)
         XCTAssertEqual(observer.count, count1)
@@ -137,7 +137,7 @@ class CountObserverTests: CoreDataTests {
         }
         
         createTestEntityStringObjects(count: insertNumber)
-        let count2 = TestEntityString.count(in: viewContext, matching: predicate)
+        let count2 = TestEntityString.count(in: viewContext, predicate: predicate)
         
         waitForExpectations(timeout: defaultTimeout)
         
