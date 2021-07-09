@@ -205,8 +205,8 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      - returns: The object with the specified unique id.
      */
     static func fetchObject(with uniqueID: UniqueIDType,
-                            in context: NSManagedObjectContext,
-                            with cache: ManagedObjectCache? = nil) -> Self? {
+                            context: NSManagedObjectContext,
+                            cache: ManagedObjectCache? = nil) -> Self? {
         if let cachedObject: Self = cache?.object(withUniqueID: uniqueID, in: context) {
             return cachedObject
         } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueID)) {
@@ -233,7 +233,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
                                     context: NSManagedObjectContext,
                                     cache: ManagedObjectCache? = nil,
                                     configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        if let existingObject = fetchObject(with: uniqueID, in: context, with: cache) {
+        if let existingObject = fetchObject(with: uniqueID, context: context, cache: cache) {
             configure?(existingObject)
             return existingObject
         }

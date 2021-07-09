@@ -15,11 +15,11 @@ class ManagedObjectTypeTests: CoreDataTests {
     func testFetchObject() {
         let id1 = UUID().uuidString
         TestEntityString.insertObject(with: id1, in: viewContext)
-        XCTAssertNotNil(TestEntityString.fetchObject(with: id1, in: viewContext))
+        XCTAssertNotNil(TestEntityString.fetchObject(with: id1, context: viewContext))
         
         let id2 = Int32.random(in: 0..<Int32.max)
         TestEntityInt.insertObject(with: id2, in: viewContext)
-        XCTAssertNotNil(TestEntityInt.fetchObject(with: id2, in: viewContext))
+        XCTAssertNotNil(TestEntityInt.fetchObject(with: id2, context: viewContext))
     }
     
     func testFirstMatchingPredicate() {
