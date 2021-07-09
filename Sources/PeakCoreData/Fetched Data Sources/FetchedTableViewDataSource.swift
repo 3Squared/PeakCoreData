@@ -180,7 +180,7 @@ extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
             return
         }
         
-        delegate.process(updates: updates, for: tableView, with: delegate.rowAnimation) { [weak self] _ in
+        delegate.process(updates: updates, tableView: tableView, animation: delegate.rowAnimation) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.showEmptyViewIfNeeded()
             strongSelf.onDidChangeContent?()

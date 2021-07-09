@@ -182,7 +182,7 @@ extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
             return
         }
         
-        delegate.process(updates: updates, for: collectionView) { [weak self] _ in
+        delegate.process(updates: updates, collectionView: collectionView) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.showEmptyViewIfNeeded()
             strongSelf.onDidChangeContent?()
