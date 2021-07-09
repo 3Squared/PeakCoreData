@@ -52,11 +52,11 @@ public class CountObserver<T>: NSObject where T: ManagedObjectType {
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
-            guard let strongSelf = self else { return }
-            guard strongSelf.enabled else { return }
+            guard let self = self else { return }
+            guard self.enabled else { return }
             let notification = ObjectsDidChangeNotification(notification: note)
-            guard notification.managedObjectContext == strongSelf.context else { return }
-            strongSelf.contextDidChange(force: false)
+            guard notification.managedObjectContext == self.context else { return }
+            self.contextDidChange(force: false)
         }
         contextDidChange(force: true)
         notifierRunning = true
@@ -67,8 +67,8 @@ public class CountObserver<T>: NSObject where T: ManagedObjectType {
         guard force || newCount != previousCount else { return }
         
         DispatchQueue.main.async { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.onChange?(newCount)
+            guard let self = self else { return }
+            self.onChange?(newCount)
         }
         previousCount = newCount
     }

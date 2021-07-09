@@ -181,9 +181,9 @@ extension FetchedTableViewDataSource: FetchedDataProviderDelegate {
         }
         
         delegate.process(updates: updates, tableView: tableView, animation: delegate.rowAnimation) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.showEmptyViewIfNeeded()
-            strongSelf.onDidChangeContent?()
+            guard let self = self else { return }
+            self.showEmptyViewIfNeeded()
+            self.onDidChangeContent?()
         }
     }
 }

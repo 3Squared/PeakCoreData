@@ -22,7 +22,7 @@ extension TableViewUpdatable {
                         animation: UITableView.RowAnimation = .automatic,
                         completion: ((Bool) -> Void)? = nil) {
         let batchUpdates: () -> Void = { [weak self] in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             
             updates.forEach { (update) in
                 switch update {
@@ -30,7 +30,7 @@ extension TableViewUpdatable {
                     tableView.insertRows(at: [indexPath], with: animation)
                 case .update(let indexPath, let object):
                     guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { return }
-                    strongSelf.configure(cell, with: object)
+                    self.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     tableView.moveRow(at: indexPath, to: newIndexPath)
                 case .delete(let indexPath):
