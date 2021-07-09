@@ -12,16 +12,16 @@ import CoreData
 
 class FetchedCollectionTests: CoreDataTests {
     
-    func createFetchedCollection() -> FetchedCollection<TestEntity> {
-        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), context: viewContext)
+    func createFetchedCollection() -> FetchedCollection<TestEntityString> {
+        return FetchedCollection<TestEntityString>(fetchRequest: TestEntityString.sortedFetchRequest(), context: viewContext)
     }
     
-    func createSectionedFetchedCollection() -> FetchedCollection<TestEntity> {
-        return FetchedCollection<TestEntity>(fetchRequest: TestEntity.sortedFetchRequest(), context: viewContext, sectionNameKeyPath: #keyPath(TestEntity.uniqueID))
+    func createSectionedFetchedCollection() -> FetchedCollection<TestEntityString> {
+        return FetchedCollection<TestEntityString>(fetchRequest: TestEntityString.sortedFetchRequest(), context: viewContext, sectionNameKeyPath: #keyPath(TestEntityString.uniqueID))
     }
     
     func testSnapshotIsStatic() {
-        createTestEntityObjects(count: 10)
+        createTestEntityStringObjects(count: 10)
 
         let expect = expectation(description: "")
         
@@ -47,7 +47,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
 
     func testSectionedResults() {
-        createTestEntityObjects(count: 10)
+        createTestEntityStringObjects(count: 10)
 
         let sectionedFetchedCollection = createSectionedFetchedCollection()
         
@@ -86,7 +86,7 @@ class FetchedCollectionTests: CoreDataTests {
         }
 
         viewContext.perform {
-            self.createTestEntityObjects(count: 10)
+            self.createTestEntityStringObjects(count: 10)
             try! self.viewContext.save()
         }
 
@@ -94,7 +94,7 @@ class FetchedCollectionTests: CoreDataTests {
     }
 
     func testInsertSectionChanges() {
-        createTestEntityObjects(count: 1)
+        createTestEntityStringObjects(count: 1)
         try! viewContext.save()
 
         let sectionedFetchedCollection = createSectionedFetchedCollection()
@@ -102,7 +102,7 @@ class FetchedCollectionTests: CoreDataTests {
         XCTAssertEqual(sectionedFetchedCollection.sections.count, 1)
 
         viewContext.performAndWait {
-            createTestEntityObjects(count: 1)
+            createTestEntityStringObjects(count: 1)
             try! self.viewContext.save()
         }
 
@@ -115,7 +115,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testDeletionChanges() {
         let expect = expectation(description: "")
-        let inserted = createTestEntityObjects(count: 10)
+        let inserted = createTestEntityStringObjects(count: 10)
         viewContext.perform {
             try! self.viewContext.save()
         }
@@ -152,7 +152,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testUpdateChanges() {
         let expect = expectation(description: "")
-        let inserted = createTestEntityObjects(count: 10)
+        let inserted = createTestEntityStringObjects(count: 10)
         viewContext.perform {
             try! self.viewContext.save()
         }
@@ -191,7 +191,7 @@ class FetchedCollectionTests: CoreDataTests {
 
     func testMoveChanges() {
         let expect = expectation(description: "")
-        let inserted = createTestEntityObjects(count: 10)
+        let inserted = createTestEntityStringObjects(count: 10)
         
         let fetchedCollection = createFetchedCollection()
         
@@ -220,10 +220,10 @@ class FetchedCollectionTests: CoreDataTests {
     func testReconfigureFetchRequest() {
         let expect = expectation(description: "")
 
-        createTestEntityObjects(count: 9)
+        createTestEntityStringObjects(count: 9)
         
         let uniqueID = "testid"
-        TestEntity.insertObject(with: uniqueID, in: viewContext)
+        TestEntityString.insertObject(with: uniqueID, in: viewContext)
         
         let fetchedCollection = createFetchedCollection()
         
@@ -237,7 +237,7 @@ class FetchedCollectionTests: CoreDataTests {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             fetchedCollection.reconfigureFetchRequest { fr in
-                fr.predicate = NSPredicate(equalTo: uniqueID, keyPath: #keyPath(TestEntity.uniqueID))
+                fr.predicate = NSPredicate(equalTo: uniqueID, keyPath: #keyPath(TestEntityString.uniqueID))
             }
         }
 

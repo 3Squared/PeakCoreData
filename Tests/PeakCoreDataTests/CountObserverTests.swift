@@ -17,7 +17,7 @@ class CountObserverTests: CoreDataTests {
     func testNotifierCalledOnStartNotifier() {
         let expect = expectation(description: "")
         
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, 0)
         
         observer.startObserving() { count in
@@ -29,11 +29,11 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testExistingData() {
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, insertNumber)
         
         observer.startObserving() { count in
@@ -45,12 +45,12 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testCountChanges() {
-        createTestEntityObjects(count: insertNumber)
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        createTestEntityStringObjects(count: insertNumber)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, insertNumber)
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
         XCTAssertEqual(observer.count, insertNumber*2)
-        TestEntity.delete(in: viewContext)
+        TestEntityString.delete(in: viewContext)
         XCTAssertEqual(observer.count, 0)
     }
     
@@ -58,7 +58,7 @@ class CountObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, 0)
         
         var counts: [Int] = []
@@ -67,7 +67,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
 
         waitForExpectations(timeout: defaultTimeout)
         
@@ -78,7 +78,7 @@ class CountObserverTests: CoreDataTests {
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, 0)
         
         var counts: [Int] = []
@@ -87,8 +87,8 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        createTestEntityObjects(count: insertNumber)
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
 
         waitForExpectations(timeout: defaultTimeout)
         
@@ -96,12 +96,12 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testDeleteCallsNotifier() {
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer = CountObserver<TestEntity>(predicate: nil, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: nil, context: viewContext)
         XCTAssertEqual(observer.count, insertNumber)
         
         var counts: [Int] = []
@@ -110,7 +110,7 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        TestEntity.delete(in: viewContext)
+        TestEntityString.delete(in: viewContext)
         
         waitForExpectations(timeout: defaultTimeout)
         
@@ -118,15 +118,15 @@ class CountObserverTests: CoreDataTests {
     }
     
     func testFetchedCountWithPredicate() {
-        createTestEntityObjects(count: insertNumber)
+        createTestEntityStringObjects(count: insertNumber)
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let predicate = NSPredicate(stringBeginsWith: "A", keyPath: #keyPath(TestEntity.uniqueID))
-        let count1 = TestEntity.count(in: viewContext, matching: predicate)
+        let predicate = NSPredicate(stringBeginsWith: "A", keyPath: #keyPath(TestEntityString.uniqueID))
+        let count1 = TestEntityString.count(in: viewContext, matching: predicate)
         
-        let observer = CountObserver<TestEntity>(predicate: predicate, context: viewContext)
+        let observer = CountObserver<TestEntityString>(predicate: predicate, context: viewContext)
         XCTAssertEqual(observer.count, count1)
         
         var counts: [Int] = []
@@ -136,8 +136,8 @@ class CountObserverTests: CoreDataTests {
             expect.fulfill()
         }
         
-        createTestEntityObjects(count: insertNumber)
-        let count2 = TestEntity.count(in: viewContext, matching: predicate)
+        createTestEntityStringObjects(count: insertNumber)
+        let count2 = TestEntityString.count(in: viewContext, matching: predicate)
         
         waitForExpectations(timeout: defaultTimeout)
         

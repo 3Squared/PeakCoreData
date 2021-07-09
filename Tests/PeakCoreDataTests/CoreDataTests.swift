@@ -45,49 +45,49 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createTestEntityIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
-        var intermediateItems: [TestEntityJSON] = []
+    func createTestEntityStringIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityStringJSON] {
+        var intermediateItems: [TestEntityStringJSON] = []
         for index in 0..<count {
             let id = UUID().uuidString
             let title = "Item \(index)"
-            let intermediate = TestEntityJSON(uniqueID: id, title: title)
+            let intermediate = TestEntityStringJSON(uniqueID: id, title: title)
             intermediateItems.append(intermediate)
             
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntity.insertObject(with: id, in: viewContext)
+                TestEntityString.insertObject(with: id, in: viewContext)
             }
         }
         return intermediateItems
     }
     
     @discardableResult
-    func createAnotherEntityIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [AnotherEntityJSON] {
-        var intermediateItems: [AnotherEntityJSON] = []
+    func createTestEntityIntIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityIntJSON] {
+        var intermediateItems: [TestEntityIntJSON] = []
         let toAdd = lastIndex + 1
         for index in 0..<count {
             let id = Int32(index) + toAdd
             lastIndex = id
             let title = "Item \(id)"
-            let intermediate = AnotherEntityJSON(uniqueID: id, title: title)
+            let intermediate = TestEntityIntJSON(uniqueID: id, title: title)
             intermediateItems.append(intermediate)
             
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                AnotherEntity.insertObject(with: id, in: viewContext)
+                TestEntityInt.insertObject(with: id, in: viewContext)
             }
         }
         return intermediateItems
     }
     
     @discardableResult
-    func createTestEntityObjects(count: Int) -> [TestEntity] {
-        var items: [TestEntity] = []
+    func createTestEntityStringObjects(count: Int) -> [TestEntityString] {
+        var items: [TestEntityString] = []
         for index in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntity.insertObject(with: id, in: viewContext) {
+            let newObject = TestEntityString.insertObject(with: id, in: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)
@@ -96,13 +96,13 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     }
     
     @discardableResult
-    func createAnotherEntityObjects(count: Int) -> [AnotherEntity] {
-        var items: [AnotherEntity] = []
+    func createTestEntityIntObjects(count: Int) -> [TestEntityInt] {
+        var items: [TestEntityInt] = []
         let toAdd = lastIndex + 1
         for index in 0..<count {
             let id = Int32(index) + toAdd
             lastIndex = id
-            let newObject = AnotherEntity.insertObject(with: id, in: viewContext) {
+            let newObject = TestEntityInt.insertObject(with: id, in: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)

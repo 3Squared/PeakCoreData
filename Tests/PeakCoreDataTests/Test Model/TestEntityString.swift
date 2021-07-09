@@ -1,5 +1,5 @@
 //
-//  TestEntity.swift
+//  TestEntityString.swift
 //  PeakCoreData
 //
 //  Created by David Yates on 07/12/2016.
@@ -9,17 +9,17 @@
 import CoreData
 @testable import PeakCoreData
 
-extension TestEntity: ManagedObjectType {
+extension TestEntityString: ManagedObjectType {
     
     public static var defaultSortDescriptors: [NSSortDescriptor] {
-        let sortByTitle = NSSortDescriptor(key: #keyPath(TestEntity.title),
+        let sortByTitle = NSSortDescriptor(key: #keyPath(TestEntityString.title),
                                            ascending: true,
                                            selector: #selector(NSString.caseInsensitiveCompare(_:)))
         return [sortByTitle]
     }
 }
 
-extension TestEntity: UniqueIdentifiable {
-    public static var uniqueIDKey: String { #keyPath(TestEntity.uniqueID) }
+extension TestEntityString: UniqueIdentifiable {
+    public static var uniqueIDKey: String { #keyPath(TestEntityString.uniqueID) }
     public var uniqueIDValue: String { uniqueID! }
 }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="AnotherEntity" representedClassName="AnotherEntity" syncable="YES" codeGenerationType="class">
+    <entity name="TestEntityInt" representedClassName="TestEntityInt" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniqueID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="TestEntity" representedClassName="TestEntity" syncable="YES" codeGenerationType="class">
+    <entity name="TestEntityString" representedClassName="TestEntityString" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="edited" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniqueID" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="AnotherEntity" positionX="-63" positionY="9" width="128" height="74"/>
-        <element name="TestEntity" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="TestEntityInt" positionX="-63" positionY="9" width="128" height="74"/>
+        <element name="TestEntityString" positionX="-63" positionY="-18" width="128" height="89"/>
     </elements>
 </model>

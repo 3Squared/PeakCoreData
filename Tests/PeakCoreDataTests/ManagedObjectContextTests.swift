@@ -14,20 +14,20 @@ class ManagedObjectContextTests: CoreDataTests {
 
     func testPerformAndWait() {
         let insertCount = 100
-        createTestEntityObjects(count: insertCount)
+        createTestEntityStringObjects(count: insertCount)
         let count = viewContext.performAndWait {
-            return TestEntity.count(in: viewContext)
+            return TestEntityString.count(in: viewContext)
         }
         XCTAssertEqual(insertCount, count)
     }
     
     func testPerformAndWaitThrows() {
         let insertCount = 100
-        createTestEntityObjects(count: insertCount)
+        createTestEntityStringObjects(count: insertCount)
         let count: Int
         do {
             count = try viewContext.performAndWait {
-                try viewContext.count(for: TestEntity.sortedFetchRequest())
+                try viewContext.count(for: TestEntityString.sortedFetchRequest())
             }
         } catch {
             count = 0

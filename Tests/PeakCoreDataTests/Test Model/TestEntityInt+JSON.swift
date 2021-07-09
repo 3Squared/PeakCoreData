@@ -1,5 +1,5 @@
 //
-//  AnotherEntity+JSON.swift
+//  TestEntityInt+JSON.swift
 //  PeakCoreData
 //
 //  Created by David Yates on 08/07/2021.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 @testable import PeakCoreData
 
-public struct AnotherEntityJSON: Codable {
+public struct TestEntityIntJSON: Codable {
     let uniqueID: Int32
     let title: String
     
@@ -20,9 +20,9 @@ public struct AnotherEntityJSON: Codable {
     }
 }
 
-extension AnotherEntityJSON: ManagedObjectUpdatable {
+extension TestEntityIntJSON: ManagedObjectUpdatable {
     
-    public typealias ManagedObject = AnotherEntity
+    public typealias ManagedObject = TestEntityInt
     
     public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
         managedObject.title = intermediate.title
@@ -31,15 +31,15 @@ extension AnotherEntityJSON: ManagedObjectUpdatable {
     public static var updateRelationships: UpdateRelationshipsBlock? = nil
 }
 
-extension AnotherEntityJSON: ManagedObjectInitialisable {
+extension TestEntityIntJSON: ManagedObjectInitialisable {
     
-    public init(with managedObject: AnotherEntity) throws {
+    public init(with managedObject: TestEntityInt) throws {
         uniqueID = managedObject.uniqueIDValue
         title = managedObject.title!
     }
 }
 
-extension AnotherEntityJSON: UniqueIdentifiable {
+extension TestEntityIntJSON: UniqueIdentifiable {
     public static var uniqueIDKey: String { "uniqueID" }
     public var uniqueIDValue: Int32 { uniqueID }
 }

@@ -14,307 +14,307 @@ class ManagedObjectTypeTests: CoreDataTests {
     
     func testFetchObject() {
         let id1 = UUID().uuidString
-        TestEntity.insertObject(with: id1, in: viewContext)
-        XCTAssertNotNil(TestEntity.fetchObject(with: id1, in: viewContext))
+        TestEntityString.insertObject(with: id1, in: viewContext)
+        XCTAssertNotNil(TestEntityString.fetchObject(with: id1, in: viewContext))
         
         let id2 = Int32.random(in: 0..<Int32.max)
-        AnotherEntity.insertObject(with: id2, in: viewContext)
-        XCTAssertNotNil(AnotherEntity.fetchObject(with: id2, in: viewContext))
+        TestEntityInt.insertObject(with: id2, in: viewContext)
+        XCTAssertNotNil(TestEntityInt.fetchObject(with: id2, in: viewContext))
     }
     
     func testFirstMatchingPredicate() {
         let id1 = UUID().uuidString
-        TestEntity.insertObject(with: id1, in: viewContext)
-        let predicate1 = TestEntity.uniqueObjectPredicate(with: id1)
-        XCTAssertNotNil(TestEntity.first(in: viewContext, matching: predicate1))
+        TestEntityString.insertObject(with: id1, in: viewContext)
+        let predicate1 = TestEntityString.uniqueObjectPredicate(with: id1)
+        XCTAssertNotNil(TestEntityString.first(in: viewContext, matching: predicate1))
         
         let id2 = Int32.random(in: 0..<Int32.max)
-        AnotherEntity.insertObject(with: id2, in: viewContext)
-        let predicate2 = AnotherEntity.uniqueObjectPredicate(with: id2)
-        XCTAssertNotNil(AnotherEntity.first(in: viewContext, matching: predicate2))
+        TestEntityInt.insertObject(with: id2, in: viewContext)
+        let predicate2 = TestEntityInt.uniqueObjectPredicate(with: id2)
+        XCTAssertNotNil(TestEntityInt.first(in: viewContext, matching: predicate2))
     }
     
     func testFirstConfigured() {
         let count = 100
         
-        createTestEntityObjects(count: count)
+        createTestEntityStringObjects(count: count)
         
-        XCTAssertNotNil(TestEntity.first(in: viewContext) {
-            $0.predicate = NSPredicate(equalTo: "Item " + String(45), keyPath: #keyPath(TestEntity.title))
+        XCTAssertNotNil(TestEntityString.first(in: viewContext) {
+            $0.predicate = NSPredicate(equalTo: "Item " + String(45), keyPath: #keyPath(TestEntityString.title))
         })
         
-        createAnotherEntityObjects(count: count)
+        createTestEntityIntObjects(count: count)
         
-        XCTAssertNotNil(AnotherEntity.first(in: viewContext) {
-            $0.predicate = NSPredicate(equalTo: "Item " + String(45), keyPath: #keyPath(AnotherEntity.title))
+        XCTAssertNotNil(TestEntityInt.first(in: viewContext) {
+            $0.predicate = NSPredicate(equalTo: "Item " + String(45), keyPath: #keyPath(TestEntityInt.title))
         })
     }
     
     func testInsertAndDeleteAll() {
         let count = 100
         
-        createTestEntityObjects(count: count)
+        createTestEntityStringObjects(count: count)
         
-        XCTAssertEqual(TestEntity.count(in: viewContext), count, "Count before delete should be same as count")
+        XCTAssertEqual(TestEntityString.count(in: viewContext), count, "Count before delete should be same as count")
         
-        TestEntity.delete(in: viewContext)
+        TestEntityString.delete(in: viewContext)
         
-        XCTAssertEqual(TestEntity.count(in: viewContext), 0, "Count after delete should be 0")
+        XCTAssertEqual(TestEntityString.count(in: viewContext), 0, "Count after delete should be 0")
         
-        createAnotherEntityObjects(count: count)
+        createTestEntityIntObjects(count: count)
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), count, "Count before delete should be same as count")
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), count, "Count before delete should be same as count")
         
-        AnotherEntity.delete(in: viewContext)
+        TestEntityInt.delete(in: viewContext)
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), 0, "Count after delete should be 0")
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), 0, "Count after delete should be 0")
     }
     
     func testInsertAndDeleteSingleObject() {
         let count = 2
         
-        let newObjects1 = createTestEntityObjects(count: count)
+        let newObjects1 = createTestEntityStringObjects(count: count)
         let itemToDelete1 = newObjects1.first!
-        XCTAssertEqual(TestEntity.count(in: viewContext), count)
+        XCTAssertEqual(TestEntityString.count(in: viewContext), count)
         
-        let predicate1 = TestEntity.uniqueObjectPredicate(with: itemToDelete1.uniqueIDValue)
-        TestEntity.delete(in: viewContext, matching: predicate1)
+        let predicate1 = TestEntityString.uniqueObjectPredicate(with: itemToDelete1.uniqueIDValue)
+        TestEntityString.delete(in: viewContext, matching: predicate1)
         
-        XCTAssertEqual(TestEntity.count(in: viewContext), count-1)
+        XCTAssertEqual(TestEntityString.count(in: viewContext), count-1)
         
-        let newObjects2 = createAnotherEntityObjects(count: count)
+        let newObjects2 = createTestEntityIntObjects(count: count)
         let itemToDelete2 = newObjects2.first!
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), count)
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), count)
         
-        let predicate2 = AnotherEntity.uniqueObjectPredicate(with: itemToDelete2.uniqueIDValue)
-        AnotherEntity.delete(in: viewContext, matching: predicate2)
+        let predicate2 = TestEntityInt.uniqueObjectPredicate(with: itemToDelete2.uniqueIDValue)
+        TestEntityInt.delete(in: viewContext, matching: predicate2)
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), count-1)
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), count-1)
     }
     
     func testInsertOrFetchObject() {
         let id1 = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(with: id1, in: viewContext, with: managedObjectCache)
-        let item2 = TestEntity.fetchOrInsertObject(with: id1, in: viewContext, with: managedObjectCache)
+        let item1 = TestEntityString.fetchOrInsertObject(with: id1, in: viewContext, with: managedObjectCache)
+        let item2 = TestEntityString.fetchOrInsertObject(with: id1, in: viewContext, with: managedObjectCache)
         XCTAssertEqual(item1, item2)
         
         let id2 = Int32.random(in: 0..<Int32.max)
-        let item3 = AnotherEntity.fetchOrInsertObject(with: id2, in: viewContext, with: managedObjectCache)
-        let item4 = AnotherEntity.fetchOrInsertObject(with: id2, in: viewContext, with: managedObjectCache)
+        let item3 = TestEntityInt.fetchOrInsertObject(with: id2, in: viewContext, with: managedObjectCache)
+        let item4 = TestEntityInt.fetchOrInsertObject(with: id2, in: viewContext, with: managedObjectCache)
         XCTAssertEqual(item3, item4)
     }
     
     func testBatchTestEntityInsertOrUpdate() {
         let expectedCount = 100
-        let intermediateItems = createTestEntityIntermediates(count: expectedCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: expectedCount)
         
-        XCTAssertEqual(TestEntity.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
+        XCTAssertEqual(TestEntityString.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
 
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+        TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
         
-        XCTAssertEqual(TestEntity.count(in: viewContext), expectedCount, "Count after update should be equal to expected count")
+        XCTAssertEqual(TestEntityString.count(in: viewContext), expectedCount, "Count after update should be equal to expected count")
         
-        let intermediateItems2 = createAnotherEntityIntermediates(count: expectedCount)
+        let intermediateItems2 = createTestEntityIntIntermediates(count: expectedCount)
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
 
-        AnotherEntity.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
         
-        XCTAssertEqual(AnotherEntity.count(in: viewContext), expectedCount, "Count after update should be equal to expected count")
+        XCTAssertEqual(TestEntityInt.count(in: viewContext), expectedCount, "Count after update should be equal to expected count")
     }
     
     func testBatchInsertCreatesDuplicatesInSomeSituations() {
         let expectedCount = 10
-        let intermediateItems = createTestEntityIntermediates(count: expectedCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: expectedCount)
         
-        TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+        TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
         }
         
         // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(TestEntity.count(in: viewContext) > expectedCount, "Count after update should be greater than the expected count")
+        XCTAssertTrue(TestEntityString.count(in: viewContext) > expectedCount, "Count after update should be greater than the expected count")
         
-        let intermediateItems2 = createAnotherEntityIntermediates(count: expectedCount)
+        let intermediateItems2 = createTestEntityIntIntermediates(count: expectedCount)
         
-        AnotherEntity.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            AnotherEntity.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
         }
         
         // 10 unique ID exist, but because the optimised batch caches the inserted objects, it does not know about them.
-        XCTAssertTrue(AnotherEntity.count(in: viewContext) > expectedCount, "Count after update should be greater than the expected count")
+        XCTAssertTrue(TestEntityInt.count(in: viewContext) > expectedCount, "Count after update should be greater than the expected count")
     }
     
     func testBatchTestEntityInsertPerformance() {
         let insertCount = 100
-        let intermediateItems = createTestEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            XCTAssertEqual(TestEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityString.count(in: viewContext), insertCount)
         }
     }
     
-    func testBatchAnotherEntityInsertPerformance() {
+    func testBatchTestEntityIntInsertPerformance() {
         let insertCount = 100
-        let intermediateItems = createAnotherEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
-            AnotherEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            AnotherEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            XCTAssertEqual(AnotherEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityInt.count(in: viewContext), insertCount)
         }
     }
     
     func testBatchTestEntityInsertPerformanceWithCache() {
         // The cache starts to significantly out-perform the non-cache version at 10,000
         let insertCount = 100
-        let intermediateItems = createTestEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            XCTAssertEqual(TestEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityString.count(in: viewContext), insertCount)
         }
     }
     
-    func testBatchAnotherEntityInsertPerformanceWithCache() {
+    func testBatchTestEntityIntInsertPerformanceWithCache() {
         // The cache starts to significantly out-perform the non-cache version at 10,000
         let insertCount = 100
-        let intermediateItems = createAnotherEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
-            AnotherEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            AnotherEntity.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            XCTAssertEqual(AnotherEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityInt.count(in: viewContext), insertCount)
         }
     }
     
     func testNonBatchTestEntityInsertPerformance() {
         let insertCount = 100
-        let intermediateItems = createTestEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
             for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                TestEntityString.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
                     entity.title = intermediate.title
                 }
             }
             
             for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                TestEntityString.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
                     entity.title = intermediate.title
                 }
             }
             
-            XCTAssertEqual(TestEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityString.count(in: viewContext), insertCount)
         }
     }
     
-    func testNonBatchAnotherEntityInsertPerformance() {
+    func testNonBatchTestEntityIntInsertPerformance() {
         let insertCount = 100
-        let intermediateItems = createAnotherEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
             for intermediate in intermediateItems {
-                AnotherEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                TestEntityInt.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
                     entity.title = intermediate.title
                 }
             }
             
             for intermediate in intermediateItems {
-                AnotherEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
+                TestEntityInt.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext) { entity in
                     entity.title = intermediate.title
                 }
             }
             
-            XCTAssertEqual(AnotherEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityInt.count(in: viewContext), insertCount)
         }
     }
     
     func testNonBatchTestEntityInsertPerformanceWithCache() {
         let insertCount = 100
-        let intermediateItems = createTestEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
             for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
+                TestEntityString.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
                     entity.title = intermediate.title
                 }
             }
             
             for intermediate in intermediateItems {
-                TestEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
+                TestEntityString.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
                     entity.title = intermediate.title
                 }
             }
             
-            XCTAssertEqual(TestEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityString.count(in: viewContext), insertCount)
         }
     }
     
-    func testNonBatchAnotherEntityInsertPerformanceWithCache() {
+    func testNonBatchTestEntityIntInsertPerformanceWithCache() {
         let insertCount = 100
-        let intermediateItems = createAnotherEntityIntermediates(count: insertCount)
+        let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
             for intermediate in intermediateItems {
-                AnotherEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
+                TestEntityInt.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
                     entity.title = intermediate.title
                 }
             }
             
             for intermediate in intermediateItems {
-                AnotherEntity.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
+                TestEntityInt.fetchOrInsertObject(with: intermediate.uniqueID, in: viewContext, with: managedObjectCache) { entity in
                     entity.title = intermediate.title
                 }
             }
             
-            XCTAssertEqual(AnotherEntity.count(in: viewContext), insertCount)
+            XCTAssertEqual(TestEntityInt.count(in: viewContext), insertCount)
         }
     }
     
     func testEncodingTestEntityToData() {
         let id = UUID().uuidString
-        let item1 = TestEntity.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
+        let item1 = TestEntityString.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
         item1.title = "Hello"
         
-        let data = try! item1.encode(to: TestEntityJSON.self, encoder: JSONEncoder())
+        let data = try! item1.encode(to: TestEntityStringJSON.self, encoder: JSONEncoder())
         
         XCTAssertNotNil(data)
         
@@ -323,12 +323,12 @@ class ManagedObjectTypeTests: CoreDataTests {
         XCTAssertEqual(json!, "{\"id\":\"\(item1.uniqueID!)\",\"title\":\"\(item1.title!)\"}")
     }
     
-    func testEncodingAnotherEntityToData() {
+    func testEncodingTestEntityIntToData() {
         let id = Int32.random(in: 0..<Int32.max)
-        let item1 = AnotherEntity.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
+        let item1 = TestEntityInt.fetchOrInsertObject(with: id, in: viewContext, with: managedObjectCache)
         item1.title = "Hello"
         
-        let data = try! item1.encode(to: AnotherEntityJSON.self, encoder: JSONEncoder())
+        let data = try! item1.encode(to: TestEntityIntJSON.self, encoder: JSONEncoder())
         
         XCTAssertNotNil(data)
         

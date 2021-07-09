@@ -106,9 +106,9 @@ class ManagedObjectCacheTests: CoreDataTests {
     
     func testRegisterCreatesPermanentIDs() throws {
         let insertNumber = 10
-        let testEntities = createTestEntityObjects(count: insertNumber)
+        let testEntities = createTestEntityStringObjects(count: insertNumber)
         XCTAssertEqual((testEntities.filter { $0.objectID.isTemporaryID }).count, insertNumber)
-        let anotherEntities = createAnotherEntityObjects(count: insertNumber)
+        let anotherEntities = createTestEntityIntObjects(count: insertNumber)
         XCTAssertEqual((anotherEntities.filter { $0.objectID.isTemporaryID }).count, insertNumber)
         
         managedObjectCache.register(testEntities, in: viewContext)
@@ -120,19 +120,19 @@ class ManagedObjectCacheTests: CoreDataTests {
     
     func testRegister() throws {
         let insertNumber = 10
-        let testEntities = createTestEntityObjects(count: insertNumber)
-        let anotherEntities = createAnotherEntityObjects(count: insertNumber)
+        let testEntities = createTestEntityStringObjects(count: insertNumber)
+        let anotherEntities = createTestEntityIntObjects(count: insertNumber)
 
         managedObjectCache.register(testEntities, in: viewContext)
         managedObjectCache.register(anotherEntities, in: viewContext)
 
         testEntities.forEach { obj in
-            let cached: TestEntity? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
+            let cached: TestEntityString? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
             XCTAssertNotNil(cached)
         }
         
         anotherEntities.forEach { obj in
-            let cached: AnotherEntity? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
+            let cached: TestEntityInt? = managedObjectCache.object(withUniqueID: obj.uniqueIDValue, in: viewContext)
             XCTAssertNotNil(cached)
         }
     }
