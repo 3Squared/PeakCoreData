@@ -21,7 +21,7 @@ extension TableViewUpdatable {
                         tableView: UITableView,
                         animation: UITableView.RowAnimation = .automatic,
                         completion: ((Bool) -> Void)? = nil) {
-        let batchUpdates: () -> Void = { [weak self] in
+        let batchUpdates = { [weak self] in
             guard let self = self else { return }
             
             updates.forEach { (update) in

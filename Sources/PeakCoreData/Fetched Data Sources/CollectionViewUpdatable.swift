@@ -20,7 +20,7 @@ extension CollectionViewUpdatable {
     public func process(updates: [FetchedUpdate<Object>],
                         collectionView: UICollectionView,
                         completion: ((Bool) -> Void)? = nil) {
-        let batchUpdates: () -> Void = { [weak self] in
+        let batchUpdates = { [weak self] in
             guard let self = self else { return }
             
             updates.forEach { (update) in
