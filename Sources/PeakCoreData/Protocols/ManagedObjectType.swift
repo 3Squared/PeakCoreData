@@ -193,12 +193,12 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
-    static func insert(withID uniqueID: UniqueIDType,
+    static func insert(withID id: UniqueIDType,
                        context: NSManagedObjectContext,
                        cache: ManagedObjectCache? = nil,
                        configure: ManagedObjectConfigurationBlock? = nil) -> Self {
         insert(in: context) { object in
-            object.setValue(uniqueID, forKey: uniqueIDKey)
+            object.setValue(id, forKey: uniqueIDKey)
             cache?.register(object, in: context)
             configure?(object)
         }
@@ -215,12 +215,12 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - returns: The object with the specified unique id.
      */
-    static func fetch(withID uniqueID: UniqueIDType,
+    static func fetch(withID id: UniqueIDType,
                       context: NSManagedObjectContext,
                       cache: ManagedObjectCache? = nil) -> Self? {
-        if let cachedObject: Self = cache?.object(withUniqueID: uniqueID, in: context) {
+        if let cachedObject: Self = cache?.object(withUniqueID: id, in: context) {
             return cachedObject
-        } else if let object = first(in: context, matching: uniqueIDValue(equalTo: uniqueID)) {
+        } else if let object = first(in: context, matching: uniqueIDValue(equalTo: id)) {
             cache?.register(object, in: context)
             return object
         }
@@ -240,15 +240,15 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      - returns: The object with the specified unique id.
      */
     @discardableResult
-    static func fetchOrInsert(withID uniqueID: UniqueIDType,
+    static func fetchOrInsert(withID id: UniqueIDType,
                               context: NSManagedObjectContext,
                               cache: ManagedObjectCache? = nil,
                               configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        if let existingObject = fetch(withID: uniqueID, context: context, cache: cache) {
+        if let existingObject = fetch(withID: id, context: context, cache: cache) {
             configure?(existingObject)
             return existingObject
         }
-        return insert(withID: uniqueID, context: context, cache: cache, configure: configure)
+        return insert(withID: id, context: context, cache: cache, configure: configure)
     }
     
     /**

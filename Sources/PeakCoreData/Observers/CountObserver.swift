@@ -23,7 +23,6 @@ public class CountObserver<T>: NSObject where T: ManagedObjectType {
         return count
     }
     
-
     private let context: NSManagedObjectContext
     private let predicate: NSPredicate?
     
