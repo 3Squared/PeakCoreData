@@ -165,17 +165,6 @@ public extension ManagedObjectType {
 public extension ManagedObjectType where Self: UniqueIdentifiable {
     
     /**
-     - Note: The managed object must conform to UniqueIdentifiable.
-     
-     - parameter uniqueID:  The unique id of the object you want to fetch.
-     
-     - returns: A predicate that can be used to fetch a single object with the specified unique id.
-     */
-    static func uniqueObjectPredicate(with uniqueKeyValue: UniqueIDType) -> NSPredicate {
-        NSPredicate(equalTo: uniqueKeyValue, keyPath: uniqueIDKey)
-    }
-    
-    /**
      Inserts an object in to the context, applies the unique id and then configures the object (optional).
      
      - Note: The managed object must conform to UniqueIdentifiable.
@@ -188,7 +177,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
-    static func insert(with uniqueID: UniqueIDType,
+    static func insert(withID uniqueID: UniqueIDType,
                        context: NSManagedObjectContext,
                        cache: ManagedObjectCache? = nil,
                        configure: ManagedObjectConfigurationBlock? = nil) -> Self {
@@ -210,12 +199,12 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - returns: The object with the specified unique id.
      */
-    static func fetch(with uniqueID: UniqueIDType,
+    static func fetch(withID uniqueID: UniqueIDType,
                       context: NSManagedObjectContext,
                       cache: ManagedObjectCache? = nil) -> Self? {
         if let cachedObject: Self = cache?.object(withUniqueID: uniqueID, in: context) {
             return cachedObject
-        } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueID)) {
+        } else if let object = first(in: context, matching: uniqueIDValue(equalTo: uniqueID)) {
             cache?.register(object, in: context)
             return object
         }
@@ -235,15 +224,15 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      - returns: The object with the specified unique id.
      */
     @discardableResult
-    static func fetchOrInsert(with uniqueID: UniqueIDType,
+    static func fetchOrInsert(withID uniqueID: UniqueIDType,
                               context: NSManagedObjectContext,
                               cache: ManagedObjectCache? = nil,
                               configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        if let existingObject = fetch(with: uniqueID, context: context, cache: cache) {
+        if let existingObject = fetch(withID: uniqueID, context: context, cache: cache) {
             configure?(existingObject)
             return existingObject
         }
-        return insert(with: uniqueID, context: context, cache: cache, configure: configure)
+        return insert(withID: uniqueID, context: context, cache: cache, configure: configure)
     }
     
     /**
@@ -308,7 +297,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
             if let existing = existingObjectsByID[intermediateID] {
                 managedObject = existing
             } else {
-                let new = insert(with: intermediateID, context: context)
+                let new = insert(withID: intermediateID, context: context)
                 managedObject = new
             }
             

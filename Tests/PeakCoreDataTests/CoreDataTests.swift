@@ -56,7 +56,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityString.insert(with: id, context: viewContext)
+                TestEntityString.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -74,7 +74,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityUUID.insert(with: id, context: viewContext)
+                TestEntityUUID.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -94,7 +94,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityInt.insert(with: id, context: viewContext)
+                TestEntityInt.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -105,7 +105,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         var items: [TestEntityString] = []
         for index in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntityString.insert(with: id, context: viewContext) {
+            let newObject = TestEntityString.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)
@@ -120,7 +120,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         for index in 0..<count {
             let id = Int32(index) + toAdd
             lastIndex = id
-            let newObject = TestEntityInt.insert(with: id, context: viewContext) {
+            let newObject = TestEntityInt.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)
@@ -133,7 +133,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         var items: [TestEntityUUID] = []
         for index in 0..<count {
             let id = UUID()
-            let newObject = TestEntityUUID.insert(with: id, context: viewContext) {
+            let newObject = TestEntityUUID.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)

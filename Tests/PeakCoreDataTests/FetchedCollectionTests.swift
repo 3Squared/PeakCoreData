@@ -223,7 +223,7 @@ class FetchedCollectionTests: CoreDataTests {
         createTestEntityStringObjects(count: 9)
         
         let uniqueID = "testid"
-        TestEntityString.insert(with: uniqueID, context: viewContext)
+        TestEntityString.insert(withID: uniqueID, context: viewContext)
         
         let fetchedCollection = createFetchedCollection()
         
