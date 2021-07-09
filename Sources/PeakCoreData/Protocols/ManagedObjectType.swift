@@ -41,7 +41,7 @@ public extension ManagedObjectType {
      - parameter configure:     Optional configuration block for the fetch request.
      
      - returns: A configured fetch request for the entity, with `defaultSortDescriptors` applied.
-     - note: A `fetchBatchSize` of 20 is applied to improve performance. This can be
+     - note: A `fetchBatchSize` of 20 is applied to improve performance.
      */
     static func sortedFetchRequest(configure: FetchRequestConfigurationBlock? = nil) -> NSFetchRequest<Self> {
         let fetchRequest = NSFetchRequest<Self>(entityName: entityName)
@@ -158,17 +158,15 @@ public extension ManagedObjectType {
 
 public extension ManagedObjectType where Self: UniqueIdentifiable {
     
-    typealias UniqueKeyValueType = AnyHashable
-    
     /**
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueKeyValue:    The unique id of the object you want to fetch.
+     - parameter uniqueID:  The unique id of the object you want to fetch.
      
      - returns: A predicate that can be used to fetch a single object with the specified unique id.
      */
-    static func uniqueObjectPredicate(with uniqueKeyValue: UniqueKeyValueType) -> NSPredicate {
-        return NSPredicate(equalTo: uniqueKeyValue, keyPath: uniqueIDKey)
+    static func uniqueObjectPredicate(with uniqueKeyValue: UniqueIDType) -> NSPredicate {
+        NSPredicate(equalTo: uniqueKeyValue, keyPath: uniqueIDKey)
     }
     
     /**
@@ -176,17 +174,20 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueKeyValue:    The unique id of the object you want to insert.
-     - parameter context:           The context to use.
-     - parameter cache:             Optional cache to insert new object in to.
-     - parameter configure:         Optional configuration block to be applied to the inserted object.
+     - parameter uniqueID:  The unique id of the object you want to insert.
+     - parameter context:   The context to use.
+     - parameter cache:     Optional cache to insert new object in to.
+     - parameter configure: Optional configuration block to be applied to the inserted object.
      
      - returns: An initialized and configured instance of the appropriate entity (discardable).
      */
     @discardableResult
-    static func insertObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        return insertObject(in: context) { object in
-            object.setValue(uniqueKeyValue, forKey: uniqueIDKey)
+    static func insertObject(with uniqueID: UniqueIDType,
+                             in context: NSManagedObjectContext,
+                             with cache: ManagedObjectCache? = nil,
+                             configure: ManagedObjectConfigurationBlock? = nil) -> Self {
+        insertObject(in: context) { object in
+            object.setValue(uniqueID, forKey: uniqueIDKey)
             cache?.register(object, in: context)
             configure?(object)
         }
@@ -197,16 +198,18 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueKeyValue:    The unique id of the object you want to fetch.
-     - parameter context:           The context to use.
-     - parameter cache:             Optional cache that will be used before performing fetch.
+     - parameter uniqueID:  The unique id of the object you want to fetch.
+     - parameter context:   The context to use.
+     - parameter cache:     Optional cache that will be used before performing fetch.
      
      - returns: The object with the specified unique id.
      */
-    static func fetchObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil) -> Self? {
-        if let cachedObject: Self = cache?.object(withUniqueID: uniqueKeyValue, in: context) {
+    static func fetchObject(with uniqueID: UniqueIDType,
+                            in context: NSManagedObjectContext,
+                            with cache: ManagedObjectCache? = nil) -> Self? {
+        if let cachedObject: Self = cache?.object(withUniqueID: uniqueID, in: context) {
             return cachedObject
-        } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueKeyValue)) {
+        } else if let object = first(in: context, matching: uniqueObjectPredicate(with: uniqueID)) {
             cache?.register(object, in: context)
             return object
         }
@@ -218,20 +221,23 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueKeyValue:    The unique id of the object you want to fetch or insert.
-     - parameter context:           The context to use.
-     - parameter cache:             Optional cache that will be used before performing fetch.
-     - parameter configure:         Configuration block, which can be used to configure the object once fetched or inserted.
+     - parameter uniqueID:  The unique id of the object you want to fetch or insert.
+     - parameter context:   The context to use.
+     - parameter cache:     Optional cache that will be used before performing fetch.
+     - parameter configure: Configuration block, which can be used to configure the object once fetched or inserted.
      
      - returns: The object with the specified unique id.
      */
     @discardableResult
-    static func fetchOrInsertObject(with uniqueKeyValue: UniqueKeyValueType, in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil, configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        if let existingObject = fetchObject(with: uniqueKeyValue, in: context, with: cache) {
+    static func fetchOrInsertObject(with uniqueID: UniqueIDType,
+                                    in context: NSManagedObjectContext,
+                                    with cache: ManagedObjectCache? = nil,
+                                    configure: ManagedObjectConfigurationBlock? = nil) -> Self {
+        if let existingObject = fetchObject(with: uniqueID, in: context, with: cache) {
             configure?(existingObject)
             return existingObject
         }
-        return insertObject(with: uniqueKeyValue, in: context, with: cache, configure: configure)
+        return insertObject(with: uniqueID, in: context, with: cache, configure: configure)
     }
     
     /**
@@ -251,15 +257,18 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      b) a newly inserted managed object for you to set the fields.
      In both cases the unique identifier will already be set
      */
-    static func insertOrUpdate<IntermediateType: UniqueIdentifiable>(intermediates: [IntermediateType], in context: NSManagedObjectContext, with cache: ManagedObjectCache? = nil, configure: (IntermediateType, Self) -> Void) {
+    static func insertOrUpdate<Intermediate: UniqueIdentifiable>(intermediates: [Intermediate],
+                                                                 in context: NSManagedObjectContext,
+                                                                 with cache: ManagedObjectCache? = nil,
+                                                                 configure: (Intermediate, Self) -> Void) where UniqueIDType == Intermediate.UniqueIDType {
         
         // Nothing to insert, exit immediately.
-        
+
         guard !intermediates.isEmpty else { return }
         
         // Configure the cached objects first.
         
-        var uncached: [IntermediateType] = []
+        var uncached: [Intermediate] = []
         
         if let cache = cache {
             intermediates.forEach { intermediate in
@@ -274,16 +283,16 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
         }
         
         // If everything was cached, exit.
-
+        
         guard !uncached.isEmpty else { return }
-                
+        
         let predicate = NSPredicate(isIncludedIn: uncached.map { $0.uniqueIDValue }, keyPath: Self.uniqueIDKey)
         let existingObjects = fetch(in: context) { $0.predicate = predicate }
         let existingObjectsByID = Dictionary(existingObjects.map { ($0.uniqueIDValue, $0) }, uniquingKeysWith: { first, last in
             print("Error: Duplicate \(entityName) Found\n\(first)\n\(last)")
             return first
         })
-
+        
         var managedObjectsToCache: [Self] = []
         
         uncached.forEach { intermediate in

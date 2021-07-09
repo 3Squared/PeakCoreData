@@ -16,6 +16,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
     var managedObjectCache: ManagedObjectCache!
     var persistentContainer: NSPersistentContainer!
+    var lastIndex: Int32 = 0
     
     override func setUp() {
         super.setUp()
@@ -33,51 +34,108 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         }
         persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
         managedObjectCache = ManagedObjectCache()
+        lastIndex = 0
     }
     
     override func tearDown() {
+        lastIndex = 0
         persistentContainer = nil
         managedObjectCache = nil
         super.tearDown()
     }
     
     @discardableResult
-    static func createTestIntermediateObjects(number: Int, in context: NSManagedObjectContext, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityJSON] {
-        var intermediateItems: [TestEntityJSON] = []
-        for item in 0..<number {
+    func createTestEntityStringIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityStringJSON] {
+        var intermediateItems: [TestEntityStringJSON] = []
+        for index in 0..<count {
             let id = UUID().uuidString
-            let title = "Item " + String(item)
-            let intermediate = TestEntityJSON(uniqueID: id, title: title)
+            let title = "Item \(index)"
+            let intermediate = TestEntityStringJSON(uniqueID: id, title: title)
             intermediateItems.append(intermediate)
             
             // Create a managed object for half the items, to check that they are correctly updated
             
-            if test(item) {
-                TestEntity.insertObject(with: id, in: context)
+            if test(index) {
+                TestEntityString.insertObject(with: id, in: viewContext)
             }
         }
         return intermediateItems
     }
     
     @discardableResult
-    static func createTestEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [TestEntity] {
-        var items: [TestEntity] = []
-        for item in 0..<count {
+    func createTestEntityUUIDIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityUUIDJSON] {
+        var intermediateItems: [TestEntityUUIDJSON] = []
+        for index in 0..<count {
+            let id = UUID()
+            let title = "Item \(index)"
+            let intermediate = TestEntityUUIDJSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+            
+            // Create a managed object for half the items, to check that they are correctly updated
+            
+            if test(index) {
+                TestEntityUUID.insertObject(with: id, in: viewContext)
+            }
+        }
+        return intermediateItems
+    }
+    
+    @discardableResult
+    func createTestEntityIntIntermediates(count: Int, test: (Int) -> Bool = { $0 % 2 == 0 }) -> [TestEntityIntJSON] {
+        var intermediateItems: [TestEntityIntJSON] = []
+        let toAdd = lastIndex + 1
+        for index in 0..<count {
+            let id = Int32(index) + toAdd
+            lastIndex = id
+            let title = "Item \(id)"
+            let intermediate = TestEntityIntJSON(uniqueID: id, title: title)
+            intermediateItems.append(intermediate)
+            
+            // Create a managed object for half the items, to check that they are correctly updated
+            
+            if test(index) {
+                TestEntityInt.insertObject(with: id, in: viewContext)
+            }
+        }
+        return intermediateItems
+    }
+    
+    @discardableResult
+    func createTestEntityStringObjects(count: Int) -> [TestEntityString] {
+        var items: [TestEntityString] = []
+        for index in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntity.insertObject(with: id, in: context)
-            newObject.title = "Item " + String(item)
+            let newObject = TestEntityString.insertObject(with: id, in: viewContext) {
+                $0.title = "Item \(index)"
+            }
             items.append(newObject)
         }
         return items
     }
     
     @discardableResult
-    static func createAnotherEntityManagedObjects(in context: NSManagedObjectContext, count: Int) -> [AnotherEntity] {
-        var items: [AnotherEntity] = []
-        for item in 0..<count {
-            let id = UUID().uuidString
-            let newObject = AnotherEntity.insertObject(with: id, in: context)
-            newObject.title = "Item " + String(item)
+    func createTestEntityIntObjects(count: Int) -> [TestEntityInt] {
+        var items: [TestEntityInt] = []
+        let toAdd = lastIndex + 1
+        for index in 0..<count {
+            let id = Int32(index) + toAdd
+            lastIndex = id
+            let newObject = TestEntityInt.insertObject(with: id, in: viewContext) {
+                $0.title = "Item \(index)"
+            }
+            items.append(newObject)
+        }
+        return items
+    }
+    
+    @discardableResult
+    func createTestEntityUUIDObjects(count: Int) -> [TestEntityUUID] {
+        var items: [TestEntityUUID] = []
+        for index in 0..<count {
+            let id = UUID()
+            let newObject = TestEntityUUID.insertObject(with: id, in: viewContext) {
+                $0.title = "Item \(index)"
+            }
             items.append(newObject)
         }
         return items
