@@ -230,8 +230,8 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      */
     @discardableResult
     static func fetchOrInsertObject(with uniqueID: UniqueIDType,
-                                    in context: NSManagedObjectContext,
-                                    with cache: ManagedObjectCache? = nil,
+                                    context: NSManagedObjectContext,
+                                    cache: ManagedObjectCache? = nil,
                                     configure: ManagedObjectConfigurationBlock? = nil) -> Self {
         if let existingObject = fetchObject(with: uniqueID, in: context, with: cache) {
             configure?(existingObject)
