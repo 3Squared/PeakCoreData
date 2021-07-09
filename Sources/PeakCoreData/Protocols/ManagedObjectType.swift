@@ -263,7 +263,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
                                                                  configure: (Intermediate, Self) -> Void) where UniqueIDType == Intermediate.UniqueIDType {
         
         // Nothing to insert, exit immediately.
-        
+
         guard !intermediates.isEmpty else { return }
         
         // Configure the cached objects first.
@@ -288,7 +288,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
         
         let predicate = NSPredicate(isIncludedIn: uncached.map { $0.uniqueIDValue }, keyPath: Self.uniqueIDKey)
         let existingObjects = fetch(in: context) { $0.predicate = predicate }
-        let existingObjectsByID = Dictionary(existingObjects.map { ($0.uniqueIDValue.hashValue, $0) }, uniquingKeysWith: { first, last in
+        let existingObjectsByID = Dictionary(existingObjects.map { ($0.uniqueIDValue, $0) }, uniquingKeysWith: { first, last in
             print("Error: Duplicate \(entityName) Found\n\(first)\n\(last)")
             return first
         })
@@ -299,7 +299,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
             let intermediateID = intermediate.uniqueIDValue
             let managedObject: Self
             
-            if let existing = existingObjectsByID[intermediateID.hashValue] {
+            if let existing = existingObjectsByID[intermediateID] {
                 managedObject = existing
             } else {
                 let new = insertObject(with: intermediateID, in: context)
