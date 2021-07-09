@@ -14,9 +14,7 @@ public protocol PersistentContainerSettable: AnyObject {
 
 public extension PersistentContainerSettable {
     
-    var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    var viewContext: NSManagedObjectContext { persistentContainer.viewContext }
     
     func saveViewContext() {
         guard viewContext.hasChanges else { return }
