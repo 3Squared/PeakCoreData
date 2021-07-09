@@ -11,8 +11,13 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniqueID" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="TestEntityUUID" representedClassName="TestEntityUUID" syncable="YES" codeGenerationType="class">
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="uniqueID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
     <elements>
         <element name="TestEntityInt" positionX="-63" positionY="9" width="128" height="74"/>
         <element name="TestEntityString" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="TestEntityUUID" positionX="-63" positionY="18" width="128" height="59"/>
     </elements>
 </model>
