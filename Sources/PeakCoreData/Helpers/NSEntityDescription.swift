@@ -20,7 +20,7 @@ extension NSEntityDescription {
      - parameter mergeContexts: Optional contexts into which changes can be merged.
      */
     public func batchDelete(in context: NSManagedObjectContext,
-                            predicate: NSPredicate? = nil,
+                            matching predicate: NSPredicate? = nil,
                             mergeContexts: [NSManagedObjectContext]? = nil) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.name!)
         request.predicate = predicate

@@ -75,7 +75,7 @@ public extension ManagedObjectType {
      - returns: An array of objects matching the configured fetch request, sorted by `defaultSortDescriptors`.
      */
     static func fetch(in context: NSManagedObjectContext,
-                      predicate: NSPredicate) -> [Self] {
+                      matching predicate: NSPredicate) -> [Self] {
         let request = sortedFetchRequest { $0.predicate = predicate }
         do {
             return try context.fetch(request)
@@ -109,7 +109,7 @@ public extension ManagedObjectType {
      - returns: The first object matching the provided predicate.
      */
     static func first(in context: NSManagedObjectContext,
-                      predicate: NSPredicate) -> Self? {
+                      matching predicate: NSPredicate) -> Self? {
         let request = NSFetchRequest<Self>(entityName: entityName)
         request.predicate = predicate
         request.fetchLimit = 1
@@ -128,7 +128,7 @@ public extension ManagedObjectType {
      - returns: The count of all objects or all objects matching the predicate.
      */
     static func count(in context: NSManagedObjectContext,
-                      predicate: NSPredicate? = nil) -> Int {
+                      matching predicate: NSPredicate? = nil) -> Int {
         let countRequest = NSFetchRequest<Self>(entityName: entityName)
         countRequest.predicate = predicate
         do {
@@ -145,7 +145,7 @@ public extension ManagedObjectType {
      - parameter predicate:     Optional predicate to be applied to the fetch request.
      */
     static func delete(in context: NSManagedObjectContext,
-                       predicate: NSPredicate? = nil) {
+                       matching predicate: NSPredicate? = nil) {
         let deleteRequest = NSFetchRequest<Self>(entityName: entityName)
         deleteRequest.predicate = predicate
         deleteRequest.includesPropertyValues = false
@@ -162,17 +162,17 @@ public extension ManagedObjectType {
      `NSManagedObjectContext` can be provided into which the deletions can be merged using the
      `mergeChanges(fromRemoteContextSave:into:)` function on `NSManagedObjectContext`.
      
-     - This should be significantly faster than `delete(in:predicate)` for large datasets.
-     - This is a convenience function for calling `batchDelete(in:predicate:mergeContexts:)` on `NSEntityDescription`.
+     - This should be significantly faster than `delete(in:matching)` for large datasets.
+     - This is a convenience function for calling `batchDelete(in:matching:mergeContexts:)` on `NSEntityDescription`.
      
      - parameter context:       The context to use.
      - parameter predicate:     Optional predicate to be applied to the fetch request.
      - parameter mergeContexts: Optional contexts into which changes can be merged.
      */
     static func batchDelete(in context: NSManagedObjectContext,
-                            predicate: NSPredicate? = nil,
+                            matching predicate: NSPredicate? = nil,
                             mergeContexts: [NSManagedObjectContext]? = nil) {
-        entity().batchDelete(in: context, predicate: predicate, mergeContexts: mergeContexts)
+        entity().batchDelete(in: context, matching: predicate, mergeContexts: mergeContexts)
     }
 }
 
@@ -220,7 +220,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
                       cache: ManagedObjectCache? = nil) -> Self? {
         if let cachedObject: Self = cache?.object(withUniqueID: uniqueID, in: context) {
             return cachedObject
-        } else if let object = first(in: context, predicate: uniqueIDValue(equalTo: uniqueID)) {
+        } else if let object = first(in: context, matching: uniqueIDValue(equalTo: uniqueID)) {
             cache?.register(object, in: context)
             return object
         }
