@@ -185,7 +185,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueID:  The unique id of the object you want to insert.
+     - parameter id:  The unique id of the object you want to insert.
      - parameter context:   The context to use.
      - parameter cache:     Optional cache to insert new object in to.
      - parameter configure: Optional configuration block to be applied to the inserted object.
@@ -209,7 +209,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueID:  The unique id of the object you want to fetch.
+     - parameter id:  The unique id of the object you want to fetch.
      - parameter context:   The context to use.
      - parameter cache:     Optional cache that will be used before performing fetch.
      
@@ -232,7 +232,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      
      - Note: The managed object must conform to UniqueIdentifiable.
      
-     - parameter uniqueID:  The unique id of the object you want to fetch or insert.
+     - parameter id:  The unique id of the object you want to fetch or insert.
      - parameter context:   The context to use.
      - parameter cache:     Optional cache that will be used before performing fetch.
      - parameter configure: Configuration block, which can be used to configure the object once fetched or inserted.
