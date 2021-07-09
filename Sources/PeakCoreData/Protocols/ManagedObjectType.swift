@@ -183,8 +183,8 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      */
     @discardableResult
     static func insertObject(with uniqueID: UniqueIDType,
-                             in context: NSManagedObjectContext,
-                             with cache: ManagedObjectCache? = nil,
+                             context: NSManagedObjectContext,
+                             cache: ManagedObjectCache? = nil,
                              configure: ManagedObjectConfigurationBlock? = nil) -> Self {
         insertObject(in: context) { object in
             object.setValue(uniqueID, forKey: uniqueIDKey)
@@ -237,7 +237,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
             configure?(existingObject)
             return existingObject
         }
-        return insertObject(with: uniqueID, in: context, with: cache, configure: configure)
+        return insertObject(with: uniqueID, context: context, cache: cache, configure: configure)
     }
     
     /**
@@ -302,7 +302,7 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
             if let existing = existingObjectsByID[intermediateID] {
                 managedObject = existing
             } else {
-                let new = insertObject(with: intermediateID, in: context)
+                let new = insertObject(with: intermediateID, context: context)
                 managedObject = new
             }
             

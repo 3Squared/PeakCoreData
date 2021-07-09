@@ -405,7 +405,7 @@ class InsertThenDeleteOperation: CoreDataChangesetOperation {
         var testEntities: [TestEntityString] = []
         for item in 0..<insertCount {
             let id = UUID().uuidString
-            let newObject = TestEntityString.insertObject(with: id, in: context)
+            let newObject = TestEntityString.insertObject(with: id, context: context)
             newObject.title = "Item " + String(item)
             testEntities.append(newObject)
         }
