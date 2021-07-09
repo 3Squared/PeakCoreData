@@ -17,7 +17,9 @@ public protocol CollectionViewUpdatable: AnyObject {
 
 extension CollectionViewUpdatable {
     
-    public func process(updates: [FetchedUpdate<Object>], for collectionView: UICollectionView, completion: ((Bool) -> Void)? = nil) {
+    public func process(updates: [FetchedUpdate<Object>],
+                        for collectionView: UICollectionView,
+                        completion: ((Bool) -> Void)? = nil) {
         let batchUpdates: () -> Void = { [weak self] in
             guard let strongSelf = self else { return }
             

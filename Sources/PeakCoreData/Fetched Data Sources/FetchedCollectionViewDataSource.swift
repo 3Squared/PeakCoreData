@@ -45,30 +45,32 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     public var onDidChangeContent: (() -> Void)?
     
     public var cacheName: String? {
-        return dataProvider.cacheName
+        dataProvider.cacheName
     }
     
     public var fetchedObjectsCount: Int {
-        return dataProvider.fetchedObjectsCount
+        dataProvider.fetchedObjectsCount
     }
     
     public var isEmpty: Bool {
-        return dataProvider.isEmpty
+        dataProvider.isEmpty
     }
     
     public var numberOfSections: Int {
-        return dataProvider.numberOfSections
+        dataProvider.numberOfSections
     }
     
     public var sectionIndexTitles: [String] {
-        return dataProvider.sectionIndexTitles
+        dataProvider.sectionIndexTitles
     }
     
     public var sectionNameKeyPath: String? {
-        return dataProvider.sectionNameKeyPath
+        dataProvider.sectionNameKeyPath
     }
     
-    public required init(collectionView: UICollectionView, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    public required init(collectionView: UICollectionView,
+                         fetchedResultsController: NSFetchedResultsController<Object>,
+                         delegate: Delegate) {
         self.collectionView = collectionView
         self.delegate = delegate
         self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
@@ -78,19 +80,19 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
-        return dataProvider.indexPath(forObject: object)
+        dataProvider.indexPath(forObject: object)
     }
     
     public func name(in section: Int) -> String? {
-        return dataProvider.name(in: section)
+        dataProvider.name(in: section)
     }
     
     public func numberOfItems(in section: Int) -> Int {
-        return dataProvider.numberOfItems(in: section)
+        dataProvider.numberOfItems(in: section)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
-        return dataProvider.object(at: indexPath)
+        dataProvider.object(at: indexPath)
     }
     
     public func performFetch() {
@@ -98,11 +100,11 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return dataProvider.section(forSectionIndexTitle: title, at: index)
+        dataProvider.section(forSectionIndexTitle: title, at: index)
     }
     
     public func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return dataProvider.sectionInfo(forSection: section)
+        dataProvider.sectionInfo(forSection: section)
     }
     
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
@@ -120,11 +122,11 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     // MARK: UICollectionViewDataSource
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return numberOfSections
+        numberOfSections
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfItems(in: section)
+        numberOfItems(in: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -162,7 +164,7 @@ public class FetchedCollectionViewDataSource<Delegate: FetchedCollectionViewData
     }
     
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return delegate.canMoveItem(at: indexPath)
+        delegate.canMoveItem(at: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {

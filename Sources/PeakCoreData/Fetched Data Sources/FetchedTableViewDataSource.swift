@@ -44,30 +44,32 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public var onDidChangeContent: (() -> Void)?
     
     public var cacheName: String? {
-        return dataProvider.cacheName
+        dataProvider.cacheName
     }
     
     public var fetchedObjectsCount: Int {
-        return dataProvider.fetchedObjectsCount
+        dataProvider.fetchedObjectsCount
     }
     
     public var isEmpty: Bool {
-        return dataProvider.isEmpty
+        dataProvider.isEmpty
     }
     
     public var numberOfSections: Int {
-        return dataProvider.numberOfSections
+        dataProvider.numberOfSections
     }
     
     public var sectionIndexTitles: [String] {
-        return dataProvider.sectionIndexTitles
+        dataProvider.sectionIndexTitles
     }
     
     public var sectionNameKeyPath: String? {
-        return dataProvider.sectionNameKeyPath
+        dataProvider.sectionNameKeyPath
     }
     
-    public required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
+    public required init(tableView: UITableView,
+                         fetchedResultsController: NSFetchedResultsController<Object>,
+                         delegate: Delegate) {
         self.tableView = tableView
         self.delegate = delegate
         self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
@@ -77,19 +79,19 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
-        return dataProvider.indexPath(forObject: object)
+        dataProvider.indexPath(forObject: object)
     }
     
     public func name(in section: Int) -> String? {
-        return dataProvider.name(in: section)
+        dataProvider.name(in: section)
     }
     
     public func numberOfItems(in section: Int) -> Int {
-        return dataProvider.numberOfItems(in: section)
+        dataProvider.numberOfItems(in: section)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
-        return dataProvider.object(at: indexPath)
+        dataProvider.object(at: indexPath)
     }
     
     public func performFetch() {
@@ -97,11 +99,11 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return dataProvider.section(forSectionIndexTitle: title, at: index)
+        dataProvider.section(forSectionIndexTitle: title, at: index)
     }
     
     public func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return dataProvider.sectionInfo(forSection: section)
+        dataProvider.sectionInfo(forSection: section)
     }
     
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
@@ -119,11 +121,11 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     // MARK: UITableViewDataSource
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSections
+        numberOfSections
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfItems(in: section)
+        numberOfItems(in: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,15 +138,15 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return delegate.titleForHeader(in: section)
+        delegate.titleForHeader(in: section)
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return delegate.titleForFooter(in: section)
+        delegate.titleForFooter(in: section)
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return delegate.canEditRow(at: indexPath)
+        delegate.canEditRow(at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -152,7 +154,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return delegate.canMoveRow(at: indexPath)
+        delegate.canMoveRow(at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -160,11 +162,11 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return showSectionIndexTitles ? sectionIndexTitles : nil
+        showSectionIndexTitles ? sectionIndexTitles : nil
     }
     
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return section(forSectionIndexTitle: title, at: index)
+        section(forSectionIndexTitle: title, at: index)
     }
 }
 
