@@ -258,8 +258,8 @@ public extension ManagedObjectType where Self: UniqueIdentifiable {
      In both cases the unique identifier will already be set
      */
     static func insertOrUpdate<Intermediate: UniqueIdentifiable>(intermediates: [Intermediate],
-                                                                 in context: NSManagedObjectContext,
-                                                                 with cache: ManagedObjectCache? = nil,
+                                                                 context: NSManagedObjectContext,
+                                                                 cache: ManagedObjectCache? = nil,
                                                                  configure: (Intermediate, Self) -> Void) where UniqueIDType == Intermediate.UniqueIDType {
         
         // Nothing to insert, exit immediately.

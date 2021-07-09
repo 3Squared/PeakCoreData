@@ -111,7 +111,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         
         XCTAssertEqual(TestEntityString.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
 
-        TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+        TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
@@ -122,7 +122,7 @@ class ManagedObjectTypeTests: CoreDataTests {
         
         XCTAssertEqual(TestEntityInt.count(in: viewContext), (expectedCount/2), "Count before update should be equal to half expected count")
 
-        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, context: viewContext, cache: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
         }
@@ -134,11 +134,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let expectedCount = 10
         let intermediateItems = createTestEntityStringIntermediates(count: expectedCount)
         
-        TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+        TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) {
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
@@ -149,11 +149,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         
         let intermediateItems2 = createTestEntityIntIntermediates(count: expectedCount)
         
-        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+        TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, context: viewContext, cache: managedObjectCache) {
             (intermediate, managedObject) in
             managedObject.title = intermediate.title
             
-            TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, in: viewContext, with: managedObjectCache) {
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems2, context: viewContext, cache: managedObjectCache) {
                 (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
@@ -167,11 +167,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let insertCount = 100
         let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
-            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
@@ -183,11 +183,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let insertCount = 100
         let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
-            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, context: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, context: viewContext) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
@@ -200,11 +200,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let insertCount = 100
         let intermediateItems = createTestEntityStringIntermediates(count: insertCount)
         measure {
-            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntityString.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityString.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
@@ -217,11 +217,11 @@ class ManagedObjectTypeTests: CoreDataTests {
         let insertCount = 100
         let intermediateItems = createTestEntityIntIntermediates(count: insertCount)
         measure {
-            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
-            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, in: viewContext, with: managedObjectCache) { (intermediate, managedObject) in
+            TestEntityInt.insertOrUpdate(intermediates: intermediateItems, context: viewContext, cache: managedObjectCache) { (intermediate, managedObject) in
                 managedObject.title = intermediate.title
             }
             
