@@ -10,6 +10,16 @@ import CoreData
 
 extension NSManagedObjectContext {
     
+    public func insert<T: ManagedObjectType>() -> T {
+        guard let obj = NSEntityDescription.insertNewObject(forEntityName: T.entityName, into: self) as? T else {
+            fatalError("Tried to insert wrong object type")
+        }
+        return obj
+    }
+}
+
+extension NSManagedObjectContext {
+    
     typealias VoidBlock = () -> Void
     typealias VoidBlockBlock = (VoidBlock) -> Void
     

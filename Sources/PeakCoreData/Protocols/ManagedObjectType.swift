@@ -33,7 +33,7 @@ public extension ManagedObjectType {
     @discardableResult
     static func insert(in context: NSManagedObjectContext,
                        configure: ManagedObjectConfigurationBlock? = nil) -> Self {
-        guard let object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context) as? Self else { fatalError("Wrong object type inserted.")}
+        let object: Self = context.insert()
         configure?(object)
         return object
     }
