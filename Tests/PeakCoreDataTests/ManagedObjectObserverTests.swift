@@ -12,6 +12,8 @@ import CoreData
 
 class ManagedObjectObserverTests: CoreDataTests {
     
+    private var observer: ManagedObjectObserver<TestEntityString>?
+    
     override func setUp() {
         super.setUp()
     }
@@ -21,13 +23,13 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testRefreshIsObserverFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -46,14 +48,14 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testRefreshFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = ManagedObjectObserver(managedObject: object)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObject: object)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -72,13 +74,13 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testUpdateIsObserverFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -99,15 +101,14 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testUpdateFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = ManagedObjectObserver(managedObject: object)
-        
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObject: object)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -128,13 +129,13 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testUpdateIsObserverFromObjectID() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
+        observer = object.objectID.observe(in: viewContext) { (obj: TestEntityString, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -155,14 +156,14 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testUpdateFromObjectID() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
         
-        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -183,13 +184,13 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testDeleteIsObserverFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.observe { (obj, changeType) in
+        observer = object.observe { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -209,7 +210,7 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testDeleteFromObject() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
@@ -236,13 +237,13 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testDeleteIsObserverFromObjectID() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer = object.objectID.observe(in: viewContext) { (obj: TestEntity, changeType) in
+        observer = object.objectID.observe(in: viewContext) { (obj: TestEntityString, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -262,14 +263,14 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testDeleteFromObjectID() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let expect = expectation(description: "")
         expect.expectedFulfillmentCount = 2
 
-        let observer: ManagedObjectObserver<TestEntity> = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
-        observer.startObserving() { (obj, changeType) in
+        observer = ManagedObjectObserver(managedObjectID: object.objectID, context: viewContext)
+        observer?.startObserving() { (obj, changeType) in
             switch changeType {
             case .initialised:
                 expect.fulfill()
@@ -289,7 +290,7 @@ class ManagedObjectObserverTests: CoreDataTests {
     }
     
     func testObjectIsFoundInDifferentContext() {
-        let object = CoreDataTests.createTestEntityManagedObjects(in: viewContext, count: 1).first!
+        let object = createTestEntityStringObjects(count: 1).first!
         try! viewContext.save()
         
         let observer = object.observe(in: persistentContainer.newBackgroundContext()) { _, _ in  }

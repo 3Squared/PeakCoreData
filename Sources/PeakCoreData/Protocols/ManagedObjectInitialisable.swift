@@ -13,7 +13,8 @@ public protocol ManagedObjectInitialisable {
     init(with managedObject: ManagedObject) throws
 }
 
-public extension ManagedObjectType where Self: NSManagedObject {
+public extension ManagedObjectType {
+    
     func encode<T>(to type: T.Type, encoder: JSONEncoder) throws -> Data where T: ManagedObjectInitialisable & Codable, T.ManagedObject == Self {
         return try encoder.encode(T(with: self))
     }

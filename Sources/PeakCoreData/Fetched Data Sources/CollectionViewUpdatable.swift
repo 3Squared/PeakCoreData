@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-public protocol CollectionViewUpdatable: class {
+public protocol CollectionViewUpdatable: AnyObject {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UICollectionViewCell
     func configure(_ cell: Cell, with object: Object)

@@ -1,5 +1,5 @@
 //
-//  TestEntity+JSON.swift
+//  TestEntityString+JSON.swift
 //  PeakCoreData
 //
 //  Created by David Yates on 07/12/2016.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 @testable import PeakCoreData
 
-public struct TestEntityJSON: Codable {
+public struct TestEntityStringJSON: Codable {
     let uniqueID: String
     let title: String
     
@@ -20,33 +20,26 @@ public struct TestEntityJSON: Codable {
     }
 }
 
-extension TestEntityJSON: ManagedObjectUpdatable {
+extension TestEntityStringJSON: ManagedObjectUpdatable {
     
-    public typealias ManagedObject = TestEntity
+    public typealias ManagedObject = TestEntityString
     
     public static var updateProperties: UpdatePropertiesBlock? = { intermediate, managedObject in
-        managedObject.uniqueID = intermediate.uniqueID
         managedObject.title = intermediate.title
     }
     
     public static var updateRelationships: UpdateRelationshipsBlock? = nil
 }
 
-extension TestEntityJSON: ManagedObjectInitialisable {
+extension TestEntityStringJSON: ManagedObjectInitialisable {
     
-    public init(with managedObject: TestEntity) throws {
+    public init(with managedObject: TestEntityString) throws {
         uniqueID = managedObject.uniqueIDValue
         title = managedObject.title!
     }
 }
 
-extension TestEntityJSON: UniqueIdentifiable {
-    
-    public static var uniqueIDKey: String {
-        return "uniqueID"
-    }
-    
-    public var uniqueIDValue: String {
-        return uniqueID
-    }
+extension TestEntityStringJSON: UniqueIdentifiable {
+    public static var uniqueIDKey: String { "uniqueID" }
+    public var uniqueIDValue: String { uniqueID }
 }
