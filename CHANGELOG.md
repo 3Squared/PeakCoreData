@@ -3,6 +3,10 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+5.2.0
+-----
+
+- Adds `associatedtype` to `UniqueIdentifable` so integrers and UUIDs can be used as unique identifiers.
 
 5.1.1
 -----
