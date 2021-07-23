@@ -71,13 +71,13 @@ open class ManagedObjectObserver<T>: NSObject where T: ManagedObjectType {
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil, queue: nil) { [weak self] (note) in
-            guard let strongSelf = self else { return }
-            guard strongSelf.enabled else { return }
+            guard let self = self else { return }
+            guard self.enabled else { return }
             let notification = ObjectsDidChangeNotification(notification: note)
-            guard notification.managedObjectContext == strongSelf.context else { return }
-            strongSelf.checkForMatchingObject(in: notification.refreshedObjects, changeType: .refreshed)
-            strongSelf.checkForMatchingObject(in: notification.updatedObjects, changeType: .updated)
-            strongSelf.checkForMatchingObject(in: notification.deletedObjects, changeType: .deleted)
+            guard notification.managedObjectContext == self.context else { return }
+            self.checkForMatchingObject(in: notification.refreshedObjects, changeType: .refreshed)
+            self.checkForMatchingObject(in: notification.updatedObjects, changeType: .updated)
+            self.checkForMatchingObject(in: notification.deletedObjects, changeType: .deleted)
         }
         
         onChange?(object, .initialised)

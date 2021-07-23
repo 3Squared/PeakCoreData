@@ -36,7 +36,7 @@ class OperationTests: CoreDataTests {
         var count = 0
         let finishOperation = BlockOperation {
             // Check that all the changes have made their way to the main context
-            let objectToUpdate = TestEntityString.fetchOrInsertObject(with: id, in: self.viewContext)
+            let objectToUpdate = TestEntityString.fetchOrInsert(withID: id, context: self.viewContext)
             count = Int(objectToUpdate.count)
             finishExpectation.fulfill()
         }
@@ -384,7 +384,7 @@ class AddOneOperation: CoreDataOperation<Void> {
     }
     
     override func performWork(in context: NSManagedObjectContext) {
-        let objectToUpdate = TestEntityString.fetchOrInsertObject(with: uniqueKeyValue, in: context)
+        let objectToUpdate = TestEntityString.fetchOrInsert(withID: uniqueKeyValue, context: context)
         objectToUpdate.count += 1
         saveAndFinish()
     }
@@ -405,7 +405,7 @@ class InsertThenDeleteOperation: CoreDataChangesetOperation {
         var testEntities: [TestEntityString] = []
         for item in 0..<insertCount {
             let id = UUID().uuidString
-            let newObject = TestEntityString.insertObject(with: id, in: context)
+            let newObject = TestEntityString.insert(withID: id, context: context)
             newObject.title = "Item " + String(item)
             testEntities.append(newObject)
         }

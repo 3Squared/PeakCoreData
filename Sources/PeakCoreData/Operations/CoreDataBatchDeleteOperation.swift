@@ -14,7 +14,10 @@ open class CoreDataBatchDeleteOperation<Entity: ManagedObjectType>: CoreDataOper
     private let predicate: NSPredicate?
     private let mergeContexts: [NSManagedObjectContext]?
 
-    public init(predicate: NSPredicate? = nil, mergeContexts: [NSManagedObjectContext]? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    public init(predicate: NSPredicate? = nil,
+                mergeContexts: [NSManagedObjectContext]? = nil,
+                persistentContainer: NSPersistentContainer,
+                mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.predicate = predicate
         self.mergeContexts = mergeContexts
         super.init(persistentContainer: persistentContainer, mergePolicyType: mergePolicyType)

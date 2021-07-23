@@ -33,12 +33,12 @@ class EventDetailViewController: UITableViewController, PersistentContainerSetta
         
         eventObserver = ManagedObjectObserver(managedObject: event)
         eventObserver.startObserving() { [weak self] obj, changeType in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch changeType {
             case .initialised, .refreshed, .updated:
-                strongSelf.updateLabels()
+                self.updateLabels()
             case .deleted:
-                strongSelf.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
         setupTableView()

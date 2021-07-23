@@ -14,7 +14,7 @@ let defaultTimeout = TimeInterval(2)
 
 class CoreDataTests: XCTestCase, PersistentContainerSettable {
     
-    var managedObjectCache: ManagedObjectCache!
+    var cache: ManagedObjectCache!
     var persistentContainer: NSPersistentContainer!
     var lastIndex: Int32 = 0
     
@@ -33,14 +33,14 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             }
         }
         persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
-        managedObjectCache = ManagedObjectCache()
+        cache = ManagedObjectCache()
         lastIndex = 0
     }
     
     override func tearDown() {
         lastIndex = 0
         persistentContainer = nil
-        managedObjectCache = nil
+        cache = nil
         super.tearDown()
     }
     
@@ -56,7 +56,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityString.insertObject(with: id, in: viewContext)
+                TestEntityString.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -74,7 +74,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityUUID.insertObject(with: id, in: viewContext)
+                TestEntityUUID.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -94,7 +94,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
             // Create a managed object for half the items, to check that they are correctly updated
             
             if test(index) {
-                TestEntityInt.insertObject(with: id, in: viewContext)
+                TestEntityInt.insert(withID: id, context: viewContext)
             }
         }
         return intermediateItems
@@ -105,7 +105,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         var items: [TestEntityString] = []
         for index in 0..<count {
             let id = UUID().uuidString
-            let newObject = TestEntityString.insertObject(with: id, in: viewContext) {
+            let newObject = TestEntityString.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)
@@ -120,7 +120,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         for index in 0..<count {
             let id = Int32(index) + toAdd
             lastIndex = id
-            let newObject = TestEntityInt.insertObject(with: id, in: viewContext) {
+            let newObject = TestEntityInt.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)
@@ -133,7 +133,7 @@ class CoreDataTests: XCTestCase, PersistentContainerSettable {
         var items: [TestEntityUUID] = []
         for index in 0..<count {
             let id = UUID()
-            let newObject = TestEntityUUID.insertObject(with: id, in: viewContext) {
+            let newObject = TestEntityUUID.insert(withID: id, context: viewContext) {
                 $0.title = "Item \(index)"
             }
             items.append(newObject)

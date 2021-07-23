@@ -13,3 +13,10 @@ public protocol UniqueIdentifiable {
     static var uniqueIDKey: String { get }
     var uniqueIDValue: UniqueIDType { get }
 }
+
+public extension UniqueIdentifiable {
+    
+    static func uniqueIDValue(equalTo value: UniqueIDType) -> NSPredicate {
+        NSPredicate(equalTo: value, keyPath: uniqueIDKey)
+    }
+}

@@ -22,7 +22,9 @@ open class CoreDataOperation<Output>: ConcurrentOperation, ProducesResult {
     private(set) public var updated: Set<NSManagedObjectID> = []
     private(set) public var deleted: Set<NSManagedObjectID> = []
 
-    public init(persistentContainer: NSPersistentContainer, cache: ManagedObjectCache? = nil, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    public init(persistentContainer: NSPersistentContainer,
+                cache: ManagedObjectCache? = nil,
+                mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.persistentContainer = persistentContainer
         self.mergePolicyType = mergePolicyType
         self.cache = cache

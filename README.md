@@ -17,12 +17,12 @@ override func viewDidLoad() {
     
     eventObserver = ManagedObjectObserver(managedObject: event)
     eventObserver.startObserving() { [weak self] obj, changeType in
-        guard let strongSelf = self else { return }
+        guard let self = self else { return }
         switch changeType {
         case .initialised, .refreshed, .updated:
-            strongSelf.updateView()
+            self.updateView()
         case .deleted:
-            strongSelf.navigationController?.popToRootViewController(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
 }
@@ -41,8 +41,8 @@ override func viewDidLoad() {
     let predicate = NSPredicate(format: "%K == false", argumentArray: [#KeyPath(Event.isHidden)])
     countObserver = CountObserver<Event>(predicate: predicate, context: viewContext)
     countObserver.startObserving() { [weak self] count in
-        guard let strongSelf = self else { return }
-        strongSelf.countLabel.text = String(count)
+        guard let self = self else { return }
+        self.countLabel.text = String(count)
     }
 }
 ```

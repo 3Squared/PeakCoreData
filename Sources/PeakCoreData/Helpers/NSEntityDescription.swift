@@ -21,8 +21,10 @@ extension NSEntityDescription {
      */
     public func batchDelete(in context: NSManagedObjectContext,
                             matching predicate: NSPredicate? = nil,
-                            mergingInto mergeContexts: [NSManagedObjectContext]? = nil) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: self.name!)
+                            mergeContexts: [NSManagedObjectContext]? = nil) {
+        guard let entityName = name else { return }
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         request.predicate = predicate
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
         deleteRequest.resultType = .resultTypeObjectIDs

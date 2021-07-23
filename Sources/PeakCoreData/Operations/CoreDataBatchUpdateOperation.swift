@@ -15,7 +15,11 @@ open class CoreDataBatchUpdateOperation<Entity: ManagedObjectType>: CoreDataOper
     private let predicate: NSPredicate?
     private let mergeContexts: [NSManagedObjectContext]?
     
-    public init(propertiesToUpdate: [AnyHashable: Any], predicate: NSPredicate? = nil, mergeContexts: [NSManagedObjectContext]? = nil, persistentContainer: NSPersistentContainer, mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
+    public init(propertiesToUpdate: [AnyHashable: Any],
+                predicate: NSPredicate? = nil,
+                mergeContexts: [NSManagedObjectContext]? = nil,
+                persistentContainer: NSPersistentContainer,
+                mergePolicyType: NSMergePolicyType = .mergeByPropertyObjectTrumpMergePolicyType) {
         self.propertiesToUpdate = propertiesToUpdate
         self.predicate = predicate
         self.mergeContexts = mergeContexts
