@@ -5,6 +5,9 @@
 //  Created by Sam Oakley on 19/01/2018.
 //  Copyright © 2018 3Squared Ltd. All rights reserved.
 //
+
+#if canImport(UIKit)
+
 import Foundation
 import CoreData
 
@@ -90,3 +93,5 @@ extension FetchedCollection: FetchedDataProviderDelegate {
         onChange?(self, updates)
     }
 }
+
+#endif

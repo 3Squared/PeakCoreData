@@ -3,6 +3,12 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+5.3.0
+-----
+
+- Add macOS 14+ support.
+- Drops support for iOS 11.
+
 5.2.0
 -----
 
