@@ -6,6 +6,8 @@
 //  Copyright © 2019 3Squared Ltd. All rights reserved.
 //
 
+#if canImport(UIKit)
+
 import CoreData
 import UIKit
 
@@ -14,6 +16,7 @@ public protocol CollectionViewUpdatable: AnyObject {
     associatedtype Cell: UICollectionViewCell
     func configure(_ cell: Cell, with object: Object)
 }
+
 
 extension CollectionViewUpdatable {
     
@@ -42,3 +45,5 @@ extension CollectionViewUpdatable {
         collectionView.performBatchUpdates(batchUpdates, completion: completion)
     }
 }
+
+#endif
