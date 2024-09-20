@@ -6,6 +6,8 @@
 //  Copyright © 2019 3Squared Ltd. All rights reserved.
 //
 
+#if canImport(UIKit)
+
 import CoreData
 import UIKit
 
@@ -43,3 +45,5 @@ extension TableViewUpdatable {
         tableView.performBatchUpdates(batchUpdates, completion: completion)
     }
 }
+
+#endif

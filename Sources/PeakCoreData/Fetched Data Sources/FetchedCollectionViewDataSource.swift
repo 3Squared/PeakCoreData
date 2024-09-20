@@ -6,6 +6,8 @@
 //  Copyright © 2018 3Squared Ltd. All rights reserved.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 import CoreData
 
@@ -187,3 +189,5 @@ extension FetchedCollectionViewDataSource: FetchedDataProviderDelegate {
         }
     }
 }
+
+#endif
