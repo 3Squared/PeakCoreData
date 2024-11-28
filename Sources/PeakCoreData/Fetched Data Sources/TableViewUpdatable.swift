@@ -19,9 +19,12 @@ public protocol TableViewUpdatable: AnyObject {
 
 extension TableViewUpdatable {
     
-    public func process(updates: [FetchedUpdate<Object>], for tableView: UITableView, with animation: UITableView.RowAnimation = .automatic, completion: ((Bool) -> Void)? = nil) {
-        let batchUpdates: () -> Void = { [weak self] in
-            guard let strongSelf = self else { return }
+    public func process(updates: [FetchedUpdate<Object>],
+                        tableView: UITableView,
+                        animation: UITableView.RowAnimation = .automatic,
+                        completion: ((Bool) -> Void)? = nil) {
+        let batchUpdates = { [weak self] in
+            guard let self = self else { return }
             
             updates.forEach { (update) in
                 switch update {
@@ -29,7 +32,7 @@ extension TableViewUpdatable {
                     tableView.insertRows(at: [indexPath], with: animation)
                 case .update(let indexPath, let object):
                     guard let cell = tableView.cellForRow(at: indexPath) as? Cell else { return }
-                    strongSelf.configure(cell, with: object)
+                    self.configure(cell, with: object)
                 case .move(let indexPath, let newIndexPath):
                     tableView.moveRow(at: indexPath, to: newIndexPath)
                 case .delete(let indexPath):

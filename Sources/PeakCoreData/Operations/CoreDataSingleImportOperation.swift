@@ -18,7 +18,7 @@ open class CoreDataSingleImportOperation<Intermediate: ManagedObjectUpdatable>: 
     open override func performWork(in context: NSManagedObjectContext) {
         do {
             let intermediate = try input.get()
-            let managedObject = ManagedObject.fetchOrInsertObject(with: intermediate.uniqueIDValue, in: context, with: cache)
+            let managedObject = ManagedObject.fetchOrInsert(withID: intermediate.uniqueIDValue, context: context, cache: cache)
             Intermediate.updateProperties?(intermediate, managedObject)
             Intermediate.updateRelationships?(intermediate, managedObject, context, cache)
             saveAndFinish()

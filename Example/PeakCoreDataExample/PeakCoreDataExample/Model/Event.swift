@@ -56,7 +56,7 @@ extension EventJSON: ManagedObjectUpdatable {
     
     public static var updateRelationships: UpdateRelationshipsBlock? = { intermediate, managedObject, context, cache in
         
-        Person.insertOrUpdate(intermediates: intermediate.attendees, in: context) { (json, person) in
+        Person.insertOrUpdate(intermediates: intermediate.attendees, context: context) { (json, person) in
             PersonJSON.updateProperties?(json, person)
             managedObject.addToAttendees(person)
         }
