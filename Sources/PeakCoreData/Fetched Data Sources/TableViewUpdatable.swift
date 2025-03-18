@@ -14,7 +14,19 @@ import UIKit
 public protocol TableViewUpdatable: AnyObject {
     associatedtype Object: NSManagedObject
     associatedtype Cell: UITableViewCell
+    
+    // Required
     func configure(_ cell: Cell, with object: Object)
+    
+    // Optional
+    func didSelect(object: Object, at indexPath: IndexPath)
+    func didDeselect(object: Object, at indexPath: IndexPath)
+}
+
+extension TableViewUpdatable {
+    
+    public func didSelect(object: Object, at indexPath: IndexPath) { }
+    public func didDeselect(object: Object, at indexPath: IndexPath) { }
 }
 
 extension TableViewUpdatable {
