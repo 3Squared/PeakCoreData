@@ -10,7 +10,8 @@
 import UIKit
 
 public protocol TableViewDecoratable: AnyObject {
-    
+    associatedtype Header: UITableViewHeaderFooterView
+    associatedtype Footer: UITableViewHeaderFooterView
     // Optional
     func identifier(forHeaderIn section: Int) -> String?
     func identifier(forFooterIn section: Int) -> String?
@@ -18,8 +19,8 @@ public protocol TableViewDecoratable: AnyObject {
     func heightForFooter(in section: Int) -> CGFloat
     func willDisplay(headerView: UIView, for section: Int)
     func willDisplay(footerView: UIView, for section: Int)
-    func configure(header view: UIView, for section: Int)
-    func configure(footer view: UIView, for section: Int)
+    func configureHeader(_ header: Header, for section: Int)
+    func configureFooter(_ footer: Footer, for section: Int)
 }
 
 public extension TableViewDecoratable {
@@ -30,8 +31,8 @@ public extension TableViewDecoratable {
     func heightForFooter(in section: Int) -> CGFloat { .leastNormalMagnitude }
     func willDisplay(headerView: UIView, for section: Int) { }
     func willDisplay(footerView: UIView, for section: Int) { }
-    func configure(header view: UIView, for section: Int) { }
-    func configure(footer view: UIView, for section: Int) { }
+    func configureHeader(_ header: UITableViewHeaderFooterView, for section: Int) { }
+    func configureFooter(_ footer: UITableViewHeaderFooterView, for section: Int) { }
 }
 
 #endif

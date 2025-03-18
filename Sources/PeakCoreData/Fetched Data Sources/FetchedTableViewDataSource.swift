@@ -37,6 +37,8 @@ public extension FetchedTableViewDataSourceDelegate {
 public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource, UITableViewDelegate {
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
+    public typealias Header = Delegate.Header
+    public typealias Footer = Delegate.Footer
     
     private let tableView: UITableView
     private let dataProvider: FetchedDataProvider<FetchedTableViewDataSource>
@@ -193,10 +195,10 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        guard let identifier = delegate.identifier(forHeaderIn: section),
-              let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else { return nil }
+        guard let identifier = delegate.identifier(forHeaderIn: section) else { return nil }
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? Header else { fatalError("Unexpected header type at \(section)") }
         
-        delegate.configure(header: view, for: section)
+        delegate.configureHeader(view, for: section)
         
         return view
     }
@@ -204,10 +206,10 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public func tableView(_ tableView: UITableView,
                           viewForFooterInSection section: Int) -> UIView? {
         
-        guard let identifier = delegate.identifier(forFooterIn: section),
-              let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) else { return nil }
+        guard let identifier = delegate.identifier(forFooterIn: section) else { return nil }
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? Footer else { fatalError("Unexpected footer type at \(section)") }
         
-        delegate.configure(footer: view, for: section)
+        delegate.configureFooter(view, for: section)
         
         return view
     }
