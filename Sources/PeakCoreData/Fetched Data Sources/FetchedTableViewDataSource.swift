@@ -11,7 +11,8 @@
 import UIKit
 import CoreData
 
-public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmptyView {
+public protocol FetchedTableViewDataSourceDelegate: TableViewDecoratable, TableViewUpdatable, HasEmptyView {
+    // Required
     func identifier(forCellAt indexPath: IndexPath) -> String
     // Optional
     var rowAnimation: UITableView.RowAnimation { get }
@@ -24,18 +25,20 @@ public protocol FetchedTableViewDataSourceDelegate: TableViewUpdatable, HasEmpty
 }
 
 public extension FetchedTableViewDataSourceDelegate {
-    var rowAnimation: UITableView.RowAnimation { return .automatic }
-    func titleForHeader(in section: Int) -> String? { return nil }
-    func titleForFooter(in section: Int) -> String? { return nil }
-    func canEditRow(at indexPath: IndexPath) -> Bool { return false }
+    var rowAnimation: UITableView.RowAnimation { .automatic }
+    func titleForHeader(in section: Int) -> String? { nil }
+    func titleForFooter(in section: Int) -> String? { nil }
+    func canEditRow(at indexPath: IndexPath) -> Bool { false }
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
-    func canMoveRow(at indexPath: IndexPath) -> Bool { return false }
+    func canMoveRow(at indexPath: IndexPath) -> Bool { false }
     func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
 }
 
-public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource {
+public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource, UITableViewDelegate {
     public typealias Object = Delegate.Object
     public typealias Cell = Delegate.Cell
+    public typealias Header = Delegate.Header
+    public typealias Footer = Delegate.Footer
     
     private let tableView: UITableView
     private let dataProvider: FetchedDataProvider<FetchedTableViewDataSource>
@@ -46,27 +49,27 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     public var onDidChangeContent: (() -> Void)?
     
     public var cacheName: String? {
-        return dataProvider.cacheName
+        dataProvider.cacheName
     }
     
     public var fetchedObjectsCount: Int {
-        return dataProvider.fetchedObjectsCount
+        dataProvider.fetchedObjectsCount
     }
     
     public var isEmpty: Bool {
-        return dataProvider.isEmpty
+        dataProvider.isEmpty
     }
     
     public var numberOfSections: Int {
-        return dataProvider.numberOfSections
+        dataProvider.numberOfSections
     }
     
     public var sectionIndexTitles: [String] {
-        return dataProvider.sectionIndexTitles
+        dataProvider.sectionIndexTitles
     }
     
     public var sectionNameKeyPath: String? {
-        return dataProvider.sectionNameKeyPath
+        dataProvider.sectionNameKeyPath
     }
     
     public required init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<Object>, delegate: Delegate) {
@@ -75,23 +78,24 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         self.dataProvider = FetchedDataProvider(fetchedResultsController: fetchedResultsController)
         super.init()
         tableView.dataSource = self
+        tableView.delegate = self
         dataProvider.delegate = self
     }
     
     public func indexPath(forObject object: Object) -> IndexPath? {
-        return dataProvider.indexPath(forObject: object)
+        dataProvider.indexPath(forObject: object)
     }
     
     public func name(in section: Int) -> String? {
-        return dataProvider.name(in: section)
+        dataProvider.name(in: section)
     }
     
     public func numberOfItems(in section: Int) -> Int {
-        return dataProvider.numberOfItems(in: section)
+        dataProvider.numberOfItems(in: section)
     }
     
     public func object(at indexPath: IndexPath) -> Object {
-        return dataProvider.object(at: indexPath)
+        dataProvider.object(at: indexPath)
     }
     
     public func performFetch() {
@@ -99,11 +103,11 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return dataProvider.section(forSectionIndexTitle: title, at: index)
+        dataProvider.section(forSectionIndexTitle: title, at: index)
     }
     
     public func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return dataProvider.sectionInfo(forSection: section)
+        dataProvider.sectionInfo(forSection: section)
     }
     
     public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
@@ -121,32 +125,36 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     // MARK: UITableViewDataSource
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSections
+        numberOfSections
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfItems(in: section)
+        numberOfItems(in: section)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cellIdentifier = delegate.identifier(forCellAt: indexPath)
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? Cell else {
             fatalError("Unexpected cell type at \(indexPath)")
         }
+        
         delegate.configure(cell, with: object(at: indexPath))
+        
         return cell
     }
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return delegate.titleForHeader(in: section)
+        delegate.titleForHeader(in: section)
     }
     
     public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return delegate.titleForFooter(in: section)
+        delegate.titleForFooter(in: section)
     }
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return delegate.canEditRow(at: indexPath)
+        delegate.canEditRow(at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -154,7 +162,7 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return delegate.canMoveRow(at: indexPath)
+        delegate.canMoveRow(at: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -162,11 +170,64 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return showSectionIndexTitles ? sectionIndexTitles : nil
+        showSectionIndexTitles ? sectionIndexTitles : nil
     }
     
     public func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return section(forSectionIndexTitle: title, at: index)
+        section(forSectionIndexTitle: title, at: index)
+    }
+    
+    // MARK: UITableViewDelegate
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.selectRow(at: indexPath, animated: animateUpdates, scrollPosition: .none)
+        
+        delegate.didSelect(object: object(at: indexPath), at: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: animateUpdates)
+        
+        delegate.didDeselect(object: object(at: indexPath), at: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        guard let identifier = delegate.identifier(forHeaderIn: section) else { return nil }
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? Header else { fatalError("Unexpected header type at \(section)") }
+        
+        delegate.configureHeader(view, for: section)
+        
+        return view
+    }
+    
+    public func tableView(_ tableView: UITableView,
+                          viewForFooterInSection section: Int) -> UIView? {
+        
+        guard let identifier = delegate.identifier(forFooterIn: section) else { return nil }
+        guard let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? Footer else { fatalError("Unexpected footer type at \(section)") }
+        
+        delegate.configureFooter(view, for: section)
+        
+        return view
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        delegate.heightForHeader(in: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        delegate.heightForFooter(in: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        delegate.willDisplay(headerView: view, for: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        delegate.willDisplay(footerView: view, for: section)
     }
 }
 

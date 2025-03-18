@@ -21,8 +21,8 @@ public extension ManagedObjectType {
     typealias FetchRequestConfigurationBlock = (NSFetchRequest<Self>) -> Void
     typealias ManagedObjectConfigurationBlock = (Self) -> Void
     
-    static var entityName: String { return String(describing: self) }
-    static var defaultSortDescriptors: [NSSortDescriptor] { return [] }
+    static var entityName: String { String(describing: self) }
+    static var defaultSortDescriptors: [NSSortDescriptor] { [] }
     
     /**
      - parameter context:       The context to use.
