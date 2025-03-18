@@ -17,8 +17,8 @@ public protocol TableViewDecoratable: AnyObject {
     func identifier(forFooterIn section: Int) -> String?
     func heightForHeader(in section: Int) -> CGFloat
     func heightForFooter(in section: Int) -> CGFloat
-    func willDisplay(headerView: UIView, for section: Int)
-    func willDisplay(footerView: UIView, for section: Int)
+    func willDisplay(headerView: Header, for section: Int)
+    func willDisplay(footerView: Footer, for section: Int)
     func configureHeader(_ header: Header, for section: Int)
     func configureFooter(_ footer: Footer, for section: Int)
 }
@@ -29,8 +29,8 @@ public extension TableViewDecoratable {
     func identifier(forFooterIn section: Int) -> String? { nil }
     func heightForHeader(in section: Int) -> CGFloat { .leastNormalMagnitude }
     func heightForFooter(in section: Int) -> CGFloat { .leastNormalMagnitude }
-    func willDisplay(headerView: UIView, for section: Int) { }
-    func willDisplay(footerView: UIView, for section: Int) { }
+    func willDisplay(headerView: UITableViewHeaderFooterView, for section: Int) { }
+    func willDisplay(footerView: UITableViewHeaderFooterView, for section: Int) { }
     func configureHeader(_ header: UITableViewHeaderFooterView, for section: Int) { }
     func configureFooter(_ footer: UITableViewHeaderFooterView, for section: Int) { }
 }

@@ -223,10 +223,16 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
     }
     
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        guard let view = view as? Header else { fatalError("Unexpected header type at \(section)") }
+        
         delegate.willDisplay(headerView: view, for: section)
     }
     
     public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        guard let view = view as? Footer else { fatalError("Unexpected footer type at \(section)") }
+        
         delegate.willDisplay(footerView: view, for: section)
     }
 }
