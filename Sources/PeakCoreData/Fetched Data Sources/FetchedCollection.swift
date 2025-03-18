@@ -25,27 +25,27 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
     private let dataProvider: FetchedDataProvider<FetchedCollection>
     
     public var sections: [NSFetchedResultsSectionInfo] {
-        return dataProvider.sections
+        dataProvider.sections
     }
     
     public func object(at indexPath: IndexPath) -> T {
-        return dataProvider.object(at: indexPath)
+        dataProvider.object(at: indexPath)
     }
     
     public func index(of object: T) -> IndexPath? {
-        return dataProvider.indexPath(forObject: object)
+        dataProvider.indexPath(forObject: object)
     }
     
     public var count: Int {
-        return dataProvider.fetchedObjectsCount
+        dataProvider.fetchedObjectsCount
     }
     
     public func snapshot() -> [T] {
-        return dataProvider.fetchedObjects
+        dataProvider.fetchedObjects
     }
     
     public var isEmpty: Bool {
-        return dataProvider.fetchedObjectsCount == 0
+        dataProvider.fetchedObjectsCount == 0
     }
     
     /// Create a new FetchedCollection.
@@ -75,15 +75,15 @@ public class FetchedCollection<T: NSManagedObject>: NSObject {
 extension FetchedCollection {
     
     public subscript (position: IndexPath) -> T {
-        return dataProvider.object(at: position)
+        dataProvider.object(at: position)
     }
     
     public subscript (position: (item: Int, section: Int)) -> T {
-        return dataProvider.object(at: IndexPath(item: position.item, section: position.section))
+        dataProvider.object(at: IndexPath(item: position.item, section: position.section))
     }
     
     public subscript (item: Int, section: Int) -> T {
-        return dataProvider.object(at: IndexPath(item: item, section: section))
+        dataProvider.object(at: IndexPath(item: item, section: section))
     }
 }
 

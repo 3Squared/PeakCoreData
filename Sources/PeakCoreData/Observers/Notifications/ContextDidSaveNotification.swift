@@ -17,15 +17,15 @@ public struct ContextDidSaveNotification {
     }
     
     public var insertedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSInsertedObjectsKey)
+        objects(forKey: NSInsertedObjectsKey)
     }
     
     public var updatedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSUpdatedObjectsKey)
+        objects(forKey: NSUpdatedObjectsKey)
     }
     
     public var deletedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSDeletedObjectsKey)
+        objects(forKey: NSDeletedObjectsKey)
     }
     
     public var managedObjectContext: NSManagedObjectContext {
@@ -38,6 +38,6 @@ public struct ContextDidSaveNotification {
     private let notification: Notification
     
     private func objects(forKey key: String) -> Set<NSManagedObject> {
-        return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? []
+        (notification.userInfo?[key] as? Set<NSManagedObject>) ?? []
     }
 }

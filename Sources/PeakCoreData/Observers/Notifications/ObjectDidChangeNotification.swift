@@ -16,27 +16,27 @@ public struct ObjectsDidChangeNotification {
     }
     
     public var insertedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSInsertedObjectsKey)
+        objects(forKey: NSInsertedObjectsKey)
     }
     
     public var updatedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSUpdatedObjectsKey)
+        objects(forKey: NSUpdatedObjectsKey)
     }
     
     public var deletedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSDeletedObjectsKey)
+        objects(forKey: NSDeletedObjectsKey)
     }
     
     public var refreshedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSRefreshedObjectsKey)
+        objects(forKey: NSRefreshedObjectsKey)
     }
     
     public var invalidatedObjects: Set<NSManagedObject> {
-        return objects(forKey: NSInvalidatedObjectsKey)
+        objects(forKey: NSInvalidatedObjectsKey)
     }
     
     public var invalidatedAllObjects: Bool {
-        return (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
+        (notification as Notification).userInfo?[NSInvalidatedAllObjectsKey] != nil
     }
     
     public var managedObjectContext: NSManagedObjectContext {
@@ -49,6 +49,6 @@ public struct ObjectsDidChangeNotification {
     private let notification: Notification
     
     private func objects(forKey key: String) -> Set<NSManagedObject> {
-        return (notification.userInfo?[key] as? Set<NSManagedObject>) ?? []
+        (notification.userInfo?[key] as? Set<NSManagedObject>) ?? []
     }
 }
