@@ -22,6 +22,9 @@ public protocol FetchedTableViewDataSourceDelegate: TableViewDecoratable, TableV
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath)
     func canMoveRow(at indexPath: IndexPath) -> Bool
     func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
+    func editingStyle(forRowAt: IndexPath) -> UITableViewCell.EditingStyle
+    func leadingSwipeActions(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    func trailingSwipeActions(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
 }
 
 public extension FetchedTableViewDataSourceDelegate {
@@ -32,6 +35,9 @@ public extension FetchedTableViewDataSourceDelegate {
     func commit(editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { }
     func canMoveRow(at indexPath: IndexPath) -> Bool { false }
     func moveRow(at sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) { }
+    func editingStyle(forRowAt: IndexPath) -> UITableViewCell.EditingStyle { .none }
+    func leadingSwipeActions(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? { nil }
+    func trailingSwipeActions(forRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? { nil }
 }
 
 public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDelegate>: NSObject, UITableViewDataSource, UITableViewDelegate {
@@ -234,6 +240,18 @@ public class FetchedTableViewDataSource<Delegate: FetchedTableViewDataSourceDele
         guard let view = view as? Footer else { fatalError("Unexpected footer type at \(section)") }
         
         delegate.willDisplay(footerView: view, for: section)
+    }
+    
+    public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        delegate.leadingSwipeActions(forRowAt: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        delegate.trailingSwipeActions(forRowAt: indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        delegate.editingStyle(forRowAt: indexPath)
     }
 }
 
