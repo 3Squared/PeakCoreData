@@ -27,8 +27,8 @@ public extension TableViewDecoratable {
     
     func identifier(forHeaderIn section: Int) -> String? { nil }
     func identifier(forFooterIn section: Int) -> String? { nil }
-    func heightForHeader(in section: Int) -> CGFloat { UITableView.automaticDimension }
-    func heightForFooter(in section: Int) -> CGFloat { UITableView.automaticDimension }
+    func heightForHeader(in section: Int) -> CGFloat { identifier(forHeaderIn: section) != nil ? UITableView.automaticDimension : .leastNormalMagnitude }
+    func heightForFooter(in section: Int) -> CGFloat { identifier(forFooterIn: section) != nil ? UITableView.automaticDimension : .leastNormalMagnitude }
     func willDisplay(headerView: UITableViewHeaderFooterView, for section: Int) { }
     func willDisplay(footerView: UITableViewHeaderFooterView, for section: Int) { }
     func configureHeader(_ header: UITableViewHeaderFooterView, for section: Int) { }
