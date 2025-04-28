@@ -3,6 +3,12 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+5.4.0
+-----
+
+- Implement additional overrides for `UITableViewDelegate` methods to respond to `UITableView` events.
+- Introduce `TableViewDecoratable` protocol for additional `UITableView` presentation configuration options.
+
 5.3.0
 -----
 
