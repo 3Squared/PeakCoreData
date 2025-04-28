@@ -26,7 +26,7 @@ public protocol HasEmptyView: AnyObject {
 }
 
 public extension HasEmptyView {
-    var emptyView: UIView? { return nil }
+    var emptyView: UIView? { nil }
 }
 
 protocol FetchedDataProviderDelegate: AnyObject {
@@ -39,7 +39,7 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     typealias Object = Delegate.Object
     
     var cacheName: String? {
-        return fetchedResultsController.cacheName
+        fetchedResultsController.cacheName
     }
     
     var fetchedObjectsCount: Int {
@@ -51,27 +51,27 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     var fetchedObjects: [Object] {
-        return fetchedResultsController.fetchedObjects ?? []
+        fetchedResultsController.fetchedObjects ?? []
     }
     
     var isEmpty: Bool {
-        return fetchedObjectsCount == 0
+        fetchedObjectsCount == 0
     }
     
     var sections: [NSFetchedResultsSectionInfo] {
-        return fetchedResultsController.sections ?? []
+        fetchedResultsController.sections ?? []
     }
 
     var numberOfSections: Int {
-        return sections.count
+        sections.count
     }
     
     var sectionIndexTitles: [String] {
-        return fetchedResultsController.sectionIndexTitles
+        fetchedResultsController.sectionIndexTitles
     }
     
     var sectionNameKeyPath: String? {
-        return fetchedResultsController.sectionNameKeyPath
+        fetchedResultsController.sectionNameKeyPath
     }
     
     private let fetchedResultsController: NSFetchedResultsController<Object>
@@ -93,7 +93,7 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     func indexPath(forObject object: Object) -> IndexPath? {
-        return fetchedResultsController.indexPath(forObject: object)
+        fetchedResultsController.indexPath(forObject: object)
     }
     
     func name(in section: Int) -> String? {
@@ -107,15 +107,15 @@ class FetchedDataProvider<Delegate: FetchedDataProviderDelegate>: NSObject, NSFe
     }
     
     func object(at indexPath: IndexPath) -> Object {
-        return fetchedResultsController.object(at: indexPath)
+        fetchedResultsController.object(at: indexPath)
     }
     
     func section(forSectionIndexTitle title: String, at index: Int) -> Int {
-        return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
+        fetchedResultsController.section(forSectionIndexTitle: title, at: index)
     }
     
     func sectionInfo(forSection section: Int) -> NSFetchedResultsSectionInfo {
-        return fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+        fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
     }
     
     func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {

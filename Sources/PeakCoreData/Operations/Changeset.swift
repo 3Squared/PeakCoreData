@@ -16,6 +16,6 @@ public struct Changeset {
     public let inserted: Set<NSManagedObjectID>
     public let updated: Set<NSManagedObjectID>
     public var all: Set<NSManagedObjectID> {
-        return inserted.union(updated)
+        inserted.union(updated)
     }
 }
