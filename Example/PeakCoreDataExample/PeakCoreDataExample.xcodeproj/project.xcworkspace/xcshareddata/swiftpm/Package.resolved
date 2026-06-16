@@ -1,16 +1,15 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "PeakOperation",
-        "repositoryURL": "https://github.com/3squared/PeakOperation.git",
-        "state": {
-          "branch": null,
-          "revision": "f5070818152d65d001455992c0b414727f8e19d4",
-          "version": "4.4.0"
-        }
+  "originHash" : "91ef43124bd788eb81503c6de7c2e8281b5bee0bd8ff82034d6aa869ee24328b",
+  "pins" : [
+    {
+      "identity" : "peakoperation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Velociti-Solutions/PeakOperation.git",
+      "state" : {
+        "revision" : "f5070818152d65d001455992c0b414727f8e19d4",
+        "version" : "4.4.0"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 3
 }
