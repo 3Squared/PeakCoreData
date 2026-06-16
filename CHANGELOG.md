@@ -3,6 +3,17 @@
 The changelog for `PeakCoreData`.
 
 --------------------------------------
+
+5.4.2
+-----
+
+- Add sendable conformance to managed object updatable update blocks
+
+5.4.1
+-----
+
+- Repoint package dependencies 
+
 5.4.0
 -----
 
