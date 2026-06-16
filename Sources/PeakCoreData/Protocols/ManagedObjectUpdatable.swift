@@ -11,8 +11,8 @@ import CoreData
 public protocol ManagedObjectUpdatable: UniqueIdentifiable where UniqueIDType == ManagedObject.UniqueIDType {
     associatedtype ManagedObject: ManagedObjectType & UniqueIdentifiable
     
-    typealias UpdatePropertiesBlock = ((Self, ManagedObject) -> Void)
-    typealias UpdateRelationshipsBlock = ((Self, ManagedObject, NSManagedObjectContext, ManagedObjectCache?) -> Void)
+    typealias UpdatePropertiesBlock = (@Sendable (Self, ManagedObject) -> Void)
+    typealias UpdateRelationshipsBlock = (@Sendable (Self, ManagedObject, NSManagedObjectContext, ManagedObjectCache?) -> Void)
     
     static var updateProperties: UpdatePropertiesBlock? { get }
     static var updateRelationships: UpdateRelationshipsBlock? { get }

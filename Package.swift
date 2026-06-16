@@ -1,10 +1,10 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.10
 
 import PackageDescription
 
 let package = Package(
     name: "PeakCoreData",
-    platforms: [.iOS(.v12),
+    platforms: [.iOS(.v15),
                 .macOS(.v14)],
     products: [
         .library(
